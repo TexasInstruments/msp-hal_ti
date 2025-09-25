@@ -102,8 +102,14 @@ void DL_Timer_initTimerMode(
     DL_Timer_setCaptureCompareCtl(gptimer, (uint32_t) config->genIntermInt,
         DL_TIMER_CC_ACOND_TIMCLK, DL_TIMER_CC_0_INDEX);
 
-    gptimer->COUNTERREGS.CTRCTL =
-        ((uint32_t) config->timerMode | (uint32_t) config->startTimer);
+    /* CCCTL0 should be used by default for timer. */
+    DL_Timer_setCounterControl(gptimer, DL_TIMER_CZC_CCCTL0_ZCOND,
+        DL_TIMER_CAC_CCCTL0_ACOND, DL_TIMER_CLC_CCCTL0_LCOND);
+
+    DL_Common_updateReg(&gptimer->COUNTERREGS.CTRCTL,
+        ((uint32_t) config->timerMode | (uint32_t) config->startTimer),
+        (GPTIMER_CTRCTL_REPEAT_MASK | GPTIMER_CTRCTL_EN_MASK |
+            GPTIMER_CTRCTL_CM_MASK));
 }
 
 void DL_Timer_initCaptureMode(
@@ -267,8 +273,8 @@ void DL_Timer_initCaptureTriggerMode(
 void DL_Timer_initCaptureCombinedMode(
     GPTIMER_Regs *gptimer, const DL_Timer_CaptureCombinedConfig *config)
 {
-    Timer_Input_Chan_Config captConfig = {0};
-    Timer_Input_Pair_Chan_Config captPairConfig = {0};
+    Timer_Input_Chan_Config captConfig;
+    Timer_Input_Pair_Chan_Config captPairConfig;
 
     DL_Timer_getInChanConfig(config->inputChan, &captConfig);
     DL_Timer_getInChanPairConfig(config->inputChan, &captPairConfig);
