@@ -68,8 +68,8 @@ extern "C" {
  * set interrupt pulse position to 1 for pulse dgeneration to occur at the end of conversion 1 cycle prior to the ADC result latching into its result register
  */
 typedef enum{
-    DL_HSADC_InterruptPulsePosition_beginning_of_conversation = 0,
-    DL_HSADC_InterruptPulsePosition_end_of_conversation = 1
+    DL_HSADC_InterruptPulsePosition_start_of_conversion = 0,
+    DL_HSADC_InterruptPulsePosition_end_of_conversion = 1
 }DL_HSADC_InterruptPulsePosition;
  
 
@@ -248,10 +248,10 @@ typedef enum{
  * @brief Sequence preempt
  */
 typedef enum{
-    DL_HSADC_seqPreempt_disable = 0, 
-    DL_HSADC_seqPreempt_enable_noRestart = 2,
-    DL_HSADC_seqPreempt_enable_restart = 3
-} DL_HSADC_seqPreempt;
+    DL_HSADC_PREEMPT_DISABLE = 0, 
+    DL_HSADC_PREEMPT_NO_RESTART = 2,
+    DL_HSADC_PREEMPT_RESTART = 3
+} DL_HSADC_PREEMPT;
 
 /**
  * @brief Trigger
@@ -1435,7 +1435,7 @@ __STATIC_INLINE void DL_HSADC_setEndOfSequencer(hsadc_ADC_LITE_REGS_Regs *adc, D
  * @param adc is the base address of the ADC module.
  * @param seqPreemptNumber is the seq preempt number
  */
-__STATIC_INLINE void DL_HSADC_setSequencerPreempt(hsadc_ADC_LITE_REGS_Regs *adc, DL_HSADC_seqPreempt seqPreemptNumber)
+__STATIC_INLINE void DL_HSADC_setSequencerPreempt(hsadc_ADC_LITE_REGS_Regs *adc, DL_HSADC_PREEMPT seqPreemptNumber)
 {
     adc->ADC_LITE_REGS.ADCSEQCTL = (adc->ADC_LITE_REGS.ADCSEQCTL & ~(HSADC_ADCSEQCTL_SEQPREEMPT_MASK)) | (seqPreemptNumber << HSADC_ADCSEQCTL_SEQPREEMPT_OFS);
 }

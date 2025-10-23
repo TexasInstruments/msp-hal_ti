@@ -61,9 +61,16 @@
 extern "C" {
 #endif
 
+#ifdef COMP_SYS_DACOUT_EN
+/*!
+ * @brief Device has support for 8-bit DAC output to pin
+ */
+#define DEVICE_HAS_DAC_OUT_TO_PIN
+#endif /* COMP_SYS_DACOUT_EN */
+
 #ifdef COMP_ANALOG_WAKEUP_ENABLE
 /*!
- * @brief Device has support for CRC 32-bit polynomials
+ * @brief Device has support for COMP Analog Wakeup feature
  */
 #define DEVICE_HAS_ANALOG_COMPARISION_WAKEUP_MODE
 #endif
@@ -234,10 +241,10 @@ typedef enum {
 
 /*! @enum DL_COMP_REF_MODE */
 typedef enum {
-    /*! ULP_REF bandgap, local reference buffer, and 8-bit COMP inside
+    /*! ULP_REF bandgap, local reference buffer, and 8-bit DAC inside
      * comparator operate in static mode */
     DL_COMP_REF_MODE_STATIC = COMP_CTL2_REFMODE_STATIC,
-    /*! ULP_REF bandgap, local reference buffer, and 8-bit COMP inside
+    /*! ULP_REF bandgap, local reference buffer, and 8-bit DAC inside
      * comparator operate in sampled mode */
     DL_COMP_REF_MODE_SAMPLED = COMP_CTL2_REFMODE_SAMPLED,
 } DL_COMP_REF_MODE;
@@ -306,18 +313,18 @@ typedef enum {
 
 /*! @enum DL_COMP_DAC_INPUT */
 typedef enum {
-    /*! DACCODE0 selected as input for 8-bit COMP when DACCTL bit is 1 */
+    /*! DACCODE0 selected as input for 8-bit DAC when DACCTL bit is 1 */
     DL_COMP_DAC_INPUT_DACCODE0 = COMP_CTL2_DACSW_DACCODE0_SEL,
-    /*! DACCODE1 selected as input for 8-bit COMP when DACCTL bit is 1 */
+    /*! DACCODE1 selected as input for 8-bit DAC when DACCTL bit is 1 */
     DL_COMP_DAC_INPUT_DACCODE1 = COMP_CTL2_DACSW_DACCODE1_SEL,
 } DL_COMP_DAC_INPUT;
 
 /*! @enum DL_COMP_OUTPUT */
 typedef enum {
-    /*! Comparator output is high */
-    DL_COMP_OUTPUT_HIGH = COMP_STAT_OUT_LOW,
     /*! Comparator output is low */
-    DL_COMP_OUTPUT_LOW = COMP_STAT_OUT_HIGH,
+    DL_COMP_OUTPUT_LOW = COMP_STAT_OUT_LOW,
+    /*! Comparator output is high */
+    DL_COMP_OUTPUT_HIGH = COMP_STAT_OUT_HIGH,
 } DL_COMP_OUTPUT;
 
 /*! @enum DL_COMP_SUBSCRIBER_INDEX */
@@ -363,8 +370,30 @@ typedef struct {
     DL_COMP_DAC_INPUT inputSelect;
 } DL_COMP_RefVoltageConfig;
 
+#ifdef DEVICE_HAS_ANALOG_COMPARISION_WAKEUP_MODE
+
+/*! @enum DL_COMP_ANACMPINPUT */
+typedef enum {
+    /*! COMP Analog Comparision Input Source 0 */
+    DL_COMP_ANACMPINPUT_SOURCE0 = COMP_ANACMPCHSTSCLR_IN0EVTCLR_OFS;
+    /*! COMP Analog Comparision Input Source 1 */
+    DL_COMP_ANACMPINPUT_SOURCE1 = COMP_ANACMPCHSTSCLR_IN1EVTCLR_OFS;
+    /*! COMP Analog Comparision Input Source 2 */
+    DL_COMP_ANACMPINPUT_SOURCE2 = COMP_ANACMPCHSTSCLR_IN2EVTCLR_OFS;
+    /*! COMP Analog Comparision Input Source 3 */
+    DL_COMP_ANACMPINPUT_SOURCE3 = COMP_ANACMPCHSTSCLR_IN3EVTCLR_OFS;
+} DL_COMP_ANACMPINPUT;
+
+#endif
+
 /**
- * @brief      Enables power on the comparator module
+ * @brief Enables the Peripheral Write Enable (PWREN) register for the COMP
+ *
+ *  Before any peripheral registers can be configured by software, the
+ *  peripheral itself must be enabled by writing the ENABLE bit together with
+ *  the appropriate KEY value to the peripheral's PWREN register.
+ *
+ *  @note For power savings, please refer to @ref DL_COMP_enable
  *
  * @param[in]  comp  Pointer to the register overlay for the peripheral
  */
@@ -374,7 +403,13 @@ __STATIC_INLINE void DL_COMP_enablePower(COMP_Regs *comp)
 }
 
 /**
- * @brief      Disables power on the comparator module
+ * @brief Disables the Peripheral Write Enable (PWREN) register for the COMP
+ *
+ *  When the PWREN.ENABLE bit is cleared, the peripheral's registers are not
+ *  accessible for read/write operations.
+ *
+ *  @note This API does not provide large power savings. For power savings,
+ *  please refer to @ref DL_COMP_enable
  *
  * @param[in]  comp  Pointer to the register overlay for the peripheral
  */
@@ -384,14 +419,22 @@ __STATIC_INLINE void DL_COMP_disablePower(COMP_Regs *comp)
 }
 
 /**
- * @brief      Returns if power is on for the comparator module
+ * @brief Returns if the Peripheral Write Enable (PWREN) register for the COMP
+ *        is enabled
+ *
+ *  Before any peripheral registers can be configured by software, the
+ *  peripheral itself must be enabled by writing the ENABLE bit together with
+ *  the appropriate KEY value to the peripheral's PWREN register.
+ *
+ *  When the PWREN.ENABLE bit is cleared, the peripheral's registers are not
+ *  accessible for read/write operations.
  *
  * @param[in]  comp  Pointer to the register overlay for the peripheral
  *
  *  @return    The status of the peripheral power
  *
- * @retval     true  If power is enabled
- * @retval     false If power is disabled
+ * @return true if peripheral register access is enabled
+ * @return false if peripheral register access is disabled
  */
 __STATIC_INLINE bool DL_COMP_isPowerEnabled(COMP_Regs *comp)
 {
@@ -815,6 +858,48 @@ __STATIC_INLINE void DL_COMP_disableWindowComparator(COMP_Regs *comp)
     comp->CTL1 &= ~(COMP_CTL1_WINCOMPEN_MASK);
 }
 
+#ifdef DEVICE_HAS_DAC_OUT_TO_PIN
+/**
+ *  @brief      Enable 8-bit DAC output to pin
+ *
+ * Please check your device datasheet for which pin the 8-bit DAC output is
+ * connected to.
+ *
+ *  @param[in]  comp   Pointer to the register overlay for the peripheral
+ */
+__STATIC_INLINE void DL_COMP_enableDACOutputToPin(COMP_Regs *comp)
+{
+    comp->CTL1 |= COMP_CTL1_DACOUTEN_ENABLE;
+}
+
+/**
+ *  @brief      Checks if 8-bit DAC output to pin is enabled
+ *
+ *  @param[in]  comp  Pointer to the register overlay for the peripheral
+ *
+ *  @return     Returns if the 8-bit DAC output is enabled
+ *
+ *  @retval     true  The 8-bit DAC output is enabled
+ *  @retval     false The 8-bit DAC output is not enabled
+ */
+__STATIC_INLINE bool DL_COMP_isDACOutputToPinEnabled(COMP_Regs *comp)
+{
+    return (
+        (comp->CTL1 & COMP_CTL1_DACOUTEN_MASK) == COMP_CTL1_DACOUTEN_ENABLE);
+}
+
+/**
+ *  @brief      Disable 8-bit DAC output to pin
+ *
+ *  @param[in]  comp  Pointer to the register overlay for the peripheral
+ */
+__STATIC_INLINE void DL_COMP_disableDACOutputToPin(COMP_Regs *comp)
+{
+    comp->CTL1 &= ~(COMP_CTL1_DACOUTEN_MASK);
+}
+
+#endif /* DEVICE_HAS_DAC_OUT_TO_PIN */
+
 /**
  *  @brief      Set the enabled channels for the comparator terminals
  *
@@ -925,7 +1010,7 @@ __STATIC_INLINE DL_COMP_IMSEL_CHANNEL DL_COMP_getNegativeChannelInput(
  *  @brief      Set the mode for the reference voltage
  *
  * This bit requests ULP_REF bandgap operation in static mode or sampled mode.
- * The local reference buffer and 8-bit COMP inside comparator module are also
+ * The local reference buffer and 8-bit DAC inside comparator module are also
  * configured accordingly.
  *     - In @ref DL_COMP_REF_MODE_STATIC, operation offers higher accuracy but
  *       consumes higher current.
@@ -1054,14 +1139,14 @@ __STATIC_INLINE DL_COMP_BLANKING_SOURCE DL_COMP_getBlankingSource(
 }
 
 /**
- *  @brief      Select the source for COMP control
+ *  @brief      Select the source for DAC control
  *
  * The DACCTL bit determines if the comparator output or a software control
  * bit, DACSW, selects between DACCODE0 and DACCODE1 bits as the input to
- * the COMP.
+ * the DAC.
  *
  *  @param[in]  comp     Pointer to the register overlay for the peripheral
- *  @param[in]  control  What controls the inputs to the COMP.
+ *  @param[in]  control  What controls the inputs to the DAC.
  *                       One of @ref DL_COMP_DAC_CONTROL
  */
 __STATIC_INLINE void DL_COMP_setDACControl(
@@ -1072,7 +1157,7 @@ __STATIC_INLINE void DL_COMP_setDACControl(
 }
 
 /**
- *  @brief      Get what controls the input to the COMP
+ *  @brief      Get what controls the input to the DAC
  *
  *  @param[in]  comp  Pointer to the register overlay for the peripheral
  *
@@ -1088,7 +1173,7 @@ __STATIC_INLINE DL_COMP_DAC_CONTROL DL_COMP_getDACControl(COMP_Regs *comp)
 }
 
 /**
- *  @brief      Set whether DACCODE0 or DACCODE1 is the input to the COMP
+ *  @brief      Set whether DACCODE0 or DACCODE1 is the input to the DAC
  *
  * @pre The DACCTL bit must be set to 1 in order to program the DACSW bit to
  * select between DACCODE0 or DACCODE1.
@@ -1096,7 +1181,7 @@ __STATIC_INLINE DL_COMP_DAC_CONTROL DL_COMP_getDACControl(COMP_Regs *comp)
  * @sa          DL_COMP_setDACControl
  *
  *  @param[in]  comp   Pointer to the register overlay for the peripheral
- *  @param[in]  input  The input to the COMP. One of @ref DL_COMP_DAC_INPUT
+ *  @param[in]  input  The input to the DAC. One of @ref DL_COMP_DAC_INPUT
  */
 __STATIC_INLINE void DL_COMP_setDACInput(
     COMP_Regs *comp, DL_COMP_DAC_INPUT input)
@@ -1105,14 +1190,14 @@ __STATIC_INLINE void DL_COMP_setDACInput(
 }
 
 /**
- *  @brief      Get whether DACCODE0 or DACCODE1 is the input to the COMP
+ *  @brief      Get whether DACCODE0 or DACCODE1 is the input to the DAC
  *
  * @pre The DACCTL bit must be set to 1 in order to program the DACSW bit to
  * select between DACCODE0 or DACCODE1.
  *
  *  @param[in]  comp  Pointer to the register overlay for the peripheral
  *
- *  @return     The input to the COMP
+ *  @return     The input to the DAC
  *
  *  @retval     One of @ref DL_COMP_DAC_INPUT
  */
@@ -1124,11 +1209,11 @@ __STATIC_INLINE DL_COMP_DAC_INPUT DL_COMP_getDACInput(COMP_Regs *comp)
 }
 
 /**
- *  @brief      Set the 8-bit COMP input code through DACCODE0
+ *  @brief      Set the 8-bit DAC input code through DACCODE0
  *
- * Sets the first 8-bit COMP code through DACCODE0.  When the COMP code is 0x0
- * the COMP output will be 0 V. When the COMP code is 0xFF the COMP output will
- * be selected reference voltage x 255/256.
+ * Sets the first 8-bit DAC code through DACCODE0.  When the DAC code is 0x0
+ * the DAC output will be selected reference voltage x 1/256 V. When the DAC
+ * code is 0xFF the DAC output will be selected reference voltage x 255/256.
  *
  * @pre The DACCTL bit determines what controls the selection between
  * DACCODE0 and DACCODE1.
@@ -1162,11 +1247,11 @@ __STATIC_INLINE uint32_t DL_COMP_getDACCode0(COMP_Regs *comp)
 }
 
 /**
- *  @brief      Set the 8-bit COMP input code through DACCODE1
+ *  @brief      Set the 8-bit DAC input code through DACCODE1
  *
- * Sets the second 8-bit COMP code through DACCODE1.  When the COMP code is 0x0
- * the COMP output will be 0 V. When the COMP code is 0xFF the COMP output will
- * be selected reference voltage x 255/256.
+ * Sets the second 8-bit DAC code through DACCODE1.  When the DAC code is 0x0
+ * the DAC output will be selected reference voltage x 1/256 V. When the DAC
+ * code is 0xFF the DAC output will be selected reference voltage x 255/256.
  *
  * @pre The DACCTL bit determines what controls the selection between
  * DACCODE0 and DACCODE1.
@@ -1564,11 +1649,171 @@ __STATIC_INLINE void DL_COMP_disableAnalogCompareWakeup(
  *
  *  @param[in]  comp           Pointer to the register overlay for the
  *                             peripheral
+ * 
+ *  @return                    Wakeup mode enabled or not
  */
 __STATIC_INLINE uint32_t DL_COMP_isAnalogCompareWakeupEnabled(
     COMP_Regs *comp)
 {
     return ((comp->ANACMPWKUPCTL) & COMP_ANACMPWKUPCTL_ANALOGCOMPARISONWAKEUPENABLEBIT_MASK);
+}
+
+/**
+ *  @brief      Set Analog wake-up blanking and comparision period
+ *
+ *  @param[in]  comp           Pointer to the register overlay for the
+ *                             peripheral
+ * 
+ *  @param[in]  period         Blanking and comparision period (8-bit 
+ *                             value)
+ */
+__STATIC_INLINE void DL_COMP_setAnalogWakeupBlankingComparisionPeriod(
+    COMP_Regs *comp, uint8_t period)
+{
+    comp->ANACMPCTRCTL |= ((uint32_t)(period & COMP_ANACMPCTRCTL_BLKCMPPRD_MASK));
+}
+
+/**
+ *  @brief      Set Analog wake-up comparision period
+ *
+ *  @param[in]  comp           Pointer to the register overlay for the
+ *                             peripheral
+ * 
+ *  @param[in]  period         Comparision period (4-bit value)
+ */
+__STATIC_INLINE void DL_COMP_setAnalogWakeupComparisionPeriod(
+    COMP_Regs *comp, uint8_t period)
+{
+    comp->ANACMPCTRCTL |= ((uint32_t)((period << COMP_ANACMPCTRCTL_CMPPRD_OFS) & COMP_ANACMPCTRCTL_CMPPRD_MASK));
+}
+
+/**
+ *  @brief      Get Analog wake-up blanking and comparision period
+ *
+ *  @param[in]  comp           Pointer to the register overlay for the
+ *                             peripheral
+ * 
+ *  @return                    Blanking and comparision period (8-bit 
+ *                             value)
+ */
+__STATIC_INLINE uint8_t DL_COMP_getAnalogWakeupBlankingComparisionPeriod(
+    COMP_Regs *comp)
+{
+    return(uint8_t)(comp->ANACMPCTRCTL & COMP_ANACMPCTRCTL_BLKCMPPRD_MASK);
+}
+
+/**
+ *  @brief      Get Analog wake-up comparision period
+ *
+ *  @param[in]  comp           Pointer to the register overlay for the
+ *                             peripheral
+ * 
+ *  @return                    Comparision period (4-bit value)
+ */
+__STATIC_INLINE uint8_t DL_COMP_getAnalogWakeupComparisionPeriod(
+    COMP_Regs *comp)
+{
+    return(uint8_t)((comp->ANACMPCTRCTL & COMP_ANACMPCTRCTL_CMPPRD_MASK) >> COMP_ANACMPCTRCTL_CMPPRD_OFS);
+}
+
+/**
+ *  @brief      Get Analog wake-up input event status
+ *
+ *  @param[in]  comp           Pointer to the register overlay for the
+ *                             peripheral
+ *
+ *  @param[in]  input          Input Channel whose status to be returned
+ * 
+ *  @return                    Status if the input channel caused event
+ */
+__STATIC_INLINE uint32_t DL_COMP_getAnalogWakeupInputEventStatus(
+    COMP_Regs *comp, DL_COMP_ANACMPINPUT input)
+{
+    return (uint32_t)(comp->ANACMPCHSTS & (COMP_ANACMPCHSTS_IN0EVT_MASK << input));
+}
+
+/**
+ *  @brief      Clear Analog wake-up input event status
+ *
+ *  @param[in]  comp           Pointer to the register overlay for the
+ *                             peripheral
+ *
+ *  @param[in]  input          Input Channel whose status to be cleared
+ */
+__STATIC_INLINE void DL_COMP_clearAnalogWakeupInputEventStatus(
+    COMP_Regs *comp, DL_COMP_ANACMPINPUT input)
+{
+    comp->ANACMPCHSTSCLR |= ((uint32_t)(COMP_ANACMPCHSTSCLR_IN0EVTCLR_MASK << input));
+}
+
+/**
+ *  @brief      Set Analog wake-up daccode
+ *
+ *  @param[in]  comp           Pointer to the register overlay for the
+ *                             peripheral
+ * 
+ *  @param[in]  daccode        Daccode value (8-bit value)
+ * 
+ *  @param[in]  input          Daccode number
+ */
+__STATIC_INLINE void DL_COMP_setAnalogWakeupDaccode(
+    COMP_Regs *comp, uint8_t daccode, DL_COMP_ANACMPINPUT input)
+{
+    comp->ANACMPDACCODE |= ((uint32_t)(daccode & COMP_ANACMPDACCODE_IP0DACCODE_MASK) << (input * COMP_ANACMPDACCODE_IP1DACCODE_OFS));
+}
+
+/**
+ *  @brief      Get Analog wake-up daccode
+ *
+ *  @param[in]  comp           Pointer to the register overlay for the
+ *                             peripheral
+ * 
+ *  @param[in]  input          Daccode number
+ * 
+ *  @return                    Daccode value (8-bit value)
+ */
+__STATIC_INLINE uint8_t DL_COMP_getAnalogWakeupDaccode(
+    COMP_Regs *comp, DL_COMP_ANACMPINPUT input)
+{
+    return (uint8_t)((comp->ANACMPDACCODE & (COMP_ANACMPDACCODE_IP0DACCODE_MASK << (input * COMP_ANACMPDACCODE_IP1DACCODE_OFS))) >> (input * COMP_ANACMPDACCODE_IP1DACCODE_OFS));
+}
+
+/**
+ *  @brief      Enable Analog wake-up window comparision mode
+ *
+ *  @param[in]  comp           Pointer to the register overlay for the
+ *                             peripheral
+ */
+__STATIC_INLINE void DL_COMP_enableAnalogWakeupWindowComparatorMode(
+    COMP_Regs *comp)
+{
+    comp->ANACMPWD |= (uint32_t)(COMP_ANACMPWD_WDEN_MASK);
+}
+
+/**
+ *  @brief      Disable Analog wake-up window comparision mode
+ *
+ *  @param[in]  comp           Pointer to the register overlay for the
+ *                             peripheral
+ */
+__STATIC_INLINE void DL_COMP_disableAnalogWakeupWindowComparatorMode(
+    COMP_Regs *comp)
+{
+    comp->ANACMPWD &= ~(uint32_t)(COMP_ANACMPWD_WDEN_MASK);
+}
+
+/**
+ *  @brief      Input selection for Analog wake-up window comparision mode
+ *
+ *  @param[in]  comp           Pointer to the register overlay for the
+ *                             peripheral
+ *
+ *  @param[in]  input          Input Channel selection
+ */
+__STATIC_INLINE void DL_COMP_setAnalogWakeupWindowComparatorInput(
+    COMP_Regs *comp, DL_COMP_ANACMPINPUT input)
+{
+    comp->ANACMPWD |= (uint32_t)((input << COMP_ANACMPWD_INMUXSEL_WD_OFS) & COMP_ANACMPWD_INMUXSEL_WD_MASK);
 }
 
 #endif

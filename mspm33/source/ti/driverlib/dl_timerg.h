@@ -132,6 +132,24 @@ typedef DL_Timer_PWMConfig                                  DL_TimerG_PWMConfig;
  */
 #define DL_TIMERG_CAPTURE_COMPARE_1_INDEX       (DL_TIMER_CC_1_INDEX)
 
+/**
+ * @brief  Index associated to Capture Compare 2
+ * @note   <b>This option is not supported by all device TimerG modules </b>
+ *         please refer to the "TIMx Configurations" table in the
+ *         device specific datasheet to determine Timer instances which
+ *         support "4 CC Channel" configuration.
+ */
+#define DL_TIMERG_CAPTURE_COMPARE_2_INDEX       DL_TIMER_CC_2_INDEX
+
+/**
+ * @brief  Index associated to Capture Compare 3
+ * @note   <b>This option is not supported by all device TimerG modules </b>
+ *         please refer to the "TIMx Configurations" table in the
+ *         device specific datasheet to determine Timer instances which
+ *         support "4 CC Channel" configuration.
+ */
+#define DL_TIMERG_CAPTURE_COMPARE_3_INDEX       DL_TIMER_CC_3_INDEX
+
 /** @}*/
 
 /** @addtogroup DL_TIMERG_INTERRUPT
@@ -339,6 +357,16 @@ typedef DL_Timer_PWMConfig                                  DL_TimerG_PWMConfig;
 #define DL_TIMERG_IIDX_CC1_DN                               (DL_TIMER_IIDX_CC1_DN)
 
 /**
+ * @brief Redirects to common @ref DL_TIMER_IIDX_CC2_DN
+ */
+#define DL_TIMERG_IIDX_CC2_DN                               DL_TIMER_IIDX_CC2_DN
+
+/**
+ * @brief Redirects to common @ref DL_TIMER_IIDX_CC3_DN
+ */
+#define DL_TIMERG_IIDX_CC3_DN                               DL_TIMER_IIDX_CC3_DN
+
+/**
  * @brief Redirects to common @ref DL_TIMER_IIDX_ZERO
  */
 #define DL_TIMERG_IIDX_CC0_UP                               (DL_TIMER_IIDX_CC0_UP)
@@ -347,6 +375,16 @@ typedef DL_Timer_PWMConfig                                  DL_TimerG_PWMConfig;
  * @brief Redirects to common @ref DL_TIMER_IIDX_ZERO
  */
 #define DL_TIMERG_IIDX_CC1_UP                               (DL_TIMER_IIDX_CC1_UP)
+
+/**
+ * @brief Redirects to common @ref DL_TIMER_IIDX_CC2_UP
+ */
+#define DL_TIMERG_IIDX_CC2_UP                               DL_TIMER_IIDX_CC2_UP
+
+/**
+ * @brief Redirects to common @ref DL_TIMER_IIDX_CC3_UP
+ */
+#define DL_TIMERG_IIDX_CC3_UP                               DL_TIMER_IIDX_CC3_UP
 
 /**
  * @brief Redirects to common @ref DL_TIMER_IIDX_ZERO
@@ -698,6 +736,16 @@ typedef DL_Timer_PWMConfig                                  DL_TimerG_PWMConfig;
 #define DL_TimerG_setCaptCompUpdateMethod       (DL_Timer_setCaptCompUpdateMethod)
 
 /*!
+ * @brief Redirects to common @ref DL_Timer_getCaptCompUpdateMethod
+ */
+#define DL_TimerG_getCaptCompActUpdateMethod       DL_Timer_getCaptCompUpdateMethod
+
+/*!
+ * @brief Redirects to common @ref DL_Timer_setCaptCompActUpdateMethod
+ */
+#define DL_TimerG_setCaptCompActUpdateMethod       DL_Timer_setCaptCompActUpdateMethod
+
+/*!
  * @brief Redirects to common @ref DL_Timer_enableShadowFeatures
  */
 #define DL_TimerG_enableShadowFeatures             (DL_Timer_enableShadowFeatures)
@@ -967,7 +1015,7 @@ typedef DL_Timer_PWMConfig                                  DL_TimerG_PWMConfig;
 }
 #endif
 
-#endif /* __MSPM33_HAS_TIMER_G__ */
+#endif /* __MSP_HAS_TIMER_G__ */
 
 #endif /* ti_dl_dl_timerg__include */
 /** @}*/

@@ -318,106 +318,57 @@ void DL_GSC_configureSRAMSecurity(
     // Process pages 0-3 for SECATTRIB0
     for (uint32_t page = 0; page < 4; page++) {
         uint32_t offset = page * 8;
-        if (config->pages[page].chunk_512B_0) {
-            secAttrib0 |= (1U << (offset + 0));
-        }
-        if (config->pages[page].chunk_512B_1) {
-            secAttrib0 |= (1U << (offset + 1));
-        }
-        if (config->pages[page].chunk_1KB) {
-            secAttrib0 |= (1U << (offset + 2));
-        }
-        if (config->pages[page].chunk_2KB) {
-            secAttrib0 |= (1U << (offset + 3));
-        }
-        if (config->pages[page].chunk_4KB_0) {
-            secAttrib0 |= (1U << (offset + 4));
-        }
-        if (config->pages[page].chunk_4KB_1) {
-            secAttrib0 |= (1U << (offset + 5));
-        }
-        if (config->pages[page].chunk_4KB_2) {
-            secAttrib0 |= (1U << (offset + 6));
-        }
+        secAttrib0 |=
+            ((config->pages[page].chunk_512B_0 & 1U) << (offset + 0));
+        secAttrib0 |=
+            ((config->pages[page].chunk_512B_1 & 1U) << (offset + 1));
+        secAttrib0 |= ((config->pages[page].chunk_1KB & 1U) << (offset + 2));
+        secAttrib0 |= ((config->pages[page].chunk_2KB & 1U) << (offset + 3));
+        secAttrib0 |= ((config->pages[page].chunk_4KB_0 & 1U) << (offset + 4));
+        secAttrib0 |= ((config->pages[page].chunk_4KB_1 & 1U) << (offset + 5));
+        secAttrib0 |= ((config->pages[page].chunk_4KB_2 & 1U) << (offset + 6));
     }
 
     // Process pages 4-7 for SECATTRIB1
     for (uint32_t page = 4; page < 8; page++) {
         uint32_t offset = (page - 4) * 8;
-        if (config->pages[page].chunk_512B_0) {
-            secAttrib1 |= (1U << (offset + 0));
-        }
-        if (config->pages[page].chunk_512B_1) {
-            secAttrib1 |= (1U << (offset + 1));
-        }
-        if (config->pages[page].chunk_1KB) {
-            secAttrib1 |= (1U << (offset + 2));
-        }
-        if (config->pages[page].chunk_2KB) {
-            secAttrib1 |= (1U << (offset + 3));
-        }
-        if (config->pages[page].chunk_4KB_0) {
-            secAttrib1 |= (1U << (offset + 4));
-        }
-        if (config->pages[page].chunk_4KB_1) {
-            secAttrib1 |= (1U << (offset + 5));
-        }
-        if (config->pages[page].chunk_4KB_2) {
-            secAttrib1 |= (1U << (offset + 6));
-        }
+        secAttrib1 |=
+            ((config->pages[page].chunk_512B_0 & 1U) << (offset + 0));
+        secAttrib1 |=
+            ((config->pages[page].chunk_512B_1 & 1U) << (offset + 1));
+        secAttrib1 |= ((config->pages[page].chunk_1KB & 1U) << (offset + 2));
+        secAttrib1 |= ((config->pages[page].chunk_2KB & 1U) << (offset + 3));
+        secAttrib1 |= ((config->pages[page].chunk_4KB_0 & 1U) << (offset + 4));
+        secAttrib1 |= ((config->pages[page].chunk_4KB_1 & 1U) << (offset + 5));
+        secAttrib1 |= ((config->pages[page].chunk_4KB_2 & 1U) << (offset + 6));
     }
 
-    // Similar pattern for SECATTRIB2 and SECATTRIB3
     // Process pages 8-11 for SECATTRIB2
     for (uint32_t page = 8; page < 12; page++) {
         uint32_t offset = (page - 8) * 8;
-        if (config->pages[page].chunk_512B_0) {
-            secAttrib2 |= (1U << (offset + 0));
-        }
-        if (config->pages[page].chunk_512B_1) {
-            secAttrib2 |= (1U << (offset + 1));
-        }
-        if (config->pages[page].chunk_1KB) {
-            secAttrib2 |= (1U << (offset + 2));
-        }
-        if (config->pages[page].chunk_2KB) {
-            secAttrib2 |= (1U << (offset + 3));
-        }
-        if (config->pages[page].chunk_4KB_0) {
-            secAttrib2 |= (1U << (offset + 4));
-        }
-        if (config->pages[page].chunk_4KB_1) {
-            secAttrib2 |= (1U << (offset + 5));
-        }
-        if (config->pages[page].chunk_4KB_2) {
-            secAttrib2 |= (1U << (offset + 6));
-        }
+        secAttrib2 |=
+            ((config->pages[page].chunk_512B_0 & 1U) << (offset + 0));
+        secAttrib2 |=
+            ((config->pages[page].chunk_512B_1 & 1U) << (offset + 1));
+        secAttrib2 |= ((config->pages[page].chunk_1KB & 1U) << (offset + 2));
+        secAttrib2 |= ((config->pages[page].chunk_2KB & 1U) << (offset + 3));
+        secAttrib2 |= ((config->pages[page].chunk_4KB_0 & 1U) << (offset + 4));
+        secAttrib2 |= ((config->pages[page].chunk_4KB_1 & 1U) << (offset + 5));
+        secAttrib2 |= ((config->pages[page].chunk_4KB_2 & 1U) << (offset + 6));
     }
 
     // Process pages 12-15 for SECATTRIB3
     for (uint32_t page = 12; page < 16; page++) {
         uint32_t offset = (page - 12) * 8;
-        if (config->pages[page].chunk_512B_0) {
-            secAttrib3 |= (1U << (offset + 0));
-        }
-        if (config->pages[page].chunk_512B_1) {
-            secAttrib3 |= (1U << (offset + 1));
-        }
-        if (config->pages[page].chunk_1KB) {
-            secAttrib3 |= (1U << (offset + 2));
-        }
-        if (config->pages[page].chunk_2KB) {
-            secAttrib3 |= (1U << (offset + 3));
-        }
-        if (config->pages[page].chunk_4KB_0) {
-            secAttrib3 |= (1U << (offset + 4));
-        }
-        if (config->pages[page].chunk_4KB_1) {
-            secAttrib3 |= (1U << (offset + 5));
-        }
-        if (config->pages[page].chunk_4KB_2) {
-            secAttrib3 |= (1U << (offset + 6));
-        }
+        secAttrib3 |=
+            ((config->pages[page].chunk_512B_0 & 1U) << (offset + 0));
+        secAttrib3 |=
+            ((config->pages[page].chunk_512B_1 & 1U) << (offset + 1));
+        secAttrib3 |= ((config->pages[page].chunk_1KB & 1U) << (offset + 2));
+        secAttrib3 |= ((config->pages[page].chunk_2KB & 1U) << (offset + 3));
+        secAttrib3 |= ((config->pages[page].chunk_4KB_0 & 1U) << (offset + 4));
+        secAttrib3 |= ((config->pages[page].chunk_4KB_1 & 1U) << (offset + 5));
+        secAttrib3 |= ((config->pages[page].chunk_4KB_2 & 1U) << (offset + 6));
     }
 
     // Write configurations to registers
@@ -523,105 +474,69 @@ void DL_GSC_configureSRAMPrivilege(
     // Process pages 0-3 for PRIVATTRIB0
     for (uint32_t page = 0; page < 4; page++) {
         uint32_t offset = page * 8;
-        if (config->pages[page].chunk_512B_0) {
-            privAttrib0 |= (1U << (offset + 0));
-        }
-        if (config->pages[page].chunk_512B_1) {
-            privAttrib0 |= (1U << (offset + 1));
-        }
-        if (config->pages[page].chunk_1KB) {
-            privAttrib0 |= (1U << (offset + 2));
-        }
-        if (config->pages[page].chunk_2KB) {
-            privAttrib0 |= (1U << (offset + 3));
-        }
-        if (config->pages[page].chunk_4KB_0) {
-            privAttrib0 |= (1U << (offset + 4));
-        }
-        if (config->pages[page].chunk_4KB_1) {
-            privAttrib0 |= (1U << (offset + 5));
-        }
-        if (config->pages[page].chunk_4KB_2) {
-            privAttrib0 |= (1U << (offset + 6));
-        }
+        privAttrib0 |=
+            ((config->pages[page].chunk_512B_0 & 1U) << (offset + 0));
+        privAttrib0 |=
+            ((config->pages[page].chunk_512B_1 & 1U) << (offset + 1));
+        privAttrib0 |= ((config->pages[page].chunk_1KB & 1U) << (offset + 2));
+        privAttrib0 |= ((config->pages[page].chunk_2KB & 1U) << (offset + 3));
+        privAttrib0 |=
+            ((config->pages[page].chunk_4KB_0 & 1U) << (offset + 4));
+        privAttrib0 |=
+            ((config->pages[page].chunk_4KB_1 & 1U) << (offset + 5));
+        privAttrib0 |=
+            ((config->pages[page].chunk_4KB_2 & 1U) << (offset + 6));
     }
 
     // Process pages 4-7 for PRIVATTRIB1
     for (uint32_t page = 4; page < 8; page++) {
         uint32_t offset = (page - 4) * 8;
-        if (config->pages[page].chunk_512B_0) {
-            privAttrib1 |= (1U << (offset + 0));
-        }
-        if (config->pages[page].chunk_512B_1) {
-            privAttrib1 |= (1U << (offset + 1));
-        }
-        if (config->pages[page].chunk_1KB) {
-            privAttrib1 |= (1U << (offset + 2));
-        }
-        if (config->pages[page].chunk_2KB) {
-            privAttrib1 |= (1U << (offset + 3));
-        }
-        if (config->pages[page].chunk_4KB_0) {
-            privAttrib1 |= (1U << (offset + 4));
-        }
-        if (config->pages[page].chunk_4KB_1) {
-            privAttrib1 |= (1U << (offset + 5));
-        }
-        if (config->pages[page].chunk_4KB_2) {
-            privAttrib1 |= (1U << (offset + 6));
-        }
+        privAttrib1 |=
+            ((config->pages[page].chunk_512B_0 & 1U) << (offset + 0));
+        privAttrib1 |=
+            ((config->pages[page].chunk_512B_1 & 1U) << (offset + 1));
+        privAttrib1 |= ((config->pages[page].chunk_1KB & 1U) << (offset + 2));
+        privAttrib1 |= ((config->pages[page].chunk_2KB & 1U) << (offset + 3));
+        privAttrib1 |=
+            ((config->pages[page].chunk_4KB_0 & 1U) << (offset + 4));
+        privAttrib1 |=
+            ((config->pages[page].chunk_4KB_1 & 1U) << (offset + 5));
+        privAttrib1 |=
+            ((config->pages[page].chunk_4KB_2 & 1U) << (offset + 6));
     }
 
     // Process pages 8-11 for PRIVATTRIB2
     for (uint32_t page = 8; page < 12; page++) {
         uint32_t offset = (page - 8) * 8;
-        if (config->pages[page].chunk_512B_0) {
-            privAttrib2 |= (1U << (offset + 0));
-        }
-        if (config->pages[page].chunk_512B_1) {
-            privAttrib2 |= (1U << (offset + 1));
-        }
-        if (config->pages[page].chunk_1KB) {
-            privAttrib2 |= (1U << (offset + 2));
-        }
-        if (config->pages[page].chunk_2KB) {
-            privAttrib2 |= (1U << (offset + 3));
-        }
-        if (config->pages[page].chunk_4KB_0) {
-            privAttrib2 |= (1U << (offset + 4));
-        }
-        if (config->pages[page].chunk_4KB_1) {
-            privAttrib2 |= (1U << (offset + 5));
-        }
-        if (config->pages[page].chunk_4KB_2) {
-            privAttrib2 |= (1U << (offset + 6));
-        }
+        privAttrib2 |=
+            ((config->pages[page].chunk_512B_0 & 1U) << (offset + 0));
+        privAttrib2 |=
+            ((config->pages[page].chunk_512B_1 & 1U) << (offset + 1));
+        privAttrib2 |= ((config->pages[page].chunk_1KB & 1U) << (offset + 2));
+        privAttrib2 |= ((config->pages[page].chunk_2KB & 1U) << (offset + 3));
+        privAttrib2 |=
+            ((config->pages[page].chunk_4KB_0 & 1U) << (offset + 4));
+        privAttrib2 |=
+            ((config->pages[page].chunk_4KB_1 & 1U) << (offset + 5));
+        privAttrib2 |=
+            ((config->pages[page].chunk_4KB_2 & 1U) << (offset + 6));
     }
 
     // Process pages 12-15 for PRIVATTRIB3
     for (uint32_t page = 12; page < 16; page++) {
         uint32_t offset = (page - 12) * 8;
-        if (config->pages[page].chunk_512B_0) {
-            privAttrib3 |= (1U << (offset + 0));
-        }
-        if (config->pages[page].chunk_512B_1) {
-            privAttrib3 |= (1U << (offset + 1));
-        }
-        if (config->pages[page].chunk_1KB) {
-            privAttrib3 |= (1U << (offset + 2));
-        }
-        if (config->pages[page].chunk_2KB) {
-            privAttrib3 |= (1U << (offset + 3));
-        }
-        if (config->pages[page].chunk_4KB_0) {
-            privAttrib3 |= (1U << (offset + 4));
-        }
-        if (config->pages[page].chunk_4KB_1) {
-            privAttrib3 |= (1U << (offset + 5));
-        }
-        if (config->pages[page].chunk_4KB_2) {
-            privAttrib3 |= (1U << (offset + 6));
-        }
+        privAttrib3 |=
+            ((config->pages[page].chunk_512B_0 & 1U) << (offset + 0));
+        privAttrib3 |=
+            ((config->pages[page].chunk_512B_1 & 1U) << (offset + 1));
+        privAttrib3 |= ((config->pages[page].chunk_1KB & 1U) << (offset + 2));
+        privAttrib3 |= ((config->pages[page].chunk_2KB & 1U) << (offset + 3));
+        privAttrib3 |=
+            ((config->pages[page].chunk_4KB_0 & 1U) << (offset + 4));
+        privAttrib3 |=
+            ((config->pages[page].chunk_4KB_1 & 1U) << (offset + 5));
+        privAttrib3 |=
+            ((config->pages[page].chunk_4KB_2 & 1U) << (offset + 6));
     }
 
     // Write configurations to registers

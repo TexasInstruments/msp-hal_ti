@@ -474,45 +474,7 @@ typedef enum {
     DL_SYSCTL_MCLK_SOURCE_SYSOSC = SYSCTL_MCLKCFG_USEHSCLK_DISABLE,
     /*! Use High Speed Clock (HSCLK) as MCLK source (HFCLK, PLL,...) */
     DL_SYSCTL_MCLK_SOURCE_HSCLK = SYSCTL_MCLKCFG_USEHSCLK_ENABLE,
-    /*! Use the Low Frequency Clock (LFCLK) as the clock source */
-    DL_SYSCTL_MCLK_SOURCE_LFCLK = SYSCTL_MCLKCFG_USELFCLK_ENABLE,
 } DL_SYSCTL_MCLK_SOURCE;
-
-/** @enum DL_SYSCTL_MCLK_DIVIDER */
-typedef enum {
-    /*! Disable MCLK divider. Change SYSOSC freq only when MDIV is disabled */
-    DL_SYSCTL_MCLK_DIVIDER_DISABLE = 0x0,
-    /*! Divide MCLK frequency by 2 */
-    DL_SYSCTL_MCLK_DIVIDER_2 = 0x1,
-    /*! Divide MCLK frequency by 3 */
-    DL_SYSCTL_MCLK_DIVIDER_3 = 0x2,
-    /*! Divide MCLK frequency by 4 */
-    DL_SYSCTL_MCLK_DIVIDER_4 = 0x3,
-    /*! Divide MCLK frequency by 5 */
-    DL_SYSCTL_MCLK_DIVIDER_5 = 0x4,
-    /*! Divide MCLK frequency by 6 */
-    DL_SYSCTL_MCLK_DIVIDER_6 = 0x5,
-    /*! Divide MCLK frequency by 7 */
-    DL_SYSCTL_MCLK_DIVIDER_7 = 0x6,
-    /*! Divide MCLK frequency by 8 */
-    DL_SYSCTL_MCLK_DIVIDER_8 = 0x7,
-    /*! Divide MCLK frequency by 9 */
-    DL_SYSCTL_MCLK_DIVIDER_9 = 0x8,
-    /*! Divide MCLK frequency by 10 */
-    DL_SYSCTL_MCLK_DIVIDER_10 = 0x9,
-    /*! Divide MCLK frequency by 11 */
-    DL_SYSCTL_MCLK_DIVIDER_11 = 0xA,
-    /*! Divide MCLK frequency by 12 */
-    DL_SYSCTL_MCLK_DIVIDER_12 = 0xB,
-    /*! Divide MCLK frequency by 13 */
-    DL_SYSCTL_MCLK_DIVIDER_13 = 0xC,
-    /*! Divide MCLK frequency by 14 */
-    DL_SYSCTL_MCLK_DIVIDER_14 = 0xD,
-    /*! Divide MCLK frequency by 15 */
-    DL_SYSCTL_MCLK_DIVIDER_15 = 0xE,
-    /*! Divide MCLK frequency by 16 */
-    DL_SYSCTL_MCLK_DIVIDER_16 = 0xF,
-} DL_SYSCTL_MCLK_DIVIDER;
 
 /** @enum DL_SYSCTL_CLK_OUT_SOURCE */
 typedef enum {
@@ -524,10 +486,6 @@ typedef enum {
     DL_SYSCTL_CLK_OUT_SOURCE_ULPCLK = SYSCTL_GENCLKCFG_EXCLKSRC_ULPCLK,
     /*! Use Low Frequency Clock (LFCLK) as CLK_OUT source */
     DL_SYSCTL_CLK_OUT_SOURCE_LFCLK = SYSCTL_GENCLKCFG_EXCLKSRC_LFCLK,
-    /*! Use Middle Frequency Precision Clock (MFPCLK) as CLK_OUT source.
-      * @ref DL_SYSCTL_CLK_OUT_DIVIDE_DISABLE must not be selected for this
-      * configuration.  */
-    DL_SYSCTL_CLK_OUT_SOURCE_MFPCLK = SYSCTL_GENCLKCFG_EXCLKSRC_MFPCLK,
     /*! Use High Frequency Clock (HFCLK) as CLK_OUT source */
     DL_SYSCTL_CLK_OUT_SOURCE_HFCLK = SYSCTL_GENCLKCFG_EXCLKSRC_HFCLK,
     /*! Use System PLL Output 1 (SYSPLLOUT1) as CLK_OUT source */
@@ -564,49 +522,6 @@ typedef enum {
                                   SYSCTL_GENCLKCFG_EXCLKDIVVAL_DIV16,
 } DL_SYSCTL_CLK_OUT_DIVIDE;
 
-/** @enum DL_SYSCTL_MFPCLK_SOURCE */
-typedef enum {
-    /*! Use System Oscillator (SYSOSC) as MFPCLK source */
-    DL_SYSCTL_MFPCLK_SOURCE_SYSOSC = SYSCTL_GENCLKCFG_MFPCLKSRC_SYSOSC,
-    /*! Use High Frequency Clock (HFCLK) as MFPCLK source */
-    DL_SYSCTL_MFPCLK_SOURCE_HFCLK = SYSCTL_GENCLKCFG_MFPCLKSRC_HFCLK,
-} DL_SYSCTL_MFPCLK_SOURCE;
-
-/** @enum DL_SYSCTL_HFCLK_MFPCLK_DIVIDER */
-typedef enum {
-    /*! HFCLK is not divided before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_DISABLE = 0x0,
-    /*! Divide HFCLK by 2 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_2 = 0x1,
-    /*! Divide HFCLK by 3 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_3 = 0x2,
-    /*! Divide HFCLK by 4 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_4 = 0x3,
-    /*! Divide HFCLK by 5 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_5 = 0x4,
-    /*! Divide HFCLK by 6 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_6 = 0x5,
-    /*! Divide HFCLK by 7 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_7 = 0x6,
-    /*! Divide HFCLK by 8 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_8 = 0x7,
-    /*! Divide HFCLK by 9 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_9 = 0x8,
-    /*! Divide HFCLK by 10 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_10 = 0x9,
-    /*! Divide HFCLK by 11 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_11 = 0xA,
-    /*! Divide HFCLK by 12 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_12 = 0xB,
-    /*! Divide HFCLK by 13 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_13 = 0xC,
-    /*! Divide HFCLK by 14 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_14 = 0xD,
-    /*! Divide HFCLK by 15 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_15 = 0xE,
-    /*! Divide HFCLK by 16 before being used for MFPCLK */
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER_16 = 0xF,
-} DL_SYSCTL_HFCLK_MFPCLK_DIVIDER;
 
 /** @enum DL_SYSCTL_FCC_TRIG_TYPE */
 typedef enum {
@@ -850,6 +765,24 @@ typedef enum {
 } DL_SYSCTL_RESET_CAUSE;
 
 typedef enum {
+    DL_SYSCTL_I2SPLL_DIVIDER_DIV4   = SYSCTL_GENCLKEN_I2SPLLCLKDIVCFG_DIV4,
+    DL_SYSCTL_I2SPLL_DIVIDER_DIV8   = SYSCTL_GENCLKEN_I2SPLLCLKDIVCFG_DIV8,
+    DL_SYSCTL_I2SPLL_DIVIDER_DIV12  = SYSCTL_GENCLKEN_I2SPLLCLKDIVCFG_DIV12,
+    DL_SYSCTL_I2SPLL_DIVIDER_DIV16  = SYSCTL_GENCLKEN_I2SPLLCLKDIVCFG_DIV16,
+} DL_SYSCTL_I2SPLL_DIVIDER;
+
+typedef enum {
+    DL_SYSCTL_CANPLL_DIVIDER_DIV2  = SYSCTL_GENCLKEN_EXTDIVCAN_DIV2,
+    DL_SYSCTL_CANPLL_DIVIDER_DIV4  = SYSCTL_GENCLKEN_EXTDIVCAN_DIV4,
+    DL_SYSCTL_CANPLL_DIVIDER_DIV6  = SYSCTL_GENCLKEN_EXTDIVCAN_DIV6,
+    DL_SYSCTL_CANPLL_DIVIDER_DIV8  = SYSCTL_GENCLKEN_EXTDIVCAN_DIV8,
+    DL_SYSCTL_CANPLL_DIVIDER_DIV10 = SYSCTL_GENCLKEN_EXTDIVCAN_DIV10,
+    DL_SYSCTL_CANPLL_DIVIDER_DIV12 = SYSCTL_GENCLKEN_EXTDIVCAN_DIV12,
+    DL_SYSCTL_CANPLL_DIVIDER_DIV14 = SYSCTL_GENCLKEN_EXTDIVCAN_DIV14,
+    DL_SYSCTL_CANPLL_DIVIDER_DIV16 = SYSCTL_GENCLKEN_EXTDIVCAN_DIV16,
+} DL_SYSCTL_CANPLL_DIVIDER;
+
+typedef enum {
     DL_SYSCTL_PLL_DIVIDER_DIV2  = SYSCTL_GENCLKEN_EXTDIVMCLK_DIV2,
     DL_SYSCTL_PLL_DIVIDER_DIV4  = SYSCTL_GENCLKEN_EXTDIVMCLK_DIV4,
     DL_SYSCTL_PLL_DIVIDER_DIV6  = SYSCTL_GENCLKEN_EXTDIVMCLK_DIV6,
@@ -938,30 +871,13 @@ __STATIC_INLINE bool DL_SYSCTL_isEventOnPendEnabled(void)
  *  @note Different transition APIs may require different input parameters
  *  Transitions between LFCLK and HSCLK requires going through SYSOSC.
  *
- *  @sa DL_SYSCTL_switchMCLKfromSYSOSCtoLFCLK
- *  @sa DL_SYSCTL_switchMCLKfromLFCLKtoSYSOSC
  *  @sa DL_SYSCTL_switchMCLKfromSYSOSCtoHSCLK
  *  @sa DL_SYSCTL_switchMCLKfromHSCLKtoSYSOSC
  */
 #define DL_SYSCTL_setMCLKSource(current, next, ...) \
     DL_SYSCTL_switchMCLKfrom##current##to##next(__VA_ARGS__);
 
-/**
- *  @brief  Change MCLK source from SYSOSC to LFCLK
- *
- *  @pre    If disabling SYSOSC, high speed oscillators (SYSPLL, HFXT...) must be disabled beforehand.
- *  @post   MCLK source is switched to LFCLK, function will busy-wait until confirmed.
- *
- *  @param[in] disableSYSOSC   Whether to leave SYSOSC running or not
- */
-void DL_SYSCTL_switchMCLKfromSYSOSCtoLFCLK(bool disableSYSOSC);
 
-/**
- *  @brief  Change MCLK source from LFCLK to SYSOSC
- *
- *  @post   MCLK source is switched to SYSOSC, function will busy-wait until confirmed.
- */
-void DL_SYSCTL_switchMCLKfromLFCLKtoSYSOSC(void);
 
 /**
  *  @brief  Change MCLK source from SYSOSC to HSCLK
@@ -1004,7 +920,6 @@ void DL_SYSCTL_switchMCLKfromHSCLKtoSYSOSC(void);
  */
 __STATIC_INLINE void DL_SYSCTL_setPowerPolicyRUNSLEEP(void)
 {
-    DL_SYSCTL_setMCLKSource(LFCLK, SYSOSC);
     SCB->SCR &= ~(SCB_SCR_SLEEPDEEP_Msk);
 }
 
@@ -1029,8 +944,6 @@ __STATIC_INLINE void DL_SYSCTL_setPowerPolicySTOP(void)
 {
     SYSCTL->SOCLOCK.PMODECFG = SYSCTL_PMODECFG_DSLEEP_STOP;
     SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
-    SYSCTL->SOCLOCK.SYSOSCCFG &= ~(
-        SYSCTL_SYSOSCCFG_USE4MHZSTOP_MASK | SYSCTL_SYSOSCCFG_DISABLESTOP_MASK);
 }
 
 /**
@@ -1457,37 +1370,6 @@ __STATIC_INLINE DL_SYSCTL_ERROR_BEHAVIOR DL_SYSCTL_getWWDT0ErrorBehavior(void)
     return (DL_SYSCTL_ERROR_BEHAVIOR)(behavior);
 }*/
 
-/**
- *  @brief Set the Main Clock (MCLK) divider (MDIV)
- *
- *  Additionally, can use this function to disable MDIV. MDIV must be disabled
- *  before changing SYSOSC frequency.
- *
- *  MDIV is not valid if MCLK source is HSCLK.
- *  MDIV is not used if MCLK source if LFCLK.
- *
- *  @param[in] divider Should be DL_SYSCTL_MCLK_DIVIDER_DISABLE if source is
- *  HSCLK, a don't care if LFCLK, and one of DL_SYSCTL_MCLK_DIVIDER if SYSOSC.
- */
-__STATIC_INLINE void DL_SYSCTL_setMCLKDivider(DL_SYSCTL_MCLK_DIVIDER divider)
-{
-    DL_Common_updateReg(&SYSCTL->SOCLOCK.MCLKCFG, (uint32_t) divider,
-        SYSCTL_MCLKCFG_MDIV_MASK);
-}
-/**
- *  @brief Get the Main Clock (MCLK) divider (MDIV)
- *
- *  @return The value of the Main Clock (MCLK) divider (MDIV)
- *
- *  @retval Should be DL_SYSCTL_MCLK_DIVIDER_DISABLE if source is HSCLK, a
- *  don't care if LFCLK, and one of DL_SYSCTL_MCLK_DIVIDER if SYSOSC.
- */
-__STATIC_INLINE DL_SYSCTL_MCLK_DIVIDER DL_SYSCTL_getMCLKDivider(void)
-{
-    uint32_t divider = SYSCTL->SOCLOCK.MCLKCFG & SYSCTL_MCLKCFG_MDIV_MASK;
-
-    return (DL_SYSCTL_MCLK_DIVIDER) (divider);
-}
 
 /**
  *  @brief   Get the source for the Main Clock (MCLK)
@@ -1500,7 +1382,7 @@ __STATIC_INLINE DL_SYSCTL_MCLK_SOURCE DL_SYSCTL_getMCLKSource(void)
 {
     uint32_t source =
         SYSCTL->SOCLOCK.MCLKCFG &
-        (SYSCTL_MCLKCFG_USEHSCLK_MASK | SYSCTL_MCLKCFG_USELFCLK_MASK);
+        (SYSCTL_MCLKCFG_USEHSCLK_MASK);
 
     return (DL_SYSCTL_MCLK_SOURCE) (source);
 }
@@ -1534,39 +1416,6 @@ __STATIC_INLINE void DL_SYSCTL_setSYSOSCFreq(DL_SYSCTL_SYSOSC_FREQ freq)
         SYSCTL_SYSOSCCFG_FREQ_MASK);
 }
 
-/**
- *  @brief     Trim the System Oscillator (SYSOSC) to 16MHz or 24MHz
- *
- *  The trim values supplied in the config struct must be determined by
- *  experimentation. Please refer to the "SYSOSC User Trim Procedure" section
- *  in the CKM Technical Reference Manual.
- *  Each device must be trimmed individually for accuracy.
- *
- *  MDIV must be disabled before changing SYSOSC freq. See @ref DL_SYSCTL_setMCLKDivider.
- *
- *  @param[in]  config         Pointer to the SYSOSC user trim configuration struct
- *                             @ref DL_SYSCTL_SYSOSCUserTrimConfig.
- *
- *  @sa DL_SYSCTL_setSYSOSCFreq
- *  @sa DL_SYSCTL_setMCLKDivider
- */
-/*__STATIC_INLINE void DL_SYSCTL_configSYSOSCUserTrim(
-    DL_SYSCTL_SYSOSCUserTrimConfig *config)
-{
-    SYSCTL->SOCLOCK.SYSOSCTRIMUSER =
-        ((config->rDiv << SYSCTL_SYSOSCTRIMUSER_RDIV_OFS) &
-            SYSCTL_SYSOSCTRIMUSER_RDIV_MASK) |
-        ((config->resistorFine << SYSCTL_SYSOSCTRIMUSER_RESFINE_OFS) &
-            SYSCTL_SYSOSCTRIMUSER_RESFINE_MASK) |
-        ((config->resistorCoarse << SYSCTL_SYSOSCTRIMUSER_RESCOARSE_OFS) &
-            SYSCTL_SYSOSCTRIMUSER_RESCOARSE_MASK) |
-        (config->capacitor << SYSCTL_SYSOSCTRIMUSER_CAP_OFS) |
-        ((uint32_t) config->freq);
-    DL_Common_updateReg(&SYSCTL->SOCLOCK.SYSOSCCFG,
-        SYSCTL_SYSOSCCFG_FREQ_SYSOSCUSER, SYSCTL_SYSOSCCFG_FREQ_MASK);
-
-}
-*/
 /**
  *  @brief   Get the target frequency of the System Oscillator (SYSOSC)
  *  Target/desired SYSOSC frequency may be different than current/actual SYSOSC
@@ -1800,6 +1649,8 @@ void DL_SYSCTL_setHFCLKSourceHFXT(DL_SYSCTL_HFXT_RANGE range);
 void DL_SYSCTL_setHFCLKSourceHFXTParams(
     DL_SYSCTL_HFXT_RANGE range, uint32_t startupTime, bool monitorEnable);
 
+
+
 /**
  *  @brief      Disable the SYSPLL
  *
@@ -1813,6 +1664,18 @@ void DL_SYSCTL_setHFCLKSourceHFXTParams(
 __STATIC_INLINE void DL_SYSCTL_disableSYSPLL(void)
 {
     SYSCTL->SOCLOCK.HSCLKEN &= ~(SYSCTL_HSCLKEN_SYSPLLEN_MASK);
+}
+
+/**
+ *  @brief      Enable the SYSPLL
+ *
+ *  Enable syspll clock
+ *
+ *  @sa DL_SYSCTL_getClockStatus
+ */
+__STATIC_INLINE void DL_SYSCTL_enableSYSPLL(void)
+{
+    SYSCTL->SOCLOCK.HSCLKEN |= (SYSCTL_HSCLKEN_SYSPLLEN_MASK);
 }
 
 /**
@@ -1883,37 +1746,7 @@ __STATIC_INLINE void DL_SYSCTL_setHSCLKSource(DL_SYSCTL_HSCLK_SOURCE source)
     SYSCTL->SOCLOCK.HSCLKCFG = (uint32_t) source;
 }
 
-/**
- *  @brief   Get the source of Middle Frequency Precision Clock (MFPCLK)
- *
- *  MFPCLK is a continuous 4MHz to DAC module in RUN/SLEEP/STOP mode.
- *  Unlike MFCLK, MFPCLK is async to MCLK/ULPCLK, providing higher DAC precision and performance.
- *  MFPCLK is the only clock source for DAC.
- *
- *  @return  The source of MFPCLK. One of @ref DL_SYSCTL_MFPCLK_SOURCE.
- */
-__STATIC_INLINE DL_SYSCTL_MFPCLK_SOURCE DL_SYSCTL_getMFPCLKSource(void)
-{
-    uint32_t source =
-        SYSCTL->SOCLOCK.GENCLKCFG & SYSCTL_GENCLKCFG_MFPCLKSRC_MASK;
 
-    return (DL_SYSCTL_MFPCLK_SOURCE) (source);
-}
-
-/**
- *  @brief   Set the source of Middle Frequency Precision Clock (MFPCLK)
- *
- *  MFPCLK is a continuous 4MHz to DAC module in RUN/SLEEP/STOP mode.
- *  Unlike MFCLK, MFPCLK is async to MCLK/ULPCLK, providing higher DAC precision and performance.
- *  MFPCLK is the only clock source for DAC.
- *
- *  @param[in]  source  The source of MFPCLK. One of @ref DL_SYSCTL_MFPCLK_SOURCE.
- */
-__STATIC_INLINE void DL_SYSCTL_setMFPCLKSource(DL_SYSCTL_MFPCLK_SOURCE source)
-{
-    DL_Common_updateReg(&SYSCTL->SOCLOCK.GENCLKCFG, (uint32_t) source,
-        SYSCTL_GENCLKCFG_MFPCLKSRC_MASK);
-}
 
 /**
  *  @brief  Enable the Medium Frequency Clock (MFCLK)
@@ -1928,7 +1761,6 @@ __STATIC_INLINE void DL_SYSCTL_setMFPCLKSource(DL_SYSCTL_MFPCLK_SOURCE source)
  *
  *  1) Power mode must be RUN, SLEEP, or STOP.
  *  2) USEMFTICK register bit is set, which this function does
- *  3) MDIV must be set to @ref DL_SYSCTL_MCLK_DIVIDER_DISABLE by @ref DL_SYSCTL_setMCLKDivider.
  *
  *  If MCLK source is not SYSOSC, MCLK frequency must be >=32MHz for correct operation of MFCLK.
  *
@@ -1949,71 +1781,26 @@ __STATIC_INLINE void DL_SYSCTL_disableMFCLK(void)
     SYSCTL->SOCLOCK.MCLKCFG &= ~(SYSCTL_MCLKCFG_USEMFTICK_ENABLE);
 }
 
-/**
- *  @brief  Enable the Middle Frequency Precision Clock (MFPCLK)
- *
- *  MFPCLK provides a continuous 4MHz clock to the DAC.
- *
- *  MFPCLK can be sources from either SYSOSC or HFCLK (HFXT or HFCLK_IN).
- *
- *  The DAC does not have a clock selection mux. Its clock source is selected
- *  by configuring MFPCLK.
- *
- *  @sa DL_SYSCTL_disableMFPCLK
- */
-__STATIC_INLINE void DL_SYSCTL_enableMFPCLK(void)
-{
-    SYSCTL->SOCLOCK.GENCLKEN |= SYSCTL_GENCLKEN_MFPCLKEN_ENABLE;
-}
 
-/**
- *  @brief  Disable the Middle Frequency Precision Clock (MFPCLK)
- *  @sa DL_SYSCTL_enableMFPCLK
- */
-__STATIC_INLINE void DL_SYSCTL_disableMFPCLK(void)
-{
-    SYSCTL->SOCLOCK.GENCLKEN &= ~(SYSCTL_GENCLKEN_MFPCLKEN_ENABLE);
-}
 
 /**
  *  @brief  Enable the CAN Clock divider (CANCLK)
  *  @sa DL_SYSCTL_enableCANCLKDivider
  */
-__STATIC_INLINE void DL_SYSCTL_enableCANCLKDivider(uint8_t canclkdivider)
+__STATIC_INLINE void DL_SYSCTL_enableCANCLKDivider(DL_SYSCTL_CANPLL_DIVIDER canclkdivider)
 {
     SYSCTL->SOCLOCK.GENCLKEN |= SYSCTL_GENCLKEN_CANEXTDIVEN_ENABLE | canclkdivider;
 }
 
 /**
- *  @brief  Set the divider for HFCLK when HFCLK is used as the MFPCLK source
- *
- *  @param[in] divider   The divider of HFCLK for MFPCLK
- *                       One of @ref DL_SYSCTL_HFCLK_MFPCLK_DIVIDER.
+ *  @brief  Enable the I2S Clock divider (I2SCLK)
+ *  @sa DL_SYSCTL_enableI2SCLKDivider
  */
-__STATIC_INLINE void DL_SYSCTL_setHFCLKDividerForMFPCLK(
-    DL_SYSCTL_HFCLK_MFPCLK_DIVIDER divider)
+__STATIC_INLINE void DL_SYSCTL_enableI2SCLKDivider(DL_SYSCTL_I2SPLL_DIVIDER i2sclkdivider)
 {
-    DL_Common_updateReg(&SYSCTL->SOCLOCK.GENCLKCFG,
-        ((uint32_t) divider << SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_OFS),
-        SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_MASK);
+    SYSCTL->SOCLOCK.GENCLKEN |= SYSCTL_GENCLKEN_I2SPLLCLKDIVEN_ENABLE | i2sclkdivider;
 }
 
-/**
- *  @brief   Get the divider for HFCLK when HFCLK is used as the MFPCLK source
- *
- *  @return  Returns the divider for HFCLK for MFPCLK
- *
- *  @retval  One of @ref DL_SYSCTL_HFCLK_MFPCLK_DIVIDER
- */
-__STATIC_INLINE DL_SYSCTL_HFCLK_MFPCLK_DIVIDER
-DL_SYSCTL_getHFCLKDividerForMFPCLK(void)
-{
-    uint32_t divider =
-        (SYSCTL->SOCLOCK.GENCLKCFG & SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_MASK) >>
-        SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_OFS;
-
-    return (DL_SYSCTL_HFCLK_MFPCLK_DIVIDER) (divider);
-}
 
 /**
  *  @brief  Enable the External Clock (CLK_OUT)
@@ -2066,11 +1853,22 @@ __STATIC_INLINE void DL_SYSCTL_disableExternalClockDivider(void)
 {
     SYSCTL->SOCLOCK.GENCLKCFG &= ~(SYSCTL_GENCLKCFG_EXCLKDIVEN_ENABLE);
 }
-
-__STATIC_INLINE void DL_SYSCTL_PLLDivider(DL_SYSCTL_PLL_DIVIDER divider)
+/**
+ * @brief Set PLL divider
+ */
+__STATIC_INLINE void DL_SYSCTL_enablePLLDivider(DL_SYSCTL_PLL_DIVIDER divider)
 {
-    SYSCTL->SOCLOCK.GENCLKEN |=
-        SYSCTL_GENCLKEN_MCLKEXTDIVEN_ENABLE | (uint32_t) divider;
+    SYSCTL->SOCLOCK.GENCLKEN = (SYSCTL->SOCLOCK.GENCLKEN & ~SYSCTL_GENCLKEN_EXTDIVMCLK_MASK) |
+                               SYSCTL_GENCLKEN_MCLKEXTDIVEN_ENABLE | (uint32_t)divider;
+}
+
+/**
+ * @brief Disable PLL divider
+ *  @sa DL_SYSCTL_enablePLLDivider
+ */
+__STATIC_INLINE void DL_SYSCTL_disablePLLDivider(void)
+{
+    SYSCTL->SOCLOCK.GENCLKEN &= ~SYSCTL_GENCLKEN_MCLKEXTDIVEN_ENABLE;
 }
 
 /**
@@ -2130,32 +1928,6 @@ __STATIC_INLINE void DL_SYSCTL_disableFastCPUEventHandling(void)
     SYSCTL->SOCLOCK.SYSOSCCFG &= ~(SYSCTL_SYSOSCCFG_FASTCPUEVENT_ENABLE);
 }
 
-/**
- *  @brief  Set the SRAM boundary address to act as partition for read-execute
- *          permission
- *
- *  Specify the SRAM partition address to protect the code region of SRAM from
- *  being written to, and prevent the RW ("data") region of SRAM from being
- *  used for code execution.
- *  The SRAM partition address creates lower and higher partitions:
- *      - Lower partition is Read-Write only, no execute
- *      - Upper partition is Read-Execute only, no write
- *  A partition address of 0x0 is a special case and indicates that all SRAM is
- *  configured with RWX (read-write-execute) permissions. This is the default
- *  value.
- *
- *  The address is set with a 32-byte resolution. The address written is the
- *  system memory map address of the partition (0x200X_XXXX).
- *
- *  @param[in]  address   Address to act as the SRAM partition address. Value is
- *                        a valid 32-bit SRAM address. Only address bits [19:5]
- *                        i.e. bit 5 to bit 19 are used for the boundary address
- */
-__STATIC_INLINE void DL_SYSCTL_setSRAMBoundaryAddress(uint32_t address)
-{
-    SYSCTL->SOCLOCK.SRAMBOUNDARY =
-        (((uint32_t) address) & SYSCTL_SRAMBOUNDARY_ADDR_MASK);
-}
 
 /**
  *  @brief  Get the SRAM boundary address
@@ -2177,46 +1949,6 @@ __STATIC_INLINE void DL_SYSCTL_setSRAMBoundaryAddress(uint32_t address)
 __STATIC_INLINE uint32_t DL_SYSCTL_getSRAMBoundaryAddress(void)
 {
     return (SYSCTL->SOCLOCK.SRAMBOUNDARY);
-}
-
-/**
- *  @brief  Set flash wait state
- *
- *  @note Flash wait states are managed automatically by SYSCTL when MCLK is
- *  running from SYSOSC or LFCLK.
- *  @note This wait state is only applied if MCLK running from SYSPLL, HFXT,
- *  or HFCLK_IN.
- *
- *  Consult device specific datasheet for proper values.
- *
- *  @param[in]  waitState  Desired number of flash wait states. One of
- *  @ref DL_SYSCTL_FLASH_WAIT_STATE.
- */
-__STATIC_INLINE void DL_SYSCTL_setFlashWaitState(
-    DL_SYSCTL_FLASH_WAIT_STATE waitState)
-{
-    DL_Common_updateReg(&SYSCTL->SOCLOCK.MCLKCFG, (uint32_t) waitState,
-        SYSCTL_MCLKCFG_FLASHWAIT_MASK);
-}
-
-/**
- *  @brief  Get flash wait state
- *
- *  @note Flash wait states are managed automatically by SYSCTL when MCLK is
- *  running from SYSOSC or LFCLK.
- *  @note This wait state is only applied if MCLK running from SYSPLL, HFXT,
- *  or HFCLK_IN.
- *
- *  Consult device specific datasheet for proper values.
- *
- *  @return Number of flash wait states. One of @ref DL_SYSCTL_FLASH_WAIT_STATE.
- */
-__STATIC_INLINE DL_SYSCTL_FLASH_WAIT_STATE DL_SYSCTL_getFlashWaitState(void)
-{
-    uint32_t waitState =
-        SYSCTL->SOCLOCK.MCLKCFG & SYSCTL_MCLKCFG_FLASHWAIT_MASK;
-
-    return (DL_SYSCTL_FLASH_WAIT_STATE) (waitState);
 }
 
 /**
@@ -2317,26 +2049,7 @@ __STATIC_INLINE void DL_SYSCTL_enableSYSOSCFCL(void)
         (SYSCTL_SYSOSCFCLCTL_KEY_VALUE | SYSCTL_SYSOSCFCLCTL_SETUSEFCL_TRUE);
 }
 
-/**
- *  @brief  Enable Frequency Correction Loop (FCL) in External Resistor Mode
- *
- *  Used to increase SYSOSC accuracy. An ROSC reference resistor which is suitable
- *  to meet application accuracy reqiurements must be placed between ROSC pin and
- *  device ground (VSS).
- *
- *  Once FCL is enable, it cannot be disabled by software. A BOOTRST is required.
- *
- *  Power consumption of SYSOSC will be marginally higher with FCL enabled due to
- *  reference current which flows through ROSC.
- *  Settling time from startup to specified accuracy may also be longer.
- *  See device-specific datasheet for startup times.
- */
-__STATIC_INLINE void DL_SYSCTL_enableSYSOSCFCLExternalResistor(void)
-{
-    SYSCTL->SOCLOCK.SYSOSCFCLCTL =
-        (SYSCTL_SYSOSCFCLCTL_KEY_VALUE | SYSCTL_SYSOSCFCLCTL_SETUSEFCL_TRUE |
-            SYSCTL_SYSOSCFCLCTL_SETUSEEXRES_TRUE);
-}
+
 
 /**
  *  @brief  Enable write protection of selected SYSCTL registers
@@ -2762,6 +2475,40 @@ __STATIC_INLINE bool DL_SYSCTL_isSuperCapacitorEnabled(void)
 {
     return ((SYSCTL->SOCLOCK.SYSTEMCFG & SYSCTL_SYSTEMCFG_SUPERCAPEN_MASK) ==
             SYSCTL_SYSTEMCFG_SUPERCAPEN_TRUE);
+}
+
+/**
+ *  @brief      Perform bank swap and execute from the Upper Flash Bank
+ *
+ *  The upper physical bank maps to logical 0x0, and gets RX permission.
+ *  The lower physical bank gets RW permission.
+ *
+ *  @note This bit can only be written to before INITDONE. At INITDONE, this bit
+ *  becomes a read-only bit until next BOOTRST.
+ *
+ *  @pre  DL_SYSCTL_enableFlashBankSwap
+ */
+__STATIC_INLINE void DL_SYSCTL_executeFromUpperFlashBank(void)
+{
+    SYSCTL->SECCFG.FLBANKSWP |=
+        (SYSCTL_FLBANKSWP_USEUPPER_ENABLE | SYSCTL_FLBANKSWP_KEY_VALUE);
+}
+
+/**
+ *  @brief      Perform bank swap and execute from the Lower Flash Bank
+ *
+ *  The lower physical bank maps to logical 0x0, and gets RX permission.
+ *  The upper physical bank gets RW permission.
+ *
+ *  @note This bit can only be written to before INITDONE. At INITDONE, this bit
+ *  becomes a read-only bit until next BOOTRST.
+ *
+ *  @pre  DL_SYSCTL_enableFlashBankSwap
+ */
+__STATIC_INLINE void DL_SYSCTL_executeFromLowerFlashBank(void)
+{
+    SYSCTL->SECCFG.FLBANKSWP &=
+        (~(SYSCTL_FLBANKSWP_USEUPPER_MASK) | SYSCTL_FLBANKSWP_KEY_VALUE);
 }
 
 #ifdef __cplusplus

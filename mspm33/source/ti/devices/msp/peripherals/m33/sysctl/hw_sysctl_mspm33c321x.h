@@ -36,8 +36,8 @@
 #define ti_devices_msp_peripherals_m33_hw_sysctl_mspm33c321x__include
 
 /* Filename: hw_sysctl_mspm33c321x.h */
-/* Revised: 2025-04-05 16:51:09 */
-/* Revision: cbe01cc348dd4c2de2ae9e31c142b44c84b449a1 */
+/* Revised: 2025-09-11 15:56:01 */
+/* Revision: 2b5f545717ba26bba18de7a2db1005762df3b518 */
 
 #ifndef __CORTEX_M
   #ifdef __cplusplus
@@ -214,39 +214,32 @@ typedef struct {
 /* SYSCTL_FWEPROTMAIN Bits */
 /* SYSCTL_FWEPROTMAIN[DATA] Bits */
 #define SYSCTL_FWEPROTMAIN_DATA_OFS              (0)                             /* !< DATA Offset */
-#define SYSCTL_FWEPROTMAIN_DATA_MASK             ((uint32_t)0xFFFFFFFFU)         /* !< 1 Sector Write Erase protection 1:
-                                                                                    prohibits write-erase, 0: allows */
+#define SYSCTL_FWEPROTMAIN_DATA_MASK             ((uint32_t)0xFFFFFFFFU)         /* !< Not used */
 
 /* SYSCTL_FWPROTMAINDATA Bits */
 /* SYSCTL_FWPROTMAINDATA[DATA] Bits */
 #define SYSCTL_FWPROTMAINDATA_DATA_OFS           (0)                             /* !< DATA Offset */
-#define SYSCTL_FWPROTMAINDATA_DATA_MASK          ((uint32_t)0x000000FFU)         /* !< 00: Both RW allowed 01: Read Only
-                                                                                    10: No Read  No Write 11: No Read No
-                                                                                    Write - Not Used */
+#define SYSCTL_FWPROTMAINDATA_DATA_MASK          ((uint32_t)0x000000FFU)         /* !< Not used */
 
 /* SYSCTL_FRXPROTMAINSTART Bits */
 /* SYSCTL_FRXPROTMAINSTART[ADDR] Bits */
 #define SYSCTL_FRXPROTMAINSTART_ADDR_OFS         (6)                             /* !< ADDR Offset */
-#define SYSCTL_FRXPROTMAINSTART_ADDR_MASK        ((uint32_t)0x003FFFC0U)         /* !< Flash RX Protection Start Address
-                                                                                    64B granularity */
+#define SYSCTL_FRXPROTMAINSTART_ADDR_MASK        ((uint32_t)0x003FFFC0U)         /* !< Not used */
 
 /* SYSCTL_FRXPROTMAINEND Bits */
 /* SYSCTL_FRXPROTMAINEND[ADDR] Bits */
 #define SYSCTL_FRXPROTMAINEND_ADDR_OFS           (6)                             /* !< ADDR Offset */
-#define SYSCTL_FRXPROTMAINEND_ADDR_MASK          ((uint32_t)0x003FFFC0U)         /* !< Flash RX Protection End Address 64B
-                                                                                    granularity */
+#define SYSCTL_FRXPROTMAINEND_ADDR_MASK          ((uint32_t)0x003FFFC0U)         /* !< Not used */
 
 /* SYSCTL_FIPPROTMAINSTART Bits */
 /* SYSCTL_FIPPROTMAINSTART[ADDR] Bits */
 #define SYSCTL_FIPPROTMAINSTART_ADDR_OFS         (6)                             /* !< ADDR Offset */
-#define SYSCTL_FIPPROTMAINSTART_ADDR_MASK        ((uint32_t)0x003FFFC0U)         /* !< Flash IP Protection Start Address
-                                                                                    64B granularity */
+#define SYSCTL_FIPPROTMAINSTART_ADDR_MASK        ((uint32_t)0x003FFFC0U)         /* !< Not used */
 
 /* SYSCTL_FIPPROTMAINEND Bits */
 /* SYSCTL_FIPPROTMAINEND[ADDR] Bits */
 #define SYSCTL_FIPPROTMAINEND_ADDR_OFS           (6)                             /* !< ADDR Offset */
-#define SYSCTL_FIPPROTMAINEND_ADDR_MASK          ((uint32_t)0x003FFFC0U)         /* !< Flash IP Protection End Address 64B
-                                                                                    granularity */
+#define SYSCTL_FIPPROTMAINEND_ADDR_MASK          ((uint32_t)0x003FFFC0U)         /* !< Not used */
 
 /* SYSCTL_FLBANKSWPPOLICY Bits */
 /* SYSCTL_FLBANKSWPPOLICY[KEY] Bits */
@@ -277,21 +270,19 @@ typedef struct {
 /* SYSCTL_FWENABLE Bits */
 /* SYSCTL_FWENABLE[KEY] Bits */
 #define SYSCTL_FWENABLE_KEY_OFS                  (24)                            /* !< KEY Offset */
-#define SYSCTL_FWENABLE_KEY_MASK                 ((uint32_t)0xFF000000U)         /* !< Must have KEY==0x76(118) for write */
+#define SYSCTL_FWENABLE_KEY_MASK                 ((uint32_t)0xFF000000U)         /* !< Not used */
 #define SYSCTL_FWENABLE_KEY_VALUE                ((uint32_t)0x76000000U)         /* !< Write Key */
 /* SYSCTL_FWENABLE[FLIPPROT] Bits */
 #define SYSCTL_FWENABLE_FLIPPROT_OFS             (6)                             /* !< FLIPPROT Offset */
-#define SYSCTL_FWENABLE_FLIPPROT_MASK            ((uint32_t)0x00000040U)         /* !< 1: Flash Read IP ProtectionActive */
+#define SYSCTL_FWENABLE_FLIPPROT_MASK            ((uint32_t)0x00000040U)         /* !< Not used */
 #define SYSCTL_FWENABLE_FLIPPROT_ENABLE          ((uint32_t)0x00000040U)         /* !< Turn On Flash IP Protection */
 /* SYSCTL_FWENABLE[SRAMBOUNDARYLOCK] Bits */
 #define SYSCTL_FWENABLE_SRAMBOUNDARYLOCK_OFS     (8)                             /* !< SRAMBOUNDARYLOCK Offset */
-#define SYSCTL_FWENABLE_SRAMBOUNDARYLOCK_MASK    ((uint32_t)0x00000100U)         /* !< 1: Blocks Writes from Changing
-                                                                                    SRAMBOUNDARY MMR */
+#define SYSCTL_FWENABLE_SRAMBOUNDARYLOCK_MASK    ((uint32_t)0x00000100U)         /* !< Not used */
 #define SYSCTL_FWENABLE_SRAMBOUNDARYLOCK_ENABLE  ((uint32_t)0x00000100U)         /* !< SRAMBOUNDARY MMR Locked */
 /* SYSCTL_FWENABLE[FLRXPROT] Bits */
 #define SYSCTL_FWENABLE_FLRXPROT_OFS             (4)                             /* !< FLRXPROT Offset */
-#define SYSCTL_FWENABLE_FLRXPROT_MASK            ((uint32_t)0x00000010U)         /* !< 1: Flash Read Execute Protection
-                                                                                    Active */
+#define SYSCTL_FWENABLE_FLRXPROT_MASK            ((uint32_t)0x00000010U)         /* !< Not used */
 #define SYSCTL_FWENABLE_FLRXPROT_ENABLE          ((uint32_t)0x00000010U)         /* !< Turn On Flash Read-eXecute
                                                                                     Protection */
 
@@ -731,29 +722,6 @@ typedef struct {
 #define SYSCTL_NMIICLR_LFCLKFAIL_CLR             ((uint32_t)0x00000008U)
 
 /* SYSCTL_SYSOSCCFG Bits */
-/* SYSCTL_SYSOSCCFG[USE4MHZSTOP] Bits */
-#define SYSCTL_SYSOSCCFG_USE4MHZSTOP_OFS         (8)                             /* !< USE4MHZSTOP Offset */
-#define SYSCTL_SYSOSCCFG_USE4MHZSTOP_MASK        ((uint32_t)0x00000100U)         /* !< USE4MHZSTOP sets the SYSOSC stop
-                                                                                    mode frequency policy.  When entering
-                                                                                    STOP mode, the SYSOSC frequency may
-                                                                                    be automatically switched to 4MHz to
-                                                                                    reduce SYSOSC power consumption. */
-#define SYSCTL_SYSOSCCFG_USE4MHZSTOP_DISABLE     ((uint32_t)0x00000000U)         /* !< Do not gear shift the SYSOSC to
-                                                                                    4MHz in STOP mode */
-#define SYSCTL_SYSOSCCFG_USE4MHZSTOP_ENABLE      ((uint32_t)0x00000100U)         /* !< Gear shift SYSOSC to 4MHz in STOP
-                                                                                    mode */
-/* SYSCTL_SYSOSCCFG[DISABLESTOP] Bits */
-#define SYSCTL_SYSOSCCFG_DISABLESTOP_OFS         (9)                             /* !< DISABLESTOP Offset */
-#define SYSCTL_SYSOSCCFG_DISABLESTOP_MASK        ((uint32_t)0x00000200U)         /* !< DISABLESTOP sets the SYSOSC stop
-                                                                                    mode enable/disable policy.  When
-                                                                                    operating in STOP mode, the SYSOSC
-                                                                                    may be automatically disabled.  When
-                                                                                    set, ULPCLK will run from LFCLK in
-                                                                                    STOP mode and SYSOSC will be disabled
-                                                                                    to reduce power consumption. */
-#define SYSCTL_SYSOSCCFG_DISABLESTOP_DISABLE     ((uint32_t)0x00000000U)         /* !< Do not disable SYSOSC in STOP mode */
-#define SYSCTL_SYSOSCCFG_DISABLESTOP_ENABLE      ((uint32_t)0x00000200U)         /* !< Disable SYSOSC in STOP mode and
-                                                                                    source ULPCLK from LFCLK */
 /* SYSCTL_SYSOSCCFG[BLOCKASYNCALL] Bits */
 #define SYSCTL_SYSOSCCFG_BLOCKASYNCALL_OFS       (16)                            /* !< BLOCKASYNCALL Offset */
 #define SYSCTL_SYSOSCCFG_BLOCKASYNCALL_MASK      ((uint32_t)0x00010000U)         /* !< BLOCKASYNCALL may be used to mask
@@ -767,17 +735,6 @@ typedef struct {
                                                                                     peripheral */
 #define SYSCTL_SYSOSCCFG_BLOCKASYNCALL_ENABLE    ((uint32_t)0x00010000U)         /* !< All asynchronous fast clock
                                                                                     requests are blocked */
-/* SYSCTL_SYSOSCCFG[DISABLE] Bits */
-#define SYSCTL_SYSOSCCFG_DISABLE_OFS             (10)                            /* !< DISABLE Offset */
-#define SYSCTL_SYSOSCCFG_DISABLE_MASK            ((uint32_t)0x00000400U)         /* !< DISABLE sets the SYSOSC
-                                                                                    enable/disable policy.  SYSOSC may be
-                                                                                    powered off in RUN, SLEEP, and STOP
-                                                                                    modes to reduce power consumption.
-                                                                                    When SYSOSC is disabled, MCLK and
-                                                                                    ULPCLK are sourced from LFCLK. */
-#define SYSCTL_SYSOSCCFG_DISABLE_DISABLE         ((uint32_t)0x00000000U)         /* !< Do not disable SYSOSC */
-#define SYSCTL_SYSOSCCFG_DISABLE_ENABLE          ((uint32_t)0x00000400U)         /* !< Disable SYSOSC immediately and
-                                                                                    source MCLK and ULPCLK from LFCLK */
 /* SYSCTL_SYSOSCCFG[FASTCPUEVENT] Bits */
 #define SYSCTL_SYSOSCCFG_FASTCPUEVENT_OFS        (17)                            /* !< FASTCPUEVENT Offset */
 #define SYSCTL_SYSOSCCFG_FASTCPUEVENT_MASK       ((uint32_t)0x00020000U)         /* !< if disabled  CPU will not wakeup
@@ -805,9 +762,6 @@ typedef struct {
                                                                                     is enabled */
 #define SYSCTL_MCLKCFG_USEMFTICK_ENABLE          ((uint32_t)0x00001000U)         /* !< The 4MHz rate MFCLK to peripherals
                                                                                     is enabled. */
-/* SYSCTL_MCLKCFG[MDIV] Bits */
-#define SYSCTL_MCLKCFG_MDIV_OFS                  (0)                             /* !< MDIV Offset */
-#define SYSCTL_MCLKCFG_MDIV_MASK                 ((uint32_t)0x0000000FU)         /* !< MDIV tied to 0 */
 /* SYSCTL_MCLKCFG[USEHSCLK] Bits */
 #define SYSCTL_MCLKCFG_USEHSCLK_OFS              (16)                            /* !< USEHSCLK Offset */
 #define SYSCTL_MCLKCFG_USEHSCLK_MASK             ((uint32_t)0x00010000U)         /* !< USEHSCLK, together with USELFCLK,
@@ -819,19 +773,21 @@ typedef struct {
                                                                                     clock (HSCLK) */
 #define SYSCTL_MCLKCFG_USEHSCLK_ENABLE           ((uint32_t)0x00010000U)         /* !< MCLK will use the high speed clock
                                                                                     (HSCLK) in RUN and SLEEP mode */
-/* SYSCTL_MCLKCFG[USELFCLK] Bits */
-#define SYSCTL_MCLKCFG_USELFCLK_OFS              (20)                            /* !< USELFCLK Offset */
-#define SYSCTL_MCLKCFG_USELFCLK_MASK             ((uint32_t)0x00100000U)         /* !< LFCLK is not an MCLK sourcei in
-                                                                                    PD1, tied 0. */
-#define SYSCTL_MCLKCFG_USELFCLK_DISABLE          ((uint32_t)0x00000000U)         /* !< MCLK will not use the low frequency
-                                                                                    clock (LFCLK) */
-#define SYSCTL_MCLKCFG_USELFCLK_ENABLE           ((uint32_t)0x00100000U)         /* !< MCLK will use the low frequency
-                                                                                    clock (LFCLK) */
 /* SYSCTL_MCLKCFG[MCLKDIVCFG] Bits */
 #define SYSCTL_MCLKCFG_MCLKDIVCFG_OFS            (24)                            /* !< MCLKDIVCFG Offset */
 #define SYSCTL_MCLKCFG_MCLKDIVCFG_MASK           ((uint32_t)0x07000000U)         /* !< MCLK Divider Configuration bits
                                                                                     [1:0] are defined as MCLK4 is Bypass,
                                                                                     MCLK2 is Bypass */
+#define SYSCTL_MCLKCFG_MCLKDIVCFG_RATIO_1_1_1    ((uint32_t)0x00000000U)         /* !< MCLK=No Divide  MCLK2=No Divide
+                                                                                    MCLK4=No Divide */
+#define SYSCTL_MCLKCFG_MCLKDIVCFG_RATIO_1_1_2    ((uint32_t)0x01000000U)         /* !< MCLK=No Divide  MCLK2=No Divide
+                                                                                    MCLK4=Divide MCLK by 2 */
+#define SYSCTL_MCLKCFG_MCLKDIVCFG_RATIO_1_1_4    ((uint32_t)0x03000000U)         /* !< MCLK=No Divide  MCLK2=No Divide
+                                                                                    MCLK4=Divide MCLK by 4 */
+#define SYSCTL_MCLKCFG_MCLKDIVCFG_RATIO_1_2_2    ((uint32_t)0x05000000U)         /* !< MCLK=No Divide  MCLK2=Divide MCLK
+                                                                                    by 2  MCLK4=Divide MCLK by 2 */
+#define SYSCTL_MCLKCFG_MCLKDIVCFG_RATIO_1_2_4    ((uint32_t)0x07000000U)         /* !< MCLK=No Divide  MCLK2=Divide MCLK
+                                                                                    by 2  MCLK4=Divide MCLK by 4 */
 /* SYSCTL_MCLKCFG[STOPCLKSTBY] Bits */
 #define SYSCTL_MCLKCFG_STOPCLKSTBY_OFS           (21)                            /* !< STOPCLKSTBY Offset */
 #define SYSCTL_MCLKCFG_STOPCLKSTBY_MASK          ((uint32_t)0x00200000U)         /* !< STOPCLKSTBY sets the STANDBY mode
@@ -847,12 +803,6 @@ typedef struct {
 #define SYSCTL_MCLKCFG_STOPCLKSTBY_ENABLE        ((uint32_t)0x00200000U)         /* !< ULPCLK/LFCLK is disabled to all
                                                                                     peripherals in STANDBY mode except
                                                                                     TIMG0 and TIMG1 */
-/* SYSCTL_MCLKCFG[FLASHWAIT] Bits */
-#define SYSCTL_MCLKCFG_FLASHWAIT_OFS             (8)                             /* !< FLASHWAIT Offset */
-#define SYSCTL_MCLKCFG_FLASHWAIT_MASK            ((uint32_t)0x00000F00U)         /* !< Not used in design */
-#define SYSCTL_MCLKCFG_FLASHWAIT_WAIT0           ((uint32_t)0x00000000U)         /* !< No flash wait states are applied */
-#define SYSCTL_MCLKCFG_FLASHWAIT_WAIT1           ((uint32_t)0x00000100U)         /* !< One flash wait state is applied */
-#define SYSCTL_MCLKCFG_FLASHWAIT_WAIT2           ((uint32_t)0x00000200U)         /* !< 2 flash wait states are applied */
 /* SYSCTL_MCLKCFG[MCLKDEADCHK] Bits */
 #define SYSCTL_MCLKCFG_MCLKDEADCHK_OFS           (22)                            /* !< MCLKDEADCHK Offset */
 #define SYSCTL_MCLKCFG_MCLKDEADCHK_MASK          ((uint32_t)0x00400000U)         /* !< MCLKDEADCHK enables or disables the
@@ -994,46 +944,46 @@ typedef struct {
                                                                                     the HSCLK mux */
 #define SYSCTL_SYSPLLCFG0_MCLK2XVCO_ENABLE       ((uint32_t)0x00000002U)         /* !< The SYSPLLCLK2X output is sent to
                                                                                     the HSCLK mux */
-/* SYSCTL_SYSPLLCFG0[RDIVCLK0] Bits */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_OFS          (16)                            /* !< RDIVCLK0 Offset */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_MASK         ((uint32_t)0x000F0000U)         /* !< RDIVCLK0 sets the final divider
-                                                                                    for the SYSPLLCLK0 output. */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV1    ((uint32_t)0x00000000U)         /* !< SYSPLLCLK1 is divided by 2 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV2    ((uint32_t)0x00010000U)         /* !< SYSPLLCLK1 is divided by 4 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV3    ((uint32_t)0x00020000U)         /* !< SYSPLLCLK1 is divided by 6 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV4    ((uint32_t)0x00030000U)         /* !< SYSPLLCLK1 is divided by 8 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV5    ((uint32_t)0x00040000U)         /* !< SYSPLLCLK1 is divided by 10 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV6    ((uint32_t)0x00050000U)         /* !< SYSPLLCLK1 is divided by 12 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV7    ((uint32_t)0x00060000U)         /* !< SYSPLLCLK1 is divided by 14 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV8    ((uint32_t)0x00070000U)         /* !< SYSPLLCLK1 is divided by 16 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV9    ((uint32_t)0x00080000U)         /* !< SYSPLLCLK1 is divided by 18 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV10   ((uint32_t)0x00090000U)         /* !< SYSPLLCLK1 is divided by 20 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV11   ((uint32_t)0x000A0000U)         /* !< SYSPLLCLK1 is divided by 22 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV12   ((uint32_t)0x000B0000U)         /* !< SYSPLLCLK1 is divided by 24 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV13   ((uint32_t)0x000C0000U)         /* !< SYSPLLCLK1 is divided by 26 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV14   ((uint32_t)0x000D0000U)         /* !< SYSPLLCLK1 is divided by 28 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV15   ((uint32_t)0x000E0000U)         /* !< SYSPLLCLK1 is divided by 30 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK2XDIV16   ((uint32_t)0x000F0000U)         /* !< SYSPLLCLK1 is divided by 32 */
 /* SYSCTL_SYSPLLCFG0[RDIVCLK2X] Bits */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_OFS           (8)                             /* !< RDIVCLK2X Offset */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_MASK          ((uint32_t)0x00000F00U)         /* !< RDIVCLK2X sets the final divider for
-                                                                                    the SYSPLLCLK2X output. */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV2      ((uint32_t)0x00000000U)         /* !< SYSPLLCLK2X is divided by 1 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV4      ((uint32_t)0x00000100U)         /* !< SYSPLLCLK2X is divided by 2 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV6      ((uint32_t)0x00000200U)         /* !< SYSPLLCLK2X is divided by 3 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV8      ((uint32_t)0x00000300U)         /* !< SYSPLLCLK2X is divided by 4 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV10     ((uint32_t)0x00000400U)         /* !< SYSPLLCLK2X is divided by 5 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV12     ((uint32_t)0x00000500U)         /* !< SYSPLLCLK2X is divided by 6 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV14     ((uint32_t)0x00000600U)         /* !< SYSPLLCLK2X is divided by 7 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV16     ((uint32_t)0x00000700U)         /* !< SYSPLLCLK2X is divided by 8 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV18     ((uint32_t)0x00000800U)         /* !< SYSPLLCLK2X is divided by 9*/
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV20     ((uint32_t)0x00000900U)         /* !< SYSPLLCLK2X is divided by 10 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV22     ((uint32_t)0x00000A00U)         /* !< SYSPLLCLK2X is divided by 11 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV24     ((uint32_t)0x00000B00U)         /* !< SYSPLLCLK2X is divided by 12 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV26     ((uint32_t)0x00000C00U)         /* !< SYSPLLCLK2X is divided by 13 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV28     ((uint32_t)0x00000D00U)         /* !< SYSPLLCLK2X is divided by 14 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV30     ((uint32_t)0x00000E00U)         /* !< SYSPLLCLK2X is divided by 15 */
-#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK0DIV32     ((uint32_t)0x00000F00U)         /* !< SYSPLLCLK2X is divided by 16 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_OFS          (8)                             /* !< RDIVCLK2X Offset */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_MASK         ((uint32_t)0x00000F00U)         /* !< RDIVCLK2X sets the final divider
+                                                                                    for the SYSPLLCLK2X output. */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV1    ((uint32_t)0x00000000U)         /* !< SYSPLLCLK1 is divided by 1 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV2    ((uint32_t)0x00000100U)         /* !< SYSPLLCLK1 is divided by 2 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV3    ((uint32_t)0x00000200U)         /* !< SYSPLLCLK1 is divided by 3 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV4    ((uint32_t)0x00000300U)         /* !< SYSPLLCLK1 is divided by 4 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV5    ((uint32_t)0x00000400U)         /* !< SYSPLLCLK1 is divided by 5 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV6    ((uint32_t)0x00000500U)         /* !< SYSPLLCLK1 is divided by 6 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV7    ((uint32_t)0x00000600U)         /* !< SYSPLLCLK1 is divided by 7 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV8    ((uint32_t)0x00000700U)         /* !< SYSPLLCLK1 is divided by 8 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV9    ((uint32_t)0x00000800U)         /* !< SYSPLLCLK1 is divided by 9 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV10   ((uint32_t)0x00000900U)         /* !< SYSPLLCLK1 is divided by 10 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV11   ((uint32_t)0x00000A00U)         /* !< SYSPLLCLK1 is divided by 11 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV12   ((uint32_t)0x00000B00U)         /* !< SYSPLLCLK1 is divided by 12 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV13   ((uint32_t)0x00000C00U)         /* !< SYSPLLCLK1 is divided by 13 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV14   ((uint32_t)0x00000D00U)         /* !< SYSPLLCLK1 is divided by 14 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV15   ((uint32_t)0x00000E00U)         /* !< SYSPLLCLK1 is divided by 15 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK2X_CLK2XDIV16   ((uint32_t)0x00000F00U)         /* !< SYSPLLCLK1 is divided by 16 */
+/* SYSCTL_SYSPLLCFG0[RDIVCLK0] Bits */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_OFS           (16)                            /* !< RDIVCLK0 Offset */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_MASK          ((uint32_t)0x000F0000U)         /* !< RDIVCLK0 sets the final divider for
+                                                                                    the SYSPLLCLK0 output. */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV2      ((uint32_t)0x00000000U)         /* !< SYSPLLCLK0 is divided by 2 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV4      ((uint32_t)0x00010000U)         /* !< SYSPLLCLK0 is divided by 4 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV6      ((uint32_t)0x00020000U)         /* !< SYSPLLCLK0 is divided by 6 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV8      ((uint32_t)0x00030000U)         /* !< SYSPLLCLK0 is divided by 8 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV10     ((uint32_t)0x00040000U)         /* !< SYSPLLCLK0 is divided by 10 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV12     ((uint32_t)0x00050000U)         /* !< SYSPLLCLK0 is divided by 12 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV14     ((uint32_t)0x00060000U)         /* !< SYSPLLCLK0 is divided by 14 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV16     ((uint32_t)0x00070000U)         /* !< SYSPLLCLK0 is divided by 16 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV18     ((uint32_t)0x00080000U)         /* !< SYSPLLCLK0 is divided by 18 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV20     ((uint32_t)0x00090000U)         /* !< SYSPLLCLK0 is divided by 20 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV22     ((uint32_t)0x000A0000U)         /* !< SYSPLLCLK0 is divided by 22 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV24     ((uint32_t)0x000B0000U)         /* !< SYSPLLCLK0 is divided by 24 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV26     ((uint32_t)0x000C0000U)         /* !< SYSPLLCLK0 is divided by 26 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV28     ((uint32_t)0x000D0000U)         /* !< SYSPLLCLK0 is divided by 28 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV30     ((uint32_t)0x000E0000U)         /* !< SYSPLLCLK0 is divided by 30 */
+#define SYSCTL_SYSPLLCFG0_RDIVCLK0_CLK0DIV32     ((uint32_t)0x000F0000U)         /* !< SYSPLLCLK0 is divided by 32 */
 /* SYSCTL_SYSPLLCFG0[SYSPLLREF] Bits */
 #define SYSCTL_SYSPLLCFG0_SYSPLLREF_OFS          (0)                             /* !< SYSPLLREF Offset */
 #define SYSCTL_SYSPLLCFG0_SYSPLLREF_MASK         ((uint32_t)0x00000001U)         /* !< SYSPLLREF selects the system PLL
@@ -1133,12 +1083,6 @@ typedef struct {
 #define SYSCTL_GENCLKEN_EXTDIVMCLK_DIV12         ((uint32_t)0x00000500U)         /* !< CLK_OUT source is divided by 12 */
 #define SYSCTL_GENCLKEN_EXTDIVMCLK_DIV14         ((uint32_t)0x00000600U)         /* !< CLK_OUT source is divided by 14 */
 #define SYSCTL_GENCLKEN_EXTDIVMCLK_DIV16         ((uint32_t)0x00000700U)         /* !< CLK_OUT source is divided by 16 */
-/* SYSCTL_GENCLKEN[MFPCLKEN] Bits */
-#define SYSCTL_GENCLKEN_MFPCLKEN_OFS             (4)                             /* !< MFPCLKEN Offset */
-#define SYSCTL_GENCLKEN_MFPCLKEN_MASK            ((uint32_t)0x00000010U)         /* !< MFPCLKEN tied 0, since DAC is not
-                                                                                    present */
-#define SYSCTL_GENCLKEN_MFPCLKEN_DISABLE         ((uint32_t)0x00000000U)         /* !< MFPCLK is disabled */
-#define SYSCTL_GENCLKEN_MFPCLKEN_ENABLE          ((uint32_t)0x00000010U)         /* !< MFPCLK is enabled */
 /* SYSCTL_GENCLKEN[I2SPLLCLKDIVEN] Bits */
 #define SYSCTL_GENCLKEN_I2SPLLCLKDIVEN_OFS       (18)                            /* !< I2SPLLCLKDIVEN Offset */
 #define SYSCTL_GENCLKEN_I2SPLLCLKDIVEN_MASK      ((uint32_t)0x00040000U)         /* !< I2SPLLCLKDIVEN enables or disables
@@ -1199,56 +1143,13 @@ typedef struct {
                                                                                     is applied) */
 
 /* SYSCTL_GENCLKCFG Bits */
-/* SYSCTL_GENCLKCFG[HFCLK4MFPCLKDIV] Bits */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_OFS     (12)                            /* !< HFCLK4MFPCLKDIV Offset */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_MASK    ((uint32_t)0x0000F000U)         /* !< HFCLK4MFPCLKDIV selects the divider
-                                                                                    applied to HFCLK when HFCLK is used
-                                                                                    as the MFPCLK source.  Integer
-                                                                                    dividers from /1 to /16 may be
-                                                                                    selected. */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV1    ((uint32_t)0x00000000U)         /* !< HFCLK is not divided before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV2    ((uint32_t)0x00001000U)         /* !< HFCLK is divided by 2 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV3    ((uint32_t)0x00002000U)         /* !< HFCLK is divided by 3 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV4    ((uint32_t)0x00003000U)         /* !< HFCLK is divided by 4 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV5    ((uint32_t)0x00004000U)         /* !< HFCLK is divided by 5 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV6    ((uint32_t)0x00005000U)         /* !< HFCLK is divided by 6 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV7    ((uint32_t)0x00006000U)         /* !< HFCLK is divided by 7 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV8    ((uint32_t)0x00007000U)         /* !< HFCLK is divided by 8 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV9    ((uint32_t)0x00008000U)         /* !< HFCLK is divided by 9 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV10   ((uint32_t)0x00009000U)         /* !< HFCLK is divided by 10 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV11   ((uint32_t)0x0000A000U)         /* !< HFCLK is divided by 11 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV12   ((uint32_t)0x0000B000U)         /* !< HFCLK is divided by 12 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV13   ((uint32_t)0x0000C000U)         /* !< HFCLK is divided by 13 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV14   ((uint32_t)0x0000D000U)         /* !< HFCLK is divided by 14 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV15   ((uint32_t)0x0000E000U)         /* !< HFCLK is divided by 15 before being
-                                                                                    used for MFPCLK */
-#define SYSCTL_GENCLKCFG_HFCLK4MFPCLKDIV_DIV16   ((uint32_t)0x0000F000U)         /* !< HFCLK is divided by 16 before being
-                                                                                    used for MFPCLK */
-/* SYSCTL_GENCLKCFG[MFPCLKSRC] Bits */
-#define SYSCTL_GENCLKCFG_MFPCLKSRC_OFS           (9)                             /* !< MFPCLKSRC Offset */
-#define SYSCTL_GENCLKCFG_MFPCLKSRC_MASK          ((uint32_t)0x00000200U)         /* !< Not used in design */
-#define SYSCTL_GENCLKCFG_MFPCLKSRC_SYSOSC        ((uint32_t)0x00000000U)         /* !< MFPCLK is sourced from SYSOSC */
-#define SYSCTL_GENCLKCFG_MFPCLKSRC_HFCLK         ((uint32_t)0x00000200U)         /* !< MFPCLK is sourced from HFCLK */
 /* SYSCTL_GENCLKCFG[CANCLKSRC] Bits */
 #define SYSCTL_GENCLKCFG_CANCLKSRC_OFS           (8)                             /* !< CANCLKSRC Offset */
 #define SYSCTL_GENCLKCFG_CANCLKSRC_MASK          ((uint32_t)0x00000100U)         /* !< CANCLKSRC selects the CANCLK
                                                                                     source. */
 #define SYSCTL_GENCLKCFG_CANCLKSRC_HFCLK         ((uint32_t)0x00000000U)         /* !< CANCLK source is HFCLK */
-#define SYSCTL_GENCLKCFG_CANCLKSRC_SYSPLLOUT1    ((uint32_t)0x00000100U)         /* !< CANCLK source is SYSPLLCLK1 */
+#define SYSCTL_GENCLKCFG_CANCLKSRC_SYSPLLOUT     ((uint32_t)0x00000100U)         /* !< CANCLK source is SYSPLLOUT0 or
+                                                                                    SYSPLLOUT2x */
 /* SYSCTL_GENCLKCFG[FCCLFCLKSRC] Bits */
 #define SYSCTL_GENCLKCFG_FCCLFCLKSRC_OFS         (29)                            /* !< FCCLFCLKSRC Offset */
 #define SYSCTL_GENCLKCFG_FCCLFCLKSRC_MASK        ((uint32_t)0x20000000U)         /* !< FCCLFCLKSRC selects between SYSTEM
@@ -1300,14 +1201,12 @@ typedef struct {
 #define SYSCTL_GENCLKCFG_EXCLKSRC_OFS            (0)                             /* !< EXCLKSRC Offset */
 #define SYSCTL_GENCLKCFG_EXCLKSRC_MASK           ((uint32_t)0x00000007U)         /* !< EXCLKSRC selects the source for the
                                                                                     CLK_OUT external clock output block.
-                                                                                    ULPCLK and MFPCLK require the CLK_OUT
-                                                                                    divider (EXCLKDIVEN) to be enabled */
+                                                                                    ULPCLK requires the CLK_OUT divider
+                                                                                    (EXCLKDIVEN) to be enabled */
 #define SYSCTL_GENCLKCFG_EXCLKSRC_SYSOSC         ((uint32_t)0x00000000U)         /* !< CLK_OUT is SYSOSC */
 #define SYSCTL_GENCLKCFG_EXCLKSRC_ULPCLK         ((uint32_t)0x00000001U)         /* !< CLK_OUT is ULPCLK (EXCLKDIVEN must
                                                                                     be enabled) */
 #define SYSCTL_GENCLKCFG_EXCLKSRC_LFCLK          ((uint32_t)0x00000002U)         /* !< CLK_OUT is LFCLK */
-#define SYSCTL_GENCLKCFG_EXCLKSRC_MFPCLK         ((uint32_t)0x00000003U)         /* !< CLK_OUT is MFPCLK (EXCLKDIVEN must
-                                                                                    be enabled) */
 #define SYSCTL_GENCLKCFG_EXCLKSRC_HFCLK          ((uint32_t)0x00000004U)         /* !< CLK_OUT is HFCLK */
 #define SYSCTL_GENCLKCFG_EXCLKSRC_SYSPLLOUT1     ((uint32_t)0x00000005U)         /* !< CLK_OUT is SYSPLLCLK1 (SYSPLLCLK1
                                                                                     must be <=48MHz) */
@@ -1389,16 +1288,8 @@ typedef struct {
 #define SYSCTL_SYSCTL_ECO_REG2_ECOREG_MASK       ((uint32_t)0xFFFFFFFFU)         /* !< ECO Reg 2 for M33 */
 
 /* SYSCTL_SRAMBOUNDARY Bits */
-/* SYSCTL_SRAMBOUNDARY[ADDR] Bits */
-#define SYSCTL_SRAMBOUNDARY_ADDR_OFS             (5)                             /* !< ADDR Offset */
-#define SYSCTL_SRAMBOUNDARY_ADDR_MASK            ((uint32_t)0x000FFFE0U)         /* !< Not used, GSC register is used for
-                                                                                    SRAM boundary configuration */
 
 /* SYSCTL_SRAMBOUNDARYHIGH Bits */
-/* SYSCTL_SRAMBOUNDARYHIGH[ADDR] Bits */
-#define SYSCTL_SRAMBOUNDARYHIGH_ADDR_OFS         (5)                             /* !< ADDR Offset */
-#define SYSCTL_SRAMBOUNDARYHIGH_ADDR_MASK        ((uint32_t)0x000FFFE0U)         /* !< Not used, GSC register is used for
-                                                                                    SRAM boundary configuration */
 
 /* SYSCTL_SYSTEMCFG Bits */
 /* SYSCTL_SYSTEMCFG[KEY] Bits */
@@ -1445,11 +1336,6 @@ typedef struct {
                                                                                     transitioning from OFF to ON */
 #define SYSCTL_SRAMCFG_BANKINITDIS3_TRUE         ((uint32_t)0x00080000U)         /* !< SRAM BANK3 will NOT Initialize when
                                                                                     transitioning from OFF to ON */
-/* SYSCTL_SRAMCFG[BANKOFF2] Bits */
-#define SYSCTL_SRAMCFG_BANKOFF2_OFS              (2)                             /* !< BANKOFF2 Offset */
-#define SYSCTL_SRAMCFG_BANKOFF2_MASK             ((uint32_t)0x00000004U)         /* !< Not used */
-#define SYSCTL_SRAMCFG_BANKOFF2_FALSE            ((uint32_t)0x00000000U)         /* !< SRAM BANK2 power ON for RUN mode */
-#define SYSCTL_SRAMCFG_BANKOFF2_TRUE             ((uint32_t)0x00000004U)         /* !< SRAM BANK2 power OFF for RUN mode */
 /* SYSCTL_SRAMCFG[BANKINITDIS2] Bits */
 #define SYSCTL_SRAMCFG_BANKINITDIS2_OFS          (18)                            /* !< BANKINITDIS2 Offset */
 #define SYSCTL_SRAMCFG_BANKINITDIS2_MASK         ((uint32_t)0x00040000U)         /* !< SRAM BANK2 Initialization */
@@ -1457,16 +1343,6 @@ typedef struct {
                                                                                     transitioning from OFF to ON */
 #define SYSCTL_SRAMCFG_BANKINITDIS2_TRUE         ((uint32_t)0x00040000U)         /* !< SRAM BANK2 will NOT Initialize when
                                                                                     transitioning from OFF to ON */
-/* SYSCTL_SRAMCFG[BANKOFF1] Bits */
-#define SYSCTL_SRAMCFG_BANKOFF1_OFS              (1)                             /* !< BANKOFF1 Offset */
-#define SYSCTL_SRAMCFG_BANKOFF1_MASK             ((uint32_t)0x00000002U)         /* !< Not used */
-#define SYSCTL_SRAMCFG_BANKOFF1_FALSE            ((uint32_t)0x00000000U)         /* !< SRAM BANK1 power ON for RUN mode */
-#define SYSCTL_SRAMCFG_BANKOFF1_TRUE             ((uint32_t)0x00000002U)         /* !< SRAM BANK1 power OFF for RUN mode */
-/* SYSCTL_SRAMCFG[BANKOFF3] Bits */
-#define SYSCTL_SRAMCFG_BANKOFF3_OFS              (3)                             /* !< BANKOFF3 Offset */
-#define SYSCTL_SRAMCFG_BANKOFF3_MASK             ((uint32_t)0x00000008U)         /* !< Not used */
-#define SYSCTL_SRAMCFG_BANKOFF3_FALSE            ((uint32_t)0x00000000U)         /* !< SRAM BANK3 power ON for RUN mode */
-#define SYSCTL_SRAMCFG_BANKOFF3_TRUE             ((uint32_t)0x00000008U)         /* !< SRAM BANK3 power OFF for RUN mode */
 /* SYSCTL_SRAMCFG[BANKINITDIS1] Bits */
 #define SYSCTL_SRAMCFG_BANKINITDIS1_OFS          (17)                            /* !< BANKINITDIS1 Offset */
 #define SYSCTL_SRAMCFG_BANKINITDIS1_MASK         ((uint32_t)0x00020000U)         /* !< SRAM BANK1 Initialization */
@@ -1597,9 +1473,6 @@ typedef struct {
                                                                                     SYSOSC operating frequency. */
 #define SYSCTL_CLKSTATUS_SYSOSCFREQ_SYSOSC32M    ((uint32_t)0x00000000U)         /* !< SYSOSC is at base frequency (32MHz) */
 #define SYSCTL_CLKSTATUS_SYSOSCFREQ_SYSOSC4M     ((uint32_t)0x00000001U)         /* !< SYSOSC is at low frequency (4MHz) */
-#define SYSCTL_CLKSTATUS_SYSOSCFREQ_SYSOSCUSER   ((uint32_t)0x00000002U)         /* !< SYSOSC is at the user-trimmed
-                                                                                    frequency (16 or 24MHz) */
-#define SYSCTL_CLKSTATUS_SYSOSCFREQ_SYSOSCTURBO  ((uint32_t)0x00000003U)         /* !< Reserved */
 /* SYSCTL_CLKSTATUS[LFXTGOOD] Bits */
 #define SYSCTL_CLKSTATUS_LFXTGOOD_OFS            (10)                            /* !< LFXTGOOD Offset */
 #define SYSCTL_CLKSTATUS_LFXTGOOD_MASK           ((uint32_t)0x00000400U)         /* !< LFXTGOOD indicates if the LFXT
@@ -1788,10 +1661,6 @@ typedef struct {
                                                                                     BORLVL interrupt */
 
 /* SYSCTL_DEDERRADDR Bits */
-/* SYSCTL_DEDERRADDR[ADDR] Bits */
-#define SYSCTL_DEDERRADDR_ADDR_OFS               (0)                             /* !< ADDR Offset */
-#define SYSCTL_DEDERRADDR_ADDR_MASK              ((uint32_t)0xFFFFFFFFU)         /* !< Not used, EAM register is used for
-                                                                                    captruing Address of Memory DED error */
 
 /* SYSCTL_RSTCAUSE Bits */
 /* SYSCTL_RSTCAUSE[ID] Bits */
@@ -1896,11 +1765,6 @@ typedef struct {
                                                                                     Once enabled, this state is locked
                                                                                     until the next BOOTRST. */
 #define SYSCTL_SYSOSCFCLCTL_SETUSEFCL_TRUE       ((uint32_t)0x00000001U)         /* !< Enable the SYSOSC FCL */
-/* SYSCTL_SYSOSCFCLCTL[SETUSEEXRES] Bits */
-#define SYSCTL_SYSOSCFCLCTL_SETUSEEXRES_OFS      (1)                             /* !< SETUSEEXRES Offset */
-#define SYSCTL_SYSOSCFCLCTL_SETUSEEXRES_MASK     ((uint32_t)0x00000002U)         /* !< external resistor feature not used
-                                                                                    for FCL. */
-#define SYSCTL_SYSOSCFCLCTL_SETUSEEXRES_TRUE     ((uint32_t)0x00000002U)         /* !< Enable the SYSOSC external Resistor */
 
 /* SYSCTL_LFXTCTL Bits */
 /* SYSCTL_LFXTCTL[KEY] Bits */

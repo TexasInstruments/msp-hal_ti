@@ -320,7 +320,11 @@ extern "C"
     } DL_AESADVHP_Config;
 
     /**
-     *  @brief Enables power on AESADVHP module
+     * @brief Enables the Peripheral Write Enable (PWREN) register for the AESADV
+     *
+     *  Before any peripheral registers can be configured by software, the
+     *  peripheral itself must be enabled by writing the ENABLE bit together with
+     *  the appropriate KEY value to the peripheral's PWREN register.
      *
      *  @param[in] aesadv       Pointer to the register overlay for the peripheral
      */
@@ -330,7 +334,12 @@ extern "C"
     }
 
     /**
-     *  @brief Disables power on AESADVHP module
+     * @brief Disables the Peripheral Write Enable (PWREN) register for the AESADVHP
+     *
+     *  When the PWREN.ENABLE bit is cleared, the peripheral's registers are not
+     *  accessible for read/write operations.
+     *
+     *  @note This API does not provide large power savings
      *
      *  @param[in] aesadv        Pointer to the register overlay for the peripheral
      */
@@ -340,12 +349,20 @@ extern "C"
     }
 
     /**
-     *  @brief Returns if power enabled on AESADVHP module
+     * @brief Returns if the Peripheral Write Enable (PWREN) register for the AESADVHP
+     *        is enabled
+     *
+     *  Before any peripheral registers can be configured by software, the
+     *  peripheral itself must be enabled by writing the ENABLE bit together with
+     *  the appropriate KEY value to the peripheral's PWREN register.
+     *
+     *  When the PWREN.ENABLE bit is cleared, the peripheral's registers are not
+     *  accessible for read/write operations.
      *
      *  @param[in] aesadv       Pointer to the register overlay for the peripheral
      *
-     *  @retval true   Power is enabled
-     *  @retval false  Power is disabled
+     * @return true if peripheral register access is enabled
+     * @return false if peripheral register access is disabled
      */
     __STATIC_INLINE bool DL_AESADVHP_isPowerEnabled( AESADVHP_Regs *aesadv )
     {
@@ -371,7 +388,7 @@ extern "C"
      *  @retval true   Peripheral was reset
      *  @retval false  Peripheral wasn't reset
      */
-    __STATIC_INLINE bool DL_AESADVHP_isReset( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE bool DL_AESADVHP_isReset( const AESADVHP_Regs *aesadv )
     {
         return ( ( aesadv->GPRCM.STAT & AESADVHP_STAT_RESETSTKY_MASK ) == AESADVHP_STAT_RESETSTKY_RESET );
     }
@@ -384,7 +401,7 @@ extern "C"
      *  @retval true   AES output block is available
      *  @retval false  No AES output block is available
      */
-    __STATIC_INLINE bool DL_AESADVHP_isOutputReady( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE bool DL_AESADVHP_isOutputReady( const AESADVHP_Regs *aesadv )
     {
         return ( ( aesadv->CTRL & AESADVHP_CTRL_OUTPUT_RDY_MASK ) == AESADVHP_CTRL_OUTPUT_RDY_READY );
     }
@@ -397,7 +414,7 @@ extern "C"
      *  @retval true   Input buffer is empty
      *  @retval false  Input buffer is not empty
      */
-    __STATIC_INLINE bool DL_AESADVHP_isInputReady( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE bool DL_AESADVHP_isInputReady( const AESADVHP_Regs *aesadv )
     {
         return ( ( aesadv->CTRL & AESADVHP_CTRL_INPUT_RDY_MASK ) == AESADVHP_CTRL_INPUT_RDY_EMPTY );
     }
@@ -422,7 +439,7 @@ extern "C"
      *
      *  @return one of @ref DL_AESADVHP_DIR
      */
-    __STATIC_INLINE DL_AESADVHP_DIR DL_AESADVHP_getDirection( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE DL_AESADVHP_DIR DL_AESADVHP_getDirection( const AESADVHP_Regs *aesadv )
     {
         uint32_t direction = ( aesadv->CTRL & AESADVHP_CTRL_DIR_MASK );
 
@@ -447,7 +464,7 @@ extern "C"
      *
      *  @return one of @ref DL_AESADVHP_KEY_SIZE.
      */
-    __STATIC_INLINE DL_AESADVHP_KEY_SIZE DL_AESADVHP_getKeySize( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE DL_AESADVHP_KEY_SIZE DL_AESADVHP_getKeySize( const AESADVHP_Regs *aesadv )
     {
         uint32_t keySize = ( aesadv->CTRL & AESADVHP_CTRL_KEYSIZE_MASK );
 
@@ -487,7 +504,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setMode
      */
-    __STATIC_INLINE DL_AESADVHP_MODE DL_AESADVHP_getMode( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE DL_AESADVHP_MODE DL_AESADVHP_getMode( const AESADVHP_Regs *aesadv )
     {
         uint32_t mode = ( aesadv->CTRL & DL_AESADVHP_MODE_MASK );
         return ( DL_AESADVHP_MODE ) ( mode );
@@ -516,7 +533,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setFeedbackWidth
      */
-    __STATIC_INLINE DL_AESADVHP_FB_WIDTH DL_AESADVHP_getFeedbackWidth( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE DL_AESADVHP_FB_WIDTH DL_AESADVHP_getFeedbackWidth( const AESADVHP_Regs *aesadv )
     {
         uint32_t fbWidth = ( aesadv->CTRL & AESADVHP_CTRL_CTR_WIDTH_MASK );
 
@@ -551,7 +568,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setCounterWidth
      */
-    __STATIC_INLINE DL_AESADVHP_CTR_WIDTH DL_AESADVHP_getCounterWidth( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE DL_AESADVHP_CTR_WIDTH DL_AESADVHP_getCounterWidth( const AESADVHP_Regs *aesadv )
     {
         uint32_t ctrWidth = ( aesadv->CTRL & AESADVHP_CTRL_CTR_WIDTH_MASK );
 
@@ -601,7 +618,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setCCMCounterWidth
      */
-    __STATIC_INLINE DL_AESADVHP_CCM_CTR_WIDTH DL_AESADVHP_getCCMCounterWidth( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE DL_AESADVHP_CCM_CTR_WIDTH DL_AESADVHP_getCCMCounterWidth( const AESADVHP_Regs *aesadv )
     {
         uint32_t ccm_ctrWidth = ( aesadv->CTRL & AESADVHP_CTRL_CCML_MASK );
 
@@ -635,7 +652,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setCCMTagWidth
      */
-    __STATIC_INLINE DL_AESADVHP_CCM_TAG_WIDTH DL_AESADVHP_getCCMTagWidth( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE DL_AESADVHP_CCM_TAG_WIDTH DL_AESADVHP_getCCMTagWidth( const AESADVHP_Regs *aesadv )
     {
         uint32_t ccm_tagWidth = ( aesadv->CTRL & AESADVHP_CTRL_CCMM_MASK );
 
@@ -761,7 +778,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_enableSavedOutputContext
      */
-    __STATIC_INLINE bool DL_AESADVHP_isSavedOutputContextEnabled( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE bool DL_AESADVHP_isSavedOutputContextEnabled( const AESADVHP_Regs *aesadv )
     {
         return ( ( aesadv->CTRL & AESADVHP_CTRL_SAVE_CNTXT_MASK ) == AESADVHP_CTRL_SAVE_CNTXT_ENABLE );
     }
@@ -780,7 +797,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_enableSavedOutputContext
      */
-    __STATIC_INLINE bool DL_AESADVHP_isSavedOutputContextReady( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE bool DL_AESADVHP_isSavedOutputContextReady( const AESADVHP_Regs *aesadv )
     {
         return ( ( aesadv->CTRL & AESADVHP_CTRL_SAVED_CNTXT_RDY_MASK ) == AESADVHP_CTRL_SAVED_CNTXT_RDY_READY );
     }
@@ -801,7 +818,7 @@ extern "C"
      *                 are available and must be read before context can be
      *                 interrupted
      */
-    __STATIC_INLINE bool DL_AESADVHP_isInputContextWriteable( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE bool DL_AESADVHP_isInputContextWriteable( const AESADVHP_Regs *aesadv )
     {
         return ( ( aesadv->CTRL & AESADVHP_CTRL_CNTXT_RDY_MASK ) == AESADVHP_CTRL_CNTXT_RDY_READY );
     }
@@ -915,7 +932,7 @@ extern "C"
      *  @retval true   Configured to read/write data using the DMA
      *  @retval false  Configured to read/write data using the CPU (Default)
      */
-    __STATIC_INLINE bool DL_AESADVHP_isDMAOperationEnabled( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE bool DL_AESADVHP_isDMAOperationEnabled( const AESADVHP_Regs *aesadv )
     {
         return ( ( aesadv->DMA_HS & AESADVHP_DMA_HS_DMA_DATA_ACK_MASK ) == AESADVHP_DMA_HS_DMA_DATA_ACK_DMA_ENABLE );
     }
@@ -931,7 +948,7 @@ extern "C"
      *  @note If user key writes are disabled but desired, a module reset is
      *        required
      */
-    __STATIC_INLINE bool DL_AESADVHP_isUserKeyWriteEnabled( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE bool DL_AESADVHP_isUserKeyWriteEnabled( const AESADVHP_Regs *aesadv )
     {
         return ( ( aesadv->STATUS & AESADVHP_STATUS_KEYWR_MASK ) == AESADVHP_STATUS_KEYWR_ENABLED );
     }
@@ -1128,7 +1145,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_loadCCMNonceAndCounter
      */
-    DL_AESADVHP_STATUS DL_AESADVHP_loadInitializationVector( AESADVHP_Regs *aesadv, uint8_t *iv );
+    DL_AESADVHP_STATUS DL_AESADVHP_loadInitializationVector( AESADVHP_Regs *aesadv, const uint8_t *iv );
 
     /**
      *  @brief Loads the 128-bit initialization vector to the AESADVHP module.
@@ -1148,7 +1165,7 @@ extern "C"
      *  @sa DL_AESADVHP_loadCCMNonceAndCounter
      *  @sa DL_AESADVHP_loadInitializationVector
      */
-    void DL_AESADVHP_loadInitializationVectorAligned( AESADVHP_Regs *aesadv, uint32_t *ivAligned );
+    void DL_AESADVHP_loadInitializationVectorAligned( AESADVHP_Regs *aesadv, const uint32_t *ivAligned );
 
     /**
      *  @brief Reads the 128-bit initialization vector from the AES Module
@@ -1168,7 +1185,7 @@ extern "C"
      *        access, if this is not necessary, consider using uint32_t pointers and
      *        @ref DL_AESADVHP_readInitializationVectorAligned
      */
-    DL_AESADVHP_STATUS DL_AESADVHP_readInitializationVector( AESADVHP_Regs *aesadv, uint8_t *iv );
+    DL_AESADVHP_STATUS DL_AESADVHP_readInitializationVector( AESADVHP_Regs *aesadv, const uint8_t *iv );
 
     /**
      *  @brief Reads the 128-bit initialization vector from the AES Module
@@ -1262,7 +1279,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_readOutputData
      */
-    DL_AESADVHP_STATUS DL_AESADVHP_loadInputData( AESADVHP_Regs *aesadv, uint8_t *data );
+    DL_AESADVHP_STATUS DL_AESADVHP_loadInputData( AESADVHP_Regs *aesadv, const uint8_t *data );
 
     /**
      *  @brief loads 128 bits (4 words) of input data
@@ -1283,7 +1300,7 @@ extern "C"
      *  @sa DL_AESADVHP_loadInputData
      *  @sa DL_AESADVHP_readOutputDataAligned
      */
-    void DL_AESADVHP_loadInputDataAligned( AESADVHP_Regs *aesadv, uint32_t *dataAligned );
+    void DL_AESADVHP_loadInputDataAligned( AESADVHP_Regs *aesadv, const uint32_t *dataAligned );
 
     /**
      *  @brief reads 128-bits of output data that has been encrypted/decrypted.
@@ -1307,7 +1324,7 @@ extern "C"
      *        access, if this is not necessary, consider using uint32_t pointers and
      *        @ref DL_AESADVHP_readOutputDataAligned
      */
-    DL_AESADVHP_STATUS DL_AESADVHP_readOutputData( AESADVHP_Regs *aesadv, uint8_t *data );
+    DL_AESADVHP_STATUS DL_AESADVHP_readOutputData( const AESADVHP_Regs *aesadv, const uint8_t *data );
 
     /**
      *  @brief reads 128-bits of output data that has been encrypted/decrypted.
@@ -1326,7 +1343,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_readOutputData
      */
-    void DL_AESADVHP_readOutputDataAligned( AESADVHP_Regs *aesadv, uint32_t *dataAligned );
+    void DL_AESADVHP_readOutputDataAligned( const AESADVHP_Regs *aesadv, uint32_t *dataAligned );
 
     /**
      *  @brief reads 128-bit output tag at the conclusion of operation/halt
@@ -1349,7 +1366,7 @@ extern "C"
 
      *  @sa DL_AESADVHP_isSavedOutputContextReady
      */
-    DL_AESADVHP_STATUS DL_AESADVHP_readTAG( AESADVHP_Regs *aesadv, uint8_t *tag );
+    DL_AESADVHP_STATUS DL_AESADVHP_readTAG( const AESADVHP_Regs *aesadv, const uint8_t *tag );
 
     /**
      *  @brief reads 128-bit output tag at the conclusion of operation/halt
@@ -1365,9 +1382,9 @@ extern "C"
      *
      *  @sa DL_AESADVHP_isSavedOutputContextReady
      */
-    void DL_AESADVHP_readTAGAligned( AESADVHP_Regs *aesadv, uint32_t *tagAligned );
+    void DL_AESADVHP_readTAGAligned( const AESADVHP_Regs *aesadv, uint32_t *tagAligned );
 
-    /**
+/**
      *  @brief Forces AESADVHP to begin processing input data.
      *
      *  This function will validate the input data buffer and force AESADVHP to begin
@@ -1407,7 +1424,7 @@ extern "C"
      *
      *  @return Current AAD alignment word of type uint32_t
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getCCMAlignWord( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getCCMAlignWord( const AESADVHP_Regs *aesadv )
     {
         return ( aesadv->CCM_ALN_WRD );
     }
@@ -1447,7 +1464,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setLowerBlockCount
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getLowerBlockCount( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getLowerBlockCount( const AESADVHP_Regs *aesadv )
     {
         return aesadv->BLK_CNT0;
     }
@@ -1487,7 +1504,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setUpperBlockCount
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getUpperBlockCount( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getUpperBlockCount( const AESADVHP_Regs *aesadv )
     {
         return ( aesadv->BLK_CNT1 & 0x01FFFFFFU );
     }
@@ -1529,7 +1546,7 @@ extern "C"
      *
      *  @retval     Bitwise OR of @ref DL_AESADVHP_INTERRUPT values
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledInterrupts( AESADVHP_Regs *aesadv, uint32_t interruptMask )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledInterrupts( const AESADVHP_Regs *aesadv, uint32_t interruptMask )
     {
         return ( aesadv->INT_EVENT0.IMASK & interruptMask );
     }
@@ -1551,7 +1568,7 @@ extern "C"
      *
      *  @sa         DL_AESADVHP_enableInterrupt
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledInterruptStatus( AESADVHP_Regs *aesadv, uint32_t interruptMask )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledInterruptStatus( const AESADVHP_Regs *aesadv, uint32_t interruptMask )
     {
         return ( aesadv->INT_EVENT0.MIS & interruptMask );
     }
@@ -1571,7 +1588,7 @@ extern "C"
      *
      *  @retval     Bitwise OR of @ref DL_AESADVHP_INTERRUPT
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getRawInterruptStatus( AESADVHP_Regs *aesadv, uint32_t interruptMask )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getRawInterruptStatus( const AESADVHP_Regs *aesadv, uint32_t interruptMask )
     {
         return ( aesadv->INT_EVENT0.RIS & interruptMask );
     }
@@ -1588,7 +1605,7 @@ extern "C"
      *
      *  @retval     One of @ref DL_AESADVHP_IIDX
      */
-    __STATIC_INLINE DL_AESADVHP_IIDX DL_AESADVHP_getPendingInterrupt( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE DL_AESADVHP_IIDX DL_AESADVHP_getPendingInterrupt( const AESADVHP_Regs *aesadv )
     {
         return ( ( DL_AESADVHP_IIDX ) aesadv->INT_EVENT0.IIDX );
     }
@@ -1659,7 +1676,7 @@ extern "C"
      *              event is enabled
      *  @retval     0 if DMA input trigger event is not enabled
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledDMAInputTriggerEvent( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledDMAInputTriggerEvent( const AESADVHP_Regs *aesadv )
     {
         return ( aesadv->INT_EVENT1.IMASK & DL_AESADVHP_EVENT_DMA_DATA_INPUT_TRIGGER );
     }
@@ -1675,7 +1692,7 @@ extern "C"
      *              event is enabled
      *  @retval     0 if DMA output trigger event is not enabled
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledDMAOutputTriggerEvent( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledDMAOutputTriggerEvent( const AESADVHP_Regs *aesadv )
     {
         return ( aesadv->INT_EVENT2.IMASK & DL_AESADVHP_EVENT_DMA_DATA_OUTPUT_TRIGGER );
     }
@@ -1695,7 +1712,7 @@ extern "C"
      *
      *  @sa         DL_AESADVHP_enableDMAInputTriggerEvent
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledDMAInputTriggerEventStatus( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledDMAInputTriggerEventStatus( const AESADVHP_Regs *aesadv )
     {
         return ( aesadv->INT_EVENT1.MIS & DL_AESADVHP_EVENT_DMA_DATA_INPUT_TRIGGER );
     }
@@ -1715,7 +1732,7 @@ extern "C"
      *
      *  @sa         DL_AESADVHP_enableDMAOutputTriggerEvent
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledDMAOutputTriggerEventStatus( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getEnabledDMAOutputTriggerEventStatus( const AESADVHP_Regs *aesadv )
     {
         return ( aesadv->INT_EVENT2.MIS & DL_AESADVHP_EVENT_DMA_DATA_OUTPUT_TRIGGER );
     }
@@ -1734,7 +1751,7 @@ extern "C"
      *              pending
      *  @retval     0 if DMA input trigger event is not pending
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getRawDMAInputTriggerEventStatus( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getRawDMAInputTriggerEventStatus( const AESADVHP_Regs *aesadv )
     {
         return ( aesadv->INT_EVENT1.RIS & DL_AESADVHP_EVENT_DMA_DATA_INPUT_TRIGGER );
     }
@@ -1753,7 +1770,7 @@ extern "C"
      *              pending
      *  @retval     0 if DMA output trigger event is not pending
      */
-    __STATIC_INLINE uint32_t DL_AESADVHP_getRawDMAOutputTriggerEventStatus( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE uint32_t DL_AESADVHP_getRawDMAOutputTriggerEventStatus( const AESADVHP_Regs *aesadv )
     {
         return ( aesadv->INT_EVENT2.RIS & DL_AESADVHP_EVENT_DMA_DATA_OUTPUT_TRIGGER );
     }
@@ -1768,7 +1785,7 @@ extern "C"
      *
      *  @return     The highest priority pending DMA input trigger event
      */
-    __STATIC_INLINE DL_AESADVHP_IIDX DL_AESADVHP_getPendingDMAInputTriggerEvent( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE DL_AESADVHP_IIDX DL_AESADVHP_getPendingDMAInputTriggerEvent( const AESADVHP_Regs *aesadv )
     {
         uint32_t eventIIDX = aesadv->INT_EVENT1.IIDX;
 
@@ -1785,7 +1802,7 @@ extern "C"
      *
      *  @return     The highest priority pending DMA output trigger event
      */
-    __STATIC_INLINE DL_AESADVHP_IIDX DL_AESADVHP_getPendingDMAOutputTriggerEvent( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE DL_AESADVHP_IIDX DL_AESADVHP_getPendingDMAOutputTriggerEvent( const AESADVHP_Regs *aesadv )
     {
         uint32_t eventIIDX = aesadv->INT_EVENT2.IIDX;
 
@@ -1828,7 +1845,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_enableDMAOperation
      */
-    __STATIC_INLINE uintptr_t DL_AESADVHP_getDATAINAddr( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE uintptr_t DL_AESADVHP_getDATAINAddr( const AESADVHP_Regs *aesadv )
     {
         return ( ( uintptr_t ) &aesadv->DATA0 );
     }
@@ -1849,7 +1866,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_enableDMAOperation
      */
-    __STATIC_INLINE uintptr_t DL_AESADVHP_getDATAOUTAddr( AESADVHP_Regs *aesadv )
+    __STATIC_INLINE uintptr_t DL_AESADVHP_getDATAOUTAddr( const AESADVHP_Regs *aesadv )
     {
         return ( ( uintptr_t ) &aesadv->DATA0 );
     }
@@ -1869,7 +1886,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setKey
      */
-    void DL_AESADVHP_initECB( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config );
+    void DL_AESADVHP_initECB( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config );
 
     /**
      *  @brief Initializes the engine in the Cipher-Block Chaining (CBC) mode
@@ -1887,7 +1904,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setKey
      */
-    void DL_AESADVHP_initCBC( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config );
+    void DL_AESADVHP_initCBC( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config );
 
     /**
      *  @brief Initializes the engine in the Cipher Feedback (CFB) mode
@@ -1905,7 +1922,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setKey
      */
-    void DL_AESADVHP_initCFB( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config );
+    void DL_AESADVHP_initCFB( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config );
 
     /**
      *  @brief Initializes the engine in the Output Feedback (OFB) mode
@@ -1923,7 +1940,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setKey
      */
-    void DL_AESADVHP_initOFB( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config );
+    void DL_AESADVHP_initOFB( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config );
 
     /**
      *  @brief Initializes the engine in the Counter (CTR) mode
@@ -1942,7 +1959,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setKey
      */
-    void DL_AESADVHP_initCTR( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config );
+    void DL_AESADVHP_initCTR( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config );
 
     /**
      *  @brief Initializes the engine in the Integer Counter Mode (ICM)
@@ -1961,7 +1978,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setKey
      */
-    void DL_AESADVHP_initICM( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config );
+    void DL_AESADVHP_initICM( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config );
 
     /**
      *  @brief Initializes the engine in the block cipher-based Message
@@ -1985,7 +2002,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setKey
      */
-    void DL_AESADVHP_initCMAC( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config );
+    void DL_AESADVHP_initCMAC( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config );
 
     /**
      *  @brief Initializes the engine in the Cipher Block Chaining Message
@@ -2004,7 +2021,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setKey
      */
-    void DL_AESADVHP_initCBCMAC( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config );
+    void DL_AESADVHP_initCBCMAC( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config );
 
     /**
      *  @brief Initializes the engine in the Galois/Counter Mode (GCM)
@@ -2030,7 +2047,7 @@ extern "C"
      *  @sa DL_AESADVHP_setKey
      *  @sa DL_AESADVHP_setHashKey
      */
-    void DL_AESADVHP_initGCM( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config );
+    void DL_AESADVHP_initGCM( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config );
 
     /**
      *  @brief Initializes the engine in the Counter & CBC-MAC (CCM)mode
@@ -2053,7 +2070,7 @@ extern "C"
      *
      *  @sa DL_AESADVHP_setKey
      */
-    void DL_AESADVHP_initCCM( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config );
+    void DL_AESADVHP_initCCM( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config );
 
 #ifdef __cplusplus
 }

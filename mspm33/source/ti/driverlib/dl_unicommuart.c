@@ -169,6 +169,8 @@ void DL_UART_transmitDataBlocking(UNICOMM_Inst_Regs *unicomm, uint8_t data)
     while (DL_UART_isTXFIFOFull(unicomm)) {
     };
     DL_UART_transmitData(unicomm, data);
+    while (DL_UART_isBusy(unicomm)) {
+    };
 }
 
 bool DL_UART_receiveDataCheck(UNICOMM_Inst_Regs *unicomm, uint8_t *buffer)

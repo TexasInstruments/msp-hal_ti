@@ -74,7 +74,7 @@
 #include <ti/driverlib/m33/dl_interrupt.h>
 #include <ti/driverlib/m33/dl_shadrv.h>
 #include <ti/driverlib/m33/dl_sysctl.h>
-//#include <ti/driverlib/m0p/dl_systick.h>
+#include <ti/driverlib/m33/dl_systick.h>
 #include <ti/driverlib/dl_spgss.h>
 #include <ti/driverlib/dl_unicomm.h>
 #include <ti/driverlib/dl_unicommi2cc.h>
@@ -82,6 +82,7 @@
 #include <ti/driverlib/dl_unicommuart.h>
 #include <ti/driverlib/dl_unicommspi.h>
 #include <ti/driverlib/dl_qspi.h>
+#include <ti/driverlib/m33/dl_eam.h>
 // __INTERNAL_ONLY_OPEN__
 // __INTERNAL_ONLY_CLOSE__
 

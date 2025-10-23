@@ -141,38 +141,6 @@ void DL_SYSCTL_setLFCLKSourceLFXT(DL_SYSCTL_LFCLKConfig *config)
         }
 }
 
-void DL_SYSCTL_switchMCLKfromSYSOSCtoLFCLK(bool disableSYSOSC)
-{
-    if (disableSYSOSC == false) {
-        // Set SYSOSC back to base frequency if left enabled
-        DL_SYSCTL_setSYSOSCFreq(DL_SYSCTL_SYSOSC_FREQ_BASE);
-        SYSCTL->SOCLOCK.SYSOSCCFG &= ~SYSCTL_SYSOSCCFG_DISABLE_ENABLE;
-    } else {
-        SYSCTL->SOCLOCK.SYSOSCCFG |= SYSCTL_SYSOSCCFG_DISABLE_ENABLE;
-    }
-    SYSCTL->SOCLOCK.MCLKCFG |= SYSCTL_MCLKCFG_USELFCLK_ENABLE;
-
-    // Verify LFCLK -> MCLK
-    while ((DL_SYSCTL_getClockStatus() & SYSCTL_CLKSTATUS_CURMCLKSEL_MASK) !=
-           DL_SYSCTL_CLK_STATUS_MCLK_SOURCE_LFCLK) {
-        ;
-    }
-}
-
-void DL_SYSCTL_switchMCLKfromLFCLKtoSYSOSC(void)
-{
-    // Only one should have been set, but clear both because unknown incoming state
-    // Clear SYSOSCCFG.DISABLE to get SYSOSC running again
-    // Clear MCLKCFG.USELFCLK to switch MCLK source from LFCLK to SYSOSC
-    SYSCTL->SOCLOCK.SYSOSCCFG &= ~SYSCTL_SYSOSCCFG_DISABLE_ENABLE;
-    SYSCTL->SOCLOCK.MCLKCFG &= ~SYSCTL_MCLKCFG_USELFCLK_ENABLE;
-
-    // Verify SYSOSC -> MCLK
-    while (((DL_SYSCTL_getClockStatus() & SYSCTL_CLKSTATUS_CURMCLKSEL_MASK) ==
-            DL_SYSCTL_CLK_STATUS_MCLK_SOURCE_LFCLK)) {
-        ;
-    }
-}
 
 void DL_SYSCTL_switchMCLKfromSYSOSCtoHSCLK(DL_SYSCTL_HSCLK_SOURCE source)
 {

@@ -1636,6 +1636,14 @@ typedef enum {
 
 } DL_GPIO_WAKEUP;
 
+/*! @enum DL_GPIO_WAKEUP_COMPARE_VALUE */
+typedef enum {
+    /*! Wakeup compare value of 0 */
+    DL_GPIO_WAKEUP_COMPARE_VALUE_0 = IOMUX_PINCM_WCOMP_MATCH0,
+    /*! Wakeup compare value of 1 */
+    DL_GPIO_WAKEUP_COMPARE_VALUE_1 = IOMUX_PINCM_WCOMP_MATCH1,
+} DL_GPIO_WAKEUP_COMPARE_VALUE;
+
 /*! @enum DL_GPIO_HIZ */
 typedef enum {
     /*! Enable Hi-Z on pin */
@@ -1748,6 +1756,8 @@ typedef enum {
 
 /*! @enum DL_GPIO_IIDX */
 typedef enum {
+    /*! Interrupt index for no interrupt  */
+    DL_GPIO_IIDX_NO_INTR = GPIO_CPU_INT_IIDX_STAT_NO_INTR,
     /*! Interrupt index for GPIO DIO0 */
     DL_GPIO_IIDX_DIO0 = GPIO_CPU_INT_IIDX_STAT_DIO0,
     /*! Interrupt index for GPIO DIO1 */
@@ -1815,7 +1825,11 @@ typedef enum {
 } DL_GPIO_IIDX;
 
 /**
- * @brief Enables power on GPIO module
+ * @brief Enables the Peripheral Write Enable (PWREN) register for the GPIO
+ *
+ *  Before any peripheral registers can be configured by software, the
+ *  peripheral itself must be enabled by writing the ENABLE bit together with
+ *  the appropriate KEY value to the peripheral's PWREN register.
  *
  * @param gpio        Pointer to the register overlay for the peripheral
  */
@@ -1825,7 +1839,12 @@ __STATIC_INLINE void DL_GPIO_enablePower(GPIO_Regs* gpio)
 }
 
 /**
- * @brief Disables power on gpio module
+ * @brief Disables the Peripheral Write Enable (PWREN) register for the GPIO
+ *
+ *  When the PWREN.ENABLE bit is cleared, the peripheral's registers are not
+ *  accessible for read/write operations.
+ *
+ *  @note This API does not provide large power savings.
  *
  * @param gpio        Pointer to the register overlay for the peripheral
  */
@@ -1835,12 +1854,20 @@ __STATIC_INLINE void DL_GPIO_disablePower(GPIO_Regs* gpio)
 }
 
 /**
- * @brief Returns if  power on gpio module
+ * @brief Returns if the Peripheral Write Enable (PWREN) register for the GPIO
+ *        is enabled
+ *
+ *  Before any peripheral registers can be configured by software, the
+ *  peripheral itself must be enabled by writing the ENABLE bit together with
+ *  the appropriate KEY value to the peripheral's PWREN register.
+ *
+ *  When the PWREN.ENABLE bit is cleared, the peripheral's registers are not
+ *  accessible for read/write operations.
  *
  * @param gpio        Pointer to the register overlay for the peripheral
  *
- * @return true if power is enabled
- * @return false if power is disabled
+ * @return true if peripheral register access is enabled
+ * @return false if peripheral register access is disabled
  */
 __STATIC_INLINE bool DL_GPIO_isPowerEnabled(GPIO_Regs* gpio)
 {
@@ -1924,10 +1951,10 @@ __STATIC_INLINE void DL_GPIO_initDigitalOutputFeatures(uint32_t pincmIndex,
 __STATIC_INLINE void DL_GPIO_setDigitalInternalResistor(
     uint32_t pincmIndex, DL_GPIO_RESISTOR internalResistor)
 {
-    /* GPIO functionality is always a pin function of 0x00000001 */
-    IOMUX->SECCFG.PINCM[pincmIndex] = IOMUX_PINCM_PC_CONNECTED |
-                                      ((uint32_t) 0x00000001) |
-                                      (uint32_t) internalResistor;
+    IOMUX->SECCFG.PINCM[pincmIndex] &=
+        ~(DL_GPIO_RESISTOR_PULL_UP | DL_GPIO_RESISTOR_PULL_DOWN);
+    IOMUX->SECCFG.PINCM[pincmIndex] |=
+        IOMUX_PINCM_PC_CONNECTED | (uint32_t) internalResistor;
 }
 
 // TODO: verify no need to add input/output variable for the Input/Output enebale functionality
@@ -1945,8 +1972,7 @@ __STATIC_INLINE void DL_GPIO_setAnalogInternalResistor(
     /* GPIO functionality is always a pin function of 0x00000001 */
     /* For analog use case, setting IOMUX input enable */
     IOMUX->SECCFG.PINCM[pincmIndex] =
-        IOMUX_PINCM_INENA_ENABLE | IOMUX_PINCM_PC_UNCONNECTED |
-        ((uint32_t) 0x00000001) | (uint32_t) internalResistor;
+        IOMUX_PINCM_PC_UNCONNECTED | (uint32_t) internalResistor;
 }
 
 /**
@@ -2111,7 +2137,7 @@ __STATIC_INLINE void DL_GPIO_initPeripheralAnalogFunction(uint32_t pincmIndex)
  */
 __STATIC_INLINE void DL_GPIO_enableWakeUp(uint32_t pincmIndex)
 {
-    IOMUX->SECCFG.PINCM[pincmIndex] |= (uint32_t) DL_GPIO_WAKEUP_ENABLE;
+    IOMUX->SECCFG.PINCM[pincmIndex] |= DL_GPIO_WAKEUP_ENABLE;
 }
 
 /**
@@ -2138,6 +2164,39 @@ __STATIC_INLINE bool DL_GPIO_isWakeUpEnabled(uint32_t pincmIndex)
 {
     return ((IOMUX->SECCFG.PINCM[pincmIndex] & IOMUX_PINCM_WUEN_MASK) ==
             IOMUX_PINCM_WUEN_ENABLE);
+}
+
+/**
+ *  @brief Set the compare value to use for wake for the specified pin
+ *
+ *  @param[in]  pincmIndex  The PINCM register index that maps to the target
+ *                          GPIO pin.
+ *  @param[in]  value       The wakeup compare value to set.
+ *                          One of @ref DL_GPIO_WAKEUP_COMPARE_VALUE
+ */
+__STATIC_INLINE void DL_GPIO_setWakeupCompareValue(
+    uint32_t pincmIndex, DL_GPIO_WAKEUP_COMPARE_VALUE value)
+{
+    DL_Common_updateReg(&IOMUX->SECCFG.PINCM[pincmIndex], (uint32_t) value,
+        IOMUX_PINCM_WCOMP_MASK);
+}
+
+/**
+ *  @brief Get the compare value to use for wake for the specified pin
+ *
+ *  @param[in]  pincmIndex  The PINCM register index that maps to the target
+ *                          GPIO pin.
+ *
+ *  @return     The wakeup compare value for the specified pin
+ *
+ *  @retval     One of @ref DL_GPIO_WAKEUP_COMPARE_VALUE
+ */
+__STATIC_INLINE DL_GPIO_WAKEUP_COMPARE_VALUE DL_GPIO_getWakeupCompareValue(
+    uint32_t pincmIndex)
+{
+    uint32_t value = IOMUX->SECCFG.PINCM[pincmIndex] & IOMUX_PINCM_WCOMP_MASK;
+
+    return (DL_GPIO_WAKEUP_COMPARE_VALUE)(value);
 }
 
 /**
@@ -2601,7 +2660,7 @@ __STATIC_INLINE uint32_t DL_GPIO_getRawInterruptStatus(
  */
 __STATIC_INLINE DL_GPIO_IIDX DL_GPIO_getPendingInterrupt(GPIO_Regs* gpio)
 {
-    return (DL_GPIO_IIDX) (gpio->CPU_INT.IIDX);
+    return (DL_GPIO_IIDX)(gpio->CPU_INT.IIDX);
 }
 
 /**
@@ -2727,7 +2786,7 @@ __STATIC_INLINE uint8_t DL_GPIO_getPublisherChanID(
 {
     volatile uint32_t* pReg = &gpio->FPUB_0;
 
-    return ((uint8_t) (*(pReg + (uint32_t) index) & GPIO_FPUB_0_CHANID_MASK));
+    return ((uint8_t)(*(pReg + (uint32_t) index) & GPIO_FPUB_0_CHANID_MASK));
 }
 
 /**
@@ -2763,7 +2822,7 @@ __STATIC_INLINE uint8_t DL_GPIO_getSubscriberChanID(
 {
     volatile uint32_t* pReg = &gpio->FSUB_0;
 
-    return ((uint8_t) (*(pReg + (uint32_t) index) & GPIO_FSUB_0_CHANID_MASK));
+    return ((uint8_t)(*(pReg + (uint32_t) index) & GPIO_FSUB_0_CHANID_MASK));
 }
 
 /**
@@ -2901,7 +2960,7 @@ __STATIC_INLINE void DL_GPIO_clearEventStatus(
 }
 #endif
 
-#endif /* __MSPM33_HAS_GPIO__ */
+#endif /* __MSP_HAS_GPIO__ */
 
 #endif /* ti_dl_dl_gpio__include */
 /** @}*/

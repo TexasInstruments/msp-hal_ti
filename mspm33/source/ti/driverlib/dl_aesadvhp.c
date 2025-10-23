@@ -40,17 +40,16 @@ static void DL_AESADVHP_readData( uint32_t *destPtr, volatile const uint32_t *sr
 
 static const uint32_t *DL_AESADVHP_checkAlignmentAndReturnConstPtr( const uint8_t *ptr );
 
-static uint32_t *DL_AESADVHP_checkAlignmentAndReturnPtr( uint8_t *ptr );
+static uint32_t *DL_AESADVHP_checkAlignmentAndReturnPtr( const uint8_t *ptr );
 
 DL_AESADVHP_STATUS DL_AESADVHP_setKey( AESADVHP_Regs *aesadv, const uint8_t *key, DL_AESADVHP_KEY_SIZE keySize )
 {
-    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_UNALIGNED_ACCESS;
+    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_SUCCESS;
     const uint32_t    *keyAligned;
 
     keyAligned = DL_AESADVHP_checkAlignmentAndReturnConstPtr( key );
     if ( keyAligned != NULL )
     {
-        status = DL_AESADVHP_STATUS_SUCCESS;
         DL_AESADVHP_setKeyAligned( aesadv, keyAligned, keySize );
     }
     else
@@ -81,17 +80,18 @@ void DL_AESADVHP_setKeyAligned( AESADVHP_Regs *aesadv, const uint32_t *keyAligne
     DL_Common_updateReg( &aesadv->CTRL, ( uint32_t ) keySize, AESADVHP_CTRL_KEYSIZE_MASK );
 
     DL_AESADVHP_loadData( &aesadv->KEY0, keyAligned, numWords );
+
+    return;
 }
 
 DL_AESADVHP_STATUS DL_AESADVHP_setGCMHashKey( AESADVHP_Regs *aesadv, const uint8_t *hashKey )
 {
-    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_UNALIGNED_ACCESS;
+    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_SUCCESS;
     const uint32_t    *hashKeyAligned;
 
     hashKeyAligned = DL_AESADVHP_checkAlignmentAndReturnConstPtr( hashKey );
     if ( hashKeyAligned != NULL )
     {
-        status = DL_AESADVHP_STATUS_SUCCESS;
         DL_AESADVHP_setGCMHashKeyAligned( aesadv, hashKeyAligned );
     }
     else
@@ -111,13 +111,12 @@ void DL_AESADVHP_setGCMHashKeyAligned( AESADVHP_Regs *aesadv, const uint32_t *ha
 
 DL_AESADVHP_STATUS DL_AESADVHP_setSecondKey( AESADVHP_Regs *aesadv, const uint8_t *secondKey )
 {
-    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_UNALIGNED_ACCESS;
+    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_SUCCESS;
     const uint32_t    *secondKeyAligned;
 
     secondKeyAligned = DL_AESADVHP_checkAlignmentAndReturnConstPtr( secondKey );
     if ( secondKeyAligned != NULL )
     {
-        status = DL_AESADVHP_STATUS_SUCCESS;
         DL_AESADVHP_setSecondKeyAligned( aesadv, secondKeyAligned );
     }
     else
@@ -136,13 +135,12 @@ void DL_AESADVHP_setSecondKeyAligned( AESADVHP_Regs *aesadv, const uint32_t *sec
 
 DL_AESADVHP_STATUS DL_AESADVHP_setThirdKey( AESADVHP_Regs *aesadv, const uint8_t *thirdKey )
 {
-    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_UNALIGNED_ACCESS;
+    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_SUCCESS;
     const uint32_t    *thirdKeyAligned;
 
     thirdKeyAligned = DL_AESADVHP_checkAlignmentAndReturnConstPtr( thirdKey );
     if ( thirdKeyAligned != NULL )
     {
-        status = DL_AESADVHP_STATUS_SUCCESS;
         DL_AESADVHP_setThirdKeyAligned( aesadv, thirdKeyAligned );
     }
     else
@@ -161,13 +159,12 @@ void DL_AESADVHP_setThirdKeyAligned( AESADVHP_Regs *aesadv, const uint32_t *thir
 
 DL_AESADVHP_STATUS DL_AESADVHP_loadIntermediateTAG( AESADVHP_Regs *aesadv, const uint8_t *tag )
 {
-    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_UNALIGNED_ACCESS;
+    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_SUCCESS;
     const uint32_t    *tagAligned;
 
     tagAligned = DL_AESADVHP_checkAlignmentAndReturnConstPtr( tag );
     if ( tagAligned != NULL )
     {
-        status = DL_AESADVHP_STATUS_SUCCESS;
         DL_AESADVHP_loadIntermediateTAGAligned( aesadv, tagAligned );
     }
     else
@@ -184,15 +181,14 @@ void DL_AESADVHP_loadIntermediateTAGAligned( AESADVHP_Regs *aesadv, const uint32
     DL_AESADVHP_loadData( &aesadv->GCMCCM_TAG0, tagAligned, numWords );
 }
 
-DL_AESADVHP_STATUS DL_AESADVHP_loadInitializationVector( AESADVHP_Regs *aesadv, uint8_t *iv )
+DL_AESADVHP_STATUS DL_AESADVHP_loadInitializationVector( AESADVHP_Regs *aesadv, const uint8_t *iv )
 {
-    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_UNALIGNED_ACCESS;
+    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_SUCCESS;
     uint32_t          *ivAligned;
 
     ivAligned = DL_AESADVHP_checkAlignmentAndReturnPtr( iv );
     if ( ivAligned != NULL )
     {
-        status = DL_AESADVHP_STATUS_SUCCESS;
         DL_AESADVHP_loadInitializationVectorAligned( aesadv, ivAligned );
     }
     else
@@ -202,22 +198,21 @@ DL_AESADVHP_STATUS DL_AESADVHP_loadInitializationVector( AESADVHP_Regs *aesadv, 
     return status;
 }
 
-void DL_AESADVHP_loadInitializationVectorAligned( AESADVHP_Regs *aesadv, uint32_t *ivAligned )
+void DL_AESADVHP_loadInitializationVectorAligned( AESADVHP_Regs *aesadv, const uint32_t *ivAligned )
 {
     uint8_t numWords = 4U;
 
     DL_AESADVHP_loadData( &aesadv->IV0, ivAligned, numWords );
 }
 
-DL_AESADVHP_STATUS DL_AESADVHP_readInitializationVector( AESADVHP_Regs *aesadv, uint8_t *iv )
+DL_AESADVHP_STATUS DL_AESADVHP_readInitializationVector( AESADVHP_Regs *aesadv, const uint8_t *iv )
 {
-    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_UNALIGNED_ACCESS;
+    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_SUCCESS;
     uint32_t          *ivAligned;
 
     ivAligned = DL_AESADVHP_checkAlignmentAndReturnPtr( iv );
     if ( ivAligned != NULL )
     {
-        status = DL_AESADVHP_STATUS_SUCCESS;
         DL_AESADVHP_readInitializationVectorAligned( aesadv, ivAligned );
     }
     else
@@ -250,38 +245,33 @@ void DL_AESADVHP_loadCCMNonceAndCounter( AESADVHP_Regs *aesadv, uint8_t *nonce, 
     uint8_t counterWidthInBytes = ( ccml + 1U );
 
     /* subtracting the counterWidth in bytes as well as the flag byte */
-    uint8_t nonceWidthInBytes = (uint8_t)(14U - ccml);
+    uint8_t nonceWidthInBytes = 14U - ccml;
 
-    *ivPtr = ccml;
-     ivPtr++ ;
+    *ivPtr++ = ccml;
 
     /* addition of the Nonce */
     for ( i = 0U; i < nonceWidthInBytes; i++ )
     {
-        *ivPtr = *noncePtr;
-        ivPtr++;
-        noncePtr++;
+        *ivPtr++ = *noncePtr++;
     }
 
     /* Counter is always initialized to zeros */
     for ( i =0U; i < counterWidthInBytes; i++ )
     {
-        *ivPtr = 0x00U;
-        ivPtr++;
+        *ivPtr++ = 0x00;
     }
 
     DL_AESADVHP_loadData( &aesadv->IV0, ivArray, numWords );
 }
 
-DL_AESADVHP_STATUS DL_AESADVHP_loadInputData( AESADVHP_Regs *aesadv, uint8_t *data )
+DL_AESADVHP_STATUS DL_AESADVHP_loadInputData( AESADVHP_Regs *aesadv, const uint8_t *data )
 {
-    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_UNALIGNED_ACCESS;
+    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_SUCCESS;
     uint32_t          *dataAligned;
 
     dataAligned = DL_AESADVHP_checkAlignmentAndReturnPtr( data );
     if ( dataAligned != NULL )
     {
-        status = DL_AESADVHP_STATUS_SUCCESS;
         DL_AESADVHP_loadInputDataAligned( aesadv, dataAligned );
     }
     else
@@ -291,22 +281,21 @@ DL_AESADVHP_STATUS DL_AESADVHP_loadInputData( AESADVHP_Regs *aesadv, uint8_t *da
     return status;
 }
 
-void DL_AESADVHP_loadInputDataAligned( AESADVHP_Regs *aesadv, uint32_t *dataAligned )
+void DL_AESADVHP_loadInputDataAligned( AESADVHP_Regs *aesadv, const uint32_t *dataAligned )
 {
     uint8_t numWords = 4U;
 
     DL_AESADVHP_loadData( &aesadv->DATA0, dataAligned, numWords );
 }
 
-DL_AESADVHP_STATUS DL_AESADVHP_readOutputData( AESADVHP_Regs *aesadv, uint8_t *data )
+DL_AESADVHP_STATUS DL_AESADVHP_readOutputData( const AESADVHP_Regs *aesadv, const uint8_t *data )
 {
-    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_UNALIGNED_ACCESS;
+    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_SUCCESS;
     uint32_t          *dataAligned;
 
     dataAligned = DL_AESADVHP_checkAlignmentAndReturnPtr( data );
     if ( dataAligned != NULL )
     {
-        status = DL_AESADVHP_STATUS_SUCCESS;
         DL_AESADVHP_readOutputDataAligned( aesadv, dataAligned );
     }
     else
@@ -316,22 +305,21 @@ DL_AESADVHP_STATUS DL_AESADVHP_readOutputData( AESADVHP_Regs *aesadv, uint8_t *d
     return status;
 }
 
-void DL_AESADVHP_readOutputDataAligned( AESADVHP_Regs *aesadv, uint32_t *dataAligned )
+void DL_AESADVHP_readOutputDataAligned( const AESADVHP_Regs *aesadv, uint32_t *dataAligned )
 {
     uint8_t numWords = 4U;
 
     DL_AESADVHP_readData( dataAligned, &aesadv->DATA0, numWords );
 }
 
-DL_AESADVHP_STATUS DL_AESADVHP_readTAG( AESADVHP_Regs *aesadv, uint8_t *tag )
+DL_AESADVHP_STATUS DL_AESADVHP_readTAG( const AESADVHP_Regs *aesadv, const uint8_t *tag )
 {
-    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_UNALIGNED_ACCESS;
+    DL_AESADVHP_STATUS status = DL_AESADVHP_STATUS_SUCCESS;
     uint32_t          *tagAligned;
 
     tagAligned = DL_AESADVHP_checkAlignmentAndReturnPtr( tag );
     if ( tagAligned != NULL )
     {
-        status = DL_AESADVHP_STATUS_SUCCESS;
         DL_AESADVHP_readTAGAligned( aesadv, tagAligned );
     }
     else
@@ -341,14 +329,14 @@ DL_AESADVHP_STATUS DL_AESADVHP_readTAG( AESADVHP_Regs *aesadv, uint8_t *tag )
     return status;
 }
 
-void DL_AESADVHP_readTAGAligned( AESADVHP_Regs *aesadv, uint32_t *tagAligned )
+void DL_AESADVHP_readTAGAligned( const AESADVHP_Regs *aesadv, uint32_t *tagAligned )
 {
     uint8_t numWords = 4U;
 
     DL_AESADVHP_readData( tagAligned, &aesadv->TAG0, numWords );
 }
 
-void DL_AESADVHP_initECB( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
+void DL_AESADVHP_initECB( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config )
 {
     DL_Common_updateReg(
         &aesadv->CTRL, ( (( uint32_t ) DL_AESADVHP_MODE_ECB) |(uint32_t)(config->direction )),
@@ -358,7 +346,7 @@ void DL_AESADVHP_initECB( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
     DL_AESADVHP_setLowerCryptoLength( aesadv, config->lowerCryptoLength );
 }
 
-void DL_AESADVHP_initCBC( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
+void DL_AESADVHP_initCBC( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config )
 {
     DL_Common_updateReg(
         &aesadv->CTRL, ( ( uint32_t ) DL_AESADVHP_MODE_CBC |(uint32_t) (config->direction )),
@@ -370,7 +358,7 @@ void DL_AESADVHP_initCBC( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
     DL_AESADVHP_setLowerCryptoLength( aesadv, config->lowerCryptoLength );
 }
 
-void DL_AESADVHP_initCFB( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
+void DL_AESADVHP_initCFB( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config )
 {
     DL_Common_updateReg( &aesadv->CTRL,
                          ( ( ( uint32_t ) DL_AESADVHP_MODE_CFB ) | ( ( uint32_t ) config->direction ) |
@@ -384,7 +372,7 @@ void DL_AESADVHP_initCFB( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
     DL_AESADVHP_setLowerCryptoLength( aesadv, config->lowerCryptoLength );
 }
 
-void DL_AESADVHP_initOFB( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
+void DL_AESADVHP_initOFB( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config )
 {
     DL_Common_updateReg( &aesadv->CTRL,
                          ( ( ( uint32_t ) DL_AESADVHP_MODE_OFB ) | ( ( uint32_t ) config->direction ) |
@@ -398,7 +386,7 @@ void DL_AESADVHP_initOFB( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
     DL_AESADVHP_setLowerCryptoLength( aesadv, config->lowerCryptoLength );
 }
 
-void DL_AESADVHP_initCTR( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
+void DL_AESADVHP_initCTR( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config )
 {
     DL_Common_updateReg( &aesadv->CTRL,
                          ( ( ( uint32_t ) DL_AESADVHP_MODE_CTR ) | ( ( uint32_t ) config->direction ) |
@@ -412,7 +400,7 @@ void DL_AESADVHP_initCTR( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
     DL_AESADVHP_setLowerCryptoLength( aesadv, config->lowerCryptoLength );
 }
 
-void DL_AESADVHP_initICM( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
+void DL_AESADVHP_initICM( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config )
 {
     DL_Common_updateReg( &aesadv->CTRL, ( ( uint32_t ) DL_AESADVHP_MODE_ICM | ( ( uint32_t ) config->direction ) ),
                          ( DL_AESADVHP_MODE_MASK | AESADVHP_CTRL_DIR_MASK | AESADVHP_CTRL_SAVE_CNTXT_MASK ) );
@@ -423,7 +411,7 @@ void DL_AESADVHP_initICM( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
     DL_AESADVHP_setLowerCryptoLength( aesadv, config->lowerCryptoLength );
 }
 
-void DL_AESADVHP_initCMAC( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
+void DL_AESADVHP_initCMAC( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config )
 {
     uint32_t zeroArray[4] = { 0x00000000, 0x00000000, 0x00000000, 0x00000000 };
 
@@ -441,7 +429,7 @@ void DL_AESADVHP_initCMAC( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
     DL_AESADVHP_setLowerCryptoLength( aesadv, config->lowerCryptoLength );
 }
 
-void DL_AESADVHP_initCBCMAC( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
+void DL_AESADVHP_initCBCMAC( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config )
 {
     uint32_t zeroArray[4] = { 0x00000000, 0x00000000, 0x00000000, 0x00000000 };
 
@@ -459,7 +447,7 @@ void DL_AESADVHP_initCBCMAC( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
     DL_AESADVHP_setLowerCryptoLength( aesadv, config->lowerCryptoLength );
 }
 
-void DL_AESADVHP_initGCM( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
+void DL_AESADVHP_initGCM( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config )
 {
     uint32_t zeroArray[4] = { 0x00000000, 0x00000000, 0x00000000, 0x00000000 };
 
@@ -481,7 +469,7 @@ void DL_AESADVHP_initGCM( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
     DL_AESADVHP_setAADLength( aesadv, config->aadLength );
 }
 
-void DL_AESADVHP_initCCM( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
+void DL_AESADVHP_initCCM( AESADVHP_Regs *aesadv, const DL_AESADVHP_Config *config )
 {
     DL_AESADVHP_loadCCMNonceAndCounter( aesadv, config->nonce, config->ccm_ctrWidth );
 
@@ -502,27 +490,19 @@ void DL_AESADVHP_initCCM( AESADVHP_Regs *aesadv, DL_AESADVHP_Config *config )
 static void DL_AESADVHP_loadData( volatile uint32_t *destPtr, const uint32_t *srcPtr, uint8_t numWords )
 {
     uint8_t i;
-    volatile uint32_t *localdest=destPtr;
-    volatile const uint32_t *localsrc=srcPtr; 
-    for ( i =0U; i < numWords; i++ )
-    {
-       *localdest = *localsrc;
-        localdest++;
-        localsrc++;
+    for (i = 0; i < numWords; i++) {
+        *destPtr++ = *srcPtr++;
     }
+    return;
 }
 
 static void DL_AESADVHP_readData( uint32_t *destPtr, volatile const uint32_t *srcPtr, uint8_t numWords )
 {
     uint8_t i;
-    uint32_t *localdest=destPtr;
-    volatile const uint32_t *localsrc=srcPtr; 
-    for ( i = (uint8_t)0; i < numWords; i++ )
-    {
-        *localdest = *localsrc;
-        localdest++;
-        localsrc++;
+    for (i = 0; i < numWords; i++) {
+        *destPtr++ = *srcPtr++;
     }
+    return;
 }
 
 static const uint32_t *DL_AESADVHP_checkAlignmentAndReturnConstPtr( const uint8_t *ptr )
@@ -542,7 +522,7 @@ static const uint32_t *DL_AESADVHP_checkAlignmentAndReturnConstPtr( const uint8_
     return alignedPtr;
 }
 
-static uint32_t *DL_AESADVHP_checkAlignmentAndReturnPtr( uint8_t *ptr )
+static uint32_t *DL_AESADVHP_checkAlignmentAndReturnPtr( const uint8_t *ptr )
 {
     uint32_t  address = ( uint32_t ) ptr;
     uint32_t *alignedPtr;

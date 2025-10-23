@@ -36,8 +36,8 @@
 #define ti_devices_msp_peripherals_hw_i2s__include
 
 /* Filename: hw_i2s.h */
-/* Revised: 2025-02-04 08:28:56 */
-/* Revision: 588e14da32594956b4c094d1e1b2363f4417cf00 */
+/* Revised: 2025-09-11 15:56:01 */
+/* Revision: 2b5f545717ba26bba18de7a2db1005762df3b518 */
 
 #ifndef __CORTEX_M
   #ifdef __cplusplus
@@ -166,24 +166,24 @@ typedef struct {
   __IO uint32_t FMTCFG;                            /* !< (@ 0x00001100) This register configures the serial interface
                                                       format */
   __IO uint32_t CLKCTL;                            /* !< (@ 0x00001104) This register controls internal audio clock */
-  __I  uint32_t STAT;                              /* !< (@ 0x00001108) UART Status Register */
-  __IO uint32_t IFLS;                              /* !< (@ 0x0000110C) UART Interrupt FIFO Level Select Register */
-  __IO uint32_t WCLKSRC;                           /* !< (@ 0x00001110) This register configures the **WCLK** Source */
+  __I  uint32_t STAT;                              /* !< (@ 0x00001108) Status Register */
+  __IO uint32_t IFLS;                              /* !< (@ 0x0000110C) Interrupt FIFO Level Select Register */
+  __IO uint32_t WCLKSRC;                           /* !< (@ 0x00001110) This register configures the WCLK Source */
        uint32_t RESERVED7;
   __IO uint32_t DIRCFG;                            /* !< (@ 0x00001118) This register configures the direction of data
                                                       pins(AD0/AD1) */
        uint32_t RESERVED8;
-  __O  uint32_t TXDATA;                            /* !< (@ 0x00001120) UART Transmit Data Register */
-  __I  uint32_t RXDATA;                            /* !< (@ 0x00001124) UART Receive Data Register */
+  __O  uint32_t TXDATA;                            /* !< (@ 0x00001120) Transmit Data Register */
+  __I  uint32_t RXDATA;                            /* !< (@ 0x00001124) Receive Data Register */
        uint32_t RESERVED9[8];
   __IO uint32_t WMASK0;                            /* !< (@ 0x00001148) This register configures the word selection dit
-                                                      mask for data pin 0(**AD0**) */
+                                                      mask for data pin 0(AD0) */
   __IO uint32_t WMASK1;                            /* !< (@ 0x0000114C) This register configures the word selection dit
-                                                      mask for data pin 1(**AD1**) */
+                                                      mask for data pin 1(AD1) */
        uint32_t RESERVED10[4];
-  __IO uint32_t MCLKDIV;                           /* !< (@ 0x00001160) This field configures **MCLK** division ratio */
+  __IO uint32_t MCLKDIV;                           /* !< (@ 0x00001160) This field configures MCLK division ratio */
   __IO uint32_t WCLKDIV;                           /* !< (@ 0x00001164) Configures WCLK division ratio */
-  __IO uint32_t BCLKDIV;                           /* !< (@ 0x00001168) This field configures **BCLK** division ratio */
+  __IO uint32_t BCLKDIV;                           /* !< (@ 0x00001168) This field configures BCLK division ratio */
 } I2S_Regs;
 
 /*@}*/ /* end of group I2S */
@@ -201,28 +201,28 @@ typedef struct {
 /* I2S_DMA_TRIG_TX_IMASK Bits */
 /* I2S_DMA_TRIG_TX_IMASK[TXINT] Bits */
 #define I2S_DMA_TRIG_TX_IMASK_TXINT_OFS          (2)                             /* !< TXINT Offset */
-#define I2S_DMA_TRIG_TX_IMASK_TXINT_MASK         ((uint32_t)0x00000004U)         /* !< Enable UART Transmit Interrupt. */
+#define I2S_DMA_TRIG_TX_IMASK_TXINT_MASK         ((uint32_t)0x00000004U)         /* !< Enable  Transmit Interrupt. */
 #define I2S_DMA_TRIG_TX_IMASK_TXINT_CLR          ((uint32_t)0x00000000U)         /* !< Clear Interrupt Mask */
 #define I2S_DMA_TRIG_TX_IMASK_TXINT_SET          ((uint32_t)0x00000004U)         /* !< Set Interrupt Mask */
 
 /* I2S_DMA_TRIG_TX_RIS Bits */
 /* I2S_DMA_TRIG_TX_RIS[TXINT] Bits */
 #define I2S_DMA_TRIG_TX_RIS_TXINT_OFS            (2)                             /* !< TXINT Offset */
-#define I2S_DMA_TRIG_TX_RIS_TXINT_MASK           ((uint32_t)0x00000004U)         /* !< UART Transmit Interrupt. */
+#define I2S_DMA_TRIG_TX_RIS_TXINT_MASK           ((uint32_t)0x00000004U)         /* !< Transmit Interrupt. */
 #define I2S_DMA_TRIG_TX_RIS_TXINT_CLR            ((uint32_t)0x00000000U)         /* !< Interrupt did not occur */
 #define I2S_DMA_TRIG_TX_RIS_TXINT_SET            ((uint32_t)0x00000004U)         /* !< Interrupt occured */
 
 /* I2S_DMA_TRIG_TX_MIS Bits */
 /* I2S_DMA_TRIG_TX_MIS[TXINT] Bits */
 #define I2S_DMA_TRIG_TX_MIS_TXINT_OFS            (2)                             /* !< TXINT Offset */
-#define I2S_DMA_TRIG_TX_MIS_TXINT_MASK           ((uint32_t)0x00000004U)         /* !< Masked UART Transmit Interrupt. */
+#define I2S_DMA_TRIG_TX_MIS_TXINT_MASK           ((uint32_t)0x00000004U)         /* !< Masked  Transmit Interrupt. */
 #define I2S_DMA_TRIG_TX_MIS_TXINT_CLR            ((uint32_t)0x00000000U)         /* !< Interrupt did not occur */
 #define I2S_DMA_TRIG_TX_MIS_TXINT_SET            ((uint32_t)0x00000004U)         /* !< Interrupt occured */
 
 /* I2S_DMA_TRIG_TX_ISET Bits */
 /* I2S_DMA_TRIG_TX_ISET[TXINT] Bits */
 #define I2S_DMA_TRIG_TX_ISET_TXINT_OFS           (2)                             /* !< TXINT Offset */
-#define I2S_DMA_TRIG_TX_ISET_TXINT_MASK          ((uint32_t)0x00000004U)         /* !< Set UART Transmit Interrupt. */
+#define I2S_DMA_TRIG_TX_ISET_TXINT_MASK          ((uint32_t)0x00000004U)         /* !< Set  Transmit Interrupt. */
 #define I2S_DMA_TRIG_TX_ISET_TXINT_NO_EFFECT     ((uint32_t)0x00000000U)         /* !< Writing 0 has no effect */
 #define I2S_DMA_TRIG_TX_ISET_TXINT_SET           ((uint32_t)0x00000004U)         /* !< Set Interrupt */
 
@@ -269,7 +269,7 @@ typedef struct {
                                                                                     RX */
 #define I2S_IIDX_STAT_TXIFG                      ((uint32_t)0x00000003U)         /* !< Transmit interrupt; Interrupt Flag:
                                                                                     TX */
-#define I2S_IIDX_STAT_RXFIFO_OFV_EVT             ((uint32_t)0x00000004U)         /* !< RX FIFO Overflow Event/interrupt
+#define I2S_IIDX_STAT_RXFIFO_OVF_EVT             ((uint32_t)0x00000004U)         /* !< RX FIFO Overflow Event/interrupt
                                                                                     pending */
 #define I2S_IIDX_STAT_TXFIFO_UNF_EVT             ((uint32_t)0x00000005U)         /* !< TX FIFO underflow interrupt */
 #define I2S_IIDX_STAT_DMA_DONE_RX                ((uint32_t)0x00000010U)         /* !< DMA DONE on RX */
@@ -305,16 +305,6 @@ typedef struct {
                                                                                     Interrupt */
 #define I2S_CPU_INT_IMASK_DMA_DONE_TX_CLR        ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
 #define I2S_CPU_INT_IMASK_DMA_DONE_TX_SET        ((uint32_t)0x00010000U)         /* !< Set Interrupt Mask */
-/* I2S_CPU_INT_IMASK[DMA_PREIRQ_RX] Bits */
-#define I2S_CPU_INT_IMASK_DMA_PREIRQ_RX_OFS      (18)                            /* !< DMA_PREIRQ_RX Offset */
-#define I2S_CPU_INT_IMASK_DMA_PREIRQ_RX_MASK     ((uint32_t)0x00040000U)         /* !< Enable DMA Done PREIRQ RX interrupt */
-#define I2S_CPU_INT_IMASK_DMA_PREIRQ_RX_CLR      ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
-#define I2S_CPU_INT_IMASK_DMA_PREIRQ_RX_SET      ((uint32_t)0x00040000U)         /* !< Set Interrupt Mask */
-/* I2S_CPU_INT_IMASK[DMA_PREIRQ_TX] Bits */
-#define I2S_CPU_INT_IMASK_DMA_PREIRQ_TX_OFS      (19)                            /* !< DMA_PREIRQ_TX Offset */
-#define I2S_CPU_INT_IMASK_DMA_PREIRQ_TX_MASK     ((uint32_t)0x00080000U)         /* !< Enable DMA Done PREIRQ TX interrupt */
-#define I2S_CPU_INT_IMASK_DMA_PREIRQ_TX_CLR      ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
-#define I2S_CPU_INT_IMASK_DMA_PREIRQ_TX_SET      ((uint32_t)0x00080000U)         /* !< Set Interrupt Mask */
 /* I2S_CPU_INT_IMASK[RXFIFO_OVF] Bits */
 #define I2S_CPU_INT_IMASK_RXFIFO_OVF_OFS         (3)                             /* !< RXFIFO_OVF Offset */
 #define I2S_CPU_INT_IMASK_RXFIFO_OVF_MASK        ((uint32_t)0x00000008U)         /* !< RXFIFO overflow event mask. */
@@ -330,19 +320,18 @@ typedef struct {
 /* I2S_CPU_INT_RIS[WCLKERR] Bits */
 #define I2S_CPU_INT_RIS_WCLKERR_OFS              (0)                             /* !< WCLKERR Offset */
 #define I2S_CPU_INT_RIS_WCLKERR_MASK             ((uint32_t)0x00000001U)         /* !< This interrupt is set when:  - An
-                                                                                    unexpected **WCLK** edge occurs
-                                                                                    during the data delay period of a
-                                                                                    phase.  Note unexpected **WCLK**
-                                                                                    edges during the word and idle
-                                                                                    periods of the phase are not
-                                                                                    detected. -  In dual-phase mode, when
-                                                                                    two **WCLK** edges are less than 4
-                                                                                    **BCLK** cycles apart. -  In
-                                                                                    single-phase mode, when a **WCLK**
-                                                                                    pulse occurs before the last channel.
-                                                                                    This error requires a complete
-                                                                                    restart since word synchronization
-                                                                                    has been lost. */
+                                                                                    unexpected WCLK edge occurs during
+                                                                                    the data delay period of a phase.
+                                                                                    Note unexpected WCLK edges during the
+                                                                                    word and idle periods of the phase
+                                                                                    are not detected. -  In dual-phase
+                                                                                    mode, when two WCLK edges are less
+                                                                                    than 4 BCLK cycles apart. -  In
+                                                                                    single-phase mode, when a WCLK pulse
+                                                                                    occurs before the last channel. This
+                                                                                    error requires a complete restart
+                                                                                    since word synchronization has been
+                                                                                    lost. */
 #define I2S_CPU_INT_RIS_WCLKERR_CLR              ((uint32_t)0x00000000U)         /* !< Interrupt did not occur */
 #define I2S_CPU_INT_RIS_WCLKERR_SET              ((uint32_t)0x00000001U)         /* !< Interrupt occured */
 /* I2S_CPU_INT_RIS[RXINT] Bits */
@@ -367,18 +356,6 @@ typedef struct {
                                                                                     Interrupt */
 #define I2S_CPU_INT_RIS_DMA_DONE_TX_CLR          ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
 #define I2S_CPU_INT_RIS_DMA_DONE_TX_SET          ((uint32_t)0x00010000U)         /* !< Interrupt occured */
-/* I2S_CPU_INT_RIS[DMA_PREIRQ_RX] Bits */
-#define I2S_CPU_INT_RIS_DMA_PREIRQ_RX_OFS        (18)                            /* !< DMA_PREIRQ_RX Offset */
-#define I2S_CPU_INT_RIS_DMA_PREIRQ_RX_MASK       ((uint32_t)0x00040000U)         /* !< DMA Done on RX Event Channel
-                                                                                    Interrupt */
-#define I2S_CPU_INT_RIS_DMA_PREIRQ_RX_CLR        ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
-#define I2S_CPU_INT_RIS_DMA_PREIRQ_RX_SET        ((uint32_t)0x00040000U)         /* !< Interrupt occured */
-/* I2S_CPU_INT_RIS[DMA_PREIRQ_TX] Bits */
-#define I2S_CPU_INT_RIS_DMA_PREIRQ_TX_OFS        (19)                            /* !< DMA_PREIRQ_TX Offset */
-#define I2S_CPU_INT_RIS_DMA_PREIRQ_TX_MASK       ((uint32_t)0x00080000U)         /* !< DMA Done on RX Event Channel
-                                                                                    Interrupt */
-#define I2S_CPU_INT_RIS_DMA_PREIRQ_TX_CLR        ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
-#define I2S_CPU_INT_RIS_DMA_PREIRQ_TX_SET        ((uint32_t)0x00080000U)         /* !< Interrupt occured */
 /* I2S_CPU_INT_RIS[RXFIFO_OVF] Bits */
 #define I2S_CPU_INT_RIS_RXFIFO_OVF_OFS           (3)                             /* !< RXFIFO_OVF Offset */
 #define I2S_CPU_INT_RIS_RXFIFO_OVF_MASK          ((uint32_t)0x00000008U)         /* !< RXFIFO overflow event. This
@@ -396,19 +373,18 @@ typedef struct {
 /* I2S_CPU_INT_MIS[WCLKERR] Bits */
 #define I2S_CPU_INT_MIS_WCLKERR_OFS              (0)                             /* !< WCLKERR Offset */
 #define I2S_CPU_INT_MIS_WCLKERR_MASK             ((uint32_t)0x00000001U)         /* !< This interrupt is set when:  - An
-                                                                                    unexpected **WCLK** edge occurs
-                                                                                    during the data delay period of a
-                                                                                    phase.  Note unexpected **WCLK**
-                                                                                    edges during the word and idle
-                                                                                    periods of the phase are not
-                                                                                    detected. -  In dual-phase mode, when
-                                                                                    two **WCLK** edges are less than 4
-                                                                                    **BCLK** cycles apart. -  In
-                                                                                    single-phase mode, when a **WCLK**
-                                                                                    pulse occurs before the last channel.
-                                                                                    This error requires a complete
-                                                                                    restart since word synchronization
-                                                                                    has been lost. */
+                                                                                    unexpected WCLK edge occurs during
+                                                                                    the data delay period of a phase.
+                                                                                    Note unexpected WCLK edges during the
+                                                                                    word and idle periods of the phase
+                                                                                    are not detected. -  In dual-phase
+                                                                                    mode, when two WCLK edges are less
+                                                                                    than 4 BCLK cycles apart. -  In
+                                                                                    single-phase mode, when a WCLK pulse
+                                                                                    occurs before the last channel. This
+                                                                                    error requires a complete restart
+                                                                                    since word synchronization has been
+                                                                                    lost. */
 #define I2S_CPU_INT_MIS_WCLKERR_CLR              ((uint32_t)0x00000000U)         /* !< Interrupt did not occur */
 #define I2S_CPU_INT_MIS_WCLKERR_SET              ((uint32_t)0x00000001U)         /* !< Interrupt occured */
 /* I2S_CPU_INT_MIS[RXINT] Bits */
@@ -433,18 +409,6 @@ typedef struct {
                                                                                     Interrupt */
 #define I2S_CPU_INT_MIS_DMA_DONE_TX_CLR          ((uint32_t)0x00000000U)         /* !< Interrupt did not occur */
 #define I2S_CPU_INT_MIS_DMA_DONE_TX_SET          ((uint32_t)0x00010000U)         /* !< Interrupt occured */
-/* I2S_CPU_INT_MIS[DMA_PREIRQ_RX] Bits */
-#define I2S_CPU_INT_MIS_DMA_PREIRQ_RX_OFS        (18)                            /* !< DMA_PREIRQ_RX Offset */
-#define I2S_CPU_INT_MIS_DMA_PREIRQ_RX_MASK       ((uint32_t)0x00040000U)         /* !< Masked DMA PREIRQ Done on RX Event
-                                                                                    Channel Interrupt */
-#define I2S_CPU_INT_MIS_DMA_PREIRQ_RX_CLR        ((uint32_t)0x00000000U)         /* !< Interrupt did not occur */
-#define I2S_CPU_INT_MIS_DMA_PREIRQ_RX_SET        ((uint32_t)0x00040000U)         /* !< Interrupt occured */
-/* I2S_CPU_INT_MIS[DMA_PREIRQ_TX] Bits */
-#define I2S_CPU_INT_MIS_DMA_PREIRQ_TX_OFS        (19)                            /* !< DMA_PREIRQ_TX Offset */
-#define I2S_CPU_INT_MIS_DMA_PREIRQ_TX_MASK       ((uint32_t)0x00080000U)         /* !< Masked DMA Done PREIRQ on TX Event
-                                                                                    Channel Interrupt */
-#define I2S_CPU_INT_MIS_DMA_PREIRQ_TX_CLR        ((uint32_t)0x00000000U)         /* !< Interrupt did not occur */
-#define I2S_CPU_INT_MIS_DMA_PREIRQ_TX_SET        ((uint32_t)0x00080000U)         /* !< Interrupt occured */
 /* I2S_CPU_INT_MIS[RXFIFO_OVF] Bits */
 #define I2S_CPU_INT_MIS_RXFIFO_OVF_OFS           (3)                             /* !< RXFIFO_OVF Offset */
 #define I2S_CPU_INT_MIS_RXFIFO_OVF_MASK          ((uint32_t)0x00000008U)         /* !< Masked RXFIFO overflow event. This
@@ -487,18 +451,6 @@ typedef struct {
                                                                                     Interrupt */
 #define I2S_CPU_INT_ISET_DMA_DONE_TX_NO_EFFECT   ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
 #define I2S_CPU_INT_ISET_DMA_DONE_TX_SET         ((uint32_t)0x00010000U)         /* !< Set Interrupt */
-/* I2S_CPU_INT_ISET[DMA_PREIRQ_RX] Bits */
-#define I2S_CPU_INT_ISET_DMA_PREIRQ_RX_OFS       (18)                            /* !< DMA_PREIRQ_RX Offset */
-#define I2S_CPU_INT_ISET_DMA_PREIRQ_RX_MASK      ((uint32_t)0x00040000U)         /* !< Set DMA PREIRQ Done on RX Event
-                                                                                    Channel Interrupt */
-#define I2S_CPU_INT_ISET_DMA_PREIRQ_RX_NO_EFFECT ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
-#define I2S_CPU_INT_ISET_DMA_PREIRQ_RX_SET       ((uint32_t)0x00040000U)         /* !< Set Interrupt */
-/* I2S_CPU_INT_ISET[DMA_PREIRQ_TX] Bits */
-#define I2S_CPU_INT_ISET_DMA_PREIRQ_TX_OFS       (19)                            /* !< DMA_PREIRQ_TX Offset */
-#define I2S_CPU_INT_ISET_DMA_PREIRQ_TX_MASK      ((uint32_t)0x00080000U)         /* !< Set DMA PREIRQ Done on TX Event
-                                                                                    Channel Interrupt */
-#define I2S_CPU_INT_ISET_DMA_PREIRQ_TX_NO_EFFECT ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
-#define I2S_CPU_INT_ISET_DMA_PREIRQ_TX_SET       ((uint32_t)0x00080000U)         /* !< Set Interrupt */
 /* I2S_CPU_INT_ISET[RXFIFO_OVF] Bits */
 #define I2S_CPU_INT_ISET_RXFIFO_OVF_OFS          (3)                             /* !< RXFIFO_OVF Offset */
 #define I2S_CPU_INT_ISET_RXFIFO_OVF_MASK         ((uint32_t)0x00000008U)         /* !< Set RXFIFO overflow event. */
@@ -539,18 +491,6 @@ typedef struct {
                                                                                     Interrupt */
 #define I2S_ICLR_DMA_DONE_TX_NO_EFFECT           ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
 #define I2S_ICLR_DMA_DONE_TX_CLR                 ((uint32_t)0x00010000U)         /* !< Clear Interrupt */
-/* I2S_ICLR[DMA_PREIRQ_RX] Bits */
-#define I2S_ICLR_DMA_PREIRQ_RX_OFS               (18)                            /* !< DMA_PREIRQ_RX Offset */
-#define I2S_ICLR_DMA_PREIRQ_RX_MASK              ((uint32_t)0x00040000U)         /* !< Clear DMA PREIRQ Done on RX Event
-                                                                                    Channel Interrupt */
-#define I2S_ICLR_DMA_PREIRQ_RX_NO_EFFECT         ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
-#define I2S_ICLR_DMA_PREIRQ_RX_CLR               ((uint32_t)0x00040000U)         /* !< Clear Interrupt */
-/* I2S_ICLR[DMA_PREIRQ_TX] Bits */
-#define I2S_ICLR_DMA_PREIRQ_TX_OFS               (19)                            /* !< DMA_PREIRQ_TX Offset */
-#define I2S_ICLR_DMA_PREIRQ_TX_MASK              ((uint32_t)0x00080000U)         /* !< Clear DMA PREIRQ Done on TX Event
-                                                                                    Channel Interrupt */
-#define I2S_ICLR_DMA_PREIRQ_TX_NO_EFFECT         ((uint32_t)0x00000000U)         /* !< Interrupt disabled */
-#define I2S_ICLR_DMA_PREIRQ_TX_CLR               ((uint32_t)0x00080000U)         /* !< Clear Interrupt */
 /* I2S_ICLR[RXFIFO_OVF] Bits */
 #define I2S_ICLR_RXFIFO_OVF_OFS                  (3)                             /* !< RXFIFO_OVF Offset */
 #define I2S_ICLR_RXFIFO_OVF_MASK                 ((uint32_t)0x00000008U)         /* !< Clear RXFIFO overflow event. */
@@ -598,13 +538,12 @@ typedef struct {
 #define I2S_CLKCFG_KEY_MASK                      ((uint32_t)0xFF000000U)         /* !< KEY to Allow State Change -- 0xA9 */
 #define I2S_CLKCFG_KEY_UNLOCK                    ((uint32_t)0xA9000000U)         /* !< key value to allow change field of
                                                                                     GPRCM */
-/* I2S_CLKCFG[BLOCKASYNC] Bits */
-#define I2S_CLKCFG_BLOCKASYNC_OFS                (8)                             /* !< BLOCKASYNC Offset */
-#define I2S_CLKCFG_BLOCKASYNC_MASK               ((uint32_t)0x00000100U)         /* !< Async Clock Request is blocked from
-                                                                                    starting SYSOSC or forcing bus clock
-                                                                                    to 32MHz */
-#define I2S_CLKCFG_BLOCKASYNC_DISABLE            ((uint32_t)0x00000000U)         /* !< Not block async clock request */
-#define I2S_CLKCFG_BLOCKASYNC_ENABLE             ((uint32_t)0x00000100U)         /* !< Block async clock request */
+/* I2S_CLKCFG[DAICLK] Bits */
+#define I2S_CLKCFG_DAICLK_OFS                    (0)                             /* !< DAICLK Offset */
+#define I2S_CLKCFG_DAICLK_MASK                   ((uint32_t)0x00000003U)         /* !< Audio Clock */
+#define I2S_CLKCFG_DAICLK_SYSOSC                 ((uint32_t)0x00000000U)         /* !< SYSOSC */
+#define I2S_CLKCFG_DAICLK_HFXT                   ((uint32_t)0x00000001U)         /* !< HF crystal */
+#define I2S_CLKCFG_DAICLK_PLL                    ((uint32_t)0x00000002U)         /* !< PLL */
 
 /* I2S_GPRCM_STAT Bits */
 /* I2S_GPRCM_STAT[RESETSTKY] Bits */
@@ -673,14 +612,14 @@ typedef struct {
 #define I2S_FMTCFG_DUALPHASE_OFS                 (5)                             /* !< DUALPHASE Offset */
 #define I2S_FMTCFG_DUALPHASE_MASK                ((uint32_t)0x00000020U)         /* !< This field selects between
                                                                                     dual-phase or single-phase format */
-#define I2S_FMTCFG_DUALPHASE_SINGLEPHASE         ((uint32_t)0x00000000U)         /* !< Single-phase: **DSP** format */
-#define I2S_FMTCFG_DUALPHASE_DUALPHASE           ((uint32_t)0x00000020U)         /* !< Dual-phase: **I2S**, **LJF** and
-                                                                                    **RJF** formats */
+#define I2S_FMTCFG_DUALPHASE_SINGLEPHASE         ((uint32_t)0x00000000U)         /* !< Single-phase: DSP format */
+#define I2S_FMTCFG_DUALPHASE_DUALPHASE           ((uint32_t)0x00000020U)         /* !< Dual-phase: I2S, LJF and RJF
+                                                                                    formats */
 /* I2S_FMTCFG[SMPLEDGE] Bits */
 #define I2S_FMTCFG_SMPLEDGE_OFS                  (6)                             /* !< SMPLEDGE Offset */
 #define I2S_FMTCFG_SMPLEDGE_MASK                 ((uint32_t)0x00000040U)         /* !< This field configures the sample
                                                                                     edge/ transfer edge of data (and
-                                                                                    **WCLK**) on **BCLK** */
+                                                                                    WCLK) on BCLK */
 #define I2S_FMTCFG_SMPLEDGE_NEGEDGE              ((uint32_t)0x00000000U)         /* !< Data is sampled on the negative
                                                                                     edge and clocked out on the positive
                                                                                     edge. */
@@ -699,23 +638,20 @@ typedef struct {
 /* I2S_FMTCFG[DATADLY] Bits */
 #define I2S_FMTCFG_DATADLY_OFS                   (8)                             /* !< DATADLY Offset */
 #define I2S_FMTCFG_DATADLY_MASK                  ((uint32_t)0x0000FF00U)         /* !< This field configures the number of
-                                                                                    **BCLK** periods between a **WCLK**
-                                                                                    edge and **MSB** of the first word in
-                                                                                    a phase  Note: When 0, **MSB** of the
-                                                                                    next word will be output in the idle
-                                                                                    period between **LSB** of the
-                                                                                    previous word and the start of the
-                                                                                    next word. Otherwise logical 0 will
-                                                                                    be output until the data delay has
-                                                                                    expired. */
-#define I2S_FMTCFG_DATADLY_ZERO                  ((uint32_t)0x00000000U)         /* !< Zero **BCLK** periods - **LJF** and
-                                                                                    **DSP** formats */
-#define I2S_FMTCFG_DATADLY_ONE                   ((uint32_t)0x00000100U)         /* !< One **BCLK** periods - **I2S** and
-                                                                                    **DSP** formats */
-#define I2S_FMTCFG_DATADLY_TWO                   ((uint32_t)0x00000200U)         /* !< Two(Min) **BCLK** periods - **RJF**
-                                                                                    format */
-#define I2S_FMTCFG_DATADLY_MAX                   ((uint32_t)0x0000FF00U)         /* !< Max(255) **BCLK** periods - **RJF**
-                                                                                    format */
+                                                                                    BCLK periods between a WCLK edge and
+                                                                                    MSB of the first word in a phase
+                                                                                    Note: When 0, MSB of the next word
+                                                                                    will be output in the idle period
+                                                                                    between LSB of the previous word and
+                                                                                    the start of the next word. Otherwise
+                                                                                    logical 0 will be output until the
+                                                                                    data delay has expired. */
+#define I2S_FMTCFG_DATADLY_ZERO                  ((uint32_t)0x00000000U)         /* !< Zero BCLK periods - LJF and DSP
+                                                                                    formats */
+#define I2S_FMTCFG_DATADLY_ONE                   ((uint32_t)0x00000100U)         /* !< One BCLK periods - I2S and DSP
+                                                                                    formats */
+#define I2S_FMTCFG_DATADLY_TWO                   ((uint32_t)0x00000200U)         /* !< Two(Min) BCLK periods - RJF format */
+#define I2S_FMTCFG_DATADLY_MAX                   ((uint32_t)0x0000FF00U)         /* !< Max(255) BCLK periods - RJF format */
 /* I2S_FMTCFG[SUSPEND] Bits */
 #define I2S_FMTCFG_SUSPEND_OFS                   (24)                            /* !< SUSPEND Offset */
 #define I2S_FMTCFG_SUSPEND_MASK                  ((uint32_t)0x01000000U)         /* !< Suspend external communication */
@@ -741,8 +677,7 @@ typedef struct {
 /* I2S_FMTCFG[EMPTYSLOTOUTPUT] Bits */
 #define I2S_FMTCFG_EMPTYSLOTOUTPUT_OFS           (16)                            /* !< EMPTYSLOTOUTPUT Offset */
 #define I2S_FMTCFG_EMPTYSLOTOUTPUT_MASK          ((uint32_t)0x00030000U)         /* !< The field configures the
-                                                                                    **EMPTYSLOTOUTPUT** data pin
-                                                                                    direction */
+                                                                                    EMPTYSLOTOUTPUT data pin direction */
 #define I2S_FMTCFG_EMPTYSLOTOUTPUT_ZERO          ((uint32_t)0x00000000U)         /* !< Send out zeroes in empty slots */
 #define I2S_FMTCFG_EMPTYSLOTOUTPUT_ONE           ((uint32_t)0x00010000U)         /* !< send out ones in empty slot */
 #define I2S_FMTCFG_EMPTYSLOTOUTPUT_TRISTATE      ((uint32_t)0x00020000U)         /* !< Tristate line during empty slot */
@@ -750,8 +685,8 @@ typedef struct {
 /* I2S_CLKCTL Bits */
 /* I2S_CLKCTL[WBEN] Bits */
 #define I2S_CLKCTL_WBEN_OFS                      (0)                             /* !< WBEN Offset */
-#define I2S_CLKCTL_WBEN_MASK                     ((uint32_t)0x00000001U)         /* !< This field configures
-                                                                                    WCLK/BCLK generation */
+#define I2S_CLKCTL_WBEN_MASK                     ((uint32_t)0x00000001U)         /* !< This field configures WCLK/BCLK
+                                                                                    generation */
 #define I2S_CLKCTL_WBEN_DIS                      ((uint32_t)0x00000000U)         /* !< Disables the generation */
 #define I2S_CLKCTL_WBEN_EN                       ((uint32_t)0x00000001U)         /* !< Enable the generation */
 /* I2S_CLKCTL[WCLKPHASE] Bits */
@@ -762,7 +697,7 @@ typedef struct {
                                                                                     (See [WCLKDIV.WDIV]) */
 /* I2S_CLKCTL[MEN] Bits */
 #define I2S_CLKCTL_MEN_OFS                       (3)                             /* !< MEN Offset */
-#define I2S_CLKCTL_MEN_MASK                      ((uint32_t)0x00000008U)         /* !< This field configures the **MCLK**
+#define I2S_CLKCTL_MEN_MASK                      ((uint32_t)0x00000008U)         /* !< This field configures the MCLK
                                                                                     generation */
 #define I2S_CLKCTL_MEN_DIS                       ((uint32_t)0x00000000U)         /* !< Disable the generation */
 #define I2S_CLKCTL_MEN_EN                        ((uint32_t)0x00000008U)         /* !< Enable the generation */
@@ -770,10 +705,9 @@ typedef struct {
 /* I2S_STAT Bits */
 /* I2S_STAT[TXFF] Bits */
 #define I2S_STAT_TXFF_OFS                        (6)                             /* !< TXFF Offset */
-#define I2S_STAT_TXFF_MASK                       ((uint32_t)0x00000040U)         /* !< UART Transmit FIFO Full  The
-                                                                                    meaning of this bit depends on the
-                                                                                    state of the FEN bit in the CTL0
-                                                                                    register. */
+#define I2S_STAT_TXFF_MASK                       ((uint32_t)0x00000040U)         /* !< Transmit FIFO Full  The meaning of
+                                                                                    this bit depends on the state of the
+                                                                                    FEN bit in the CTL0 register. */
 #define I2S_STAT_TXFF_CLEARED                    ((uint32_t)0x00000000U)         /* !< The transmitter is not full. */
 #define I2S_STAT_TXFF_SET                        ((uint32_t)0x00000040U)         /* !< If the FIFO is disabled (FEN is 0),
                                                                                     the transmit holding register is
@@ -781,9 +715,9 @@ typedef struct {
                                                                                     1), the transmit FIFO is full. */
 /* I2S_STAT[RXFF] Bits */
 #define I2S_STAT_RXFF_OFS                        (3)                             /* !< RXFF Offset */
-#define I2S_STAT_RXFF_MASK                       ((uint32_t)0x00000008U)         /* !< UART Receive FIFO Full  The meaning
-                                                                                    of this bit depends on the state of
-                                                                                    the FEN bit in the CTL0 register. */
+#define I2S_STAT_RXFF_MASK                       ((uint32_t)0x00000008U)         /* !< Receive FIFO Full  The meaning of
+                                                                                    this bit depends on the state of the
+                                                                                    FEN bit in the CTL0 register. */
 #define I2S_STAT_RXFF_CLEARED                    ((uint32_t)0x00000000U)         /* !< The receiver can receive data. */
 #define I2S_STAT_RXFF_SET                        ((uint32_t)0x00000008U)         /* !< If the FIFO is disabled (FEN is 0),
                                                                                     the receive holding register is full.
@@ -791,10 +725,9 @@ typedef struct {
                                                                                     the receive FIFO is full. */
 /* I2S_STAT[TXFE] Bits */
 #define I2S_STAT_TXFE_OFS                        (5)                             /* !< TXFE Offset */
-#define I2S_STAT_TXFE_MASK                       ((uint32_t)0x00000020U)         /* !< UART Transmit FIFO Empty  The
-                                                                                    meaning of this bit depends on the
-                                                                                    state of the FEN bit in the CTL0
-                                                                                    register. */
+#define I2S_STAT_TXFE_MASK                       ((uint32_t)0x00000020U)         /* !< Transmit FIFO Empty  The meaning of
+                                                                                    this bit depends on the state of the
+                                                                                    FEN bit in the CTL0 register. */
 #define I2S_STAT_TXFE_CLEARED                    ((uint32_t)0x00000000U)         /* !< The transmitter has data to
                                                                                     transmit. */
 #define I2S_STAT_TXFE_SET                        ((uint32_t)0x00000020U)         /* !< If the FIFO is disabled (FEN is 0),
@@ -803,10 +736,9 @@ typedef struct {
                                                                                     1), the transmit FIFO is empty. */
 /* I2S_STAT[RXFE] Bits */
 #define I2S_STAT_RXFE_OFS                        (2)                             /* !< RXFE Offset */
-#define I2S_STAT_RXFE_MASK                       ((uint32_t)0x00000004U)         /* !< UART Receive FIFO Empty  The
-                                                                                    meaning of this bit depends on the
-                                                                                    state of the FEN bit in the CTL0
-                                                                                    register. */
+#define I2S_STAT_RXFE_MASK                       ((uint32_t)0x00000004U)         /* !< Receive FIFO Empty  The meaning of
+                                                                                    this bit depends on the state of the
+                                                                                    FEN bit in the CTL0 register. */
 #define I2S_STAT_RXFE_CLEARED                    ((uint32_t)0x00000000U)         /* !< The receiver is not empty. */
 #define I2S_STAT_RXFE_SET                        ((uint32_t)0x00000004U)         /* !< If the FIFO is disabled (FEN is 0),
                                                                                     the receive holding register is
@@ -838,13 +770,13 @@ typedef struct {
 #define I2S_IFLS_TXIFLSEL_LVL_ALMOST_FULL        ((uint32_t)0x00000007U)         /* !< TX_FIFO >= (MAX_FIFO_LEN -1) */
 /* I2S_IFLS[RXIFLSEL] Bits */
 #define I2S_IFLS_RXIFLSEL_OFS                    (4)                             /* !< RXIFLSEL Offset */
-#define I2S_IFLS_RXIFLSEL_MASK                   ((uint32_t)0x00000070U)         /* !< UART Receive Interrupt FIFO Level
-                                                                                    Select  The trigger points for the
-                                                                                    receive interrupt are as follows:
-                                                                                    Note:    In ULP domain the trigger
-                                                                                    levels are used for:   0: LVL_1_4
-                                                                                    4: LVL_FULL   For undefined settings
-                                                                                    the default configuration is used. */
+#define I2S_IFLS_RXIFLSEL_MASK                   ((uint32_t)0x00000070U)         /* !< Receive Interrupt FIFO Level Select
+                                                                                    The trigger points for the receive
+                                                                                    interrupt are as follows:   Note:
+                                                                                    In ULP domain the trigger levels are
+                                                                                    used for:   0: LVL_1_4   4: LVL_FULL
+                                                                                    For undefined settings the default
+                                                                                    configuration is used. */
 #define I2S_IFLS_RXIFLSEL_LVL_1_4                ((uint32_t)0x00000010U)         /* !< RX FIFO >= 1/4 full */
 #define I2S_IFLS_RXIFLSEL_LVL_1_2                ((uint32_t)0x00000020U)         /* !< RX FIFO >= 1/2 full (default) */
 #define I2S_IFLS_RXIFLSEL_LVL_3_4                ((uint32_t)0x00000030U)         /* !< RX FIFO >= 3/4 full */
@@ -867,32 +799,31 @@ typedef struct {
 /* I2S_WCLKSRC Bits */
 /* I2S_WCLKSRC[WBCLKSRC] Bits */
 #define I2S_WCLKSRC_WBCLKSRC_OFS                 (0)                             /* !< WBCLKSRC Offset */
-#define I2S_WCLKSRC_WBCLKSRC_MASK                ((uint32_t)0x00000003U)         /* !< This field selects
-                                                                                    WCLK/BCLK source for I2S. */
+#define I2S_WCLKSRC_WBCLKSRC_MASK                ((uint32_t)0x00000003U)         /* !< This field selects WCLK/BCLK source
+                                                                                    for I2S. */
 #define I2S_WCLKSRC_WBCLKSRC_NONE                ((uint32_t)0x00000000U)         /* !< None ('0') */
-#define I2S_WCLKSRC_WBCLKSRC_EXT                 ((uint32_t)0x00000001U)         /* !< External **WCLK** generator, from
-                                                                                    pad */
-#define I2S_WCLKSRC_WBCLKSRC_INT                 ((uint32_t)0x00000002U)         /* !< Internal **WCLK** generator, from
+#define I2S_WCLKSRC_WBCLKSRC_EXT                 ((uint32_t)0x00000001U)         /* !< External WCLK generator, from pad */
+#define I2S_WCLKSRC_WBCLKSRC_INT                 ((uint32_t)0x00000002U)         /* !< Internal WCLK generator, from
                                                                                     module PRCM */
 /* I2S_WCLKSRC[WCLKINV] Bits */
 #define I2S_WCLKSRC_WCLKINV_OFS                  (2)                             /* !< WCLKINV Offset */
-#define I2S_WCLKSRC_WCLKINV_MASK                 ((uint32_t)0x00000004U)         /* !< This field Inverts **WCLK** source
-                                                                                    (pad or internal). */
-#define I2S_WCLKSRC_WCLKINV_NOT_INTVERTED        ((uint32_t)0x00000000U)         /* !< Source is not intverted */
+#define I2S_WCLKSRC_WCLKINV_MASK                 ((uint32_t)0x00000004U)         /* !< This field Inverts WCLK source (pad
+                                                                                    or internal). */
+#define I2S_WCLKSRC_WCLKINV_NOT_INVERTED         ((uint32_t)0x00000000U)         /* !< Source is not intverted */
 #define I2S_WCLKSRC_WCLKINV_INVERTED             ((uint32_t)0x00000004U)         /* !< Source is inverted */
 
 /* I2S_DIRCFG Bits */
 /* I2S_DIRCFG[AD0] Bits */
 #define I2S_DIRCFG_AD0_OFS                       (0)                             /* !< AD0 Offset */
-#define I2S_DIRCFG_AD0_MASK                      ((uint32_t)0x00000003U)         /* !< The field configures the **AD0**
-                                                                                    data pin direction */
+#define I2S_DIRCFG_AD0_MASK                      ((uint32_t)0x00000003U)         /* !< The field configures the AD0 data
+                                                                                    pin direction */
 #define I2S_DIRCFG_AD0_DIS                       ((uint32_t)0x00000000U)         /* !< Not in use (disabled) */
 #define I2S_DIRCFG_AD0_IN                        ((uint32_t)0x00000001U)         /* !< Input */
 #define I2S_DIRCFG_AD0_OUT                       ((uint32_t)0x00000002U)         /* !< Output */
 /* I2S_DIRCFG[AD1] Bits */
 #define I2S_DIRCFG_AD1_OFS                       (4)                             /* !< AD1 Offset */
-#define I2S_DIRCFG_AD1_MASK                      ((uint32_t)0x00000030U)         /* !< The field configures the **AD1**
-                                                                                    data pin direction */
+#define I2S_DIRCFG_AD1_MASK                      ((uint32_t)0x00000030U)         /* !< The field configures the AD1 data
+                                                                                    pin direction */
 #define I2S_DIRCFG_AD1_DIS                       ((uint32_t)0x00000000U)         /* !< Not in use (disabled) */
 #define I2S_DIRCFG_AD1_IN                        ((uint32_t)0x00000010U)         /* !< Input */
 #define I2S_DIRCFG_AD1_OUT                       ((uint32_t)0x00000020U)         /* !< Output */
@@ -901,10 +832,10 @@ typedef struct {
 /* I2S_TXDATA[DATA] Bits */
 #define I2S_TXDATA_DATA_OFS                      (0)                             /* !< DATA Offset */
 #define I2S_TXDATA_DATA_MASK                     ((uint32_t)0xFFFFFFFFU)         /* !< Data Transmitted or Received  Data
-                                                                                    that is to be transmitted via the
-                                                                                    UART is written to this field.  When
-                                                                                    read, this field contains the data
-                                                                                    that was received by the UART. */
+                                                                                    that is to be transmitted via the  is
+                                                                                    written to this field.  When read,
+                                                                                    this field contains the data that was
+                                                                                    received by the . */
 #define I2S_TXDATA_DATA_MINIMUM                  ((uint32_t)0x00000000U)         /* !< Smallest value */
 #define I2S_TXDATA_DATA_MAXIMUM                  ((uint32_t)0xFFFFFFFFU)         /* !< Highest possible value */
 
@@ -913,7 +844,7 @@ typedef struct {
 #define I2S_RXDATA_DATA_OFS                      (0)                             /* !< DATA Offset */
 #define I2S_RXDATA_DATA_MASK                     ((uint32_t)0xFFFFFFFFU)         /* !< Received Data.  When read, this
                                                                                     field contains the data that was
-                                                                                    received by the UART. */
+                                                                                    received by the . */
 #define I2S_RXDATA_DATA_MINIMUM                  ((uint32_t)0x00000000U)         /* !< Smallest value */
 #define I2S_RXDATA_DATA_MAXIMUM                  ((uint32_t)0xFFFFFFFFU)         /* !< Highest possible value */
 
@@ -923,16 +854,16 @@ typedef struct {
 #define I2S_WMASK0_MASK_MASK                     ((uint32_t)0x000000FFU)         /* !< Bit-mask indicating valid channels
                                                                                     in a frame on AD0.  In single-phase
                                                                                     mode, each bit represents one
-                                                                                    channel, starting with **LSB** for
-                                                                                    the first word in the frame. A frame
-                                                                                    can contain up to 8/16 channels based
-                                                                                    on SoC configuration.  Channels that
-                                                                                    are not included in the mask will not
-                                                                                    be sampled nor stored in memory; data
+                                                                                    channel, starting with LSB for the
+                                                                                    first word in the frame. A frame can
+                                                                                    contain up to 8/16 channels based on
+                                                                                    SoC configuration.  Channels that are
+                                                                                    not included in the mask will not be
+                                                                                    sampled nor stored in memory; data
                                                                                     clocked out in these slots is as per
                                                                                     configured EMPTYSLOTOUTPUT.  In
-                                                                                    dual-phase mode, only the two
-                                                                                    **LSB**s are considered. For a stereo
+                                                                                    dual-phase mode, only the two LSBs
+                                                                                    are considered. For a stereo
                                                                                     configuration, set both bits. For a
                                                                                     mono configuration, set bit 0 only.
                                                                                     In mono mode, only channel 0 will be
@@ -946,7 +877,7 @@ typedef struct {
                                                                                     no input words will be stored to
                                                                                     memory, and the output data lines
                                                                                     will be constant '0'. This can be
-                                                                                    utilized when **PWM** debug output is
+                                                                                    utilized when PWM debug output is
                                                                                     desired without any actively used
                                                                                     output pins. */
 
@@ -956,16 +887,16 @@ typedef struct {
 #define I2S_WMASK1_MASK_MASK                     ((uint32_t)0x000000FFU)         /* !< Bit-mask indicating valid channels
                                                                                     in a frame on AD1.  In single-phase
                                                                                     mode, each bit represents one
-                                                                                    channel, starting with **LSB** for
-                                                                                    the first word in the frame. A frame
-                                                                                    can contain up to 8/16 channels based
-                                                                                    on SoC configuration.  Channels that
-                                                                                    are not included in the mask will not
-                                                                                    be sampled nor stored in memory; data
+                                                                                    channel, starting with LSB for the
+                                                                                    first word in the frame. A frame can
+                                                                                    contain up to 8/16 channels based on
+                                                                                    SoC configuration.  Channels that are
+                                                                                    not included in the mask will not be
+                                                                                    sampled nor stored in memory; data
                                                                                     clocked out in these slots is as per
                                                                                     configured EMPTYSLOTOUTPUT.  In
-                                                                                    dual-phase mode, only the two
-                                                                                    **LSB**s are considered. For a stereo
+                                                                                    dual-phase mode, only the two LSBs
+                                                                                    are considered. For a stereo
                                                                                     configuration, set both bits. For a
                                                                                     mono configuration, set bit 0 only.
                                                                                     In mono mode, only channel 0 will be
@@ -979,7 +910,7 @@ typedef struct {
                                                                                     no input words will be stored to
                                                                                     memory, and the output data lines
                                                                                     will be constant '0'. This can be
-                                                                                    utilized when **PWM** debug output is
+                                                                                    utilized when PWM debug output is
                                                                                     desired without any actively used
                                                                                     output pins. */
 
@@ -987,69 +918,62 @@ typedef struct {
 /* I2S_MCLKDIV[MDIV] Bits */
 #define I2S_MCLKDIV_MDIV_OFS                     (0)                             /* !< MDIV Offset */
 #define I2S_MCLKDIV_MDIV_MASK                    ((uint32_t)0x000003FFU)         /* !< An unsigned factor of the division
-                                                                                    ratio used to generate **MCLK**
-                                                                                    [2-1024]:
-                                                                                    **MCLK** =
-                                                                                    MCUCLK/MDIV[Hz] **MCUCLK** is upto
-                                                                                    96MHz.
-                                                                                    A value of 0 is
-                                                                                    interpreted as 1024.
-                                                                                    A value of
-                                                                                    1 is invalid.
-                                                                                    If MDIV is odd
-                                                                                    the low phase of the clock is one
-                                                                                    **MCUCLK** period longer than the
-                                                                                    high phase. */
+                                                                                    ratio used to generate MCLK [2-1024]:
+                                                                                    
+                                                                                    MCLK = MCUCLK/MDIV[Hz]
+                                                                                    
+                                                                                    A value of 0 is interpreted as 1024.
+                                                                                    
+                                                                                    A value of 1 is invalid.
+                                                                                    
+                                                                                    If MDIV is odd the low phase of the
+                                                                                    clock is one MCUCLK period longer
+                                                                                    than the high phase. */
 
 /* I2S_WCLKDIV Bits */
 /* I2S_WCLKDIV[WDIV] Bits */
 #define I2S_WCLKDIV_WDIV_OFS                     (0)                             /* !< WDIV Offset */
-#define I2S_WCLKDIV_WDIV_MASK                    ((uint32_t)0x0000FFFFU)         /* !< If[CLKCTL.WCLKPHASE]= 0, Single
-                                                                                    phase. WCLKis high
-                                                                                    one**BCLK**period and low WDIV[9:0]
-                                                                                    (unsigned, [1-1023])**BCLK**periods.
+#define I2S_WCLKDIV_WDIV_MASK                    ((uint32_t)0x0000FFFFU)         /* !< If [CLKCTL.WCLKPHASE] = 0, Single
+                                                                                    phase. WCLK is high one BCLK period
+                                                                                    and low WDIV[9:0] (unsigned,
+                                                                                    [1-1023]) BCLK periods.
+                                                                                    WCLK =
+                                                                                    MCUCLK / BDIV*(WDIV[9:0] + 1) [Hz]
                                                                                     
-                                                                                    WCLK**=**MCUCLK/
-                                                                                    BDIV*(WDIV[9:0] + 1) [Hz]
-                                                                                    MCUCLKupto 96MHz.
-                                                                                    
-                                                                                    If[CLKCTL.WCLKPHASE.*]= 1, Dual
-                                                                                    phase. Each phase on**WCLK**(50% duty
+                                                                                    If [CLKCTL.WCLKPHASE.*] = 1, Dual
+                                                                                    phase. Each phase on WCLK (50% duty
                                                                                     cycle) is WDIV[9:0] (unsigned,
-                                                                                    [1-1023])**BCLK**periods.
+                                                                                    [1-1023]) BCLK periods.
+                                                                                    WCLK =
+                                                                                    MCUCLK / BDIV*(2*WDIV[9:0]) [Hz]
                                                                                     
-                                                                                    WCLK**=**MCUCLK/
-                                                                                    BDIV*(2*WDIV[9:0]) [Hz]
-                                                                                    
-                                                                                    If[CLKCTL.WCLKPHASE.*] = 2, User
-                                                                                    defined. WCLKis high WDIV[7:0]
-                                                                                    (unsigned, [1-255])**BCLK**periods
-                                                                                    and low WDIV[15:8] (unsigned,
-                                                                                    [1-255])**BCLK**periods.
-                                                                                    
-                                                                                    WCLK**=**MCUCLK/ (BDIV*(WDIV[7:0]
-                                                                                    + WDIV[15:8]) [Hz] */
+                                                                                    If [CLKCTL.WCLKPHASE.*] = 2, User
+                                                                                    defined. WCLK is high WDIV[7:0]
+                                                                                    (unsigned, [1-255]) BCLK periods and
+                                                                                    low WDIV[15:8] (unsigned, [1-255])
+                                                                                    BCLK periods.
+                                                                                    WCLK = MCUCLK /
+                                                                                    (BDIV*(WDIV[7:0] + WDIV[15:8]) [Hz] */
 
 /* I2S_BCLKDIV Bits */
 /* I2S_BCLKDIV[BDIV] Bits */
 #define I2S_BCLKDIV_BDIV_OFS                     (0)                             /* !< BDIV Offset */
 #define I2S_BCLKDIV_BDIV_MASK                    ((uint32_t)0x000003FFU)         /* !< An unsigned factor of the division
-                                                                                    ratio used to generate **BCLK**
-                                                                                    [2-1024]:
-                                                                                    **BCLK** =
-                                                                                    MCUCLK/BDIV[Hz]
-                                                                                    A value of 0
-                                                                                    is interpreted as 1024.
-                                                                                    A value
-                                                                                    of 1 is invalid.
-                                                                                    If BDIV is
-                                                                                    odd and [FMTCFG.SMPLEDGE] = 0, the
-                                                                                    low phase of the clock is one
-                                                                                    **MCUCLK** period longer than the
-                                                                                    high phase.
+                                                                                    ratio used to generate BCLK [2-1024]:
+                                                                                    
+                                                                                    BCLK = MCUCLK/BDIV[Hz]
+                                                                                    A
+                                                                                    value of 0 is interpreted as 1024.
+                                                                                    
+                                                                                    A value of 1 is invalid.
+                                                                                    If
+                                                                                    BDIV is odd and [FMTCFG.SMPLEDGE] =
+                                                                                    0, the low phase of the clock is one
+                                                                                    MCUCLK period longer than the high
+                                                                                    phase.
                                                                                     If BDIV is odd and
                                                                                     [FMTCFG.SMPLEDGE] = 1 , the high
-                                                                                    phase of the clock is one **MCUCLK**
+                                                                                    phase of the clock is one MCUCLK
                                                                                     period longer than the low phase. */
 
 

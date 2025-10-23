@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, Texas Instruments Incorporated
+ * Copyright (c) 2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -112,10 +112,12 @@ RAMFUNC static DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_executeCommandFromRAM(
             (FLASHCTL_STATCMD_CMDDONE_MASK | FLASHCTL_STATCMD_CMDPASS_MASK |
                 FLASHCTL_STATCMD_CMDINPROGRESS_MASK |
                 FLASHCTL_STATCMD_CMDPASS_STATFAIL);
-    } while ((DL_FLASHCTL_COMMAND_STATUS) status ==
-           DL_FLASHCTL_COMMAND_STATUS_IN_PROGRESS);
+    } while ((DL_FLASHCTL_COMMAND_STATUS) status !=
+                 (DL_FLASHCTL_COMMAND_STATUS_PASSED) &&
+             (DL_FLASHCTL_COMMAND_STATUS) status !=
+                 (DL_FLASHCTL_COMMAND_STATUS_FAILED));
 
-    return (DL_FLASHCTL_COMMAND_STATUS) (status);
+    return ((DL_FLASHCTL_COMMAND_STATUS) status);
 }
 
 void DL_FlashCTL_eraseMemory(FLASHCTL_Regs *flashctl, uint32_t address,
@@ -413,164 +415,164 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_factoryResetMultiBankFromRAM(
     return (status);
 }
 
-static void DL_FlashCTL_programMemoryConfig(
-    FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd)
+static void DL_FlashCTL_programMemoryConfig(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd)
 {
-    flashctl->GEN.CMDTYPE = (uint32_t) DL_FLASHCTL_COMMAND_SIZE_ONE_WORD |
-                            DL_FLASHCTL_COMMAND_TYPE_PROGRAM;
+    flashctl->GEN.CMDTYPE = (uint32_t)DL_FLASHCTL_COMMAND_SIZE_ONE_WORD | DL_FLASHCTL_COMMAND_TYPE_PROGRAM;
 
-    flashctl->GEN.CMDBYTEN = cmd;
+    uint32_t cmd_data_en = cmd & 0x0000FFFF;
+    uint32_t cmd_ecc_en  = cmd & 0xFFFF0000;
+
+    cmd_data_en = cmd_data_en << (address % 0x10);
+
+    // If programming to the second 64 bits in a flash word,
+    // write the second ECC byte
+    if ((address % 0x10) >= 0x8)
+    {
+        cmd_ecc_en = cmd_ecc_en << 1;
+    }
+
+    flashctl->GEN.CMDBYTEN = cmd_ecc_en | cmd_data_en;
 
     /* Set address, address should be in the sector that we want to erase */
     DL_FlashCTL_setCommandAddress(flashctl, address);
 }
 
-static void DL_FlashCTL_programMemory8Config(FLASHCTL_Regs *flashctl,
-    uint32_t address, uint32_t cmd, const uint8_t *data)
+static void DL_FlashCTL_programMemory8Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint8_t *data)
+{
+    DL_FlashCTL_programMemoryConfig(flashctl, address, cmd);
+
+    // Create a 32-bit word from our data
+    uint32_t data_shifted = ((uint32_t)*data) << ((address % 4U) * 8U);
+
+    // Set which flash word we are writing to
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Select the CMDDATA register for our address within the flash word,
+    // then load it with our data
+    uint32_t cmddata_select = (address / 4U) % 4U;
+    if (cmddata_select == 0x0U)
+    {
+        flashctl->GEN.CMDDATA0 = data_shifted;
+    }
+    else if (cmddata_select == 0x1U)
+    {
+        flashctl->GEN.CMDDATA1 = data_shifted;
+    }
+    else if (cmddata_select == 0x2U)
+    {
+        flashctl->GEN.CMDDATA2 = data_shifted;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATA3 = data_shifted;
+    }
+}
+
+static void DL_FlashCTL_programMemory16Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd,
+                                              const uint16_t *data)
+{
+    DL_FlashCTL_programMemoryConfig(flashctl, address, cmd);
+
+    // Create a 32-bit word from our data
+    uint32_t data_shifted = ((uint32_t)*data) << ((address % 4U) * 8U);
+
+    // Set which flash word we are writing to
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Select the CMDDATA register for our address within the flash word,
+    // then load it with our data
+    uint32_t cmddata_select = (address / 4U) % 4U;
+    if (cmddata_select == 0x0U)
+    {
+        flashctl->GEN.CMDDATA0 = data_shifted;
+    }
+    else if (cmddata_select == 0x1U)
+    {
+        flashctl->GEN.CMDDATA1 = data_shifted;
+    }
+    else if (cmddata_select == 0x2U)
+    {
+        flashctl->GEN.CMDDATA2 = data_shifted;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATA3 = data_shifted;
+    }
+}
+
+static void DL_FlashCTL_programMemory32Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd,
+                                              const uint32_t *data)
+{
+    DL_FlashCTL_programMemoryConfig(flashctl, address, cmd);
+
+    // Create a 32-bit word from our data
+    uint32_t data_shifted = ((uint32_t)*data) << ((address % 4U) * 8U);
+
+    // Set which flash word we are writing to
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Select the CMDDATA register for our address within the flash word,
+    // then load it with our data
+    uint32_t cmddata_select = (address / 4U) % 4U;
+    if (cmddata_select == 0x0U)
+    {
+        flashctl->GEN.CMDDATA0 = data_shifted;
+    }
+    else if (cmddata_select == 0x1U)
+    {
+        flashctl->GEN.CMDDATA1 = data_shifted;
+    }
+    else if (cmddata_select == 0x2U)
+    {
+        flashctl->GEN.CMDDATA2 = data_shifted;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATA3 = data_shifted;
+    }
+}
+
+static void DL_FlashCTL_programMemory64Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd,
+                                              const uint32_t *data)
+{
+    DL_FlashCTL_programMemoryConfig(flashctl, address, cmd);
+
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) == 0x8U)
+    {
+        flashctl->GEN.CMDDATA2 = *data;
+        flashctl->GEN.CMDDATA3 = *(data + 1U);
+    }
+    else
+    {
+        flashctl->GEN.CMDDATA0 = *data;
+        flashctl->GEN.CMDDATA1 = *(data + 1U);
+    }
+}
+
+static void DL_FlashCTL_programMemory96Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd,
+                                              const uint32_t *data)
 {
     DL_FlashCTL_programMemoryConfig(flashctl, address, cmd);
 
     /* Set data registers */
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8 = *data;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    flashctl->GEN.CMDDATA0     = *data;
+    flashctl->GEN.CMDDATA1     = *(data + 1);
+    flashctl->GEN.CMDDATA2     = *(data + 2);
 }
 
-static void DL_FlashCTL_programMemory16Config(FLASHCTL_Regs *flashctl,
-    uint32_t address, uint32_t cmd, const uint16_t *data)
+static void DL_FlashCTL_programMemory128Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd,
+                                               const uint32_t *data)
 {
     DL_FlashCTL_programMemoryConfig(flashctl, address, cmd);
 
     /* Set data registers */
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8 = *data;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
-}
-
-static void DL_FlashCTL_programMemory32Config(FLASHCTL_Regs *flashctl,
-    uint32_t address, uint32_t cmd, const uint32_t *data)
-{
-    DL_FlashCTL_programMemoryConfig(flashctl, address, cmd);
-
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8 = *data;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
-}
-
-static void DL_FlashCTL_programMemory64Config(
-    FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint32_t *data)
-{
-    DL_FlashCTL_programMemoryConfig(flashctl, address, cmd);
-
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-        flashctl->GEN.CMDDATA1 = *(data + 1);
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-        flashctl->GEN.CMDDATA5 = *(data + 1);
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8 = *data;
-        flashctl->GEN.CMDDATA9 = *(data + 1);
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-        flashctl->GEN.CMDDATA13 = *(data + 1);
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
-}
-
-static void DL_FlashCTL_programMemory96Config(
-    FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint32_t *data)
-{
-    DL_FlashCTL_programMemoryConfig(flashctl, address, cmd);
-
-    /* Set data registers */
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-        flashctl->GEN.CMDDATA1 = *(data + 1);
-        flashctl->GEN.CMDDATA2 = *(data + 2);
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-        flashctl->GEN.CMDDATA5 = *(data + 1);
-        flashctl->GEN.CMDDATA6 = *(data + 2);
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8  = *data;
-        flashctl->GEN.CMDDATA9  = *(data + 1);
-        flashctl->GEN.CMDDATA10 = *(data + 2);
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-        flashctl->GEN.CMDDATA13 = *(data + 1);
-        flashctl->GEN.CMDDATA14 = *(data + 2);
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
-}
-
-static void DL_FlashCTL_programMemory128Config(
-    FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint32_t *data)
-{
-    DL_FlashCTL_programMemoryConfig(flashctl, address, cmd);
-
-    /* Set data registers */
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-        flashctl->GEN.CMDDATA1 = *(data + 1);
-        flashctl->GEN.CMDDATA2 = *(data + 2);
-        flashctl->GEN.CMDDATA3 = *(data + 3);
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-        flashctl->GEN.CMDDATA5 = *(data + 1);
-        flashctl->GEN.CMDDATA6 = *(data + 2);
-        flashctl->GEN.CMDDATA7 = *(data + 3);
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8  = *data;
-        flashctl->GEN.CMDDATA9  = *(data + 1);
-        flashctl->GEN.CMDDATA10 = *(data + 2);
-        flashctl->GEN.CMDDATA11 = *(data + 3);
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-        flashctl->GEN.CMDDATA13 = *(data + 1);
-        flashctl->GEN.CMDDATA14 = *(data + 2);
-        flashctl->GEN.CMDDATA15 = *(data + 3);
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    flashctl->GEN.CMDDATA0     = *data;
+    flashctl->GEN.CMDDATA1     = *(data + 1);
+    flashctl->GEN.CMDDATA2     = *(data + 2);
+    flashctl->GEN.CMDDATA3     = *(data + 3);
 }
 
 void DL_FlashCTL_programMemory8(
@@ -841,18 +843,16 @@ void DL_FlashCTL_programMemory8WithECCManual(FLASHCTL_Regs *flashctl,
     DL_FlashCTL_programMemory8Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_8_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
     }
 
     /* Set bit to execute command */
@@ -867,18 +867,16 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_programMemoryFromRAM8WithECCManual(
     DL_FlashCTL_programMemory8Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_8_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
     }
 
     /* Jump to RAM to execute command and wait for completion */
@@ -892,18 +890,14 @@ void DL_FlashCTL_programMemory16WithECCManual(FLASHCTL_Regs *flashctl,
     DL_FlashCTL_programMemory16Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_16_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 = (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
         flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
     }
 
     /* Set bit to execute command */
@@ -918,18 +912,14 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_programMemoryFromRAM16WithECCManual(
     DL_FlashCTL_programMemory16Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_16_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 = (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
         flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
     }
 
     /* Jump to RAM to execute command and wait for completion */
@@ -943,18 +933,14 @@ void DL_FlashCTL_programMemory32WithECCManual(FLASHCTL_Regs *flashctl,
     DL_FlashCTL_programMemory32Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_32_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 = (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
         flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
     }
 
     /* Set bit to execute command */
@@ -969,18 +955,14 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_programMemoryFromRAM32WithECCManual(
     DL_FlashCTL_programMemory32Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_32_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 = (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
         flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
     }
 
     /* Jump to RAM to execute command and wait for completion */
@@ -994,19 +976,16 @@ void DL_FlashCTL_programMemory64WithECCManual(FLASHCTL_Regs *flashctl,
     DL_FlashCTL_programMemory64Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_64_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 = (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
     }
+    else
+    {
+        flashctl->GEN.CMDDATAECC0 = *eccCode;
+    } 
+
     /* Set bit to execute command */
     flashctl->GEN.CMDEXEC = FLASHCTL_CMDEXEC_VAL_EXECUTE;
 }
@@ -1019,18 +998,14 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_programMemoryFromRAM64WithECCManual(
     DL_FlashCTL_programMemory64Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_64_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 = (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
         flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
     }
 
     /* Jump to RAM to execute command and wait for completion */
@@ -1044,31 +1019,15 @@ void DL_FlashCTL_programMemory96WithECCManual(FLASHCTL_Regs *flashctl,
     DL_FlashCTL_programMemory96Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_96_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-        flashctl->GEN.CMDDATAECC0 = (flashctl->GEN.CMDDATAECC0 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC0_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-        flashctl->GEN.CMDDATAECC1 = (flashctl->GEN.CMDDATAECC1 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC1_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-        flashctl->GEN.CMDDATAECC2 = (flashctl->GEN.CMDDATAECC2 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC2_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-        flashctl->GEN.CMDDATAECC3 = (flashctl->GEN.CMDDATAECC3 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC3_VAL1_OFS));
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Set the first ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
+
+    // Set the second ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*(eccCode + 1)) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
 
     /* Set bit to execute command */
     flashctl->GEN.CMDEXEC = FLASHCTL_CMDEXEC_VAL_EXECUTE;
@@ -1082,31 +1041,15 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_programMemoryFromRAM96WithECCManual(
     DL_FlashCTL_programMemory96Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_96_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-        flashctl->GEN.CMDDATAECC0 = (flashctl->GEN.CMDDATAECC0 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC0_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-        flashctl->GEN.CMDDATAECC1 = (flashctl->GEN.CMDDATAECC1 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC1_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-        flashctl->GEN.CMDDATAECC2 = (flashctl->GEN.CMDDATAECC2 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC2_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-        flashctl->GEN.CMDDATAECC3 = (flashctl->GEN.CMDDATAECC3 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC3_VAL1_OFS));
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Set the first ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
+
+    // Set the second ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*(eccCode + 1)) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
 
     /* Jump to RAM to execute command and wait for completion */
     return DL_FlashCTL_executeCommandFromRAM(flashctl);
@@ -1119,31 +1062,15 @@ void DL_FlashCTL_programMemory128WithECCManual(FLASHCTL_Regs *flashctl,
     DL_FlashCTL_programMemory128Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_128_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-        flashctl->GEN.CMDDATAECC0 = (flashctl->GEN.CMDDATAECC0 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC0_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-        flashctl->GEN.CMDDATAECC1 = (flashctl->GEN.CMDDATAECC1 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC1_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-        flashctl->GEN.CMDDATAECC2 = (flashctl->GEN.CMDDATAECC2 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC2_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-        flashctl->GEN.CMDDATAECC3 = (flashctl->GEN.CMDDATAECC3 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC3_VAL1_OFS));
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Set the first ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
+
+    // Set the second ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*(eccCode + 1)) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
 
     /* Set bit to execute command */
     flashctl->GEN.CMDEXEC = FLASHCTL_CMDEXEC_VAL_EXECUTE;
@@ -1157,31 +1084,15 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_programMemoryFromRAM128WithECCManual(
     DL_FlashCTL_programMemory128Config(
         flashctl, address, DL_FLASHCTL_PROGRAM_128_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-        flashctl->GEN.CMDDATAECC0 = (flashctl->GEN.CMDDATAECC0 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC0_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-        flashctl->GEN.CMDDATAECC1 = (flashctl->GEN.CMDDATAECC1 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC1_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-        flashctl->GEN.CMDDATAECC2 = (flashctl->GEN.CMDDATAECC2 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC2_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-        flashctl->GEN.CMDDATAECC3 = (flashctl->GEN.CMDDATAECC3 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC3_VAL1_OFS));
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Set the first ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
+
+    // Set the second ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*(eccCode + 1)) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
 
     /* Jump to RAM to execute command and wait for completion */
     return DL_FlashCTL_executeCommandFromRAM(flashctl);
@@ -1483,14 +1394,14 @@ bool DL_FlashCTL_programMemoryBlocking(FLASHCTL_Regs *flashctl,
 
             size = size - (uint32_t) 1;
             d    = d + 1;
-            addr = addr + (uint32_t) 16;
+            addr = addr + (uint32_t) 8;
         } else if (size == (uint32_t) 2) {
             /* 64-bit case */
             DL_FlashCTL_programMemory64(flashctl, addr, d);
 
             size = size - (uint32_t) 2;
             d    = d + 2;
-            addr = addr + (uint32_t) 16;
+            addr = addr + (uint32_t) 8;
         } else if (size == (uint32_t) 3) {
             /* 96-bit case */
             DL_FlashCTL_programMemory96(flashctl, addr, d);
@@ -1540,14 +1451,14 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_programMemoryFromRAM(
 
             size = size - (uint32_t) 1;
             d    = d + 1;
-            addr = addr + (uint32_t) 16;
+            addr = addr + (uint32_t) 8;
         } else if (size == (uint32_t) 2) {
             /* 64-bit case */
             status = DL_FlashCTL_programMemoryFromRAM64(flashctl, addr, d);
 
             size = size - (uint32_t) 2;
             d    = d + 2;
-            addr = addr + (uint32_t) 16;
+            addr = addr + (uint32_t) 8;
         } else if (size == (uint32_t) 3) {
             /* 96-bit case */
             status = DL_FlashCTL_programMemoryFromRAM96(flashctl, addr, d);
@@ -1669,165 +1580,159 @@ void DL_FlashCTL_protectSector(FLASHCTL_Regs *flashctl, uint32_t addr,
     }
 }
 
-static void DL_FlashCTL_readVerifyConfig(
-    FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd)
+static void DL_FlashCTL_readVerifyConfig(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd)
 {
-    flashctl->GEN.CMDTYPE = (uint32_t) DL_FLASHCTL_COMMAND_SIZE_ONE_WORD |
-                            DL_FLASHCTL_COMMAND_TYPE_READ_VERIFY;
+    flashctl->GEN.CMDTYPE = (uint32_t)DL_FLASHCTL_COMMAND_SIZE_ONE_WORD | DL_FLASHCTL_COMMAND_TYPE_READ_VERIFY;
 
-    flashctl->GEN.CMDBYTEN = cmd;
+    uint32_t cmd_data_en = cmd & 0x0000FFFF;
+    uint32_t cmd_ecc_en  = cmd & 0xFFFF0000;
+
+    cmd_data_en = cmd_data_en << (address % 0x10);
+
+    // If programming to the second 64 bits in a flash word,
+    // write the second ECC byte
+    if ((address % 0x10) >= 0x8)
+    {
+        cmd_ecc_en = cmd_ecc_en << 1;
+    }
+
+    flashctl->GEN.CMDBYTEN = cmd_ecc_en | cmd_data_en;
 
     /* Set address, address should be in the sector that we want to erase */
     DL_FlashCTL_setCommandAddress(flashctl, address);
 }
 
-static void DL_FlashCTL_readVerify8Config(
-    FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint8_t *data)
+static void DL_FlashCTL_readVerify8Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint8_t *data)
+{
+    DL_FlashCTL_readVerifyConfig(flashctl, address, cmd);
+
+    // Create a 32-bit word from our data
+    uint32_t data_shifted = ((uint32_t)*data) << ((address % 4U) * 8U);
+
+    // Set which flash word we are writing to
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Select the CMDDATA register for our address within the flash word,
+    // then load it with our data
+    uint32_t cmddata_select = (address / 4U) % 4U;
+    if (cmddata_select == 0x0U)
+    {
+        flashctl->GEN.CMDDATA0 = data_shifted;
+    }
+    else if (cmddata_select == 0x1U)
+    {
+        flashctl->GEN.CMDDATA1 = data_shifted;
+    }
+    else if (cmddata_select == 0x2U)
+    {
+        flashctl->GEN.CMDDATA2 = data_shifted;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATA3 = data_shifted;
+    }
+}
+
+static void DL_FlashCTL_readVerify16Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint16_t *data)
+{
+    DL_FlashCTL_readVerifyConfig(flashctl, address, cmd);
+
+    // Create a 32-bit word from our data
+    uint32_t data_shifted = ((uint32_t)*data) << ((address % 4U) * 8U);
+
+    // Set which flash word we are writing to
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Select the CMDDATA register for our address within the flash word,
+    // then load it with our data
+    uint32_t cmddata_select = (address / 4U) % 4U;
+    if (cmddata_select == 0x0U)
+    {
+        flashctl->GEN.CMDDATA0 = data_shifted;
+    }
+    else if (cmddata_select == 0x1U)
+    {
+        flashctl->GEN.CMDDATA1 = data_shifted;
+    }
+    else if (cmddata_select == 0x2U)
+    {
+        flashctl->GEN.CMDDATA2 = data_shifted;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATA3 = data_shifted;
+    }
+}
+
+static void DL_FlashCTL_readVerify32Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint32_t *data)
+{
+    DL_FlashCTL_readVerifyConfig(flashctl, address, cmd);
+
+    // Create a 32-bit word from our data
+    uint32_t data_shifted = ((uint32_t)*data) << ((address % 4U) * 8U);
+
+    // Set which flash word we are writing to
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Select the CMDDATA register for our address within the flash word,
+    // then load it with our data
+    uint32_t cmddata_select = (address / 4U) % 4U;
+    if (cmddata_select == 0x0U)
+    {
+        flashctl->GEN.CMDDATA0 = data_shifted;
+    }
+    else if (cmddata_select == 0x1U)
+    {
+        flashctl->GEN.CMDDATA1 = data_shifted;
+    }
+    else if (cmddata_select == 0x2U)
+    {
+        flashctl->GEN.CMDDATA2 = data_shifted;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATA3 = data_shifted;
+    }
+}
+
+static void DL_FlashCTL_readVerify64Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint32_t *data)
+{
+    DL_FlashCTL_readVerifyConfig(flashctl, address, cmd);
+
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) == 0x8U)
+    {
+        flashctl->GEN.CMDDATA2 = *data;
+        flashctl->GEN.CMDDATA3 = *(data + 1U);
+    }
+    else
+    {
+        flashctl->GEN.CMDDATA0 = *data;
+        flashctl->GEN.CMDDATA1 = *(data + 1U);
+    }
+}
+
+static void DL_FlashCTL_readVerify96Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint32_t *data)
 {
     DL_FlashCTL_readVerifyConfig(flashctl, address, cmd);
 
     /* Set data registers */
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8 = *data;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    flashctl->GEN.CMDDATA0     = *data;
+    flashctl->GEN.CMDDATA1     = *(data + 1);
+    flashctl->GEN.CMDDATA2     = *(data + 2);
 }
 
-static void DL_FlashCTL_readVerify16Config(
-    FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint16_t *data)
+static void DL_FlashCTL_readVerify128Config(FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint32_t *data)
 {
     DL_FlashCTL_readVerifyConfig(flashctl, address, cmd);
 
     /* Set data registers */
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8 = *data;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
-}
-
-static void DL_FlashCTL_readVerify32Config(
-    FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint32_t *data)
-{
-    DL_FlashCTL_readVerifyConfig(flashctl, address, cmd);
-
-    /* Set data registers */
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8 = *data;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
-}
-
-static void DL_FlashCTL_readVerify64Config(
-    FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint32_t *data)
-{
-    DL_FlashCTL_readVerifyConfig(flashctl, address, cmd);
-
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-        flashctl->GEN.CMDDATA1 = *(data + 1);
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-        flashctl->GEN.CMDDATA5 = *(data + 1);
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8 = *data;
-        flashctl->GEN.CMDDATA9 = *(data + 1);
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-        flashctl->GEN.CMDDATA13 = *(data + 1);
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
-}
-
-static void DL_FlashCTL_readVerify96Config(
-    FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint32_t *data)
-{
-    DL_FlashCTL_readVerifyConfig(flashctl, address, cmd);
-
-    /* Set data registers */
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-        flashctl->GEN.CMDDATA1 = *(data + 1);
-        flashctl->GEN.CMDDATA2 = *(data + 2);
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-        flashctl->GEN.CMDDATA5 = *(data + 1);
-        flashctl->GEN.CMDDATA6 = *(data + 2);
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8  = *data;
-        flashctl->GEN.CMDDATA9  = *(data + 1);
-        flashctl->GEN.CMDDATA10 = *(data + 2);
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-        flashctl->GEN.CMDDATA13 = *(data + 1);
-        flashctl->GEN.CMDDATA14 = *(data + 2);
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
-}
-
-static void DL_FlashCTL_readVerify128Config(
-    FLASHCTL_Regs *flashctl, uint32_t address, uint32_t cmd, const uint32_t *data)
-{
-    DL_FlashCTL_readVerifyConfig(flashctl, address, cmd);
-
-    /* Set data registers */
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATA0 = *data;
-        flashctl->GEN.CMDDATA1 = *(data + 1);
-        flashctl->GEN.CMDDATA2 = *(data + 2);
-        flashctl->GEN.CMDDATA3 = *(data + 3);
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATA4 = *data;
-        flashctl->GEN.CMDDATA5 = *(data + 1);
-        flashctl->GEN.CMDDATA6 = *(data + 2);
-        flashctl->GEN.CMDDATA7 = *(data + 3);
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATA8  = *data;
-        flashctl->GEN.CMDDATA9  = *(data + 1);
-        flashctl->GEN.CMDDATA10 = *(data + 2);
-        flashctl->GEN.CMDDATA11 = *(data + 3);
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATA12 = *data;
-        flashctl->GEN.CMDDATA13 = *(data + 1);
-        flashctl->GEN.CMDDATA14 = *(data + 2);
-        flashctl->GEN.CMDDATA15 = *(data + 3);
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    flashctl->GEN.CMDDATA0     = *data;
+    flashctl->GEN.CMDDATA1     = *(data + 1);
+    flashctl->GEN.CMDDATA2     = *(data + 2);
+    flashctl->GEN.CMDDATA3     = *(data + 3);
 }
 
 void DL_FlashCTL_readVerify8(
@@ -2015,18 +1920,16 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_readVerifyFromRAM8WithECCManual(
     DL_FlashCTL_readVerify8Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_8_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
     }
 
     /* Jump to RAM to execute command and wait for completion */
@@ -2040,18 +1943,16 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_readVerifyFromRAM16WithECCManual(
     DL_FlashCTL_readVerify16Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_16_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
     }
 
     /* Jump to RAM to execute command and wait for completion */
@@ -2065,18 +1966,16 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_readVerifyFromRAM32WithECCManual(
     DL_FlashCTL_readVerify32Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_32_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
     }
 
     /* Jump to RAM to execute command and wait for completion */
@@ -2090,18 +1989,16 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_readVerifyFromRAM64WithECCManual(
     DL_FlashCTL_readVerify64Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_64_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
     }
 
     /* Jump to RAM to execute command and wait for completion */
@@ -2115,31 +2012,15 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_readVerifyFromRAM96WithECCManual(
     DL_FlashCTL_readVerify96Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_96_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-        flashctl->GEN.CMDDATAECC0 = (flashctl->GEN.CMDDATAECC0 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC0_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-        flashctl->GEN.CMDDATAECC1 = (flashctl->GEN.CMDDATAECC1 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC1_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-        flashctl->GEN.CMDDATAECC2 = (flashctl->GEN.CMDDATAECC2 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC2_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-        flashctl->GEN.CMDDATAECC3 = (flashctl->GEN.CMDDATAECC3 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC3_VAL1_OFS));
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Set the first ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
+
+    // Set the second ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*(eccCode + 1)) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
 
     /* Jump to RAM to execute command and wait for completion */
     return DL_FlashCTL_executeCommandFromRAM(flashctl);
@@ -2152,31 +2033,15 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_readVerifyFromRAM128WithECCManual(
     DL_FlashCTL_readVerify128Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_128_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-        flashctl->GEN.CMDDATAECC0 = (flashctl->GEN.CMDDATAECC0 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC0_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-        flashctl->GEN.CMDDATAECC1 = (flashctl->GEN.CMDDATAECC1 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC1_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-        flashctl->GEN.CMDDATAECC2 = (flashctl->GEN.CMDDATAECC2 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC2_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-        flashctl->GEN.CMDDATAECC3 = (flashctl->GEN.CMDDATAECC3 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC3_VAL1_OFS));
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Set the first ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
+
+    // Set the second ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*(eccCode + 1)) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
 
     /* Jump to RAM to execute command and wait for completion */
     return DL_FlashCTL_executeCommandFromRAM(flashctl);
@@ -2248,18 +2113,16 @@ void DL_FlashCTL_readVerify8WithECCManual(
     DL_FlashCTL_readVerify8Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_8_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
     }
 
     /* Set bit to execute command */
@@ -2272,19 +2135,18 @@ void DL_FlashCTL_readVerify16WithECCManual(FLASHCTL_Regs *flashctl,
     DL_FlashCTL_readVerify16Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_16_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
     }
+    else
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
+    }
+
     /* Set bit to execute command */
     flashctl->GEN.CMDEXEC = FLASHCTL_CMDEXEC_VAL_EXECUTE;
 }
@@ -2294,18 +2156,17 @@ void DL_FlashCTL_readVerify32WithECCManual(FLASHCTL_Regs *flashctl,
 {
     DL_FlashCTL_readVerify32Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_32_WITH_ECC, data);
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
+
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+    }
+    else
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
     }
 
     /* Set bit to execute command */
@@ -2318,19 +2179,18 @@ void DL_FlashCTL_readVerify64WithECCManual(FLASHCTL_Regs *flashctl,
     DL_FlashCTL_readVerify64Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_64_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+    if ((address % 0x10U) >= 0x8U)
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
     }
+    else
+    {
+        flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+        flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
+    }
+
     /* Set bit to execute command */
     flashctl->GEN.CMDEXEC = FLASHCTL_CMDEXEC_VAL_EXECUTE;
 }
@@ -2341,31 +2201,16 @@ void DL_FlashCTL_readVerify96WithECCManual(FLASHCTL_Regs *flashctl,
     DL_FlashCTL_readVerify96Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_96_WITH_ECC, data);
 
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-        flashctl->GEN.CMDDATAECC0 = (flashctl->GEN.CMDDATAECC0 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC0_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-        flashctl->GEN.CMDDATAECC1 = (flashctl->GEN.CMDDATAECC1 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC1_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-        flashctl->GEN.CMDDATAECC2 = (flashctl->GEN.CMDDATAECC2 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC2_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-        flashctl->GEN.CMDDATAECC3 = (flashctl->GEN.CMDDATAECC3 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC3_VAL1_OFS));
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Set the first ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
+
+    // Set the second ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*(eccCode + 1)) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
+
     /* Set bit to execute command */
     flashctl->GEN.CMDEXEC = FLASHCTL_CMDEXEC_VAL_EXECUTE;
 }
@@ -2375,31 +2220,16 @@ void DL_FlashCTL_readVerify128WithECCManual(FLASHCTL_Regs *flashctl,
 {
     DL_FlashCTL_readVerify128Config(
         flashctl, address, DL_FLASHCTL_READ_VERIFY_128_WITH_ECC, data);
-    if ((address % 0x40U) == 0x00U) {
-        flashctl->GEN.CMDDATAECC0 = *eccCode;
-        flashctl->GEN.CMDDATAECC0 = (flashctl->GEN.CMDDATAECC0 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC0_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x10U) {
-        flashctl->GEN.CMDDATAECC1 = *eccCode;
-        flashctl->GEN.CMDDATAECC1 = (flashctl->GEN.CMDDATAECC1 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC1_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x20U) {
-        flashctl->GEN.CMDDATAECC2 = *eccCode;
-        flashctl->GEN.CMDDATAECC2 = (flashctl->GEN.CMDDATAECC2 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC2_VAL1_OFS));
-    } else if ((address % 0x40U) == 0x30U) {
-        flashctl->GEN.CMDDATAECC3 = *eccCode;
-        flashctl->GEN.CMDDATAECC3 = (flashctl->GEN.CMDDATAECC3 |
-                                     ((uint32_t) (*(eccCode + 1U))
-                                         << FLASHCTL_CMDDATAECC3_VAL1_OFS));
-    } else {
-        /* this else clause is required, even if the     */
-        /* programmer expects this will never be reached */
-        /* Fix Misra-C Required: MISRA.IF.NO_ELSE        */
-    }
+
+    flashctl->GEN.CMDDATAINDEX = (address >> 4U) & 3U;
+
+    // Set the first ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL0_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*eccCode) << FLASHCTL_CMDDATAECC0_VAL0_OFS;
+
+    // Set the second ECC byte
+    flashctl->GEN.CMDDATAECC0 &= ~((uint32_t)FLASHCTL_CMDDATAECC0_VAL1_MASK);
+    flashctl->GEN.CMDDATAECC0 |= (*(eccCode + 1)) << FLASHCTL_CMDDATAECC0_VAL1_OFS;
 
     /* Set bit to execute command */
     flashctl->GEN.CMDEXEC = FLASHCTL_CMDEXEC_VAL_EXECUTE;
@@ -2407,15 +2237,31 @@ void DL_FlashCTL_readVerify128WithECCManual(FLASHCTL_Regs *flashctl,
 
 void DL_FlashCTL_blankVerify(FLASHCTL_Regs *flashctl, uint32_t address)
 {
-    /* BlankVerify command is not supported in MSPM33C321A */
-    return;
+    /* Set command and word size. BLANKVERIFY can only be applied to a single
+     * flash word at a time */
+    flashctl->GEN.CMDTYPE = (uint32_t) DL_FLASHCTL_COMMAND_SIZE_ONE_WORD |
+                            (uint32_t) DL_FLASHCTL_COMMAND_TYPE_BLANK_VERIFY;
+
+    /* Set the address we want to verify */
+    DL_FlashCTL_setCommandAddress(flashctl, address);
+
+    /* Set bit to execute command */
+    flashctl->GEN.CMDEXEC = FLASHCTL_CMDEXEC_VAL_EXECUTE;
 }
 
 DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_blankVerifyFromRAM(
     FLASHCTL_Regs *flashctl, uint32_t address)
 {
-    /* BlankVerify command is not supported in MSPM33C321A */
-    return DL_FLASHCTL_COMMAND_STATUS_FAILED;
+    /* Set command and word size. BLANKVERIFY can only be applied to a single
+     * flash word at a time */
+    flashctl->GEN.CMDTYPE = (uint32_t) DL_FLASHCTL_COMMAND_SIZE_ONE_WORD |
+                            (uint32_t) DL_FLASHCTL_COMMAND_TYPE_BLANK_VERIFY;
+
+    /* Set the address we want to verify */
+    DL_FlashCTL_setCommandAddress(flashctl, address);
+
+    /* Jump to RAM to execute command and wait for completion */
+    return DL_FlashCTL_executeCommandFromRAM(flashctl);
 }
 
 bool DL_FlashCTL_eraseDataBank(FLASHCTL_Regs *flashctl)

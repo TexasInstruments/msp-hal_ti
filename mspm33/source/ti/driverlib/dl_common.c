@@ -34,6 +34,46 @@
 
 #include <ti/driverlib/dl_common.h>
 
+#if defined(__CM33_REV) && __CM33_REV >= 0x1U
+void DL_Common_EnableCpuCycleCounter(void)
+{
+    /* Enable DWT trace if not enabled already. */
+    if (CoreDebug_DEMCR_TRCENA_Msk !=
+        (CoreDebug_DEMCR_TRCENA_Msk & CoreDebug->DEMCR)) {
+        CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+    }
+    /* Enable CYCCENT if not enabled already. */
+    if (DWT_CTRL_CYCCNTENA_Msk != (DWT_CTRL_CYCCNTENA_Msk & DWT->CTRL)) {
+        DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+    }
+}
+
+static inline uint32_t DL_Common_GetCpuCycleCount(void)
+{
+    return DWT->CYCCNT;
+}
+
+void DL_Common_delayCycles(uint32_t cycles)
+{
+    uint64_t count = cycles;
+
+    DL_Common_EnableCpuCycleCounter();
+
+    /* Calculate the count ticks. */
+    count += DL_Common_GetCpuCycleCount();
+
+    if (count > UINT32_MAX) {
+        count -= UINT32_MAX;
+        /* Wait for cyccnt overflow. */
+        while (count < DL_Common_GetCpuCycleCount()) {
+        }
+    }
+
+    /* Wait for cyccnt reach count value. */
+    while (count > DL_Common_GetCpuCycleCount()) {
+    }
+}
+#else
 void DL_Common_delayCycles(uint32_t cycles)
 {
     /* this is a scratch register for the compiler to use */
@@ -59,3 +99,4 @@ void DL_Common_delayCycles(uint32_t cycles)
         : "=&r"(scratch)
         : [ numCycles ] "r"(cycles));
 }
+#endif

@@ -31,13 +31,18 @@
  */
 /*!****************************************************************************
  *  @file       dl_unicommi2cc.h
- *  @brief      Unified Communication I2C Controller (UNICOMMI2CC) Driver Library
- *  @defgroup   UNICOMMI2CC I2CC Unified Communication I2C Controller (UNICOMMI2CC)
+ *  @brief      Unified Communication Module (UNICOMM) - Inter-Integrated Circuit Controller (I2CC) Driver Library
+ *  @defgroup   UNICOMMI2CC Unified Communication Module (UNICOMM) - Inter-Integrated Circuit Controller (I2CC)
  *
  *  @anchor ti_dl_dl_m0p_unicommi2cc_Overview
  *  # Overview
  *
- *  TODO
+ *  Unified Communication Module Inter-Integrated Circuit Controller Driver Library allows
+ *  full configuration of the UNICOMM I2CC module.
+ *
+ *  This Inter-Integrated Circuit Controller (I2CC) module provides a standardized
+ *  interface to transfer data, as a controller, between devices and other external
+ *  devices with the I2C interface.
  *
  *  <hr>
  ******************************************************************************
@@ -62,7 +67,6 @@ extern "C" {
 #endif
 
 /* clang-format off */
-
 
 /** @addtogroup DL_I2CC_STATUS
  *  @{
@@ -449,92 +453,6 @@ typedef enum {
     DL_I2CC_IIDX_TIMEOUT_B = UNICOMMI2CC_IIDX_STAT_TIMEOUTB,
 } DL_I2CC_IIDX;
 
-/*! @enum DL_I2CC_SPG_DMA_RX_DEST_ADDR*/
-typedef enum {
-    /*! Increment destination memory location after each transfer */
-    DL_I2CC_SPG_DMA_RX_DEST_ADDR_INCREMENT =
-        UNICOMMI2CC_SPGDMARXCTL_DMAMEMINCR_INCREMENT,
-    /*! Decrement destination memory location after each transfer */
-    DL_I2CC_SPG_DMA_RX_DEST_ADDR_DECREMENT =
-        UNICOMMI2CC_SPGDMARXCTL_DMAMEMINCR_DECREMENT
-} DL_I2CC_SPG_DMA_RX_DEST_ADDR;
-
-/*! @enum DL_I2CC_SPG_DMA_RX_PREEMPT_INT */
-typedef enum {
-    /*! Disable pre-emptive interrupt */
-    DL_I2CC_SPG_DMA_RX_PREEMPT_INT_DISABLE =
-        UNICOMMI2CC_SPGDMARXCTL_DMAPREIRQ_PREIRQ_DISABLE,
-    /*! Trigger interrupt pre-emptively when DMA transfer is half done */
-    DL_I2CC_SPG_DMA_RX_PREEMPT_INT_HALF =
-        UNICOMMI2CC_SPGDMARXCTL_DMAPREIRQ_PREIRQ_HALF
-} DL_I2CC_SPG_DMA_RX_PREEMPT_INT;
-
-/*! @enum DL_I2CC_SPG_DMA_RX_TRANSFER_MODE */
-typedef enum {
-    /*! DMA transfers defined number of elements and stops */
-    DL_I2CC_SPG_DMA_RX_TRANSFER_MODE_SINGLE =
-        UNICOMMI2CC_SPGDMARXCTL_DMATM_SINGLE,
-    /*! DMA wraps around to the starting memory location after the configured number of transfers are completed */
-    DL_I2CC_SPG_DMA_RX_TRANSFER_MODE_REPEAT =
-        UNICOMMI2CC_SPGDMARXCTL_DMATM_RPTSNGL
-} DL_I2CC_SPG_DMA_RX_TRANSFER_MODE;
-
-/*! @enum DL_I2CC_SPG_DMA_RX_DATA_WIDTH */
-typedef enum {
-    /*! Width of each RX FIFO element is 1 Byte */
-    DL_I2CC_SPG_DMA_RX_DATA_WIDTH_BYTE =
-        UNICOMMI2CC_SPGDMARXCTL_DMADSTWDTH_BYTE,
-    /*! Width of each RX FIFO element is half of 1 word */
-    DL_I2CC_SPG_DMA_RX_DATA_WIDTH_HALF =
-        UNICOMMI2CC_SPGDMARXCTL_DMADSTWDTH_HALF,
-    /*! Width of each RX FIFO element is 1 word */
-    DL_I2CC_SPG_DMA_RX_DATA_WIDTH_WORD =
-        UNICOMMI2CC_SPGDMARXCTL_DMADSTWDTH_WORD,
-} DL_I2CC_SPG_DMA_RX_DATA_WIDTH;
-
-/*! @enum DL_I2CC_SPG_DMA_TX_DEST_ADDR*/
-typedef enum {
-    /*! Increment memory location after each transfer */
-    DL_I2CC_SPG_DMA_TX_DEST_ADDR_INCREMENT =
-        UNICOMMI2CC_SPGDMATXCTL_DMAMEMINCR_INCREMENT,
-    /*! Decrement memory location after each transfer */
-    DL_I2CC_SPG_DMA_TX_DEST_ADDR_DECREMENT =
-        UNICOMMI2CC_SPGDMATXCTL_DMAMEMINCR_DECREMENT
-} DL_I2CC_SPG_DMA_TX_DEST_ADDR;
-
-/*! @enum DL_I2CC_SPG_DMA_TX_PREEMPT_INT */
-typedef enum {
-    /*! Disable pre-emptive interrupt */
-    DL_I2CC_SPG_DMA_TX_PREEMPT_INT_DISABLE =
-        UNICOMMI2CC_SPGDMATXCTL_DMAPREIRQ_PREIRQ_DISABLE,
-    /*! Trigger interrupt pre-emptively when DMA transfer is half done */
-    DL_I2CC_SPG_DMA_TX_PREEMPT_INT_HALF =
-        UNICOMMI2CC_SPGDMATXCTL_DMAPREIRQ_PREIRQ_HALF
-} DL_I2CC_SPG_DMA_TX_PREEMPT_INT;
-
-/*! @enum DL_I2CC_SPG_DMA_TX_TRANSFER_MODE */
-typedef enum {
-    /*! DMA transfers defined number of elements and stops */
-    DL_I2CC_SPG_DMA_TX_TRANSFER_MODE_SINGLE =
-        UNICOMMI2CC_SPGDMATXCTL_DMATM_SINGLE,
-    /*! DMA wraps around to the starting memory location after the configured number of transfers are completed */
-    DL_I2CC_SPG_DMA_TX_TRANSFER_MODE_REPEAT =
-        UNICOMMI2CC_SPGDMATXCTL_DMATM_RPTSNGL
-} DL_I2CC_SPG_DMA_TX_TRANSFER_MODE;
-
-/*! @enum DL_I2CC_SPG_DMA_TX_DATA_WIDTH */
-typedef enum {
-    /*! Width of each TX FIFO element is 1 Byte */
-    DL_I2CC_SPG_DMA_TX_DATA_WIDTH_BYTE =
-        UNICOMMI2CC_SPGDMATXCTL_DMASRCWDTH_BYTE,
-    /*! Width of each TX FIFO element is half of 1 word */
-    DL_I2CC_SPG_DMA_TX_DATA_WIDTH_HALF =
-        UNICOMMI2CC_SPGDMATXCTL_DMASRCWDTH_HALF,
-    /*! Width of each TX FIFO element is 1 word */
-    DL_I2CC_SPG_DMA_TX_DATA_WIDTH_WORD =
-        UNICOMMI2CC_SPGDMATXCTL_DMASRCWDTH_WORD,
-} DL_I2CC_SPG_DMA_TX_DATA_WIDTH;
-
 /**
  * @brief  Configuration struct for @ref DL_I2CC_setClockConfig.
  */
@@ -573,6 +491,7 @@ void DL_I2CC_getClockConfig(
  *  @param[in]  unicomm     Pointer to the register overlay for the peripheral
  *  @param[in]  buffer  Pointer to buffer of bytes
  *  @param[in]  count   Number of bytes to fill TX FIFO from buffer
+ *                      [0x00, 0xFFF]
  *
  *  @return     Number of bytes that were successfully written
  */
@@ -726,6 +645,7 @@ __STATIC_INLINE void DL_I2CC_resetTransfer(UNICOMM_Inst_Regs *unicomm)
  *  @param[in]  targetAddr  Target address [0x00, 0x3FF]
  *  @param[in]  direction   One of @ref DL_I2CC_DIRECTION
  *  @param[in]  length      Intended burst length in number of bytes
+ *                          [0x00, 0xFFF]
  */
 __STATIC_INLINE void DL_I2CC_startTransfer(UNICOMM_Inst_Regs *unicomm,
     uint32_t targetAddr, DL_I2CC_DIRECTION direction, uint16_t length)
@@ -2243,392 +2163,6 @@ __STATIC_INLINE uint32_t DL_I2CC_getCurrentTimeoutBCounter(
     UNICOMM_Inst_Regs *unicomm)
 {
     return (unicomm->i2cc->TIMEOUT_CNT & UNICOMMI2CC_TIMEOUT_CNT_TCNTB_MASK);
-}
-
-/**
- *  @brief      Enable SPG DMA receive channel
- *
- *  @param[in]  unicomm       Pointer to the register overlay for the
- *                         peripheral
- */
-__STATIC_INLINE void DL_I2CC_enableSPGDMAReceiveChannel(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    unicomm->i2cc->SPGDMA.SPGDMARXCTL |= UNICOMMI2CC_SPGDMARXCTL_DMAEN_ENABLE;
-}
-
-/**
- *  @brief      Disable SPG DMA receive channel
- *
- *  @param[in]  unicomm       Pointer to the register overlay for the
- *                         peripheral
- */
-__STATIC_INLINE void DL_I2CC_disableSPGDMAReceiveChannel(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    unicomm->i2cc->SPGDMA.SPGDMARXCTL &=
-        ~(UNICOMMI2CC_SPGDMARXCTL_DMAEN_ENABLE);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel destination increment
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  The increment direction to use.
- *                      One of @ref DL_I2CC_SPG_DMA_RX_DEST_ADDR.
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMAReceiveIncrement(
-    UNICOMM_Inst_Regs *unicomm, DL_I2CC_SPG_DMA_RX_DEST_ADDR config)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMARXCTL, (uint32_t) config,
-        UNICOMMI2CC_SPGDMARXCTL_DMAMEMINCR_MASK);
-}
-/**
- *  @brief      Get SPG DMA receive channel destination increment
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured destincation increment schema for receive channel
- *  @retval  One of @ref DL_I2CC_SPG_DMA_RX_DEST_ADDR
- */
-__STATIC_INLINE DL_I2CC_SPG_DMA_RX_DEST_ADDR DL_I2CC_getSPGDMAReceiveIncrement(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_I2CC_SPG_DMA_RX_DEST_ADDR)(
-        unicomm->i2cc->SPGDMA.SPGDMARXCTL &
-        UNICOMMI2CC_SPGDMARXCTL_DMAMEMINCR_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel pre-emptive interrupt
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Pre-emptive interrupt schema to use.
- *                      One of @ref DL_I2CC_SPG_DMA_RX_PREEMPT_INT.
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMAReceivePreemtiveInterrupt(
-    UNICOMM_Inst_Regs *unicomm, DL_I2CC_SPG_DMA_RX_PREEMPT_INT config)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMARXCTL, (uint32_t) config,
-        UNICOMMI2CC_SPGDMARXCTL_DMAPREIRQ_MASK);
-}
-/**
- *  @brief      Get SPG DMA receive channel pre-emptive interrupt
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured pre-emptive interrupt schema for receive channel
- *  @retval  One of @ref DL_I2CC_SPG_DMA_RX_PREEMPT_INT
- */
-__STATIC_INLINE DL_I2CC_SPG_DMA_RX_PREEMPT_INT
-DL_I2CC_getSPGDMAReceivePreemtiveInterrupt(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_I2CC_SPG_DMA_RX_PREEMPT_INT)(
-        unicomm->i2cc->SPGDMA.SPGDMARXCTL &
-        UNICOMMI2CC_SPGDMARXCTL_DMAPREIRQ_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel transfer mode
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Transfer mode to use.
- *                      One of @ref DL_I2CC_SPG_DMA_RX_TRANSFER_MODE.
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMAReceiveTransferMode(
-    UNICOMM_Inst_Regs *unicomm, DL_I2CC_SPG_DMA_RX_TRANSFER_MODE config)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMARXCTL, (uint32_t) config,
-        UNICOMMI2CC_SPGDMARXCTL_DMATM_MASK);
-}
-/**
- *  @brief      Get SPG DMA receive channel transfer mode
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured transfer mode for receive channel
- *  @retval  One of @ref DL_I2CC_SPG_DMA_RX_TRANSFER_MODE
- */
-__STATIC_INLINE DL_I2CC_SPG_DMA_RX_TRANSFER_MODE
-DL_I2CC_getSPGDMAReceiveTransferMode(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_I2CC_SPG_DMA_RX_TRANSFER_MODE)(
-        unicomm->i2cc->SPGDMA.SPGDMARXCTL &
-        UNICOMMI2CC_SPGDMARXCTL_DMATM_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel data width
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Data width to use.
- *                      One of @ref DL_I2CC_SPG_DMA_RX_DATA_WIDTH.
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMAReceiveDataWidth(
-    UNICOMM_Inst_Regs *unicomm, DL_I2CC_SPG_DMA_RX_DATA_WIDTH config)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMARXCTL, (uint32_t) config,
-        UNICOMMI2CC_SPGDMARXCTL_DMADSTWDTH_MASK);
-}
-/**
- *  @brief      Get SPG DMA receive channel data width
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured data width for receive channel
- *  @retval  One of @ref DL_I2CC_SPG_DMA_RX_DATA_WIDTH
- */
-__STATIC_INLINE DL_I2CC_SPG_DMA_RX_DATA_WIDTH
-DL_I2CC_getSPGDMAReceiveDataWidth(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_I2CC_SPG_DMA_RX_DATA_WIDTH)(
-        unicomm->i2cc->SPGDMA.SPGDMARXCTL &
-        UNICOMMI2CC_SPGDMARXCTL_DMADSTWDTH_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel memory starting address
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  address  Starting memory address to use
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMAReceiveStartAddress(
-    UNICOMM_Inst_Regs *unicomm, uint32_t address)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMARXDA, address,
-        UNICOMMI2CC_SPGDMARXDA_ADDR_MAXIMUM);
-}
-/**
- *  @brief      Get SPG DMA receive channel memory starting address
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured memory starting address for receive channel
- */
-__STATIC_INLINE uint32_t DL_I2CC_getSPGDMAReceiveStartAddress(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    return (unicomm->i2cc->SPGDMA.SPGDMARXDA &
-            UNICOMMI2CC_SPGDMARXDA_ADDR_MAXIMUM);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel size
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  size  Starting memory address to use
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMAReceiveChannelSize(
-    UNICOMM_Inst_Regs *unicomm, uint16_t size)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMARXSZ, (uint32_t) size,
-        UNICOMMI2CC_SPGDMARXSZ_SIZE_MAXIMUM);
-}
-/**
- *  @brief      Get SPG DMA receive channel size
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured size of receive channel
- */
-__STATIC_INLINE uint16_t DL_I2CC_getSPGDMAReceiveChannelSize(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    return (uint16_t)(unicomm->i2cc->SPGDMA.SPGDMARXSZ &
-                      UNICOMMI2CC_SPGDMARXSZ_SIZE_MAXIMUM);
-}
-
-/**
- *  @brief      Enable SPG DMA transmit channel
- *
- *  @param[in]  unicomm       Pointer to the register overlay for the
- *                         peripheral
- */
-__STATIC_INLINE void DL_I2CC_enableSPGDMATransmitChannel(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    unicomm->i2cc->SPGDMA.SPGDMATXCTL |= UNICOMMI2CC_SPGDMATXCTL_DMAEN_ENABLE;
-}
-
-/**
- *  @brief      Disable SPG DMA transmit channel
- *
- *  @param[in]  unicomm       Pointer to the register overlay for the
- *                         peripheral
- */
-__STATIC_INLINE void DL_I2CC_disableSPGDMATransmitChannel(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    unicomm->i2cc->SPGDMA.SPGDMATXCTL &=
-        ~(UNICOMMI2CC_SPGDMATXCTL_DMAEN_ENABLE);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel destination increment
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  The increment direction to use.
- *                      One of @ref DL_I2CC_SPG_DMA_TX_DEST_ADDR.
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMATransmitIncrement(
-    UNICOMM_Inst_Regs *unicomm, DL_I2CC_SPG_DMA_TX_DEST_ADDR config)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMATXCTL, (uint32_t) config,
-        UNICOMMI2CC_SPGDMATXCTL_DMAMEMINCR_MASK);
-}
-/**
- *  @brief      Get SPG DMA transmit channel destination increment
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured destincation increment schema for transmit channel
- *  @retval  One of @ref DL_I2CC_SPG_DMA_TX_DEST_ADDR
- */
-__STATIC_INLINE DL_I2CC_SPG_DMA_TX_DEST_ADDR
-DL_I2CC_getSPGDMATransmitIncrement(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_I2CC_SPG_DMA_TX_DEST_ADDR)(
-        unicomm->i2cc->SPGDMA.SPGDMATXCTL &
-        UNICOMMI2CC_SPGDMATXCTL_DMAMEMINCR_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel pre-emptive interrupt
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Pre-emptive interrupt schema to use.
- *                      One of @ref DL_I2CC_SPG_DMA_TX_PREEMPT_INT.
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMATransmitPreemtiveInterrupt(
-    UNICOMM_Inst_Regs *unicomm, DL_I2CC_SPG_DMA_TX_PREEMPT_INT config)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMATXCTL, (uint32_t) config,
-        UNICOMMI2CC_SPGDMATXCTL_DMAPREIRQ_MASK);
-}
-/**
- *  @brief      Get SPG DMA transmit channel pre-emptive interrupt
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured pre-emptive interrupt schema for transmit channel
- *  @retval  One of @ref DL_I2CC_SPG_DMA_TX_PREEMPT_INT
- */
-__STATIC_INLINE DL_I2CC_SPG_DMA_TX_PREEMPT_INT
-DL_I2CC_getSPGDMATransmitPreemtiveInterrupt(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_I2CC_SPG_DMA_TX_PREEMPT_INT)(
-        unicomm->i2cc->SPGDMA.SPGDMATXCTL &
-        UNICOMMI2CC_SPGDMATXCTL_DMAPREIRQ_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel transfer mode
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Transfer mode to use.
- *                      One of @ref DL_I2CC_SPG_DMA_TX_TRANSFER_MODE.
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMATransmitTransferMode(
-    UNICOMM_Inst_Regs *unicomm, DL_I2CC_SPG_DMA_TX_TRANSFER_MODE config)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMATXCTL, (uint32_t) config,
-        UNICOMMI2CC_SPGDMATXCTL_DMATM_MASK);
-}
-/**
- *  @brief      Get SPG DMA transmit channel transfer mode
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured transfer mode for transmit channel
- *  @retval  One of @ref DL_I2CC_SPG_DMA_TX_TRANSFER_MODE
- */
-__STATIC_INLINE DL_I2CC_SPG_DMA_TX_TRANSFER_MODE
-DL_I2CC_getSPGDMATransmitTransferMode(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_I2CC_SPG_DMA_TX_TRANSFER_MODE)(
-        unicomm->i2cc->SPGDMA.SPGDMATXCTL &
-        UNICOMMI2CC_SPGDMATXCTL_DMATM_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel data width
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Data width to use.
- *                      One of @ref DL_I2CC_SPG_DMA_TX_DATA_WIDTH.
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMATransmitDataWidth(
-    UNICOMM_Inst_Regs *unicomm, DL_I2CC_SPG_DMA_TX_DATA_WIDTH config)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMATXCTL, (uint32_t) config,
-        UNICOMMI2CC_SPGDMATXCTL_DMASRCWDTH_MASK);
-}
-/**
- *  @brief      Get SPG DMA transmit channel data width
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured data width for transmit channel
- *  @retval  One of @ref DL_I2CC_SPG_DMA_TX_DATA_WIDTH
- */
-__STATIC_INLINE DL_I2CC_SPG_DMA_TX_DATA_WIDTH
-DL_I2CC_getSPGDMATransmitDataWidth(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_I2CC_SPG_DMA_TX_DATA_WIDTH)(
-        unicomm->i2cc->SPGDMA.SPGDMATXCTL &
-        UNICOMMI2CC_SPGDMATXCTL_DMASRCWDTH_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel memory starting address
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  address  Starting memory address to use
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMATransmitStartAddress(
-    UNICOMM_Inst_Regs *unicomm, uint32_t address)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMATXSA, address,
-        UNICOMMI2CC_SPGDMATXSA_ADDR_MAXIMUM);
-}
-/**
- *  @brief      Get SPG DMA transmit channel memory starting address
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured memory starting address for transmit channel
- */
-__STATIC_INLINE uint32_t DL_I2CC_getSPGDMATransmitStartAddress(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    return (unicomm->i2cc->SPGDMA.SPGDMATXSA &
-            UNICOMMI2CC_SPGDMATXSA_ADDR_MAXIMUM);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel size
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  size  Starting memory address to use
- */
-__STATIC_INLINE void DL_I2CC_setSPGDMATransmitChannelSize(
-    UNICOMM_Inst_Regs *unicomm, uint16_t size)
-{
-    DL_Common_updateReg(&unicomm->i2cc->SPGDMA.SPGDMATXSZ, (uint32_t) size,
-        UNICOMMI2CC_SPGDMATXSZ_SIZE_MAXIMUM);
-}
-/**
- *  @brief      Get SPG DMA transmit channel size
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured size of transmit channel
- */
-__STATIC_INLINE uint16_t DL_I2CC_getSPGDMATransmitChannelSize(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    return (uint16_t)(unicomm->i2cc->SPGDMA.SPGDMATXSZ &
-                      UNICOMMI2CC_SPGDMATXSZ_SIZE_MAXIMUM);
 }
 
 #ifdef __cplusplus

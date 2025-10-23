@@ -94,6 +94,8 @@ void DL_SPI_transmitDataBlocking8(UNICOMM_Inst_Regs *unicomm, uint8_t data)
     while (DL_SPI_isTXFIFOFull(unicomm)) {
     };
     DL_SPI_transmitData8(unicomm, data);
+    while (DL_SPI_isBusy(unicomm)) {
+    };
 }
 
 void DL_SPI_transmitDataBlocking16(UNICOMM_Inst_Regs *unicomm, uint16_t data)
@@ -101,6 +103,8 @@ void DL_SPI_transmitDataBlocking16(UNICOMM_Inst_Regs *unicomm, uint16_t data)
     while (DL_SPI_isTXFIFOFull(unicomm)) {
     };
     DL_SPI_transmitData16(unicomm, data);
+    while (DL_SPI_isBusy(unicomm)) {
+    };
 }
 
 void DL_SPI_transmitDataBlocking32(UNICOMM_Inst_Regs *unicomm, uint32_t data)
@@ -108,6 +112,8 @@ void DL_SPI_transmitDataBlocking32(UNICOMM_Inst_Regs *unicomm, uint32_t data)
     while (DL_SPI_isTXFIFOFull(unicomm)) {
     };
     DL_SPI_transmitData32(unicomm, data);
+    while (DL_SPI_isBusy(unicomm)) {
+    };
 }
 
 bool DL_SPI_receiveDataCheck8(UNICOMM_Inst_Regs *unicomm, uint8_t *buffer)

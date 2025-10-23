@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, Texas Instruments Incorporated
+ * Copyright (c) 2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@
  *  # Overview
  *
  *  The Flash Controller Driver Library allows full configuration of
- *  the MSPM0 Non-Volatile memory system.
+ *  the MSPM33 Non-Volatile memory system.
  *  The non-volatile memory (NVM) system provides nonvolatile flash memory for
  *  storing executable code and data.
  *
@@ -948,7 +948,7 @@ __STATIC_INLINE uint8_t DL_FlashCTL_getCommandDataECC(
 __STATIC_INLINE void DL_FlashCTL_setCommandAddress(
     FLASHCTL_Regs *flashctl, uint32_t address)
 {
-    flashctl->GEN.CMDADDR = address;
+    flashctl->GEN.CMDADDR = (address & 0xFFFFFFF0);
 }
 
 /**
@@ -1443,8 +1443,6 @@ void DL_FlashCTL_programMemory8(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -1494,8 +1492,6 @@ void DL_FlashCTL_programMemory16(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -1545,8 +1541,6 @@ void DL_FlashCTL_programMemory32(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -1596,8 +1590,6 @@ void DL_FlashCTL_programMemory64(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -1647,8 +1639,6 @@ void DL_FlashCTL_programMemory96(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -1698,8 +1688,6 @@ void DL_FlashCTL_programMemory128(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -1761,8 +1749,6 @@ void DL_FlashCTL_programMemory8WithECCGenerated(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -1826,8 +1812,6 @@ void DL_FlashCTL_programMemory16WithECCGenerated(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -1891,8 +1875,6 @@ void DL_FlashCTL_programMemory32WithECCGenerated(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -1956,8 +1938,6 @@ void DL_FlashCTL_programMemory64WithECCGenerated(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2021,8 +2001,6 @@ void DL_FlashCTL_programMemory96WithECCGenerated(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2087,8 +2065,6 @@ void DL_FlashCTL_programMemory128WithECCGenerated(
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2166,8 +2142,6 @@ void DL_FlashCTL_programMemory8WithECCManual(FLASHCTL_Regs *flashctl,
  *               @ref DL_FlashCTL_disableOverrideHardwareGeneratedECC is called
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2244,8 +2218,6 @@ void DL_FlashCTL_programMemory16WithECCManual(FLASHCTL_Regs *flashctl,
  *               @ref DL_FlashCTL_disableOverrideHardwareGeneratedECC is called
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2322,8 +2294,6 @@ void DL_FlashCTL_programMemory32WithECCManual(FLASHCTL_Regs *flashctl,
  *               @ref DL_FlashCTL_disableOverrideHardwareGeneratedECC is called
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2400,8 +2370,6 @@ void DL_FlashCTL_programMemory64WithECCManual(FLASHCTL_Regs *flashctl,
  *               @ref DL_FlashCTL_disableOverrideHardwareGeneratedECC is called
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2478,8 +2446,6 @@ void DL_FlashCTL_programMemory96WithECCManual(FLASHCTL_Regs *flashctl,
  *               @ref DL_FlashCTL_disableOverrideHardwareGeneratedECC is called
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2556,8 +2522,6 @@ void DL_FlashCTL_programMemory128WithECCManual(FLASHCTL_Regs *flashctl,
  *               @ref DL_FlashCTL_disableOverrideHardwareGeneratedECC is called
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2634,9 +2598,6 @@ bool DL_FlashCTL_programMemoryBlocking64WithECCGenerated(
  *  @retval     DL_FLASHCTL_COMMAND_STATUS_FAILED   if command didn't succeed
  *  @retval     DL_FLASHCTL_COMMAND_STATUS_PASSED   if command was successful
  *
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
- *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
  *  NOTE: After completion of a program operation, the flash controller will
@@ -2711,9 +2672,6 @@ bool DL_FlashCTL_programMemoryBlocking128WithECCGenerated(
  *
  *  @retval     false   Program didn't succeed, or invalid dataSize
  *  @retval     true    Program was successful
- *
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2803,8 +2761,6 @@ bool DL_FlashCTL_programMemoryBlocking64WithECCManual(FLASHCTL_Regs *flashctl,
  *               can be manually provided for programming. This override setting
  *               will persist through multiple programs, until
  *               @ref DL_FlashCTL_disableOverrideHardwareGeneratedECC is called
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2894,8 +2850,6 @@ bool DL_FlashCTL_programMemoryBlocking128WithECCManual(FLASHCTL_Regs *flashctl,
  *               can be manually provided for programming. This override setting
  *               will persist through multiple programs, until
  *               @ref DL_FlashCTL_disableOverrideHardwareGeneratedECC is called
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -2970,8 +2924,6 @@ bool DL_FlashCTL_programMemoryBlocking(FLASHCTL_Regs *flashctl,
  *
  *  @pre         Before programming memory, the user must unprotect the region
  *               of memory to program. Refer to @ref DL_FlashCTL_unprotectSector
- *  @post        This API just starts the program process. Check the result of it
- *               using an interrupt or the @ref DL_FlashCTL_waitForCmdDone API
  *
  *  NOTE: After completion of a program operation, the flash controller will
  *  configure all memory to a protected state.
@@ -3976,9 +3928,6 @@ void DL_FlashCTL_blankVerify(FLASHCTL_Regs *flashctl, uint32_t address);
  *
  * The command is executed from RAM, and blocks until the command is finished.
  *
- * @post        This API just starts the command process. Check if the command
- *              completed execution using an interrupt or the
- *              @ref DL_FlashCTL_waitForCmdDone API.
  * @post        @ref DL_FlashCTL_getFailureStatus should be called to determine
  *              the result of the BLANKVERIFY command. The
  *              @ref DL_FlashCTL_getFailureStatus API will return

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, Texas Instruments Incorporated
+ * Copyright (c) 2025, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,28 +30,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <ti/driverlib/dl_vref.h>
+#include <ti/driverlib/dl_comp.h>
 
-#ifdef __MSP_HAS_VREF__
-
-void DL_VREF_configReference(VREF_Regs *vref, const DL_VREF_Config *config)
-{
-    vref->CTL0 = (uint32_t) config->vrefEnable | (uint32_t) config->bufConfig |
-                 (uint32_t) config->shModeEnable;
-    vref->CTL2 = (config->shCycleCount << VREF_CTL2_SHCYCLE_OFS) |
-                 (config->holdCycleCount << VREF_CTL2_HCYCLE_OFS);
-}
-
-void DL_VREF_setClockConfig(VREF_Regs *vref, const DL_VREF_ClockConfig *config)
-{
-    vref->CLKSEL = (uint32_t) config->clockSel;
-    vref->CLKDIV = (uint32_t) config->divideRatio;
-}
-
-void DL_VREF_getClockConfig(const VREF_Regs *vref, DL_VREF_ClockConfig *config)
-{
-    config->clockSel    = (DL_VREF_CLOCK) vref->CLKSEL;
-    config->divideRatio = (DL_VREF_CLOCK_DIVIDE) vref->CLKDIV;
-}
-
-#endif /* __MSP_HAS_VREF__ */
+#ifdef __MSP_HAS_COMP__
+#endif /* __MSP_HAS_COMP__ */

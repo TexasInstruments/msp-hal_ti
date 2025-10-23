@@ -35,13 +35,9 @@
 #ifndef ti_devices_msp_peripherals_hw_memcfg__include
 #define ti_devices_msp_peripherals_hw_memcfg__include
 
-/* This preliminary header file does not have a version number */
 /* Filename: hw_memcfg.h */
-/* MMR revised: 2025-04-09 14:12:34 */
-/* MMR repo: https://bitbucket.itg.ti.com/projects/cmcu_msp65soc/repos/m33c1 */
-/* MMR revision: f4602b816b1643a266cc7aae6be755d35f394359 */
-/* Generator revision: ee5e56ed8e50e22306abbffa1ce64d23abbf32b9
-   (MInT: 1818019a64e181dbbfd48fdc69fea15367af4c13) */
+/* Revised: 2025-09-11 15:56:01 */
+/* Revision: 2b5f545717ba26bba18de7a2db1005762df3b518 */
 
 #ifndef __CORTEX_M
   #ifdef __cplusplus
@@ -80,13 +76,12 @@
 */
 
 typedef struct {
-  __IO uint32_t Reserved_1[1024];                  /* !< (@ 0x00000000) */
+       uint32_t RESERVED0[1024];
   __IO uint32_t TEST;                              /* !< (@ 0x00001000) RAM TEST Register */
   __IO uint32_t RAM_CACHE_CONFIG;                  /* !< (@ 0x00001004) RAM CACHE configuration */
   __IO uint32_t RAM_WS_CONFIG;                     /* !< (@ 0x00001008) RAM wait state configuration */
   __IO uint32_t RAM_CACHE_CLEAR;                   /* !< (@ 0x0000100C) RAM cache clear */
   __IO uint32_t ROM_WS_CONFIG;                     /* !< (@ 0x00001010) ROM wait state configuration */
-  __IO uint32_t Reserved_2[1019];                  /* !< (@ 0x00001014) */
 } MEMCFG_MEM_CFG_REGS_Regs;
 
 /*@}*/ /* end of group MEMCFG_MEM_CFG_REGS */

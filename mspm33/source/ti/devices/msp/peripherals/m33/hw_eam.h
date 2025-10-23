@@ -35,13 +35,9 @@
 #ifndef ti_devices_msp_peripherals_hw_eam__include
 #define ti_devices_msp_peripherals_hw_eam__include
 
-/* This preliminary header file does not have a version number */
 /* Filename: hw_eam.h */
-/* MMR revised: 2025-04-09 14:12:34 */
-/* MMR repo: https://bitbucket.itg.ti.com/projects/cmcu_msp65soc/repos/m33c1 */
-/* MMR revision: f4602b816b1643a266cc7aae6be755d35f394359 */
-/* Generator revision: ee5e56ed8e50e22306abbffa1ce64d23abbf32b9
-   (MInT: 1818019a64e181dbbfd48fdc69fea15367af4c13) */
+/* Revised: 2025-09-11 15:56:01 */
+/* Revision: 2b5f545717ba26bba18de7a2db1005762df3b518 */
 
 #ifndef __CORTEX_M
   #ifdef __cplusplus
@@ -80,34 +76,33 @@
 */
 
 typedef struct {
-  __IO uint32_t Reserved_1[1024];                  /* !< (@ 0x00000000) Reserved */
+       uint32_t RESERVED0[1024];
   __IO uint32_t REVISION;                          /* !< (@ 0x00001000) IP revision id register */
-  __IO uint32_t Reserved_2[3];                     /* !< (@ 0x00001004) Reserved */
+       uint32_t RESERVED1[3];
   __IO uint32_t SECURITY_ERR_FLAG;                 /* !< (@ 0x00001010) Security error flag */
   __IO uint32_t SECURITY_ERR_CLR;                  /* !< (@ 0x00001014) Security error clear */
   __IO uint32_t SECURITY_ERR_MSTID;                /* !< (@ 0x00001018) Security error master id */
   __IO uint32_t SECURITY_ERR_ADDR;                 /* !< (@ 0x0000101C) Security error address */
-  __IO uint32_t Reserved_3[4];                     /* !< (@ 0x00001020) Reserved */
+       uint32_t RESERVED2[4];
   __IO uint32_t FRI_SEC_FLAG;                      /* !< (@ 0x00001030) FRI SEC flag */
   __IO uint32_t FRI_SEC_CLR;                       /* !< (@ 0x00001034) FRI SEC clear */
   __IO uint32_t FRI_SEC_ADDR;                      /* !< (@ 0x00001038) FRI SEC address */
   __IO uint32_t FRI_SEC_MSTID;                     /* !< (@ 0x0000103C) FRI SEC master id */
-  __IO uint32_t Reserved_4[4];                     /* !< (@ 0x00001040) Reserved */
+       uint32_t RESERVED3[4];
   __IO uint32_t FRI_DED_FLAG;                      /* !< (@ 0x00001050) FRI DED flag */
   __IO uint32_t FRI_DED_CLR;                       /* !< (@ 0x00001054) FRI DED clear */
   __IO uint32_t FRI_DED_ADDR;                      /* !< (@ 0x00001058) FRI DED address */
   __IO uint32_t FRI_DED_MSTID;                     /* !< (@ 0x0000105C) FRI DED master id */
-  __IO uint32_t Reserved_5[4];                     /* !< (@ 0x00001060) Reserved */
+       uint32_t RESERVED4[4];
   __IO uint32_t SYSMEM_SEC_FLAG;                   /* !< (@ 0x00001070) SYSMEM SEC flag */
   __IO uint32_t SYSMEM_SEC_CLR;                    /* !< (@ 0x00001074) SYSMEM SEC clear */
   __IO uint32_t SYSMEM_SEC_ADDR;                   /* !< (@ 0x00001078) SYSMEM SEC address */
   __IO uint32_t SYSMEM_SEC_MSTID;                  /* !< (@ 0x0000107C) SYSMEM SEC master id */
-  __IO uint32_t Reserved_6[4];                     /* !< (@ 0x00001080) Reserved */
+       uint32_t RESERVED5[4];
   __IO uint32_t SYSMEM_DED_FLAG;                   /* !< (@ 0x00001090) SYSMEM DED flag */
   __IO uint32_t SYSMEM_DED_CLR;                    /* !< (@ 0x00001094) SYSMEM DED clear */
   __IO uint32_t SYSMEM_DED_ADDR;                   /* !< (@ 0x00001098) SYSMEM DED address */
   __IO uint32_t SYSMEM_DED_MSTID;                  /* !< (@ 0x0000109C) SYSMEM DED master id */
-  __IO uint32_t Reserved_7[984];                   /* !< (@ 0x000010A0) Reserved */
 } EAM_EAM_REGS_Regs;
 
 /*@}*/ /* end of group EAM_EAM_REGS */

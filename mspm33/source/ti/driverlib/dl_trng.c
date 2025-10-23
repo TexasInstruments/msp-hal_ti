@@ -34,13 +34,13 @@
 
 #ifdef __MSP_HAS_TRNG__
 
-bool DL_TRNG_saveConfiguration(TRNG_Regs *trng, DL_TRNG_backupConfig *ptr)
+bool DL_TRNG_saveConfiguration(const TRNG_Regs *trng, DL_TRNG_backupConfig *ptr)
 {
     bool stateSaved = !ptr->backupRdy;
     if (stateSaved) {
         ptr->controlWord   = trng->CTL;
         ptr->clockDivider  = trng->CLKDIVIDE;
-        ptr->interruptMask = trng->IMASK;
+        ptr->interruptMask = trng->CPU_INT.IMASK;
         ptr->backupRdy     = true;
     }
     return stateSaved;
@@ -53,7 +53,7 @@ bool DL_TRNG_restoreConfiguration(TRNG_Regs *trng, DL_TRNG_backupConfig *ptr)
         DL_Common_updateReg(
             &trng->CTL, ptr->controlWord, TRNG_CTL_DECIM_RATE_MASK);
         trng->CLKDIVIDE     = ptr->clockDivider;
-        trng->IMASK = ptr->interruptMask;
+        trng->CPU_INT.IMASK = ptr->interruptMask;
 
         /* If TRNG was originally in OFF state, then send PWROFF command */
         if (((ptr->controlWord & TRNG_STAT_FSM_STATE_MASK) >>
@@ -66,4 +66,4 @@ bool DL_TRNG_restoreConfiguration(TRNG_Regs *trng, DL_TRNG_backupConfig *ptr)
     return stateRestored;
 }
 
-#endif /* __MSPM33_HAS_TRNG__ */
+#endif /* __MSP_HAS_TRNG__ */

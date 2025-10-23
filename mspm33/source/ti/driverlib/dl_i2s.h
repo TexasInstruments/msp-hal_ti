@@ -139,16 +139,6 @@ extern "C" {
 #define DL_I2S_INTERRUPT_DMA_DONE_TX        (I2S_CPU_INT_IMASK_DMA_DONE_TX_SET)
 
 /*!
- * @brief DMA Done Pre-IRQ on RX Event Channel Interrupt
- */
-#define DL_I2S_INTERRUPT_DMA_PREIRQ_RX    (I2S_CPU_INT_IMASK_DMA_PREIRQ_RX_SET)
-
-/*!
- * @brief DMA Done Pre-IRQ on TX Event Channel Interrupt
- */
-#define DL_I2S_INTERRUPT_DMA_PREIRQ_TX    (I2S_CPU_INT_IMASK_DMA_PREIRQ_TX_SET)
-
-/*!
  * @brief RXFIFO Overflow Event Interrupt
  */
 #define DL_I2S_INTERRUPT_RXFIFO_OVERFLOW     (I2S_CPU_INT_IMASK_RXFIFO_OVF_SET)
@@ -177,20 +167,30 @@ extern "C" {
 
 /* clang-format on */
 
-/** @enum DL_I2S_CLOCK_SOURCE */
+/** @enum DL_I2S_WORD_BAUD_CLOCK_SOURCE */
 typedef enum {
     /*! No source for audio clocks WCLK and BCLK */
-    DL_I2S_CLOCK_SOURCE_NONE = I2S_WCLKSRC_WBCLKSRC_NONE,
+    DL_I2S_WORD_BAUD_CLOCK_SOURCE_NONE = I2S_WCLKSRC_WBCLKSRC_NONE,
     /*! External source for audio clocks WCLK and BCLK from pin */
-    DL_I2S_CLOCK_SOURCE_EXT = I2S_WCLKSRC_WBCLKSRC_EXT,
+    DL_I2S_WORD_BAUD_CLOCK_SOURCE_EXTERNAL = I2S_WCLKSRC_WBCLKSRC_EXT,
     /*! Internal source for audio clocks WCLK and BCLK from module PRCM */
-    DL_I2S_CLOCK_SOURCE_INT = I2S_WCLKSRC_WBCLKSRC_INT,
+    DL_I2S_WORD_BAUD_CLOCK_SOURCE_INTERNAL = I2S_WCLKSRC_WBCLKSRC_INT,
+} DL_I2S_WORD_BAUD_CLOCK_SOURCE;
+
+/** @enum DL_I2S_CLOCK_SOURCE */
+typedef enum {
+    /*! Select SYSOSC as the clock source for I2S */
+    DL_I2S_CLOCK_SOURCE_SYSOSC = I2S_CLKCFG_DAICLK_SYSOSC,
+    /*! Select HFXT as the clock source for I2S */
+    DL_I2S_CLOCK_SOURCE_HFXT = I2S_CLKCFG_DAICLK_HFXT,
+    /*! Select PLL as the clock source for I2S */
+    DL_I2S_CLOCK_SOURCE_PLL = I2S_CLKCFG_DAICLK_PLL,
 } DL_I2S_CLOCK_SOURCE;
 
 /** @enum DL_I2S_WCLK_INVERSION */
 typedef enum {
     /*! WCLK is not inverted */
-    DL_I2S_WCLK_INVERSION_DISABLED = I2S_WCLKSRC_WCLKINV_NOT_INTVERTED,
+    DL_I2S_WCLK_INVERSION_DISABLED = I2S_WCLKSRC_WCLKINV_NOT_INVERTED,
     /*! WCLK is inverted */
     DL_I2S_WCLK_INVERSION_ENABLED = I2S_WCLKSRC_WCLKINV_INVERTED,
 } DL_I2S_WCLK_INVERSION;
@@ -251,29 +251,13 @@ typedef enum {
     DL_I2S_WCLK_PHASE_CUSTOM = (2U << I2S_CLKCTL_WCLKPHASE_OFS),
 } DL_I2S_WCLK_PHASE;
 
-/** @enum DL_I2S_SERIAL_FORMAT */
+/** @enum DL_I2S_MODE */
 typedef enum {
-    /*! I2S frame format */
-    DL_I2S_SERIAL_FORMAT_I2S = 0U,
-    /*! Codec MSB/Left Justified format */
-    DL_I2S_SERIAL_FORMAT_LJF = 1U,
-    /*! Codec LSB/Right Justified format */
-    DL_I2S_SERIAL_FORMAT_RJF = 2U,
-    /*! DSP format */
-    DL_I2S_SERIAL_FORMAT_DSP = 3U,
-    /*! PCM (short frame) format */
-    DL_I2S_SERIAL_FORMAT_PCM_SHORT = 4U,
-    /*! PCM (long frame) format */
-    DL_I2S_SERIAL_FORMAT_PCM_LONG = 5U,
-    /*! TDM Classic format */
-    DL_I2S_SERIAL_FORMAT_TDM_CLASSIC = 6U,
-    /*! TDM I2S format */
-    DL_I2S_SERIAL_FORMAT_TDM_I2S = 7U,
-    /*! TDM Left Justified format */
-    DL_I2S_SERIAL_FORMAT_TDM_LJF = 8U,
-    /*! TDM Right Justified format */
-    DL_I2S_SERIAL_FORMAT_TDM_RJF = 9U,
-} DL_I2S_SERIAL_FORMAT;
+    /*! I2S controller mode. Module outputs audio clock signals (WCLK, BCLK) */
+    DL_I2S_MODE_CONTROLLER = 0U,
+    /*! I2S target mode. Audio clock signals are inputs (WCLK, BCLK) */
+    DL_I2S_MODE_TARGET = 1U,
+} DL_I2S_MODE;
 
 /** @enum DL_I2S_DATA_PIN_DIRECTION */
 typedef enum {
@@ -328,104 +312,66 @@ typedef enum {
     /*! Interrupt index for I2S Transmit Interrupt */
     DL_I2S_IIDX_TX_DONE = I2S_IIDX_STAT_TXIFG,
     /*! Interrupt index for I2S RXFIFO Overflow Event */
-    DL_I2S_IIDX_RXFIFO_OVERFLOW = I2S_IIDX_STAT_RXFIFO_OFV_EVT,
+    DL_I2S_IIDX_RXFIFO_OVERFLOW = I2S_IIDX_STAT_RXFIFO_OVF_EVT,
     /*! Interrupt index for I2S TXFIFO Underflow Event */
     DL_I2S_IIDX_TXFIFO_UNDERFLOW = I2S_IIDX_STAT_TXFIFO_UNF_EVT,
     /*! Interrupt index for DMA Done on RX */
     DL_I2S_IIDX_DMA_DONE_RX = I2S_IIDX_STAT_DMA_DONE_RX,
     /*! Interrupt index for DMA Done on TX */
     DL_I2S_IIDX_DMA_DONE_TX = I2S_IIDX_STAT_DMA_DONE_TX,
-    /*! Interrupt index for DMA Pre-IRQ RX */
-    DL_I2S_IIDX_DMA_PREIRQ_RX = I2S_IIDX_STAT_DMA_PREIRQ_RX,
-    /*! Interrupt index for DMA Pre-IRQ TX */
-    DL_I2S_IIDX_DMA_PREIRQ_TX = I2S_IIDX_STAT_DMA_PREIRQ_TX,
 } DL_I2S_IIDX;
 
 /**
  * @brief  Configuration struct for @ref DL_I2S_setClockConfig.
  */
 typedef struct {
-    /*! Audio clocks (WCLK, BCLK) source. One of @ref DL_I2S_CLOCK_SOURCE */
+    /*! I2S clock source. One of @ref DL_I2S_CLOCK_SOURCE */
     DL_I2S_CLOCK_SOURCE clockSel;
-    /*! WCLK invert. One of @ref DL_I2S_WCLK_INVERSION */
-    DL_I2S_WCLK_INVERSION wclkInvert;
+    /*! Audio clocks (WCLK, BCLK) source. One of @ref DL_I2S_WORD_BAUD_CLOCK_SOURCE */
+    DL_I2S_WORD_BAUD_CLOCK_SOURCE wordBaudClockSource;
     /*! WCLK phase. One of @ref DL_I2S_WCLK_PHASE */
     DL_I2S_WCLK_PHASE wclkPhase;
     /*! WCLK divide ratio. [0x1, 0xFFFF] */
-    uint32_t wclkDivideRatio;
+    uint32_t wclkDivider;
     /*! BCLK divide ratio. [ @ref DL_I2S_BDIV_MINIMUM, @ref DL_I2S_BDIV_MAXIMUM] */
-    uint32_t bclkDivideRatio;
+    uint32_t bclkDivider;
 } DL_I2S_ClockConfig;
 
 /**
- * @brief  Configuration struct for @ref DL_I2S_configureDataPin0 and
- *         @ref DL_I2S_configureDataPin1
+ * @brief  Configuration struct for @ref DL_I2S_init.
  */
 typedef struct {
-    /*! Data pin direction. One of @ref DL_I2S_DATA_PIN_DIRECTION */
-    DL_I2S_DATA_PIN_DIRECTION direction;
+    /*! Controller or target mode. One of @ref DL_I2S_MODE */
+    DL_I2S_MODE mode;
+    /*! WCLK inversion. One of @ref DL_I2S_WCLK_INVERSION */
+    DL_I2S_WCLK_INVERSION wclkInvert;
+    /*! Single or dual-phase. One of @ref DL_I2S_PHASE */
+    DL_I2S_PHASE phase;
+    /*! Positive or negative sampling edge. One of @ref DL_I2S_SAMPLE_EDGE */
+    DL_I2S_SAMPLE_EDGE samplingEdge;
+    /*! Number of bits per sample word. [7, 31]. See @ref DL_I2S_setSampleWordLength */
+    uint32_t sampleWordLength;
+    /*! Data delay. One of @ref DL_I2S_DATA_DELAY */
+    DL_I2S_DATA_DELAY dataDelay;
+    /*! Empty slot output. One of @ref DL_I2S_EMPTY_SLOT_OUTPUT */
+    DL_I2S_EMPTY_SLOT_OUTPUT emptySlotOutput;
+    /*! Memory access length. One of @ref DL_I2S_MEMORY_LENGTH */
+    DL_I2S_MEMORY_LENGTH memoryAccessLength;
+    /*! Data pin 0 (AD0) direction. One of @ref DL_I2S_DATA_PIN_DIRECTION */
+    DL_I2S_DATA_PIN_DIRECTION dataPin0Direction;
     /*! Valid channel mask for a frame on a data pin. [0, 0xFF] */
-    uint32_t channelMask;
-} DL_I2S_DataPinConfig;
-
-/**
- * @brief Configuration structure to backup I2S peripheral state before going
- *        to STOP/STANDBY mode. Used by @ref DL_I2S_saveConfiguration and
- *        @ref DL_I2S_restoreConfiguration
- */
-typedef struct {
-    /*! Combination of I2S serial format configurations that are
-     *  compressed to a single word as they are stored in the I2S
-     *  registers */
-    uint32_t formatWord;
-
-    /*! Combination of audio clock enables and phase settings
-     *  compressed to a single word as they are stored in the I2S registers. */
-    uint32_t clockControl;
-
-    /*! Combination of audio clock sources and inversion
-     *  compressed to a single word as they are stored in the I2S registers. */
-    uint32_t wclkSourceWord;
-
-    /*! Valid channels on data pin 0 */
     uint32_t dataPin0ValidChannelMask;
-
 #ifdef DEVICE_HAS_MULTIPLE_DATA_PIN
-    /*! Valid channels on data pin 1 */
+    /*! Data pin 1 (AD1) direction. One of @ref DL_I2S_DATA_PIN_DIRECTION */
+    DL_I2S_DATA_PIN_DIRECTION dataPin1Direction;
+    /*! Valid channel mask for a frame on a data pin. [0, 0xFF] */
     uint32_t dataPin1ValidChannelMask;
-
 #endif
-    /*! Controller clock (MCLK) divider */
-    uint32_t mclkDiv;
-
-    /*! WCLK divider */
-    uint32_t wclkDiv;
-
-    /*! BCLK divider */
-    uint32_t bclkDiv;
-
-    /*! I2S interrupt mask for EVENT0.
-     *  Bitwise OR of @ref DL_I2S_INTERRUPT */
-    uint32_t interruptMask0;
-
-    /*! I2S interrupt mask for EVENT1.
-     *  Bitwise OR of @ref DL_I2S_DMA_INTERRUPT_RX */
-    uint32_t interruptMask1;
-
-    /*! I2S interrupt mask for EVENT2.
-     *  Bitwise OR of @ref DL_I2S_DMA_INTERRUPT_TX */
-    uint32_t interruptMask2;
-
-    /*! Combination of I2S interrupt FIFO level select configurations */
-    uint32_t interruptFifoLevelSelectByte;
-
-    /*! Combination of I2S data pin direction configurations */
-    uint32_t dataPinConfigs;
-
-    /*! Boolean flag indicating whether or not a valid configuration structure
-     *  exists. Should not be modified by the user. */
-    bool backupRdy;
-} DL_I2S_backupConfig;
+    /*! MCLK divide ratio. [ @ref DL_I2S_MDIV_MINIMUM, @ref DL_I2S_MDIV_MAXIMUM] */
+    uint32_t mclkDivider;
+    /*! Enable the optional MCLK signal. Controller mode only */
+    bool enableMCLK;
+} DL_I2S_Config;
 
 /**
  *  @brief      Configure I2S audio clocks (WCLK and BCLK)
@@ -435,65 +381,49 @@ typedef struct {
  *  @param[in]  config  Pointer to the clock configuration struct
  *                      @ref DL_I2S_ClockConfig.
  */
-void DL_I2S_setClockConfig(I2S_Regs *i2s, DL_I2S_ClockConfig *config);
+void DL_I2S_setClockConfig(I2S_Regs *i2s, const DL_I2S_ClockConfig *config);
 
 /**
  *  @brief      Get I2S audio clocks configuration (WCLK and BCLK)
  *
  *  @param[in]  i2s     Pointer to the register overlay for the
  *                      peripheral
- *  @param[in]  config  Pointer to the clock configuration struct
+ *  @param[out] config  Pointer to the clock configuration struct
  *                      @ref DL_I2S_ClockConfig.
  */
-void DL_I2S_getClockConfig(I2S_Regs *i2s, DL_I2S_ClockConfig *config);
+void DL_I2S_getClockConfig(const I2S_Regs *i2s, DL_I2S_ClockConfig *config);
 
 /**
- *  @brief     Configure data pin 0
+ *  @brief     Initialize the I2S peripheral
  *
- *  @param[in] i2s     Pointer to the register overlay for the peripheral
- *  @param[in] config  Data pin configuration. One of @ref DL_I2S_DataPinConfig
- */
-void DL_I2S_configureDataPin0(I2S_Regs *i2s, DL_I2S_DataPinConfig *config);
-
-#ifdef DEVICE_HAS_MULTIPLE_DATA_PIN
-/**
- *  @brief     Configure data pins
+ *  Initializes all the common configurable options for the I2S peripheral. Any
+ *  other custom configuration can be done after calling this API. The I2S is
+ *  not enabled in this API.
  *
- *  @param[in] i2s         Pointer to the register overlay for the peripheral
- *  @param[in] pin0Config  Data pin 0 (AD0) configuration.
- *                         One of @ref DL_I2S_DataPinConfig
- *  @param[in] pin1Config  Data pin 1 (AD1) configuration.
- *                         One of @ref DL_I2S_DataPinConfig
+ *  @param[in]  i2s     Pointer to the register overlay for the peripheral
+ *  @param[in]  config  Configuration for I2S peripheral
  */
-void DL_I2S_configureDataPins(I2S_Regs *i2s, DL_I2S_DataPinConfig *pin0Config,
-    DL_I2S_DataPinConfig *pin1Config);
+void DL_I2S_init(I2S_Regs *i2s, const DL_I2S_Config *config);
 
 /**
- *  @brief     Configure data pin 1
+ *  @brief      Writes 8-bit data into the TX FIFO for transmit
  *
- *  @param[in] i2s     Pointer to the register overlay for the peripheral
- *  @param[in] config  Data pin configuration. One of @ref DL_I2S_DataPinConfig
+ *  Puts the data into the TX FIFO without checking its status. Use if already
+ *  sure the TX FIFO has space for the write. See related APIs for additional
+ *  transmit options.
+ *
+ *  Can be used for any data transfers that are less than or equal to 8 bits.
+ *
+ *  @param[in]  i2s   pointer to the register overlay for the peripheral
+ *  @param[in]  data  data to send
+ *
+ *  @sa         DL_I2S_transmitDataBlocking8
+ *  @sa         DL_I2S_transmitDataCheck8
  */
-void DL_I2S_configureDataPin1(I2S_Regs *i2s, DL_I2S_DataPinConfig *config);
-
-#endif
-/**
- *  @brief     Set the serial frame format. Clock configuration
- *             (WCLK inversion, dividers, etc.) must be configured separately
- *             in @ref DL_I2S_setClockConfig
- *
- *
- *  @param[in] i2s          Pointer to the register overlay for the
- *                          peripheral
- *  @param[in] serialFormat         One of @ref DL_I2S_SERIAL_FORMAT
- *  @param[in] sampleWordLength     Number of bits per sample word. [8, 32]
- *  @param[in] dataDelay            One of @ref DL_I2S_DATA_DELAY
- *
- *  @sa DL_I2S_setClockConfig
- */
-void DL_I2S_configureSerialFormat(I2S_Regs *i2s,
-    DL_I2S_SERIAL_FORMAT serialFormat, uint32_t sampleWordLength,
-    DL_I2S_DATA_DELAY dataDelay);
+__STATIC_INLINE void DL_I2S_transmitData8(I2S_Regs *i2s, uint8_t data)
+{
+    i2s->TXDATA = data;
+}
 
 /**
  *  @brief      Writes 16-bit data into the TX FIFO for transmit
@@ -539,6 +469,27 @@ __STATIC_INLINE void DL_I2S_transmitData32(I2S_Regs *i2s, uint32_t data)
 }
 
 /**
+ *  @brief      Reads 8-bit data from the RX FIFO
+ *
+ *  Reads the data from the RX FIFO without checking its status. Use if
+ *  already sure the RX FIFO has data available. See related APIs for
+ *  additional receive options.
+ *
+ *  Can be used for any data transfers that are less than or equal to 8 bits.
+ *
+ *  @param[in]  i2s   pointer to the register overlay for the peripheral
+ *
+ *  @return     The data in the RX FIFO
+ *
+ *  @sa         DL_I2S_receiveDataBlocking8
+ *  @sa         DL_I2S_receiveDataCheck8
+ */
+__STATIC_INLINE uint8_t DL_I2S_receiveData8(const I2S_Regs *i2s)
+{
+    return ((uint8_t)(i2s->RXDATA));
+}
+
+/**
  *  @brief      Reads 16-bit data from the RX FIFO
  *
  *  Reads the data from the RX FIFO without checking its status. Use if
@@ -554,7 +505,7 @@ __STATIC_INLINE void DL_I2S_transmitData32(I2S_Regs *i2s, uint32_t data)
  *  @sa         DL_I2S_receiveDataBlocking16
  *  @sa         DL_I2S_receiveDataCheck16
  */
-__STATIC_INLINE uint16_t DL_I2S_receiveData16(I2S_Regs *i2s)
+__STATIC_INLINE uint16_t DL_I2S_receiveData16(const I2S_Regs *i2s)
 {
     return ((uint16_t)(i2s->RXDATA));
 }
@@ -575,10 +526,27 @@ __STATIC_INLINE uint16_t DL_I2S_receiveData16(I2S_Regs *i2s)
  *  @sa         DL_I2S_receiveDataBlocking32
  *  @sa         DL_I2S_receiveDataCheck32
  */
-__STATIC_INLINE uint32_t DL_I2S_receiveData32(I2S_Regs *i2s)
+__STATIC_INLINE uint32_t DL_I2S_receiveData32(const I2S_Regs *i2s)
 {
     return (i2s->RXDATA);
 }
+
+/**
+ *  @brief      Blocks to ensure transmit is ready before sending data
+ *
+ *  Puts the data into the TX FIFO after blocking to ensure the TX FIFO is not
+ *  full. Will wait indefinitely until there is space in the TX FIFO. See
+ *  related APIs for additional transmit options.
+ *
+ *  Can be used for any data transfers that are less than or equal to 8 bits.
+ *
+ *  @param[in]  i2s   pointer to the register overlay for the peripheral
+ *  @param[in]  data  data to send
+ *
+ *  @sa         DL_I2S_transmitData8
+ *  @sa         DL_I2S_transmitDataCheck8
+ */
+void DL_I2S_transmitDataBlocking8(I2S_Regs *i2s, uint8_t data);
 
 /**
  *  @brief      Blocks to ensure transmit is ready before sending data
@@ -624,16 +592,34 @@ void DL_I2S_transmitDataBlocking32(I2S_Regs *i2s, uint32_t data);
  *  empty. Will wait indefinitely until there is data in the RX FIFO. See
  *  related APIs for additional receive options.
  *
+ *  Can be used for any data transfers that are less than or equal to 8 bits.
+ *
+ *  @param[in]  i2s   pointer to the register overlay for the peripheral
+ *
+ *  @return     The data in the RX FIFO
+ *
+ *  @sa         DL_I2S_receiveData16
+ *  @sa         DL_I2S_receiveDataCheck16
+ */
+uint8_t DL_I2S_receiveDataBlocking8(const I2S_Regs *i2s);
+
+/**
+ *  @brief      Blocks to ensure receive is ready before reading data
+ *
+ *  Reads the data from the RX FIFO after blocking to ensure the RX FIFO is not
+ *  empty. Will wait indefinitely until there is data in the RX FIFO. See
+ *  related APIs for additional receive options.
+ *
  *  Can be used for any data transfers that are less than or equal to 16 bits.
  *
  *  @param[in]  i2s   pointer to the register overlay for the peripheral
  *
  *  @return     The data in the RX FIFO
  *
- *  @sa         DL_I2S_transmitData16
- *  @sa         DL_I2S_transmitDataCheck16
+ *  @sa         DL_I2S_receiveData16
+ *  @sa         DL_I2S_receiveDataCheck16
  */
-uint16_t DL_I2S_receiveDataBlocking16(I2S_Regs *i2s);
+uint16_t DL_I2S_receiveDataBlocking16(const I2S_Regs *i2s);
 
 /**
  *  @brief      Blocks to ensure receive is ready before reading data
@@ -648,10 +634,32 @@ uint16_t DL_I2S_receiveDataBlocking16(I2S_Regs *i2s);
  *
  *  @return     The data in the RX FIFO
  *
- *  @sa         DL_I2S_transmitData32
- *  @sa         DL_I2S_transmitDataCheck32
+ *  @sa         DL_I2S_receiveData32
+ *  @sa         DL_I2S_receiveDataCheck32
  */
-uint32_t DL_I2S_receiveDataBlocking32(I2S_Regs *i2s);
+uint32_t DL_I2S_receiveDataBlocking32(const I2S_Regs *i2s);
+
+/**
+ *  @brief      Checks the TX FIFO before trying to transmit data
+ *
+ *  Checks if the TX FIFO is already full before trying to add new data to the
+ *  FIFO. Exits immediately if full rather than trying to block. See related
+ *  APIs for additional transmit options.
+ *
+ *  Can be used for any data transfers that are less than or equal to 8 bits.
+ *
+ *  @param[in]  i2s   pointer to the register overlay for the peripheral
+ *  @param[in]  data  data to send
+ *
+ *  @return     If the transmit occurred
+ *
+ *  @retval     true  if data was added to the TX FIFO
+ *  @retval     false if the TX FIFO was full and data was not added
+ *
+ *  @sa         DL_I2S_transmitData8
+ *  @sa         DL_I2S_transmitDataBlocking8
+ */
+bool DL_I2S_transmitDataCheck8(I2S_Regs *i2s, uint8_t data);
 
 /**
  *  @brief      Checks the TX FIFO before trying to transmit data
@@ -701,7 +709,29 @@ bool DL_I2S_transmitDataCheck16(I2S_Regs *i2s, uint16_t data);
 bool DL_I2S_transmitDataCheck32(I2S_Regs *i2s, uint32_t data);
 
 /**
- *  @brief      Checks the RX FIFO before trying to transmit data
+ *  @brief      Checks the RX FIFO before trying to receive data
+ *
+ *  Checks if the RX FIFO is already empty before trying to read new data from
+ *  the FIFO. Exits immediately if empty rather than trying to block. See
+ *  related APIs for additional receive options.
+ *
+ *  Can be used for any data transfers that are less than or equal to 8 bits.
+ *
+ *  @param[in]  i2s    pointer to the register overlay for the peripheral
+ *  @param[out]  buffer a buffer to write the received data into
+ *
+ *  @return     If the receive occurred
+ *
+ *  @retval     true  if data was read from the RX FIFO
+ *  @retval     false if the RX FIFO was empty and data was not read
+ *
+ *  @sa         DL_I2S_receiveData8
+ *  @sa         DL_I2S_receiveDataBlocking8
+ */
+bool DL_I2S_receiveDataCheck8(const I2S_Regs *i2s, uint8_t *buffer);
+
+/**
+ *  @brief      Checks the RX FIFO before trying to receive data
  *
  *  Checks if the RX FIFO is already empty before trying to read new data from
  *  the FIFO. Exits immediately if empty rather than trying to block. See
@@ -710,7 +740,7 @@ bool DL_I2S_transmitDataCheck32(I2S_Regs *i2s, uint32_t data);
  *  Can be used for any data transfers that are less than or equal to 16 bits.
  *
  *  @param[in]  i2s    pointer to the register overlay for the peripheral
- *  @param[in]  buffer a buffer to write the received data into
+ *  @param[out]  buffer a buffer to write the received data into
  *
  *  @return     If the receive occurred
  *
@@ -720,10 +750,10 @@ bool DL_I2S_transmitDataCheck32(I2S_Regs *i2s, uint32_t data);
  *  @sa         DL_I2S_receiveData16
  *  @sa         DL_I2S_receiveDataBlocking16
  */
-bool DL_I2S_receiveDataCheck16(I2S_Regs *i2s, uint16_t *buffer);
+bool DL_I2S_receiveDataCheck16(const I2S_Regs *i2s, uint16_t *buffer);
 
 /**
- *  @brief      Checks the RX FIFO before trying to transmit data
+ *  @brief      Checks the RX FIFO before trying to receive data
  *
  *  Checks if the RX FIFO is already empty before trying to read new data from
  *  the FIFO. Exits immediately if empty rather than trying to block. See
@@ -732,7 +762,7 @@ bool DL_I2S_receiveDataCheck16(I2S_Regs *i2s, uint16_t *buffer);
  *  Can be used for any data transfers that are less than or equal to 32 bits.
  *
  *  @param[in]  i2s    pointer to the register overlay for the peripheral
- *  @param[in]  buffer a buffer to write the received data into
+ *  @param[out]  buffer a buffer to write the received data into
  *
  *  @return     If the receive occurred
  *
@@ -742,7 +772,19 @@ bool DL_I2S_receiveDataCheck16(I2S_Regs *i2s, uint16_t *buffer);
  *  @sa         DL_I2S_receiveData32
  *  @sa         DL_I2S_receiveDataBlocking32
  */
-bool DL_I2S_receiveDataCheck32(I2S_Regs *i2s, uint32_t *buffer);
+bool DL_I2S_receiveDataCheck32(const I2S_Regs *i2s, uint32_t *buffer);
+
+/**
+ *  @brief       Read all available data out of the RX FIFO using 8 bit access
+ *
+ *  @param[in]   i2s       Pointer to the register overlay for the peripheral
+ *  @param[out]  buffer    Buffer to write received data into
+ *  @param[in]   maxCount  Max number of halfwords to read from the RX FIFO
+ *
+ *  @return      Number of bytes read from the RX FIFO
+ */
+uint32_t DL_I2S_drainRXFIFO8(
+    const I2S_Regs *i2s, uint8_t *buffer, uint32_t maxCount);
 
 /**
  *  @brief       Read all available data out of the RX FIFO using 16 bit access
@@ -754,7 +796,7 @@ bool DL_I2S_receiveDataCheck32(I2S_Regs *i2s, uint32_t *buffer);
  *  @return      Number of halfwords read from the RX FIFO
  */
 uint32_t DL_I2S_drainRXFIFO16(
-    I2S_Regs *i2s, uint16_t *buffer, uint32_t maxCount);
+    const I2S_Regs *i2s, uint16_t *buffer, uint32_t maxCount);
 
 /**
  *  @brief       Read all available data out of the RX FIFO using 32 bit access
@@ -769,7 +811,22 @@ uint32_t DL_I2S_drainRXFIFO16(
  *  @return      Number of words read from the RX FIFO
  */
 uint32_t DL_I2S_drainRXFIFO32(
-    I2S_Regs *i2s, uint32_t *buffer, uint32_t maxCount);
+    const I2S_Regs *i2s, uint32_t *buffer, uint32_t maxCount);
+
+/**
+ *  @brief      Fill the TX FIFO using 8 bit access
+ *
+ *  Continuously write data into the TX FIFO until it is filled up or count has
+ *  been reached.
+ *
+ *  @param[in]  i2s     Pointer to the register overlay for the peripheral
+ *  @param[in]  buffer  Buffer of data to write to the TX FIFO
+ *  @param[in]  count   Max number of halfwords to write to the TX FIFO
+ *
+ *  @return     Number of bytes written to the TX FIFO
+ */
+uint32_t DL_I2S_fillTXFIFO8(
+    I2S_Regs *i2s, const uint8_t *buffer, uint32_t count);
 
 /**
  *  @brief      Fill the TX FIFO using 16 bit access
@@ -783,7 +840,8 @@ uint32_t DL_I2S_drainRXFIFO32(
  *
  *  @return     Number of halfwords written to the TX FIFO
  */
-uint32_t DL_I2S_fillTXFIFO16(I2S_Regs *i2s, uint16_t *buffer, uint32_t count);
+uint32_t DL_I2S_fillTXFIFO16(
+    I2S_Regs *i2s, const uint16_t *buffer, uint32_t count);
 
 /**
  *  @brief      Fill the TX FIFO using 32 bit access
@@ -800,7 +858,8 @@ uint32_t DL_I2S_fillTXFIFO16(I2S_Regs *i2s, uint16_t *buffer, uint32_t count);
  *
  *  @return     Number of words written to the TX FIFO
  */
-uint32_t DL_I2S_fillTXFIFO32(I2S_Regs *i2s, uint32_t *buffer, uint32_t count);
+uint32_t DL_I2S_fillTXFIFO32(
+    I2S_Regs *i2s, const uint32_t *buffer, uint32_t count);
 
 /**
  *  @brief      Clears contents of TX FIFO
@@ -830,7 +889,7 @@ void DL_I2S_clearRXFIFO(I2S_Regs *i2s);
  *  @retval     true if TX FIFO is full
  *  @retval     false if TX FIFO is not full
  */
-__STATIC_INLINE bool DL_I2S_isTXFIFOFull(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isTXFIFOFull(const I2S_Regs *i2s)
 {
     return ((i2s->STAT & I2S_STAT_TXFF_MASK) == I2S_STAT_TXFF_SET);
 }
@@ -845,7 +904,7 @@ __STATIC_INLINE bool DL_I2S_isTXFIFOFull(I2S_Regs *i2s)
  *  @retval     true if TX FIFO is empty
  *  @retval     false if TX FIFO is not empty
  */
-__STATIC_INLINE bool DL_I2S_isTXFIFOEmpty(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isTXFIFOEmpty(const I2S_Regs *i2s)
 {
     return ((i2s->STAT & I2S_STAT_TXFE_MASK) == I2S_STAT_TXFE_SET);
 }
@@ -860,7 +919,7 @@ __STATIC_INLINE bool DL_I2S_isTXFIFOEmpty(I2S_Regs *i2s)
  *  @retval     true if RX FIFO is full
  *  @retval     false if RX FIFO is not full
  */
-__STATIC_INLINE bool DL_I2S_isRXFIFOFull(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isRXFIFOFull(const I2S_Regs *i2s)
 {
     return ((i2s->STAT & I2S_STAT_RXFF_MASK) == I2S_STAT_RXFF_SET);
 }
@@ -875,13 +934,17 @@ __STATIC_INLINE bool DL_I2S_isRXFIFOFull(I2S_Regs *i2s)
  *  @retval     true if RX FIFO is empty
  *  @retval     false if RX FIFO is not empty
  */
-__STATIC_INLINE bool DL_I2S_isRXFIFOEmpty(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isRXFIFOEmpty(const I2S_Regs *i2s)
 {
     return ((i2s->STAT & I2S_STAT_RXFE_MASK) == I2S_STAT_RXFE_SET);
 }
 
 /**
- *  @brief      Enables power on I2S module
+ * @brief Enables the Peripheral Write Enable (PWREN) register for the I2S
+ *
+ *  Before any peripheral registers can be configured by software, the
+ *  peripheral itself must be enabled by writing the ENABLE bit together with
+ *  the appropriate KEY value to the peripheral's PWREN register.
  *
  *  @param[in]  i2s  Pointer to the register overlay for the peripheral
  */
@@ -891,7 +954,13 @@ __STATIC_INLINE void DL_I2S_enablePower(I2S_Regs *i2s)
 }
 
 /**
- *  @brief      Disables power on I2S module
+ * @brief Disables the Peripheral Write Enable (PWREN) register for the I2S
+ *
+ *  When the PWREN.ENABLE bit is cleared, the peripheral's registers are not
+ *  accessible for read/write operations.
+ *
+ *  @note This API does not provide large power savings. For power savings,
+ *  please refer to @ref DL_I2S_enable
  *
  *  @param[in]  i2s  Pointer to the register overlay for the peripheral
  */
@@ -901,16 +970,24 @@ __STATIC_INLINE void DL_I2S_disablePower(I2S_Regs *i2s)
 }
 
 /**
- *  @brief Returns if power on I2S module
+ * @brief Returns if the Peripheral Write Enable (PWREN) register for the I2S
+ *        is enabled
+ *
+ *  Before any peripheral registers can be configured by software, the
+ *  peripheral itself must be enabled by writing the ENABLE bit together with
+ *  the appropriate KEY value to the peripheral's PWREN register.
+ *
+ *  When the PWREN.ENABLE bit is cleared, the peripheral's registers are not
+ *  accessible for read/write operations.
  *
  *  @param[in]  i2s     Pointer to the register overlay for the peripheral
  *
  *  @return     Whether power is enabled
  *
- *  @retval     true if power is enabled
- *  @retval     false if power is disabled
+ *  @retval     true if peripheral register access is enabled
+ *  @retval     false if peripheral register access is disabled
  */
-__STATIC_INLINE bool DL_I2S_isPowerEnabled(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isPowerEnabled(const I2S_Regs *i2s)
 {
     return (
         (i2s->GPRCM.PWREN & I2S_PWREN_ENABLE_MASK) == I2S_PWREN_ENABLE_ENABLE);
@@ -938,7 +1015,7 @@ __STATIC_INLINE void DL_I2S_reset(I2S_Regs *i2s)
  *  @retval     true if module was reset
  *  @retval     false if module wasn't reset
  */
-__STATIC_INLINE bool DL_I2S_isReset(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isReset(const I2S_Regs *i2s)
 {
     return ((i2s->GPRCM.STAT & I2S_GPRCM_STAT_RESETSTKY_MASK) ==
             I2S_GPRCM_STAT_RESETSTKY_RESET);
@@ -955,6 +1032,16 @@ __STATIC_INLINE void DL_I2S_enable(I2S_Regs *i2s)
 }
 
 /**
+ *  @brief      Disable the I2S peripheral
+ *
+ *  @param[in]  i2s  Pointer to the register overlay for the peripheral
+ */
+__STATIC_INLINE void DL_I2S_disable(I2S_Regs *i2s)
+{
+    i2s->FMTCFG &= ~(I2S_FMTCFG_ENABLE_MASK);
+}
+
+/**
  *  @brief      Checks if the I2S peripheral is enabled
  *
  *  @param[in]  i2s  Pointer to the register overlay for the peripheral
@@ -964,20 +1051,10 @@ __STATIC_INLINE void DL_I2S_enable(I2S_Regs *i2s)
  *  @retval     true  The I2S peripheral is enabled
  *  @retval     false The I2S peripheral is disabled
  */
-__STATIC_INLINE bool DL_I2S_isEnabled(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isEnabled(const I2S_Regs *i2s)
 {
     return (
         (i2s->FMTCFG & I2S_FMTCFG_ENABLE_MASK) == I2S_FMTCFG_ENABLE_ENABLE);
-}
-
-/**
- *  @brief      Disable the I2S peripheral
- *
- *  @param[in]  i2s  Pointer to the register overlay for the peripheral
- */
-__STATIC_INLINE void DL_I2S_disable(I2S_Regs *i2s)
-{
-    i2s->FMTCFG &= ~(I2S_FMTCFG_ENABLE_MASK);
 }
 
 /**
@@ -1015,54 +1092,54 @@ __STATIC_INLINE void DL_I2S_disableFreeRun(I2S_Regs *i2s)
  *  @retval     true if free run is enabled
  *  @retval     false if free run is disabled
  */
-__STATIC_INLINE bool DL_I2S_isFreeRunEnabled(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isFreeRunEnabled(const I2S_Regs *i2s)
 {
     return ((i2s->PDBGCTL & I2S_PDBGCTL_FREE_MASK) == I2S_PDBGCTL_FREE_RUN);
 }
 
 /**
- *  @brief      Block async fast clock requests for I2S module
+ *  @brief      Get the current mode for the I2S (controller/target)
  *
- *  @param[in]  i2s  Pointer to the register overlay for the peripheral
+ *  @param[in]  i2s     Pointer to the register overlay for the peripheral
+ *
+ *  @return     The currently configured mode for I2S (controller/target)
+ *
+ *  @retval     One of @ref DL_I2S_MODE
  */
-__STATIC_INLINE void DL_I2S_blockAsyncFastClockRequests(I2S_Regs *i2s)
-{
-    i2s->GPRCM.CLKCFG = (I2S_CLKCFG_KEY_UNLOCK | I2S_CLKCFG_BLOCKASYNC_ENABLE);
-}
+DL_I2S_MODE DL_I2S_getMode(const I2S_Regs *i2s);
 
 /**
- *  @brief      Allow async fast clock requests for I2S module
+ *  @brief      Set whether the device should be in controller/target mode
  *
- *  @param[in]  i2s  Pointer to the register overlay for the peripheral
+ *  @param[in]  i2s   Pointer to the register overlay for the peripheral
+ *  @param[in]  mode  Mode to configure the I2S into. One of @ref DL_I2S_MODE
+ *
+ *  @sa DL_I2S_init
  */
-__STATIC_INLINE void DL_I2S_allowAsyncFastClockRequests(I2S_Regs *i2s)
-{
-    i2s->GPRCM.CLKCFG =
-        (I2S_CLKCFG_KEY_UNLOCK | I2S_CLKCFG_BLOCKASYNC_DISABLE);
-}
+void DL_I2S_setMode(I2S_Regs *i2s, DL_I2S_MODE mode);
 
 /**
- *  @brief      Enable audio clocks (WCLK and BCLK) generation
+ *  @brief      Enable WCLK and BCLK generation
  *
  *  @param[in]  i2s  Pointer to the register overlay for the peripheral
  */
-__STATIC_INLINE void DL_I2S_enableAudioClocksGeneration(I2S_Regs *i2s)
+__STATIC_INLINE void DL_I2S_enableWBCLKGeneration(I2S_Regs *i2s)
 {
     i2s->CLKCTL |= I2S_CLKCTL_WBEN_EN;
 }
 
 /**
- *  @brief      Disable audio clocks (WCLK and BCLK) generation
+ *  @brief      Disable WCLK and BCLK generation
  *
  *  @param[in]  i2s  Pointer to the register overlay for the peripheral
  */
-__STATIC_INLINE void DL_I2S_disableAudioClocksGeneration(I2S_Regs *i2s)
+__STATIC_INLINE void DL_I2S_disableWBCLKGeneration(I2S_Regs *i2s)
 {
     i2s->CLKCTL &= ~(I2S_CLKCTL_WBEN_MASK);
 }
 
 /**
- *  @brief      Returns if audio clocks (WCLK and BCLK) generation is enabled
+ *  @brief      Returns if WCLK and BCLK generation is enabled
  *
  *  @param[in]  i2s  Pointer to the register overlay for the peripheral
  *
@@ -1072,34 +1149,39 @@ __STATIC_INLINE void DL_I2S_disableAudioClocksGeneration(I2S_Regs *i2s)
  *  @retval     false if clock generation is disabled
  *
  */
-__STATIC_INLINE bool DL_I2S_isAudioClocksGenerationEnabled(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isWBCLKGenerationEnabled(const I2S_Regs *i2s)
 {
     return ((i2s->CLKCTL & I2S_CLKCTL_WBEN_MASK) == I2S_CLKCTL_WBEN_EN);
 }
 
 /**
- *  @brief Enable controller clock (MCLK) generation
+ *  @brief Enable MCLK generation
  *
- *  Clock sources depend on device and clock should be enabled
+ *  MCLK only applies when I2S is operating in controller mode. MCLK is an
+ *  optional clock output signal
+ *
  *  @param[in]  i2s  Pointer to the register overlay for the peripheral
+ *
+ *  @sa DL_I2S_init
+ *  @sa DL_I2S_setMode
  */
-__STATIC_INLINE void DL_I2S_enableControllerClockGeneration(I2S_Regs *i2s)
+__STATIC_INLINE void DL_I2S_enableMCLKGeneration(I2S_Regs *i2s)
 {
     i2s->CLKCTL |= I2S_CLKCTL_MEN_EN;
 }
 
 /**
- *  @brief      Disable controller clock (MCLK) generation
+ *  @brief      Disable MCLK generation
  *
  *  @param[in]  i2s  Pointer to the register overlay for the peripheral
  */
-__STATIC_INLINE void DL_I2S_disableControllerClockGeneration(I2S_Regs *i2s)
+__STATIC_INLINE void DL_I2S_disableMCLKGeneration(I2S_Regs *i2s)
 {
     i2s->CLKCTL &= ~(I2S_CLKCTL_MEN_MASK);
 }
 
 /**
- *  @brief      Returns if controller clock (MCLK) generation is enabled
+ *  @brief      Returns if MCLK generation is enabled
  *
  *  @param[in]  i2s  Pointer to the register overlay for the peripheral
  *
@@ -1108,37 +1190,38 @@ __STATIC_INLINE void DL_I2S_disableControllerClockGeneration(I2S_Regs *i2s)
  *  @retval     true if clock generation is enabled
  *  @retval     false if clock generation is disabled
  */
-__STATIC_INLINE bool DL_I2S_isControllerClockGenerationEnabled(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isMCLKGenerationEnabled(const I2S_Regs *i2s)
 {
     return ((i2s->CLKCTL & I2S_CLKCTL_MEN_MASK) == I2S_CLKCTL_MEN_EN);
 }
 
 /**
- *  @brief      Get source of audio clocks (WCLK and BCLK)
+ *  @brief      Get source of WCLK and BCLK
  *
  *  @param[in]  i2s     Pointer to the register overlay for the peripheral
  *
  *  @return     Source of WCLK and BCLK
  *
- *  @retval     One of @ref DL_I2S_CLOCK_SOURCE
+ *  @retval     One of @ref DL_I2S_WORD_BAUD_CLOCK_SOURCE
  */
-__STATIC_INLINE DL_I2S_CLOCK_SOURCE DL_I2S_getAudioClocksSource(I2S_Regs *i2s)
+__STATIC_INLINE DL_I2S_WORD_BAUD_CLOCK_SOURCE DL_I2S_getWBCLKSource(
+    const I2S_Regs *i2s)
 {
     uint32_t clockSource = i2s->WCLKSRC & I2S_WCLKSRC_WBCLKSRC_MASK;
 
-    return (DL_I2S_CLOCK_SOURCE)(clockSource);
+    return (DL_I2S_WORD_BAUD_CLOCK_SOURCE)(clockSource);
 }
 
 /**
- *  @brief      Set source of audio clocks (WCLK and BCLK)
+ *  @brief      Set source of WCLK and BCLK
  *
  *  @param[in]  i2s         Pointer to the register overlay for the peripheral
  *
  *  @param[in]  clockSource Source of WCLK and BCLK.
- *                          One of @ref DL_I2S_CLOCK_SOURCE.
+ *                          One of @ref DL_I2S_WORD_BAUD_CLOCK_SOURCE.
  */
-__STATIC_INLINE void DL_I2S_setAudioClocksSource(
-    I2S_Regs *i2s, DL_I2S_CLOCK_SOURCE clockSource)
+__STATIC_INLINE void DL_I2S_setWBCLKSource(
+    I2S_Regs *i2s, DL_I2S_WORD_BAUD_CLOCK_SOURCE clockSource)
 {
     DL_Common_updateReg(
         &i2s->WCLKSRC, (uint32_t) clockSource, I2S_WCLKSRC_WBCLKSRC_MASK);
@@ -1153,7 +1236,8 @@ __STATIC_INLINE void DL_I2S_setAudioClocksSource(
  *
  *  @retval     One of @ref DL_I2S_WCLK_INVERSION
  */
-__STATIC_INLINE DL_I2S_WCLK_INVERSION DL_I2S_getWCLKInversion(I2S_Regs *i2s)
+__STATIC_INLINE DL_I2S_WCLK_INVERSION DL_I2S_getWCLKInversion(
+    const I2S_Regs *i2s)
 {
     uint32_t wclkInversion = i2s->WCLKSRC & I2S_WCLKSRC_WCLKINV_MASK;
 
@@ -1184,7 +1268,7 @@ __STATIC_INLINE void DL_I2S_setWCLKInversion(
  *
  *  @retval     One of @ref DL_I2S_WCLK_PHASE
  */
-__STATIC_INLINE DL_I2S_WCLK_PHASE DL_I2S_getWCLKPhase(I2S_Regs *i2s)
+__STATIC_INLINE DL_I2S_WCLK_PHASE DL_I2S_getWCLKPhase(const I2S_Regs *i2s)
 {
     uint32_t wclkPhase = i2s->CLKCTL & I2S_CLKCTL_WCLKPHASE_MASK;
 
@@ -1206,38 +1290,36 @@ __STATIC_INLINE void DL_I2S_setWCLKPhase(
 }
 
 /**
- * @brief Set controller clock (MCLK) divider
+ *  @brief Set MCLK divider
  *
  *  @param[in]  i2s                     Pointer to the register overlay for the
  *                                      peripheral
- *  @param[in]  controllerClockDivider  Controller clock divider.
+ *  @param[in]  mclkDivider             MCLK divider.
  *  [ @ref DL_I2S_MDIV_MINIMUM, @ref DL_I2S_MDIV_MAXIMUM ]
  *
  *  @sa         @ref DL_I2S_MDIV_INVALID
  */
-__STATIC_INLINE void DL_I2S_setControllerClockDivider(
-    I2S_Regs *i2s, uint32_t controllerClockDivider)
+__STATIC_INLINE void DL_I2S_setMCLKDivider(I2S_Regs *i2s, uint32_t mclkDivider)
 {
-    DL_Common_updateReg(
-        &i2s->MCLKDIV, controllerClockDivider, I2S_MCLKDIV_MDIV_MASK);
+    DL_Common_updateReg(&i2s->MCLKDIV, mclkDivider, I2S_MCLKDIV_MDIV_MASK);
 }
 
 /**
- *  @brief      Get controller clock (MCLK) divider
+ *  @brief      Get MCLK divider
  *
  *  @param[in]  i2s     Pointer to the register overlay for the peripheral
  *
- *  @return     Controller clock divider
+ *  @return     MCLK divider
  *
  *  @retval     [ @ref DL_I2S_MDIV_MINIMUM, @ref DL_I2S_MDIV_MAXIMUM ]
  *
  *  @sa         @ref DL_I2S_MDIV_INVALID
  */
-__STATIC_INLINE uint32_t DL_I2S_getControllerClockDivider(I2S_Regs *i2s)
+__STATIC_INLINE uint32_t DL_I2S_getMCLKDivider(const I2S_Regs *i2s)
 {
-    uint32_t controllerClockDivider = i2s->MCLKDIV & I2S_MCLKDIV_MDIV_MASK;
+    uint32_t mclkDivider = i2s->MCLKDIV & I2S_MCLKDIV_MDIV_MASK;
 
-    return (controllerClockDivider);
+    return (mclkDivider);
 }
 
 /**
@@ -1267,7 +1349,7 @@ __STATIC_INLINE void DL_I2S_setWCLKDivider(I2S_Regs *i2s, uint32_t wclkDivider)
  *
  *  @retval     [0x1, 0xFFFF]
  */
-__STATIC_INLINE uint32_t DL_I2S_getWCLKDivider(I2S_Regs *i2s)
+__STATIC_INLINE uint32_t DL_I2S_getWCLKDivider(const I2S_Regs *i2s)
 {
     uint32_t wclkDivider = i2s->WCLKDIV & I2S_WCLKDIV_WDIV_MASK;
 
@@ -1299,7 +1381,7 @@ __STATIC_INLINE void DL_I2S_setBCLKDivider(I2S_Regs *i2s, uint32_t bclkDivider)
  *
  *  @sa         @ref DL_I2S_BDIV_INVALID
  */
-__STATIC_INLINE uint32_t DL_I2S_getBCLKDivider(I2S_Regs *i2s)
+__STATIC_INLINE uint32_t DL_I2S_getBCLKDivider(const I2S_Regs *i2s)
 {
     uint32_t bclkDivider = i2s->BCLKDIV & I2S_BCLKDIV_BDIV_MASK;
 
@@ -1311,10 +1393,13 @@ __STATIC_INLINE uint32_t DL_I2S_getBCLKDivider(I2S_Regs *i2s)
  *  the exact number of bits per word. In dual-phase format, this is the
  *  maximum number of bits per word.
  *
- *  @note Values below 8 and above 32 result in undefined behavior.
+ *  @note Values written to the hardware should be 1 less than the desired
+ *  sample word length e.g. a desired sample word length of 8 bits requires
+ *  the value of 7 to be written. Sample word lengths less than 8 and above 32
+ *  bits will result in undefined behavior.
  *
  *  @param[in] i2s Pointer to the register overlay for the peripheral
- *  @param[in] sampleWordLength Sample word length (in bits) to set. [8, 32]
+ *  @param[in] sampleWordLength Sample word length (in bits) to set. [7, 31]
  */
 __STATIC_INLINE void DL_I2S_setSampleWordLength(
     I2S_Regs *i2s, uint32_t sampleWordLength)
@@ -1326,13 +1411,17 @@ __STATIC_INLINE void DL_I2S_setSampleWordLength(
 /**
  *  @brief Get the sample word length in bits
  *
+ *  @note Values read from the hardware will be 1 less than the true
+ *  sample word length e.g. a value of 7 read from the hardware means that the
+ *  sample word length is 8 bits.
+ *
  *  @param[in] i2s Pointer to the register overlay for the peripheral
  *
  *  @return Sample word length in bits
  *
- *  @retval Value in range [8, 32]
+ *  @retval Value in range [7, 31]
  */
-__STATIC_INLINE uint32_t DL_I2S_getSampleWordLength(I2S_Regs *i2s)
+__STATIC_INLINE uint32_t DL_I2S_getSampleWordLength(const I2S_Regs *i2s)
 {
     uint32_t sampleWordLength = i2s->FMTCFG & I2S_FMTCFG_WORDLEN_MASK;
 
@@ -1363,7 +1452,7 @@ __STATIC_INLINE void DL_I2S_setFormatPhase(I2S_Regs *i2s, DL_I2S_PHASE phase)
  *
  *  @retval One of @ref DL_I2S_PHASE
  */
-__STATIC_INLINE DL_I2S_PHASE DL_I2S_getFormatPhase(I2S_Regs *i2s)
+__STATIC_INLINE DL_I2S_PHASE DL_I2S_getFormatPhase(const I2S_Regs *i2s)
 {
     uint32_t phase = i2s->FMTCFG & I2S_FMTCFG_DUALPHASE_MASK;
 
@@ -1397,7 +1486,7 @@ __STATIC_INLINE void DL_I2S_setSampleEdge(
  *
  *  @retval One of @ref DL_I2S_SAMPLE_EDGE
  */
-__STATIC_INLINE DL_I2S_SAMPLE_EDGE DL_I2S_getSampleEdge(I2S_Regs *i2s)
+__STATIC_INLINE DL_I2S_SAMPLE_EDGE DL_I2S_getSampleEdge(const I2S_Regs *i2s)
 {
     uint32_t edge = i2s->FMTCFG & I2S_FMTCFG_SMPLEDGE_MASK;
 
@@ -1427,7 +1516,8 @@ __STATIC_INLINE void DL_I2S_setMemoryLength(
  *
  *  @retval One of @ref DL_I2S_MEMORY_LENGTH
  */
-__STATIC_INLINE DL_I2S_MEMORY_LENGTH DL_I2S_getMemoryLength(I2S_Regs *i2s)
+__STATIC_INLINE DL_I2S_MEMORY_LENGTH DL_I2S_getMemoryLength(
+    const I2S_Regs *i2s)
 {
     uint32_t length = i2s->FMTCFG & I2S_FMTCFG_MEMLEN32_MASK;
 
@@ -1462,7 +1552,7 @@ __STATIC_INLINE void DL_I2S_setDataDelay(
  *
  *  @retval One of @ref DL_I2S_DATA_DELAY
  */
-__STATIC_INLINE DL_I2S_DATA_DELAY DL_I2S_getDataDelay(I2S_Regs *i2s)
+__STATIC_INLINE DL_I2S_DATA_DELAY DL_I2S_getDataDelay(const I2S_Regs *i2s)
 {
     uint32_t dataDelay = i2s->FMTCFG & I2S_FMTCFG_DATADLY_MASK;
 
@@ -1493,7 +1583,7 @@ __STATIC_INLINE void DL_I2S_setEmptySlotOutput(
  *  @retval One of @ref DL_I2S_EMPTY_SLOT_OUTPUT
  */
 __STATIC_INLINE DL_I2S_EMPTY_SLOT_OUTPUT DL_I2S_getEmptySlotOutput(
-    I2S_Regs *i2s)
+    const I2S_Regs *i2s)
 {
     uint32_t output = i2s->FMTCFG & I2S_FMTCFG_EMPTYSLOTOUTPUT_MASK;
 
@@ -1562,7 +1652,7 @@ __STATIC_INLINE void DL_I2S_setDataPin1Direction(
  *  @retval One of @ref DL_I2S_DATA_PIN_DIRECTION
  */
 __STATIC_INLINE DL_I2S_DATA_PIN_DIRECTION DL_I2S_getDataPin0Direction(
-    I2S_Regs *i2s)
+    const I2S_Regs *i2s)
 {
     uint32_t direction = i2s->DIRCFG & I2S_DIRCFG_AD0_MASK;
 
@@ -1580,7 +1670,7 @@ __STATIC_INLINE DL_I2S_DATA_PIN_DIRECTION DL_I2S_getDataPin0Direction(
  *  @retval One of @ref DL_I2S_DATA_PIN_DIRECTION
  */
 __STATIC_INLINE DL_I2S_DATA_PIN_DIRECTION DL_I2S_getDataPin1Direction(
-    I2S_Regs *i2s)
+    const I2S_Regs *i2s)
 {
     uint32_t direction = i2s->DIRCFG & I2S_DIRCFG_AD1_MASK;
 
@@ -1625,7 +1715,7 @@ __STATIC_INLINE void DL_I2S_setDataPin1ChannelMask(
  *          For single-phase mode, each bit represents 1 channel. For
  *          dual-phase mode, only the first 2 LSBs are considered.
  */
-__STATIC_INLINE uint32_t DL_I2S_getDataPin0ChannelMask(I2S_Regs *i2s)
+__STATIC_INLINE uint32_t DL_I2S_getDataPin0ChannelMask(const I2S_Regs *i2s)
 {
     uint32_t channelMask = i2s->WMASK0 & I2S_WMASK0_MASK_MASK;
 
@@ -1644,7 +1734,7 @@ __STATIC_INLINE uint32_t DL_I2S_getDataPin0ChannelMask(I2S_Regs *i2s)
  *          For single-phase mode, each bit represents 1 channel. For
  *          dual-phase mode, only the first 2 LSBs are considered.
  */
-__STATIC_INLINE uint32_t DL_I2S_getDataPin1ChannelMask(I2S_Regs *i2s)
+__STATIC_INLINE uint32_t DL_I2S_getDataPin1ChannelMask(const I2S_Regs *i2s)
 {
     uint32_t channelMask = i2s->WMASK1 & I2S_WMASK1_MASK_MASK;
 
@@ -1662,7 +1752,8 @@ __STATIC_INLINE uint32_t DL_I2S_getDataPin1ChannelMask(I2S_Regs *i2s)
  *
  *  @retval     One of @ref DL_I2S_TX_FIFO_LEVEL
  */
-__STATIC_INLINE DL_I2S_TX_FIFO_LEVEL DL_I2S_getTXFIFOThreshold(I2S_Regs *i2s)
+__STATIC_INLINE DL_I2S_TX_FIFO_LEVEL DL_I2S_getTXFIFOThreshold(
+    const I2S_Regs *i2s)
 {
     uint32_t level = i2s->IFLS & I2S_IFLS_TXIFLSEL_MASK;
 
@@ -1699,7 +1790,8 @@ __STATIC_INLINE void DL_I2S_setTXFIFOThreshold(
  *
  *  @retval     One of @ref DL_I2S_RX_FIFO_LEVEL
  */
-__STATIC_INLINE DL_I2S_RX_FIFO_LEVEL DL_I2S_getRXFIFOThreshold(I2S_Regs *i2s)
+__STATIC_INLINE DL_I2S_RX_FIFO_LEVEL DL_I2S_getRXFIFOThreshold(
+    const I2S_Regs *i2s)
 {
     uint32_t level = i2s->IFLS & I2S_IFLS_RXIFLSEL_MASK;
 
@@ -1736,7 +1828,7 @@ __STATIC_INLINE void DL_I2S_setRXFIFOThreshold(
  *  @retval     true if RX FIFO clear is complete
  *  @retval     false if RX FIFO clear is complete
  */
-__STATIC_INLINE bool DL_I2S_isRXFIFOClearComplete(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isRXFIFOClearComplete(const I2S_Regs *i2s)
 {
     return ((i2s->STAT & I2S_STAT_RXCLR_MASK) == I2S_STAT_RXCLR_SET);
 }
@@ -1751,7 +1843,7 @@ __STATIC_INLINE bool DL_I2S_isRXFIFOClearComplete(I2S_Regs *i2s)
  *  @retval     true if TX FIFO clear is complete
  *  @retval     false if TX FIFO clear is complete
  */
-__STATIC_INLINE bool DL_I2S_isTXFIFOClearComplete(I2S_Regs *i2s)
+__STATIC_INLINE bool DL_I2S_isTXFIFOClearComplete(const I2S_Regs *i2s)
 {
     return ((i2s->STAT & I2S_STAT_TXCLR_MASK) == I2S_STAT_TXCLR_SET);
 }
@@ -1797,7 +1889,7 @@ __STATIC_INLINE void DL_I2S_disableInterrupt(
  *  @retval     Bitwise OR of @ref DL_I2S_INTERRUPT values
  */
 __STATIC_INLINE uint32_t DL_I2S_getEnabledInterrupts(
-    I2S_Regs *i2s, uint32_t interruptMask)
+    const I2S_Regs *i2s, uint32_t interruptMask)
 {
     return (i2s->CPU_INT.IMASK & interruptMask);
 }
@@ -1820,7 +1912,7 @@ __STATIC_INLINE uint32_t DL_I2S_getEnabledInterrupts(
  *  @sa         DL_I2S_enableInterrupt
  */
 __STATIC_INLINE uint32_t DL_I2S_getEnabledInterruptStatus(
-    I2S_Regs *i2s, uint32_t interruptMask)
+    const I2S_Regs *i2s, uint32_t interruptMask)
 {
     return (i2s->CPU_INT.MIS & interruptMask);
 }
@@ -1841,7 +1933,7 @@ __STATIC_INLINE uint32_t DL_I2S_getEnabledInterruptStatus(
  *  @retval     Bitwise OR of @ref DL_I2S_INTERRUPT values
  */
 __STATIC_INLINE uint32_t DL_I2S_getRawInterruptStatus(
-    I2S_Regs *i2s, uint32_t interruptMask)
+    const I2S_Regs *i2s, uint32_t interruptMask)
 {
     return (i2s->CPU_INT.RIS & interruptMask);
 }
@@ -1858,7 +1950,7 @@ __STATIC_INLINE uint32_t DL_I2S_getRawInterruptStatus(
  *
  *  @retval     One of @ref DL_I2S_IIDX
  */
-__STATIC_INLINE DL_I2S_IIDX DL_I2S_getPendingInterrupt(I2S_Regs *i2s)
+__STATIC_INLINE DL_I2S_IIDX DL_I2S_getPendingInterrupt(const I2S_Regs *i2s)
 {
     return ((DL_I2S_IIDX) i2s->CPU_INT.IIDX);
 }
@@ -1970,7 +2062,7 @@ __STATIC_INLINE void DL_I2S_disableDMATransmitEvent(
  *  @retval     One of @ref DL_I2S_DMA_INTERRUPT
  */
 __STATIC_INLINE uint32_t DL_I2S_getEnabledDMAReceiveEvent(
-    I2S_Regs *i2s, uint32_t interruptMask)
+    const I2S_Regs *i2s, uint32_t interruptMask)
 {
     return (i2s->DMA_TRIG_RX.IMASK & interruptMask);
 }
@@ -1992,7 +2084,7 @@ __STATIC_INLINE uint32_t DL_I2S_getEnabledDMAReceiveEvent(
  *  @retval     One of @ref DL_I2S_DMA_INTERRUPT
  */
 __STATIC_INLINE uint32_t DL_I2S_getEnabledDMATransmitEvent(
-    I2S_Regs *i2s, uint32_t interruptMask)
+    const I2S_Regs *i2s, uint32_t interruptMask)
 {
     return (i2s->DMA_TRIG_TX.IMASK & interruptMask);
 }
@@ -2018,7 +2110,7 @@ __STATIC_INLINE uint32_t DL_I2S_getEnabledDMATransmitEvent(
  *  @sa         DL_I2S_enableDMAReceiveEvent
  */
 __STATIC_INLINE uint32_t DL_I2S_getEnabledDMAReceiveEventStatus(
-    I2S_Regs *i2s, uint32_t interruptMask)
+    const I2S_Regs *i2s, uint32_t interruptMask)
 {
     return (i2s->DMA_TRIG_RX.MIS & interruptMask);
 }
@@ -2044,7 +2136,7 @@ __STATIC_INLINE uint32_t DL_I2S_getEnabledDMAReceiveEventStatus(
  *  @sa         DL_I2S_enableDMATransmitEvent
  */
 __STATIC_INLINE uint32_t DL_I2S_getEnabledDMATransmitEventStatus(
-    I2S_Regs *i2s, uint32_t interruptMask)
+    const I2S_Regs *i2s, uint32_t interruptMask)
 {
     return (i2s->DMA_TRIG_TX.MIS & interruptMask);
 }
@@ -2066,7 +2158,7 @@ __STATIC_INLINE uint32_t DL_I2S_getEnabledDMATransmitEventStatus(
  *  @retval     Bitwise OR of @ref DL_I2S_DMA_INTERRUPT values
  */
 __STATIC_INLINE uint32_t DL_I2S_getRawDMAReceiveEventStatus(
-    I2S_Regs *i2s, uint32_t interruptMask)
+    const I2S_Regs *i2s, uint32_t interruptMask)
 {
     return (i2s->DMA_TRIG_RX.RIS & interruptMask);
 }
@@ -2088,50 +2180,79 @@ __STATIC_INLINE uint32_t DL_I2S_getRawDMAReceiveEventStatus(
  *  @retval     Bitwise OR of @ref DL_I2S_DMA_INTERRUPT values
  */
 __STATIC_INLINE uint32_t DL_I2S_getRawDMATransmitEventStatus(
-    I2S_Regs *i2s, uint32_t interruptMask)
+    const I2S_Regs *i2s, uint32_t interruptMask)
 {
     return (i2s->DMA_TRIG_TX.RIS & interruptMask);
 }
 
 /**
- *  @brief      Save I2S configuration before entering a power loss state.
+ *  @brief      Suspend external communication
  *
- *  Some peripherals residing in PD1 domain do not retain register
- *  contents when entering STOP or STANDBY modes. Please refer to the datasheet
- *  for the full list of peripheral instances that exhibit this behavior.
+ *  Ongoing communication will complete, and further external communications
+ *  are stopped. Tranmit line(s) will be driven to idle state, and further
+ *  toggles on the receive line(s) will not be processed. Once suspend is
+ *  requested, the CPU should poll to ensure that the device has reached idle.
+ *  When the device is idle, the transmit FIFO should be flushed, and the
+ *  receive FIFO should be drained prior to disabling the module.
+ *  After suspending the module, the I2S register configurations are retained.
  *
  *  @param[in]  i2s  Pointer to the register overlay for the peripheral
  *
- *  @param[in]  ptr  Configuration backup setup structure. See
- *                  @ref DL_I2S_backupConfig.
- *
- *  @retval     true if a configuration was successfully saved
- *  @retval     false if a configuration already exists in ptr (will not be
- *              overwritten)
- *
- *  @sa         DL_I2S_restoreConfiguration
+ *  @sa DL_I2S_disable
+ *  @sa DL_I2S_resume
  */
-bool DL_I2S_saveConfiguration(I2S_Regs *i2s, DL_I2S_backupConfig *ptr);
+__STATIC_INLINE void DL_I2S_suspend(I2S_Regs *i2s)
+{
+    DL_Common_updateReg(
+        &i2s->FMTCFG, I2S_FMTCFG_SUSPEND_ENABLE, I2S_FMTCFG_SUSPEND_MASK);
+}
 
 /**
- *  @brief      Restore I2S configuration after leaving a power loss state.
+ *  @brief      Resume functional mode
  *
- *  Some peripherals residing in PD1 domain do not retain register
- *  contents when entering STOP or STANDBY modes. Please refer to the datasheet
- *  for the full list of peripheral instances that exhibit this behavior.
+ *  Functional communication can be resumed by calling this API, and enabling
+ *  the module
  *
  *  @param[in]  i2s  Pointer to the register overlay for the peripheral
  *
- *  @param[in]  ptr   Configuration backup setup structure. See
- *                    @ref DL_I2S_backupConfig.
- *
- *  @retval     true if a configuration successfully loaded
- *  @retval     false if a configuration does not exist in ptr (will not be
- *              loaded)
- *
- *  @sa         DL_I2S_saveConfiguration
+ *  @sa DL_I2S_enable
+ *  @sa DL_I2S_suspend
  */
-bool DL_I2S_restoreConfiguration(I2S_Regs *i2s, DL_I2S_backupConfig *ptr);
+__STATIC_INLINE void DL_I2S_resume(I2S_Regs *i2s)
+{
+    DL_Common_updateReg(
+        &i2s->FMTCFG, I2S_FMTCFG_SUSPEND_DISABLE, I2S_FMTCFG_SUSPEND_MASK);
+}
+
+/**
+ *  @brief      Set the clock source for the I2S peripheral
+ *
+ *  @param[in]  i2s         Pointer to the register overlay for the peripheral
+ *
+ *  @param[in]  clockSource Source of the clock for I2S.
+ *                          One of @ref DL_I2S_CLOCK_SOURCE.
+ */
+__STATIC_INLINE void DL_I2S_setClockSource(
+    I2S_Regs *i2s, DL_I2S_CLOCK_SOURCE clockSource)
+{
+    i2s->GPRCM.CLKCFG = (I2S_CLKCFG_KEY_UNLOCK | (uint32_t) clockSource);
+}
+
+/**
+ *  @brief      Get I2S audio clock configuration
+ *
+ *  @param[in]  i2s     Pointer to the register overlay for the peripheral
+ *
+ *  @return     The currently configured clock for I2S
+ *
+ *  @retval     One of @ref DL_I2S_CLOCK_SOURCE
+ */
+__STATIC_INLINE DL_I2S_CLOCK_SOURCE DL_I2S_getClockSource(const I2S_Regs *i2s)
+{
+    uint32_t clockSource = i2s->GPRCM.CLKCFG & I2S_CLKCFG_DAICLK_MASK;
+
+    return ((DL_I2S_CLOCK_SOURCE)(clockSource));
+}
 
 #ifdef __cplusplus
 }

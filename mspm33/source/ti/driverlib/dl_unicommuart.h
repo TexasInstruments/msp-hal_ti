@@ -31,13 +31,20 @@
  */
 /*!****************************************************************************
  *  @file       dl_unicommuart.h
- *  @brief      Unified Communication UART (UNICOMMUART) Driver Library
- *  @defgroup   UNICOMMUART UART Unified Communication UART (UNICOMMUART)
+ *  @brief      Unified Communication Module (UNICOMM) - Universal Asynchronous Receiver/Transmitter (UART) Driver Library
+ *  @defgroup   UNICOMMUART Unified Communication Module (UNICOMM) - Universal Asynchronous Receiver/Transmitter (UART)
  *
  *  @anchor ti_dl_dl_m0p_unicommuart_Overview
  *  # Overview
  *
- *  TODO
+ *  The Unified Communication Module Universal Asynchronous Receiver/Transmitter
+ *  Driver Library allows full configuration of the UNICOMM UART module.
+ *
+ *  This Universal Asynchronous Receiver/Transmitter (UART) module provides a standardized
+ *  interface to transfer data between devices and other external devices with
+ *  an asynchronous serial communication protocol like LIN (local interconnection
+ *  network), ISO7816 (Smart card protocol), IrDA (infrared data association),
+ *  hardware flow control (CTS/RTS) and multiprocessor communications.
  *
  *  <hr>
  ******************************************************************************
@@ -555,14 +562,6 @@ extern "C" {
 #define DL_UART_Extend_disableManchesterEncoding        DL_UART_disableManchesterEncoding
 /*! Redirects to @ref DL_UART_isManchesterEncodingEnabled */
 #define DL_UART_Extend_isManchesterEncodingEnabled      DL_UART_isManchesterEncodingEnabled
-/*! Redirects to @ref DL_UART_setBaudRateDivisor */
-#define DL_UART_Extend_setIrDABaudRateDivisor           DL_UART_setBaudRateDivisor
-/*! Redirects to @ref DL_UART_backupConfig */
-#define DL_UART_Extend_backupConfig                     DL_UART_backupConfig
-/*! Redirects to @ref DL_UART_saveConfiguration */
-#define DL_UART_Extend_saveConfiguration                DL_UART_saveConfiguration
-/*! Redirects to @ref DL_UART_restoreConfiguration */
-#define DL_UART_Extend_restoreConfiguration             DL_UART_restoreConfiguration
 /** @}*/
 
 /** @addtogroup DL_UART_MAIN_MACROS
@@ -929,12 +928,6 @@ extern "C" {
 #define DL_UART_Main_getRawDMAReceiveEventStatus        DL_UART_getRawDMAReceiveEventStatus
 /*! Redirects to @ref DL_UART_getRawDMATransmitEventStatus */
 #define DL_UART_Main_getRawDMATransmitEventStatus       DL_UART_getRawDMATransmitEventStatus
-/*! Redirects to @ref DL_UART_backupConfig */
-#define DL_UART_Main_backupConfig                       DL_UART_backupConfig
-/*! Redirects to @ref DL_UART_saveConfiguration */
-#define DL_UART_Main_saveConfiguration                  DL_UART_saveConfiguration
-/*! Redirects to @ref DL_UART_restoreConfiguration */
-#define DL_UART_Main_restoreConfiguration               DL_UART_restoreConfiguration
 /** @}*/
 
 /** @addtogroup DL_UART_INTERRUPT
@@ -1033,12 +1026,15 @@ extern "C" {
  */
 #define DL_UART_INTERRUPT_RX_TIMEOUT_ERROR    (UNICOMMUART_CPU_INT_IMASK_RTOUT_SET)
 
-
 /*!
  * @brief Noise error interrupt
  */
 #define DL_UART_INTERRUPT_NOISE_ERROR          (UNICOMMUART_CPU_INT_IMASK_NERR_SET)
 
+/*!
+ * @brief Line timeout interrupt
+ */
+#define DL_UART_INTERRUPT_LINE_TIMEOUT         (UNICOMMUART_CPU_INT_IMASK_LTOUT_SET)
 
 /** @}*/
 
@@ -1064,6 +1060,8 @@ typedef enum {
     DL_UART_IIDX_LIN_COUNTER_OVERFLOW = UNICOMMUART_IIDX_STAT_LINOVF,
     /*! UART interrupt index for LIN rising edge LINC1 */
     DL_UART_IIDX_LIN_RISING_EDGE = UNICOMMUART_IIDX_STAT_LINC1,
+    /*! UART interrupt index for LINC0 match */
+    DL_UART_IIDX_LINC0_MATCH = UNICOMMUART_IIDX_STAT_LINC0,
     /*! UART interrupt index for LIN falling edge LINC0 */
     DL_UART_IIDX_LIN_FALLING_EDGE = UNICOMMUART_IIDX_STAT_LINC0,
     /*! UART interrupt index for positive edge on UNICOMMUARTxRXD */
@@ -1083,7 +1081,11 @@ typedef enum {
     /*! UART interrupt index for noise error */
     DL_UART_IIDX_NOISE_ERROR = UNICOMMUART_IIDX_STAT_NERR_EVT,
     /*! UART interrupt index for no interrupt */
-    DL_UART_IIDX_NO_INTERRUPT = UNICOMMUART_IIDX_STAT_NO_INTR
+    DL_UART_IIDX_NO_INTERRUPT = UNICOMMUART_IIDX_STAT_NO_INTR,
+    /*! UART interrupt index for 9-bit mode address match */
+    DL_UART_IIDX_ADDRESS_MATCH = UNICOMMUART_IIDX_STAT_ADDR_MATCH,
+    /*! UART interrupt index for line time-out */
+    DL_UART_IIDX_LINE_TIMEOUT = UNICOMMUART_IIDX_STAT_LTFG
 } DL_UART_IIDX;
 
 /** @addtogroup DL_UART_DMA_INTERRUPT_RX
@@ -1219,6 +1221,26 @@ typedef enum {
     DL_UART_CLOCK_ASYNC_PLL = UNICOMMUART_CLKSEL_ASYNC_PLL_SEL_ENABLE
 } DL_UART_CLOCK;
 
+/*! @enum DL_UART_CLOCK_DIVIDE_RATIO */
+typedef enum {
+    /*! UART source clock divide ratio set to 1 */
+    DL_UART_CLOCK_DIVIDE_RATIO_1 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_1,
+    /*! UART source clock divide ratio set to 2 */
+    DL_UART_CLOCK_DIVIDE_RATIO_2 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_2,
+    /*! UART source clock divide ratio set to 3 */
+    DL_UART_CLOCK_DIVIDE_RATIO_3 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_3,
+    /*! UART source clock divide ratio set to 4 */
+    DL_UART_CLOCK_DIVIDE_RATIO_4 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_4,
+    /*! UART source clock divide ratio set to 5 */
+    DL_UART_CLOCK_DIVIDE_RATIO_5 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_5,
+    /*! UART source clock divide ratio set to 6 */
+    DL_UART_CLOCK_DIVIDE_RATIO_6 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_6,
+    /*! UART source clock divide ratio set to 7 */
+    DL_UART_CLOCK_DIVIDE_RATIO_7 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_7,
+    /*! UART source clock divide ratio set to 8 */
+    DL_UART_CLOCK_DIVIDE_RATIO_8 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_8
+} DL_UART_CLOCK_DIVIDE_RATIO;
+
 /*! @enum DL_UART_FLOW_CONTROL */
 typedef enum {
     /*! Enable request to send */
@@ -1307,98 +1329,10 @@ typedef enum {
     DL_UART_IRDA_POLARITY_HIGH = UNICOMMUART_IRCTL_IRRXPL_HIGH
 } DL_UART_IRDA_POLARITY;
 
-/*! @enum DL_UART_SPG_DMA_RX_DEST_ADDR*/
-typedef enum {
-    /*! Increment destination memory location after each transfer */
-    DL_UART_SPG_DMA_RX_DEST_ADDR_INCREMENT = UNICOMMUART_SPGDMARXCTL_DMAMEMINCR_INCREMENT,
-    /*! Decrement destination memory location after each transfer */
-    DL_UART_SPG_DMA_RX_DEST_ADDR_DECREMENT = UNICOMMUART_SPGDMARXCTL_DMAMEMINCR_DECREMENT
-} DL_UART_SPG_DMA_RX_DEST_ADDR;
-
-/*! @enum DL_UART_SPG_DMA_RX_PREEMPT_INT */
-typedef enum {
-    /*! Disable pre-emptive interrupt */
-    DL_UART_SPG_DMA_RX_PREEMPT_INT_DISABLE = UNICOMMUART_SPGDMARXCTL_DMAPREIRQ_PREIRQ_DISABLE,
-    /*! Trigger interrupt pre-emptively when DMA transfer is half done */
-    DL_UART_SPG_DMA_RX_PREEMPT_INT_HALF = UNICOMMUART_SPGDMARXCTL_DMAPREIRQ_PREIRQ_HALF
-} DL_UART_SPG_DMA_RX_PREEMPT_INT;
-
-/*! @enum DL_UART_SPG_DMA_RX_TRANSFER_MODE */
-typedef enum {
-    /*! DMA transfers defined number of elements and stops */
-    DL_UART_SPG_DMA_RX_TRANSFER_MODE_SINGLE = UNICOMMUART_SPGDMARXCTL_DMATM_SINGLE,
-    /*! DMA wraps around to the starting memory location after the configured number of transfers are completed */
-    DL_UART_SPG_DMA_RX_TRANSFER_MODE_REPEAT = UNICOMMUART_SPGDMARXCTL_DMATM_RPTSNGL
-} DL_UART_SPG_DMA_RX_TRANSFER_MODE;
-
-/*! @enum DL_UART_SPG_DMA_RX_DATA_WIDTH */
-typedef enum {
-    /*! Width of each RX FIFO element is 1 Byte */
-    DL_UART_SPG_DMA_RX_DATA_WIDTH_BYTE = UNICOMMUART_SPGDMARXCTL_DMADSTWDTH_BYTE,
-    /*! Width of each RX FIFO element is half of 1 word */
-    DL_UART_SPG_DMA_RX_DATA_WIDTH_HALF = UNICOMMUART_SPGDMARXCTL_DMADSTWDTH_HALF,
-    /*! Width of each RX FIFO element is 1 word */
-    DL_UART_SPG_DMA_RX_DATA_WIDTH_WORD = UNICOMMUART_SPGDMARXCTL_DMADSTWDTH_WORD,
-} DL_UART_SPG_DMA_RX_DATA_WIDTH;
-
-/*! @enum DL_UART_SPG_DMA_TX_DEST_ADDR*/
-typedef enum {
-    /*! Increment memory location after each transfer */
-    DL_UART_SPG_DMA_TX_DEST_ADDR_INCREMENT = UNICOMMUART_SPGDMATXCTL_DMAMEMINCR_INCREMENT,
-    /*! Decrement memory location after each transfer */
-    DL_UART_SPG_DMA_TX_DEST_ADDR_DECREMENT = UNICOMMUART_SPGDMATXCTL_DMAMEMINCR_DECREMENT
-} DL_UART_SPG_DMA_TX_DEST_ADDR;
-
-/*! @enum DL_UART_SPG_DMA_TX_PREEMPT_INT */
-typedef enum {
-    /*! Disable pre-emptive interrupt */
-    DL_UART_SPG_DMA_TX_PREEMPT_INT_DISABLE = UNICOMMUART_SPGDMATXCTL_DMAPREIRQ_PREIRQ_DISABLE,
-    /*! Trigger interrupt pre-emptively when DMA transfer is half done */
-    DL_UART_SPG_DMA_TX_PREEMPT_INT_HALF = UNICOMMUART_SPGDMATXCTL_DMAPREIRQ_PREIRQ_HALF
-} DL_UART_SPG_DMA_TX_PREEMPT_INT;
-
-/*! @enum DL_UART_SPG_DMA_TX_TRANSFER_MODE */
-typedef enum {
-    /*! DMA transfers defined number of elements and stops */
-    DL_UART_SPG_DMA_TX_TRANSFER_MODE_SINGLE = UNICOMMUART_SPGDMATXCTL_DMATM_SINGLE,
-    /*! DMA wraps around to the starting memory location after the configured number of transfers are completed */
-    DL_UART_SPG_DMA_TX_TRANSFER_MODE_REPEAT = UNICOMMUART_SPGDMATXCTL_DMATM_RPTSNGL
-} DL_UART_SPG_DMA_TX_TRANSFER_MODE;
-
-/*! @enum DL_UART_SPG_DMA_TX_DATA_WIDTH */
-typedef enum {
-    /*! Width of each TX FIFO element is 1 Byte */
-    DL_UART_SPG_DMA_TX_DATA_WIDTH_BYTE = UNICOMMUART_SPGDMATXCTL_DMASRCWDTH_BYTE,
-    /*! Width of each TX FIFO element is half of 1 word */
-    DL_UART_SPG_DMA_TX_DATA_WIDTH_HALF = UNICOMMUART_SPGDMATXCTL_DMASRCWDTH_HALF,
-    /*! Width of each TX FIFO element is 1 word */
-    DL_UART_SPG_DMA_TX_DATA_WIDTH_WORD = UNICOMMUART_SPGDMATXCTL_DMASRCWDTH_WORD,
-} DL_UART_SPG_DMA_TX_DATA_WIDTH;
-
 /*!
  * @brief Sets the IrDA pulse width to 3/16 bit period when using the BITCLK16
  */
 #define DL_UART_PULSE_WIDTH_3_16_BIT_PERIOD           ((uint32_t) 0x00000000U)
-
-/*! @enum DL_UART_CLOCK_DIVIDE_RATIO */
-typedef enum {
-    /*! UART source clock divide ratio set to 1 */
-    DL_UART_CLOCK_DIVIDE_RATIO_1 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_1,
-    /*! UART source clock divide ratio set to 2 */
-    DL_UART_CLOCK_DIVIDE_RATIO_2 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_2,
-    /*! UART source clock divide ratio set to 3 */
-    DL_UART_CLOCK_DIVIDE_RATIO_3 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_3,
-    /*! UART source clock divide ratio set to 4 */
-    DL_UART_CLOCK_DIVIDE_RATIO_4 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_4,
-    /*! UART source clock divide ratio set to 5 */
-    DL_UART_CLOCK_DIVIDE_RATIO_5 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_5,
-    /*! UART source clock divide ratio set to 6 */
-    DL_UART_CLOCK_DIVIDE_RATIO_6 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_6,
-    /*! UART source clock divide ratio set to 7 */
-    DL_UART_CLOCK_DIVIDE_RATIO_7 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_7,
-    /*! UART source clock divide ratio set to 8 */
-    DL_UART_CLOCK_DIVIDE_RATIO_8 = UNICOMMUART_CLKDIV_RATIO_DIV_BY_8
-} DL_UART_CLOCK_DIVIDE_RATIO;
 
 /* clang-format on */
 
@@ -1515,7 +1449,6 @@ typedef struct {
      *  exists. Should not be modified by the user. */
     bool backupRdy;
 } DL_UART_backupConfig;
-
 /**
  *  @brief      Initialize the UART peripheral
  *
@@ -4070,392 +4003,6 @@ bool DL_UART_saveConfiguration(
  */
 bool DL_UART_restoreConfiguration(
     UNICOMM_Inst_Regs *unicomm, DL_UART_backupConfig *ptr);
-
-/**
- *  @brief      Enable SPG DMA receive channel
- *
- *  @param[in]  unicomm       Pointer to the register overlay for the
- *                         peripheral
- */
-__STATIC_INLINE void DL_UART_enableSPGDMAReceiveChannel(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    unicomm->uart->SPGDMA.SPGDMARXCTL |= UNICOMMUART_SPGDMARXCTL_DMAEN_ENABLE;
-}
-
-/**
- *  @brief      Disable SPG DMA receive channel
- *
- *  @param[in]  unicomm       Pointer to the register overlay for the
- *                         peripheral
- */
-__STATIC_INLINE void DL_UART_disableSPGDMAReceiveChannel(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    unicomm->uart->SPGDMA.SPGDMARXCTL &=
-        ~(UNICOMMUART_SPGDMARXCTL_DMAEN_ENABLE);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel destination increment
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  The increment direction to use.
- *                      One of @ref DL_UART_SPG_DMA_RX_DEST_ADDR.
- */
-__STATIC_INLINE void DL_UART_setSPGDMAReceiveIncrement(
-    UNICOMM_Inst_Regs *unicomm, DL_UART_SPG_DMA_RX_DEST_ADDR config)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMARXCTL, (uint32_t) config,
-        UNICOMMUART_SPGDMARXCTL_DMAMEMINCR_MASK);
-}
-/**
- *  @brief      Get SPG DMA receive channel destination increment
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured destincation increment schema for receive channel
- *  @retval  One of @ref DL_UART_SPG_DMA_RX_DEST_ADDR
- */
-__STATIC_INLINE DL_UART_SPG_DMA_RX_DEST_ADDR DL_UART_getSPGDMAReceiveIncrement(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_UART_SPG_DMA_RX_DEST_ADDR)(
-        unicomm->uart->SPGDMA.SPGDMARXCTL &
-        UNICOMMUART_SPGDMARXCTL_DMAMEMINCR_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel pre-emptive interrupt
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Pre-emptive interrupt schema to use.
- *                      One of @ref DL_UART_SPG_DMA_RX_PREEMPT_INT.
- */
-__STATIC_INLINE void DL_UART_setSPGDMAReceivePreemtiveInterrupt(
-    UNICOMM_Inst_Regs *unicomm, DL_UART_SPG_DMA_RX_PREEMPT_INT config)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMARXCTL, (uint32_t) config,
-        UNICOMMUART_SPGDMARXCTL_DMAPREIRQ_MASK);
-}
-/**
- *  @brief      Get SPG DMA receive channel pre-emptive interrupt
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured pre-emptive interrupt schema for receive channel
- *  @retval  One of @ref DL_UART_SPG_DMA_RX_PREEMPT_INT
- */
-__STATIC_INLINE DL_UART_SPG_DMA_RX_PREEMPT_INT
-DL_UART_getSPGDMAReceivePreemtiveInterrupt(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_UART_SPG_DMA_RX_PREEMPT_INT)(
-        unicomm->uart->SPGDMA.SPGDMARXCTL &
-        UNICOMMUART_SPGDMARXCTL_DMAPREIRQ_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel transfer mode
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Transfer mode to use.
- *                      One of @ref DL_UART_SPG_DMA_RX_TRANSFER_MODE.
- */
-__STATIC_INLINE void DL_UART_setSPGDMAReceiveTransferMode(
-    UNICOMM_Inst_Regs *unicomm, DL_UART_SPG_DMA_RX_TRANSFER_MODE config)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMARXCTL, (uint32_t) config,
-        UNICOMMUART_SPGDMARXCTL_DMATM_MASK);
-}
-/**
- *  @brief      Get SPG DMA receive channel transfer mode
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured transfer mode for receive channel
- *  @retval  One of @ref DL_UART_SPG_DMA_RX_TRANSFER_MODE
- */
-__STATIC_INLINE DL_UART_SPG_DMA_RX_TRANSFER_MODE
-DL_UART_getSPGDMAReceiveTransferMode(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_UART_SPG_DMA_RX_TRANSFER_MODE)(
-        unicomm->uart->SPGDMA.SPGDMARXCTL &
-        UNICOMMUART_SPGDMARXCTL_DMATM_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel data width
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Data width to use.
- *                      One of @ref DL_UART_SPG_DMA_RX_DATA_WIDTH.
- */
-__STATIC_INLINE void DL_UART_setSPGDMAReceiveDataWidth(
-    UNICOMM_Inst_Regs *unicomm, DL_UART_SPG_DMA_RX_DATA_WIDTH config)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMARXCTL, (uint32_t) config,
-        UNICOMMUART_SPGDMARXCTL_DMADSTWDTH_MASK);
-}
-/**
- *  @brief      Get SPG DMA receive channel data width
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured data width for receive channel
- *  @retval  One of @ref DL_UART_SPG_DMA_RX_DATA_WIDTH
- */
-__STATIC_INLINE DL_UART_SPG_DMA_RX_DATA_WIDTH
-DL_UART_getSPGDMAReceiveDataWidth(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_UART_SPG_DMA_RX_DATA_WIDTH)(
-        unicomm->uart->SPGDMA.SPGDMARXCTL &
-        UNICOMMUART_SPGDMARXCTL_DMADSTWDTH_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel memory starting address
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  address  Starting memory address to use
- */
-__STATIC_INLINE void DL_UART_setSPGDMAReceiveStartAddress(
-    UNICOMM_Inst_Regs *unicomm, uint32_t address)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMARXDA, address,
-        UNICOMMUART_SPGDMARXDA_ADDR_MAXIMUM);
-}
-/**
- *  @brief      Get SPG DMA receive channel memory starting address
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured memory starting address for receive channel
- */
-__STATIC_INLINE uint32_t DL_UART_getSPGDMAReceiveStartAddress(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    return (unicomm->uart->SPGDMA.SPGDMARXDA &
-            UNICOMMUART_SPGDMARXDA_ADDR_MAXIMUM);
-}
-
-/**
- *  @brief      Set SPG DMA receive channel size
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  size  Starting memory address to use
- */
-__STATIC_INLINE void DL_UART_setSPGDMAReceiveChannelSize(
-    UNICOMM_Inst_Regs *unicomm, uint16_t size)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMARXSZ, (uint32_t) size,
-        UNICOMMUART_SPGDMARXSZ_SIZE_MAXIMUM);
-}
-/**
- *  @brief      Get SPG DMA receive channel size
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured size of receive channel
- */
-__STATIC_INLINE uint16_t DL_UART_getSPGDMAReceiveChannelSize(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    return (uint16_t)(unicomm->uart->SPGDMA.SPGDMARXSZ &
-                      UNICOMMUART_SPGDMARXSZ_SIZE_MAXIMUM);
-}
-
-/**
- *  @brief      Enable SPG DMA transmit channel
- *
- *  @param[in]  unicomm       Pointer to the register overlay for the
- *                         peripheral
- */
-__STATIC_INLINE void DL_UART_enableSPGDMATransmitChannel(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    unicomm->uart->SPGDMA.SPGDMATXCTL |= UNICOMMUART_SPGDMATXCTL_DMAEN_ENABLE;
-}
-
-/**
- *  @brief      Disable SPG DMA transmit channel
- *
- *  @param[in]  unicomm       Pointer to the register overlay for the
- *                         peripheral
- */
-__STATIC_INLINE void DL_UART_disableSPGDMATransmitChannel(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    unicomm->uart->SPGDMA.SPGDMATXCTL &=
-        ~(UNICOMMUART_SPGDMATXCTL_DMAEN_ENABLE);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel destination increment
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  The increment direction to use.
- *                      One of @ref DL_UART_SPG_DMA_TX_DEST_ADDR.
- */
-__STATIC_INLINE void DL_UART_setSPGDMATransmitIncrement(
-    UNICOMM_Inst_Regs *unicomm, DL_UART_SPG_DMA_TX_DEST_ADDR config)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMATXCTL, (uint32_t) config,
-        UNICOMMUART_SPGDMATXCTL_DMAMEMINCR_MASK);
-}
-/**
- *  @brief      Get SPG DMA transmit channel destination increment
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured destincation increment schema for transmit channel
- *  @retval  One of @ref DL_UART_SPG_DMA_TX_DEST_ADDR
- */
-__STATIC_INLINE DL_UART_SPG_DMA_TX_DEST_ADDR
-DL_UART_getSPGDMATransmitIncrement(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_UART_SPG_DMA_TX_DEST_ADDR)(
-        unicomm->uart->SPGDMA.SPGDMATXCTL &
-        UNICOMMUART_SPGDMATXCTL_DMAMEMINCR_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel pre-emptive interrupt
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Pre-emptive interrupt schema to use.
- *                      One of @ref DL_UART_SPG_DMA_TX_PREEMPT_INT.
- */
-__STATIC_INLINE void DL_UART_setSPGDMATransmitPreemtiveInterrupt(
-    UNICOMM_Inst_Regs *unicomm, DL_UART_SPG_DMA_TX_PREEMPT_INT config)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMATXCTL, (uint32_t) config,
-        UNICOMMUART_SPGDMATXCTL_DMAPREIRQ_MASK);
-}
-/**
- *  @brief      Get SPG DMA transmit channel pre-emptive interrupt
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured pre-emptive interrupt schema for transmit channel
- *  @retval  One of @ref DL_UART_SPG_DMA_TX_PREEMPT_INT
- */
-__STATIC_INLINE DL_UART_SPG_DMA_TX_PREEMPT_INT
-DL_UART_getSPGDMATransmitPreemtiveInterrupt(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_UART_SPG_DMA_TX_PREEMPT_INT)(
-        unicomm->uart->SPGDMA.SPGDMATXCTL &
-        UNICOMMUART_SPGDMATXCTL_DMAPREIRQ_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel transfer mode
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Transfer mode to use.
- *                      One of @ref DL_UART_SPG_DMA_TX_TRANSFER_MODE.
- */
-__STATIC_INLINE void DL_UART_setSPGDMATransmitTransferMode(
-    UNICOMM_Inst_Regs *unicomm, DL_UART_SPG_DMA_TX_TRANSFER_MODE config)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMATXCTL, (uint32_t) config,
-        UNICOMMUART_SPGDMATXCTL_DMATM_MASK);
-}
-/**
- *  @brief      Get SPG DMA transmit channel transfer mode
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured transfer mode for transmit channel
- *  @retval  One of @ref DL_UART_SPG_DMA_TX_TRANSFER_MODE
- */
-__STATIC_INLINE DL_UART_SPG_DMA_TX_TRANSFER_MODE
-DL_UART_getSPGDMATransmitTransferMode(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_UART_SPG_DMA_TX_TRANSFER_MODE)(
-        unicomm->uart->SPGDMA.SPGDMATXCTL &
-        UNICOMMUART_SPGDMATXCTL_DMATM_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel data width
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  config  Data width to use.
- *                      One of @ref DL_UART_SPG_DMA_TX_DATA_WIDTH.
- */
-__STATIC_INLINE void DL_UART_setSPGDMATransmitDataWidth(
-    UNICOMM_Inst_Regs *unicomm, DL_UART_SPG_DMA_TX_DATA_WIDTH config)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMATXCTL, (uint32_t) config,
-        UNICOMMUART_SPGDMATXCTL_DMASRCWDTH_MASK);
-}
-/**
- *  @brief      Get SPG DMA transmit channel data width
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured data width for transmit channel
- *  @retval  One of @ref DL_UART_SPG_DMA_TX_DATA_WIDTH
- */
-__STATIC_INLINE DL_UART_SPG_DMA_TX_DATA_WIDTH
-DL_UART_getSPGDMATransmitDataWidth(UNICOMM_Inst_Regs *unicomm)
-{
-    return (DL_UART_SPG_DMA_TX_DATA_WIDTH)(
-        unicomm->uart->SPGDMA.SPGDMATXCTL &
-        UNICOMMUART_SPGDMATXCTL_DMASRCWDTH_MASK);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel memory starting address
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  address  Starting memory address to use
- */
-__STATIC_INLINE void DL_UART_setSPGDMATransmitStartAddress(
-    UNICOMM_Inst_Regs *unicomm, uint32_t address)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMATXSA, address,
-        UNICOMMUART_SPGDMATXSA_ADDR_MAXIMUM);
-}
-/**
- *  @brief      Get SPG DMA transmit channel memory starting address
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured memory starting address for transmit channel
- */
-__STATIC_INLINE uint32_t DL_UART_getSPGDMATransmitStartAddress(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    return (unicomm->uart->SPGDMA.SPGDMATXSA &
-            UNICOMMUART_SPGDMATXSA_ADDR_MAXIMUM);
-}
-
-/**
- *  @brief      Set SPG DMA transmit channel size
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *  @param[in]  size  Starting memory address to use
- */
-__STATIC_INLINE void DL_UART_setSPGDMATransmitChannelSize(
-    UNICOMM_Inst_Regs *unicomm, uint16_t size)
-{
-    DL_Common_updateReg(&unicomm->uart->SPGDMA.SPGDMATXSZ, (uint32_t) size,
-        UNICOMMUART_SPGDMATXSZ_SIZE_MAXIMUM);
-}
-/**
- *  @brief      Get SPG DMA transmit channel size
- *
- *  @param[in]  unicomm    Pointer to the register overlay for the peripheral
- *
- *  @return  Configured size of transmit channel
- */
-__STATIC_INLINE uint16_t DL_UART_getSPGDMATransmitChannelSize(
-    UNICOMM_Inst_Regs *unicomm)
-{
-    return (uint16_t)(unicomm->uart->SPGDMA.SPGDMATXSZ &
-                      UNICOMMUART_SPGDMATXSZ_SIZE_MAXIMUM);
-}
 
 #ifdef __cplusplus
 }

@@ -1,33 +1,33 @@
 /*****************************************************************************
 
-  Copyright (C) 2025 Texas Instruments Incorporated - http://www.ti.com/ 
+  Copyright (C) 2023 Texas Instruments Incorporated - http://www.ti.com/
 
-  Redistribution and use in source and binary forms, with or without 
-  modification, are permitted provided that the following conditions 
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
   are met:
 
-   Redistributions of source code must retain the above copyright 
+   Redistributions of source code must retain the above copyright
    notice, this list of conditions and the following disclaimer.
 
    Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in the 
-   documentation and/or other materials provided with the   
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the
    distribution.
 
    Neither the name of Texas Instruments Incorporated nor the names of
    its contributors may be used to endorse or promote products derived
    from this software without specific prior written permission.
 
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
-  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 *****************************************************************************/
@@ -36,8 +36,8 @@
 #define ti_devices_msp_peripherals_hw_trng__include
 
 /* Filename: hw_trng.h */
-/* Revised: 2025-04-09 13:57:08 */
-/* Revision: f4602b816b1643a266cc7aae6be755d35f394359 */
+/* Revised: 2023-06-13 16:12:38 */
+/* Revision: f9b237fa1b82e8166ce3ead25b505b784578352a */
 
 #ifndef __CORTEX_M
   #ifdef __cplusplus
@@ -68,8 +68,29 @@
 /******************************************************************************
 * TRNG Registers
 ******************************************************************************/
+#define TRNG_CPU_INT_OFS                         ((uint32_t)0x00001020U)
 #define TRNG_GPRCM_OFS                           ((uint32_t)0x00000800U)
 
+
+/** @addtogroup TRNG_CPU_INT
+  @{
+*/
+
+typedef struct {
+  __I  uint32_t IIDX;                              /* !< (@ 0x00001020) Interrupt index */
+       uint32_t RESERVED0;
+  __IO uint32_t IMASK;                             /* !< (@ 0x00001028) Interrupt mask */
+       uint32_t RESERVED1;
+  __I  uint32_t RIS;                               /* !< (@ 0x00001030) Raw interrupt status */
+       uint32_t RESERVED2;
+  __I  uint32_t MIS;                               /* !< (@ 0x00001038) Masked interrupt status */
+       uint32_t RESERVED3;
+  __O  uint32_t ISET;                              /* !< (@ 0x00001040) Interrupt set */
+       uint32_t RESERVED4;
+  __O  uint32_t ICLR;                              /* !< (@ 0x00001048) Interrupt clear */
+} TRNG_CPU_INT_Regs;
+
+/*@}*/ /* end of group TRNG_CPU_INT */
 
 /** @addtogroup TRNG_GPRCM
   @{
@@ -92,18 +113,8 @@ typedef struct {
        uint32_t RESERVED0[512];
   TRNG_GPRCM_Regs  GPRCM;                             /* !< (@ 0x00000800) */
        uint32_t RESERVED1[514];
-  __I  uint32_t IIDX;                              /* !< (@ 0x00001020) Interrupt index */
-       uint32_t RESERVED2;
-  __IO uint32_t IMASK;                             /* !< (@ 0x00001028) Interrupt mask */
-       uint32_t RESERVED3;
-  __I  uint32_t RIS;                               /* !< (@ 0x00001030) Raw interrupt status */
-       uint32_t RESERVED4;
-  __I  uint32_t MIS;                               /* !< (@ 0x00001038) Masked interrupt status */
-       uint32_t RESERVED5;
-  __O  uint32_t ISET;                              /* !< (@ 0x00001040) Interrupt set */
-       uint32_t RESERVED6;
-  __O  uint32_t ICLR;                              /* !< (@ 0x00001048) Interrupt clear */
-       uint32_t RESERVED7[44];
+  TRNG_CPU_INT_Regs  CPU_INT;                           /* !< (@ 0x00001020) */
+       uint32_t RESERVED2[44];
   __I  uint32_t DESC;                              /* !< (@ 0x000010FC) Module descriptions */
   __IO uint32_t CTL;                               /* !< (@ 0x00001100) Controls the command and decimation rate */
   __I  uint32_t STAT;                              /* !< (@ 0x00001104) Status register that informs health test results
@@ -124,49 +135,6 @@ typedef struct {
 /******************************************************************************
 * TRNG Register Control Bits
 ******************************************************************************/
-
-/* TRNG_PWREN Bits */
-/* TRNG_PWREN[ENABLE] Bits */
-#define TRNG_PWREN_ENABLE_OFS                    (0)                             /* !< ENABLE Offset */
-#define TRNG_PWREN_ENABLE_MASK                   ((uint32_t)0x00000001U)         /* !< Enable the power */
-#define TRNG_PWREN_ENABLE_DISABLE                ((uint32_t)0x00000000U)         /* !< Disable Power */
-#define TRNG_PWREN_ENABLE_ENABLE                 ((uint32_t)0x00000001U)         /* !< Enable Power */
-/* TRNG_PWREN[KEY] Bits */
-#define TRNG_PWREN_KEY_OFS                       (24)                            /* !< KEY Offset */
-#define TRNG_PWREN_KEY_MASK                      ((uint32_t)0xFF000000U)         /* !< KEY to allow Power State Change */
-#define TRNG_PWREN_KEY_UNLOCK_W                  ((uint32_t)0x26000000U)         /* !< KEY to allow write access to this
-                                                                                    register */
-
-/* TRNG_RSTCTL Bits */
-/* TRNG_RSTCTL[RESETSTKYCLR] Bits */
-#define TRNG_RSTCTL_RESETSTKYCLR_OFS             (1)                             /* !< RESETSTKYCLR Offset */
-#define TRNG_RSTCTL_RESETSTKYCLR_MASK            ((uint32_t)0x00000002U)         /* !< Clear the RESETSTKY bit in the STAT
-                                                                                    register */
-#define TRNG_RSTCTL_RESETSTKYCLR_NOP             ((uint32_t)0x00000000U)         /* !< Writing 0 has no effect */
-#define TRNG_RSTCTL_RESETSTKYCLR_CLR             ((uint32_t)0x00000002U)         /* !< Clear reset sticky bit */
-/* TRNG_RSTCTL[RESETASSERT] Bits */
-#define TRNG_RSTCTL_RESETASSERT_OFS              (0)                             /* !< RESETASSERT Offset */
-#define TRNG_RSTCTL_RESETASSERT_MASK             ((uint32_t)0x00000001U)         /* !< Assert reset to the peripheral */
-#define TRNG_RSTCTL_RESETASSERT_NOP              ((uint32_t)0x00000000U)         /* !< Writing 0 has no effect */
-#define TRNG_RSTCTL_RESETASSERT_ASSERT           ((uint32_t)0x00000001U)         /* !< Assert reset */
-/* TRNG_RSTCTL[KEY] Bits */
-#define TRNG_RSTCTL_KEY_OFS                      (24)                            /* !< KEY Offset */
-#define TRNG_RSTCTL_KEY_MASK                     ((uint32_t)0xFF000000U)         /* !< Unlock key */
-#define TRNG_RSTCTL_KEY_UNLOCK_W                 ((uint32_t)0xB1000000U)         /* !< KEY to allow write access to this
-                                                                                    register */
-
-/* TRNG_GPRCM_STAT Bits */
-/* TRNG_GPRCM_STAT[RESETSTKY] Bits */
-#define TRNG_GPRCM_STAT_RESETSTKY_OFS            (16)                            /* !< RESETSTKY Offset */
-#define TRNG_GPRCM_STAT_RESETSTKY_MASK           ((uint32_t)0x00010000U)         /* !< This bit indicates, if the
-                                                                                    peripheral was reset, since this bit
-                                                                                    was cleared by RESETSTKYCLR in the
-                                                                                    RSTCTL register */
-#define TRNG_GPRCM_STAT_RESETSTKY_NORES          ((uint32_t)0x00000000U)         /* !< The peripheral has not been reset
-                                                                                    since this bit was last cleared by
-                                                                                    RESETSTKYCLR in the RSTCTL register */
-#define TRNG_GPRCM_STAT_RESETSTKY_RESET          ((uint32_t)0x00010000U)         /* !< The peripheral was reset since the
-                                                                                    last bit clear */
 
 /* TRNG_IIDX Bits */
 /* TRNG_IIDX[STAT] Bits */
@@ -379,6 +347,49 @@ typedef struct {
 #define TRNG_ICLR_IRQ_CMD_FAIL_CLR               ((uint32_t)0x00000002U)         /* !< RIS bit corresponding to CMD_FAIL
                                                                                     is cleared */
 
+/* TRNG_PWREN Bits */
+/* TRNG_PWREN[ENABLE] Bits */
+#define TRNG_PWREN_ENABLE_OFS                    (0)                             /* !< ENABLE Offset */
+#define TRNG_PWREN_ENABLE_MASK                   ((uint32_t)0x00000001U)         /* !< Enable the power */
+#define TRNG_PWREN_ENABLE_DISABLE                ((uint32_t)0x00000000U)         /* !< Disable Power */
+#define TRNG_PWREN_ENABLE_ENABLE                 ((uint32_t)0x00000001U)         /* !< Enable Power */
+/* TRNG_PWREN[KEY] Bits */
+#define TRNG_PWREN_KEY_OFS                       (24)                            /* !< KEY Offset */
+#define TRNG_PWREN_KEY_MASK                      ((uint32_t)0xFF000000U)         /* !< KEY to allow Power State Change */
+#define TRNG_PWREN_KEY_UNLOCK_W                  ((uint32_t)0x26000000U)         /* !< KEY to allow write access to this
+                                                                                    register */
+
+/* TRNG_RSTCTL Bits */
+/* TRNG_RSTCTL[RESETSTKYCLR] Bits */
+#define TRNG_RSTCTL_RESETSTKYCLR_OFS             (1)                             /* !< RESETSTKYCLR Offset */
+#define TRNG_RSTCTL_RESETSTKYCLR_MASK            ((uint32_t)0x00000002U)         /* !< Clear the RESETSTKY bit in the STAT
+                                                                                    register */
+#define TRNG_RSTCTL_RESETSTKYCLR_NOP             ((uint32_t)0x00000000U)         /* !< Writing 0 has no effect */
+#define TRNG_RSTCTL_RESETSTKYCLR_CLR             ((uint32_t)0x00000002U)         /* !< Clear reset sticky bit */
+/* TRNG_RSTCTL[RESETASSERT] Bits */
+#define TRNG_RSTCTL_RESETASSERT_OFS              (0)                             /* !< RESETASSERT Offset */
+#define TRNG_RSTCTL_RESETASSERT_MASK             ((uint32_t)0x00000001U)         /* !< Assert reset to the peripheral */
+#define TRNG_RSTCTL_RESETASSERT_NOP              ((uint32_t)0x00000000U)         /* !< Writing 0 has no effect */
+#define TRNG_RSTCTL_RESETASSERT_ASSERT           ((uint32_t)0x00000001U)         /* !< Assert reset */
+/* TRNG_RSTCTL[KEY] Bits */
+#define TRNG_RSTCTL_KEY_OFS                      (24)                            /* !< KEY Offset */
+#define TRNG_RSTCTL_KEY_MASK                     ((uint32_t)0xFF000000U)         /* !< Unlock key */
+#define TRNG_RSTCTL_KEY_UNLOCK_W                 ((uint32_t)0xB1000000U)         /* !< KEY to allow write access to this
+                                                                                    register */
+
+/* TRNG_GPRCM_STAT Bits */
+/* TRNG_GPRCM_STAT[RESETSTKY] Bits */
+#define TRNG_GPRCM_STAT_RESETSTKY_OFS            (16)                            /* !< RESETSTKY Offset */
+#define TRNG_GPRCM_STAT_RESETSTKY_MASK           ((uint32_t)0x00010000U)         /* !< This bit indicates, if the
+                                                                                    peripheral was reset, since this bit
+                                                                                    was cleared by RESETSTKYCLR in the
+                                                                                    RSTCTL register */
+#define TRNG_GPRCM_STAT_RESETSTKY_NORES          ((uint32_t)0x00000000U)         /* !< The peripheral has not been reset
+                                                                                    since this bit was last cleared by
+                                                                                    RESETSTKYCLR in the RSTCTL register */
+#define TRNG_GPRCM_STAT_RESETSTKY_RESET          ((uint32_t)0x00010000U)         /* !< The peripheral was reset since the
+                                                                                    last bit clear */
+
 /* TRNG_DESC Bits */
 /* TRNG_DESC[MINREV] Bits */
 #define TRNG_DESC_MINREV_OFS                     (0)                             /* !< MINREV Offset */
@@ -538,4 +549,3 @@ typedef struct {
 #endif
 
 #endif /* ti_devices_msp_peripherals_hw_trng__include */
-

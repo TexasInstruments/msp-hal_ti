@@ -79,6 +79,10 @@ void DL_I2CT_transmitDataBlocking(UNICOMM_Inst_Regs *unicomm, uint8_t data)
         ;
     }
     DL_I2CT_transmitData(unicomm, data);
+    while ((DL_I2CT_getStatus(unicomm) & DL_I2CT_STATUS_BUS_BUSY) ==
+           DL_I2CT_STATUS_BUS_BUSY) {
+        ;
+    }
 }
 
 bool DL_I2CT_transmitDataCheck(UNICOMM_Inst_Regs *unicomm, uint8_t data)

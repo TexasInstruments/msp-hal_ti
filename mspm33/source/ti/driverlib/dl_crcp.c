@@ -92,4 +92,4 @@ uint16_t DL_CRCP_calculateMemoryRange16(
     return ((uint16_t) DL_CRCP_getResult16(crcp));
 }
 
-#endif /* __MSPM33_HAS_CRCP__ */
+#endif /* __MSP_HAS_CRCP__ */

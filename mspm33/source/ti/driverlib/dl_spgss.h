@@ -31,13 +31,16 @@
  */
 /*!****************************************************************************
  *  @file       dl_spgss.h
- *  @brief      Scalable Peripheral Generator SubSystem (SPGSS) Driver Library
- *  @defgroup   SPGSS Scalable Peripheral Generator SubSystem (SPGSS)
+ *  @brief      Serial Peripheral Group (SPGSS) Driver Library
+ *  @defgroup   SPGSS Serial Peripheral Group (SPGSS)
  *
  *  @anchor ti_dl_dl_m0p_spgss_Overview
  *  # Overview
  *
- *  TODO
+ *  The Serial Peripheral Group (SPGSS) Driver Library allows full configuration
+ *  of the SPG module.
+ *  The SPG module combines one or more UNICOMM modules for special functions
+ *  like I2C loopback.
  *
  *  <hr>
  ******************************************************************************
@@ -65,16 +68,6 @@ extern "C" {
 /** @addtogroup DL_SPGSS_INTERRUPTS
  *  @{
  */
-
-/*!
- * @brief SPGSS DMA CHAIN0 done
- */
-#define DL_SPGSS_INTERRUPT_CHAIN0_DMA_DONE           (SPGSS_CPU_INT_IMASK_DMA_DONE_CHAIN0_SET)
-
-/*!
- * @brief SPGSS DMA CHAIN1 done
- */
-#define DL_SPGSS_INTERRUPT_CHAIN1_DMA_DONE           (SPGSS_CPU_INT_IMASK_DMA_DONE_CHAIN1_SET)
 
 /** @}*/
 
@@ -150,74 +143,6 @@ typedef enum {
     DL_SPGSS_PAIR_TARGET_UC15_= SPGSS_PAIR0_TARGET_SPG16,
 } DL_SPGSS_PAIR_TARGET_SEL;
 
-/*! @enum DL_SPGSS_DMA_CHAIN_FIFO_SEL */
-typedef enum {
-    /*! Select UC0_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC0_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG1RXDONE,
-    /*! Select UC1_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC1_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG2RXDONE,
-    /*! Select UC2_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC2_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG3RXDONE,
-    /*! Select UC3_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC3_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG4RXDONE,
-    /*! Select UC4_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC4_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG5RXDONE,
-    /*! Select UC5_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC5_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG6RXDONE,
-    /*! Select UC6_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC6_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG7RXDONE,
-    /*! Select UC7_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC7_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG8RXDONE,
-    /*! Select UC8_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC8_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG9RXDONE,
-    /*! Select UC9_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC9_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG10RXDONE,
-    /*! Select UC10_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC10_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG11RXDONE,
-    /*! Select UC11_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC11_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG12RXDONE,
-    /*! Select UC12_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC12_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG13RXDONE,
-    /*! Select UC13_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC13_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG14RXDONE,
-    /*! Select UC14_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC14_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG15RXDONE,
-    /*! Select UC15_RX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC15_RX_DONE = SPGSS_DMACHAIN0_SEL_SPG16RXDONE,
-    /*! Select UC0_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC0_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG1TXDONE,
-    /*! Select UC1_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC1_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG2TXDONE,
-    /*! Select UC2_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC2_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG3TXDONE,
-    /*! Select UC3_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC3_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG4TXDONE,
-    /*! Select UC4_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC4_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG5TXDONE,
-    /*! Select UC5_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC5_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG6TXDONE,
-    /*! Select UC6_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC6_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG7TXDONE,
-    /*! Select UC7_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC7_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG8TXDONE,
-    /*! Select UC8_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC8_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG9TXDONE,
-    /*! Select UC9_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC9_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG10TXDONE,
-    /*! Select UC10_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC10_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG11TXDONE,
-    /*! Select UC11_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC11_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG12TXDONE,
-    /*! Select UC12_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC12_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG13TXDONE,
-    /*! Select UC13_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC13_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG14TXDONE,
-    /*! Select UC14_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC14_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG15TXDONE,
-    /*! Select UC15_TX DONE as FIFO for system DMA CHAIN */
-    DL_SPGSS_DMA_CHAIN_FIFO_UC15_TX_DONE = SPGSS_DMACHAIN0_SEL_SPG16TXDONE,
-} DL_SPGSS_DMA_CHAIN_FIFO_SEL;
-
 /*! @enum DL_SPGSS_PAIR_INDEX */
 typedef enum {
     /*! Loopback pair index 0 */
@@ -237,14 +162,6 @@ typedef enum {
     /*! Loopback pair index 7 */
     DL_SPGSS_PAIR_INDEX_7 = 7,
 } DL_SPGSS_PAIR_INDEX;
-
-/*! @enum DL_SPGSS_DMA_CHAIN_INDEX */
-typedef enum {
-    /*! DMA chaining index 0 */
-    DL_SPGSS_DMA_CHAIN_INDEX_0 = 0,
-    /*! DMA chaining index 1 */
-    DL_SPGSS_DMA_CHAIN_INDEX_1 = 1
-} DL_SPGSS_DMA_CHAIN_INDEX;
 
 /**
  * @brief  Configuration struct for @ref DL_SPGSS_setLoopbackConfig.
@@ -319,71 +236,6 @@ __STATIC_INLINE void DL_SPGSS_getLoopbackConfig(SPGSS_Regs *spgss, DL_SPGSS_PAIR
 
     config->controller = (DL_SPGSS_PAIR_CONTROLLER_SEL)(*(pReg + (uint32_t) index) & SPGSS_PAIR0_CTL_MASK);
     config->target = (DL_SPGSS_PAIR_TARGET_SEL)(*(pReg + (uint32_t) index) & SPGSS_PAIR0_TARGET_MASK);
-}
-
-/**
- *  @brief      Enable DMA chain
- *
- *  @param[in]  spgss  Pointer to the register overlay for the peripheral
- *  @param[in]  index  Specifies dma chain index to be configured. One of
- *                        @ref DL_SPGSS_DMA_CHAIN_INDEX.
- */
-__STATIC_INLINE void DL_SPGSS_enableDMAChain(SPGSS_Regs *spgss, DL_SPGSS_DMA_CHAIN_INDEX index)
-{
-    volatile uint32_t *pReg = &spgss->DMA_CHAIN.DMACHAIN0;
-
-    *(pReg + (uint32_t) index) |= (SPGSS_DMACHAIN0_EN_ENABLE);
-}
-
-/**
- *  @brief      Disable DMA chain
- *
- *  @param[in]  spgss  Pointer to the register overlay for the peripheral
- *  @param[in]  index  Specifies dma chain index to be configured. One of
- *                        @ref DL_SPGSS_DMA_CHAIN_INDEX.
- */
-__STATIC_INLINE void DL_SPGSS_disableDMAChain(SPGSS_Regs *spgss, DL_SPGSS_DMA_CHAIN_INDEX index)
-{
-    volatile uint32_t *pReg = &spgss->DMA_CHAIN.DMACHAIN0;
-
-    *(pReg + (uint32_t) index) &= ~(SPGSS_DMACHAIN0_EN_ENABLE);
-}
-
-/**
- *  @brief      Set FIFO trigger for DMA chain
- *
- *  @param[in]  spgss  Pointer to the register overlay for the peripheral
- *  @param[in]  index  Specifies dma chain index to be configured. One of
- *                        @ref DL_SPGSS_DMA_CHAIN_INDEX.
- *  @param[in]  fifoTrigger  FIFO trigger selection. One of
- *                        @ref DL_SPGSS_DMA_CHAIN_FIFO_SEL.
- */
-__STATIC_INLINE void DL_SPGSS_setDMAChainConfig(
-    SPGSS_Regs *spgss, DL_SPGSS_DMA_CHAIN_INDEX index, DL_SPGSS_DMA_CHAIN_FIFO_SEL fifoTrigger)
-{
-    volatile uint32_t *pReg = &spgss->DMA_CHAIN.DMACHAIN0;
-
-    DL_Common_updateReg((pReg + (uint32_t) index), fifoTrigger, SPGSS_DMACHAIN0_SEL_MASK);
-}
-
-/**
- *  @brief      Get FIFO trigger for DMA chain
- *
- *  @param[in]  spgss  Pointer to the register overlay for the peripheral
- *  @param[in]  index  Specifies dma chain index to be configured. One of
- *                        @ref DL_SPGSS_DMA_CHAIN_INDEX.
- *
- *  @return  Configured FIFO trigger selection
- *  @retval  One of @ref DL_SPGSS_DMA_CHAIN_FIFO_SEL
- */
-__STATIC_INLINE DL_SPGSS_DMA_CHAIN_FIFO_SEL DL_SPGSS_getDMAChainConfig(
-    SPGSS_Regs *spgss, DL_SPGSS_DMA_CHAIN_INDEX index)
-{
-    volatile uint32_t *pReg = &spgss->DMA_CHAIN.DMACHAIN0;
-
-    uint32_t fifoTrigger = *(pReg + (uint32_t) index) & SPGSS_DMACHAIN0_SEL_MASK;
-
-    return (DL_SPGSS_DMA_CHAIN_FIFO_SEL)(fifoTrigger);
 }
 
 /**

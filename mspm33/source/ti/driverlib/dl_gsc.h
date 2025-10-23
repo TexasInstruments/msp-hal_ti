@@ -2537,7 +2537,8 @@ void DL_GSC_getCommitConfiguration(GSC_Regs *gsc, DL_GSC_LockConfig *config);
  *
  * Configures security access permissions for SRAM memory blocks. The memory is divided into
  * 16 pages of 16KB each, with each page further subdivided into configurable chunks.
- * Setting a chunk to secure (true) restricts access to secure execution context only.
+ * Setting a chunk value to 1 restricts access to secure execution context only.
+ * Setting a chunk value to 0 allows non-secure access.
  *
  * @param[in] gsc     Pointer to the GSC peripheral register block
  * @param[in] config  Pointer to SRAM security configuration structure
@@ -2545,8 +2546,8 @@ void DL_GSC_getCommitConfiguration(GSC_Regs *gsc, DL_GSC_LockConfig *config);
  * Example usage:
  * @code
  * DL_GSC_SRAMSecurityConfig config = {0}; // Initialize all access as non-secure
- * config.pages[0].chunk_512B_0 = true;    // Set first 512B chunk as secure
- * config.pages[0].chunk_4KB_0 = true;     // Set first 4KB chunk as secure
+ * config.pages[0].chunk_512B_0 = 1;       // Set first 512B chunk as secure
+ * config.pages[0].chunk_4KB_0 = 1;        // Set first 4KB chunk as secure
  * DL_GSC_configureSRAMSecurity(gsc, &config);
  * @endcode
  */
@@ -2558,7 +2559,8 @@ void DL_GSC_configureSRAMSecurity(
  *
  * Configures privilege access permissions for SRAM memory blocks. The memory is divided into
  * 16 pages of 16KB each, with each page further subdivided into configurable chunks.
- * Setting a chunk to privileged (true) restricts access to privileged execution only.
+ * Setting a chunk value to 1 restricts access to privileged execution only.
+ * Setting a chunk value to 0 allows non-privileged access.
  *
  * @param[in] gsc     Pointer to the GSC peripheral register block
  * @param[in] config  Pointer to SRAM security configuration structure
@@ -2566,8 +2568,8 @@ void DL_GSC_configureSRAMSecurity(
  * Example usage:
  * @code
  * DL_GSC_SRAMSecurityConfig config = {0}; // Initialize all access as non-privileged
- * config.pages[0].chunk_512B_0 = true;    // Set first 512B chunk as privileged
- * config.pages[0].chunk_4KB_0 = true;     // Set first 4KB chunk as privileged
+ * config.pages[0].chunk_512B_0 = 1;       // Set first 512B chunk as privileged
+ * config.pages[0].chunk_4KB_0 = 1;        // Set first 4KB chunk as privileged
  * DL_GSC_configureSRAMPrivilege(gsc, &config);
  * @endcode
  */

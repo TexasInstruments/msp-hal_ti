@@ -148,7 +148,7 @@ typedef enum {
     DL_CRCP_CRCPOLY_POLYNOMIAL_16_CDMA2000 = 0x0000C867U,
     /*! CRCP commonly used polynomial CRC16_MODBUS. To match online output,
      *  seed value must be set to 0xFFFF and bit order reversed */
-    DL_CRCP_CRCPOLY_POLYNOMIAL_16_MODBUS = 0x00001DCFU,
+    DL_CRCP_CRCPOLY_POLYNOMIAL_16_MODBUS = 0x00008005U,
 
 } DL_CRCP_CRCPOLY_POLYNOMIAL;
 
@@ -192,7 +192,7 @@ typedef enum {
      *  polynomial must be set to 0x0000C867 */
     DL_CRCP_CRCSEED_SEED_16_CDMA2000 = 0xFFFFU,
     /*! CRCP commonly used polynomial CRC16_MODBUS. To match online output,
-     *  polynomial must be set to 0x00001DCF and bit order reversed */
+     *  polynomial must be set to 0x00008005 and bit order reversed */
     DL_CRCP_CRCSEED_SEED_16_MODBUS = 0xFFFFU,
 
 } DL_CRCP_CRCSEED_SEED;
@@ -552,7 +552,7 @@ __STATIC_INLINE uintptr_t DL_CRCP_getCRCINAddr(const CRCP_Regs *crcp)
 }
 #endif
 
-#endif /* __MSPM33_HAS_CRCP__ */
+#endif /* __MSP_HAS_CRCP__ */
 
-#endif /* ti_dl_DL_CRCP__include */
+#endif /* ti_dl_dl_crcp__include */
 /** @}*/
