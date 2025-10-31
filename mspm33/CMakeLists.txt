@@ -22,9 +22,10 @@ if(CONFIG_HAS_MSPM33_SDK)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_TIMER source/ti/driverlib/dl_timer.c)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_TIMER source/ti/driverlib/dl_timera.c)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_TIMER source/ti/driverlib/dl_timerg.c)
+  zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_VREF source/ti/driverlib/dl_vref.c)
 
   
   #m33 specific drivers
-  zephyr_library_sources_ifdef(CONFIG_USE_MSPM33_DL_HSADC source/ti/driverlib/dl_hsadc.c)
+  zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_HSADC source/ti/driverlib/dl_hsadc.c)
 
 endif()
