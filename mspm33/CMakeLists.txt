@@ -23,6 +23,11 @@ if(CONFIG_HAS_MSPM33_SDK)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_TIMER source/ti/driverlib/dl_timera.c)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_TIMER source/ti/driverlib/dl_timerg.c)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_VREF source/ti/driverlib/dl_vref.c)
+  zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_UNICOMM source/ti/driverlib/dl_unicomm.c)
+  zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_UNICOMM_I2CC source/ti/driverlib/dl_unicommi2cc.c)
+  zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_UNICOMM_I2CT source/ti/driverlib/dl_unicommi2ct.c)
+  zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_UNICOMM_SPI source/ti/driverlib/dl_unicommspi.c)
+  zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_UNICOMM_UART source/ti/driverlib/dl_unicommuart.c)
 
   
   #m33 specific drivers
