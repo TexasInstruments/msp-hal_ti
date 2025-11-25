@@ -1469,6 +1469,7 @@ void DL_UART_init(UNICOMM_Inst_Regs *unicomm, DL_UART_Config *config);
 __STATIC_INLINE void DL_UART_enablePower(UNICOMM_Inst_Regs *unicomm)
 {
     DL_UNICOMM_enablePower(unicomm);
+    while(!DL_UNICOMM_isPowerEnabled(unicomm)){}
     if (unicomm->fixedMode == false) {
         DL_UNICOMM_setIPMode(unicomm, DL_UNICOMM_UART);
     }

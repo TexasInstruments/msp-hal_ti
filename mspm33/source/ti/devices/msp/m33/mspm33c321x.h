@@ -367,6 +367,12 @@ typedef enum IRQn {
 #define SHAW_BASE                      (0x401B4000U) /*!< Base address of module SHAW */
 #define DFTSS_BASE                     (0x40034000U) /*!< Base address of module DFTSS */
 
+#define UC_UART_OFFSET                 (0x00080000U)    /*!< UART address offset relative to UCx base address */
+#define UC_SPI_OFFSET                  (0x00020000U)    /*!< SPI address offset relative to UCx base address */
+
+#define UC_UART_BASE(UC_BASE)         (UC_BASE - UC_UART_OFFSET) /*!< Macro to calculate base address of UNICOMMUART Regs */
+#define UC_SPI_BASE(UC_BASE)          (UC_BASE - UC_SPI_OFFSET)  /*!< Macro to calculate base address of UNICOMMSPI Regs */
+
 typedef struct {
     UNICOMM_Regs         * const inst;
     UNICOMMUART_Regs     * const uart;
