@@ -769,6 +769,7 @@
 
 			/omit-if-no-ref/ uc5_rx_pa11: uc5_rx_pa11 {
 				pinmux = <MSP_PINMUX(22, MSP_PIN_FUNCTION_7)>;
+				input-enable;
 			};
 
 			/omit-if-no-ref/ comp0_out_pa11: comp0_out_pa11 {
