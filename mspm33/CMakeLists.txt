@@ -28,6 +28,7 @@ if(CONFIG_HAS_MSPM33_SDK)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_UNICOMM_I2CT source/ti/driverlib/dl_unicommi2ct.c)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_UNICOMM_SPI source/ti/driverlib/dl_unicommspi.c)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_UNICOMM_UART source/ti/driverlib/dl_unicommuart.c)
+  zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_DMA source/ti/driverlib/dl_dma.c)
 
   
   #m33 specific drivers
