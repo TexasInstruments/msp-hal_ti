@@ -1252,6 +1252,8 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_massEraseFromRAM(
  *
  *  @param[in]  flashctl  Pointer to the register overlay for the peripheral
  *
+ *  @param[in]  flag  DL_ERASE_DATABANK_COMMAND
+ *
  *  @return     Whether or not the erase succeeded
  *
  *  @retval     false if erase didn't succeed
@@ -1273,6 +1275,8 @@ bool DL_FlashCTL_massEraseMultiBank(FLASHCTL_Regs *flashctl, DL_ERASE_DATABANK_C
  *  NOTE: This API sets all main memory to unprotected from erase/program
  *
  *  @param[in]  flashctl  Pointer to the register overlay for the peripheral
+ *
+ *  @param[in]  flag  DL_ERASE_DATABANK_COMMAND
  *
  *  @return     Whether or not the command was successful.
  *              One of @ref DL_FLASHCTL_COMMAND_STATUS
@@ -1344,6 +1348,8 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_factoryResetFromRAM(
  *
  *  @param[in]  flashctl  Pointer to the register overlay for the peripheral
  *
+ *  @param[in]  flag  DL_ERASE_DATABANK_COMMAND
+ *
  *  @return     Whether or not the erase succeeded
  *
  *  @retval     false if erase didn't succeed
@@ -1367,6 +1373,8 @@ bool DL_FlashCTL_factoryResetMultiBank(FLASHCTL_Regs *flashctl, DL_ERASE_DATABAN
  *        successful. If unsuccessful, all memory will be unprotected
  *
  *  @param[in]  flashctl  Pointer to the register overlay for the peripheral
+ *
+ *  @param[in]  flag  DL_ERASE_DATABANK_COMMAND
  *
  *  @return     Whether or not the command was successful.
  *              One of @ref DL_FLASHCTL_COMMAND_STATUS
@@ -3954,10 +3962,6 @@ DL_FLASHCTL_COMMAND_STATUS DL_FlashCTL_blankVerifyFromRAM(
 /**
  *  @brief      Performs an erase on DATA bank
  *
- *  Performs an erase on DATA bank only. This API should be used
- *  on devices with a DATA bank. To determine if device has DATA
- *  bank use @ref DL_FactoryRegion_getDATAFlashSize API.
- *
  *  NOTE: This API erases all of DATA bank
  *
  *  @param[in]  flashctl  Pointer to the register overlay for the peripheral
@@ -3974,9 +3978,6 @@ bool DL_FlashCTL_eraseDataBank(FLASHCTL_Regs *flashctl);
  *  @brief      Performs an erase on DATA bank, and executes command
  *              from RAM
  *
- *  Performs an erase on DATA bank only. This API should be used
- *  on devices with a DATA bank. To determine if device has DATA
- *  bank use @ref DL_FactoryRegion_getDATAFlashSize API.
  *
  *  The command is executed from RAM, and blocks until the command is finished.
  *

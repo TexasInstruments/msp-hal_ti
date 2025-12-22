@@ -717,6 +717,7 @@ bool DL_I2CT_receiveDataCheck(UNICOMM_Inst_Regs *unicomm, uint8_t *buffer);
 __STATIC_INLINE void DL_I2CT_enablePower(UNICOMM_Inst_Regs *unicomm)
 {
     DL_UNICOMM_enablePower(unicomm);
+    while (!DL_UNICOMM_isPowerEnabled(unicomm));
     if (unicomm->fixedMode == false) {
         DL_UNICOMM_setIPMode(unicomm, DL_UNICOMM_I2C_TARGET);
     }

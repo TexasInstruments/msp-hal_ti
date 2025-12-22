@@ -250,7 +250,7 @@ typedef enum {
  * DL_GSC_configureMainFlashWriteProtect(gsc, DL_GSC_MAIN_FLASH_BANK_A, lower, upper);
  * @endcode
  */
-void DL_GSC_configureMainFlashWriteProtect(GSC_Regs *gsc,
+void DL_GSC_configureMainFlashWriteProtect(GSC_Regs* gsc,
     DL_GSC_MainFlashBank bank, uint32_t sector0, uint32_t sector1);
 
 /**
@@ -265,8 +265,8 @@ void DL_GSC_configureMainFlashWriteProtect(GSC_Regs *gsc,
  * - 0: Sector is not write protected
  * - 1: Sector is write protected
  */
-void DL_GSC_getMainFlashWriteProtectStatus(GSC_Regs *gsc,
-    DL_GSC_MainFlashBank bank, uint32_t *sector0, uint32_t *sector1);
+void DL_GSC_getMainFlashWriteProtectStatus(GSC_Regs* gsc,
+    DL_GSC_MainFlashBank bank, uint32_t* sector0, uint32_t* sector1);
 
 /**
  * @brief Configure write protection for NONMAIN flash region
@@ -288,7 +288,7 @@ void DL_GSC_getMainFlashWriteProtectStatus(GSC_Regs *gsc,
  * DL_GSC_configureNONMAINWriteProtect(gsc, DL_GSC_MAIN_FLASH_BANK_A, 0x00000001, 0);
  * @endcode
  */
-void DL_GSC_configureNONMAINWriteProtect(GSC_Regs *gsc,
+void DL_GSC_configureNONMAINWriteProtect(GSC_Regs* gsc,
     DL_GSC_MainFlashBank bank, uint32_t sector0, uint32_t sector1);
 
 /**
@@ -303,8 +303,8 @@ void DL_GSC_configureNONMAINWriteProtect(GSC_Regs *gsc,
  * - 0: Sector is not write protected
  * - 1: Sector is write protected
  */
-void DL_GSC_getNONMAINWriteProtectStatus(GSC_Regs *gsc,
-    DL_GSC_MainFlashBank bank, uint32_t *sector0, uint32_t *sector1);
+void DL_GSC_getNONMAINWriteProtectStatus(GSC_Regs* gsc,
+    DL_GSC_MainFlashBank bank, uint32_t* sector0, uint32_t* sector1);
 
 /**
  * @brief Configure write protection for TRIM flash region
@@ -318,7 +318,7 @@ void DL_GSC_getNONMAINWriteProtectStatus(GSC_Regs *gsc,
  * - 0: Sector is not write protected
  * - 1: Sector is write protected
  */
-void DL_GSC_configureTRIMWriteProtect(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
+void DL_GSC_configureTRIMWriteProtect(GSC_Regs* gsc, DL_GSC_MainFlashBank bank,
     uint32_t sector0, uint32_t sector1);
 
 /**
@@ -329,8 +329,8 @@ void DL_GSC_configureTRIMWriteProtect(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
  * @param[out] sector0  Pointer to store lower sectors protection status
  * @param[out] sector1  Pointer to store upper sectors protection status
  */
-void DL_GSC_getTRIMWriteProtectStatus(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
-    uint32_t *sector0, uint32_t *sector1);
+void DL_GSC_getTRIMWriteProtectStatus(GSC_Regs* gsc, DL_GSC_MainFlashBank bank,
+    uint32_t* sector0, uint32_t* sector1);
 
 /**
  * @brief Configure write protection for ENGR flash region
@@ -340,7 +340,7 @@ void DL_GSC_getTRIMWriteProtectStatus(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
  * @param[in] sector0   Write protection mask for lower sectors (WEPROTENGR0)
  * @param[in] sector1   Write protection mask for upper sectors (WEPROTENGR1)
  */
-void DL_GSC_configureENGRWriteProtect(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
+void DL_GSC_configureENGRWriteProtect(GSC_Regs* gsc, DL_GSC_MainFlashBank bank,
     uint32_t sector0, uint32_t sector1);
 
 /**
@@ -351,8 +351,8 @@ void DL_GSC_configureENGRWriteProtect(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
  * @param[out] sector0  Pointer to store lower sectors protection status
  * @param[out] sector1  Pointer to store upper sectors protection status
  */
-void DL_GSC_getENGRWriteProtectStatus(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
-    uint32_t *sector0, uint32_t *sector1);
+void DL_GSC_getENGRWriteProtectStatus(GSC_Regs* gsc, DL_GSC_MainFlashBank bank,
+    uint32_t* sector0, uint32_t* sector1);
 
 /**
  * @brief Configure write protection for Data Flash
@@ -361,7 +361,7 @@ void DL_GSC_getENGRWriteProtectStatus(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
  * @param[in] sectors   Write protection mask for data flash sectors
  */
 __STATIC_INLINE void DL_GSC_configureDataFlashWriteProtect(
-    GSC_Regs *gsc, uint32_t sectors)
+    GSC_Regs* gsc, uint32_t sectors)
 {
     gsc->FPC_WEPROTA_DFLASH = sectors;
 }
@@ -373,7 +373,7 @@ __STATIC_INLINE void DL_GSC_configureDataFlashWriteProtect(
  * @param[in] secMask   Security attributes mask for data flash sectors
  */
 __STATIC_INLINE void DL_GSC_configureDataFlashSecurity(
-    GSC_Regs *gsc, uint32_t secMask)
+    GSC_Regs* gsc, uint32_t secMask)
 {
     gsc->FPC_SECATTRIBA_DFLASH = secMask;
 }
@@ -385,7 +385,7 @@ __STATIC_INLINE void DL_GSC_configureDataFlashSecurity(
  * @param[in] secMask   Security attributes mask for ENGR data flash sectors
  */
 __STATIC_INLINE void DL_GSC_configureDataFlashENGRSecurity(
-    GSC_Regs *gsc, uint32_t secMask)
+    GSC_Regs* gsc, uint32_t secMask)
 {
     gsc->FPC_ENGR_SECATTRIB_DFLASH = secMask;
 }
@@ -397,7 +397,7 @@ __STATIC_INLINE void DL_GSC_configureDataFlashENGRSecurity(
  * @param[in] secMask   Security attributes mask for NONMAIN data flash sectors
  */
 __STATIC_INLINE void DL_GSC_configureDataFlashNONMAINSecurity(
-    GSC_Regs *gsc, uint32_t secMask)
+    GSC_Regs* gsc, uint32_t secMask)
 {
     gsc->FPC_NONMAIN_SECATTRIB_DFLASH = secMask;
 }
@@ -409,7 +409,7 @@ __STATIC_INLINE void DL_GSC_configureDataFlashNONMAINSecurity(
  * @param[in] secMask   Security attributes mask for Non-Main Flash sectors (bits[3:0])
  */
 __STATIC_INLINE void DL_GSC_configureNonMainFlashSecurity(
-    GSC_Regs *gsc, uint32_t secMask)
+    GSC_Regs* gsc, uint32_t secMask)
 {
     // Only lowest 4 bits are used since Non-Main Flash has 4 sectors
     gsc->FPC_NONMAIN_SECATTRIB0 = secMask & 0xFU;
@@ -422,7 +422,7 @@ __STATIC_INLINE void DL_GSC_configureNonMainFlashSecurity(
  * @param[in] privMask  Privilege attributes mask for Non-Main Flash sectors (bits[3:0])
  */
 __STATIC_INLINE void DL_GSC_configureNonMainFlashPrivilege(
-    GSC_Regs *gsc, uint32_t privMask)
+    GSC_Regs* gsc, uint32_t privMask)
 {
     // Only lowest 4 bits are used since Non-Main Flash has 4 sectors
     gsc->FPC_NONMAIN_PRIVATTRIB0 = privMask & 0xFU;
@@ -435,7 +435,7 @@ __STATIC_INLINE void DL_GSC_configureNonMainFlashPrivilege(
  * @param[in] privMask  Privilege attributes mask for data flash sectors
  */
 __STATIC_INLINE void DL_GSC_configureDataFlashPrivilege(
-    GSC_Regs *gsc, uint32_t privMask)
+    GSC_Regs* gsc, uint32_t privMask)
 {
     gsc->FPC_PRIVATTRIBA_DFLASH = privMask;
 }
@@ -447,7 +447,7 @@ __STATIC_INLINE void DL_GSC_configureDataFlashPrivilege(
  * @param[in] privMask  Privilege attributes mask for NONMAIN data flash sectors
  */
 __STATIC_INLINE void DL_GSC_configureDataFlashNONMAINPrivilege(
-    GSC_Regs *gsc, uint32_t privMask)
+    GSC_Regs* gsc, uint32_t privMask)
 {
     gsc->FPC_NONMAIN_PRIVATTRIB_DFLASH = privMask;
 }
@@ -459,7 +459,7 @@ __STATIC_INLINE void DL_GSC_configureDataFlashNONMAINPrivilege(
  * @param[in] privMask  Privilege attributes mask for ENGR data flash sectors
  */
 __STATIC_INLINE void DL_GSC_configureDataFlashENGRPrivilege(
-    GSC_Regs *gsc, uint32_t privMask)
+    GSC_Regs* gsc, uint32_t privMask)
 {
     gsc->FPC_ENGR_PRIVATTRIB_DFLASH = privMask;
 }
@@ -471,7 +471,7 @@ __STATIC_INLINE void DL_GSC_configureDataFlashENGRPrivilege(
  * @param[in] sectors   Write protection mask for NONMAIN data flash sectors
  */
 __STATIC_INLINE void DL_GSC_configureDataFlashNONMAINWriteProtect(
-    GSC_Regs *gsc, uint32_t sectors)
+    GSC_Regs* gsc, uint32_t sectors)
 {
     gsc->FPC_WEPROT_NONMAIN_DFLASH = sectors;
 }
@@ -483,7 +483,7 @@ __STATIC_INLINE void DL_GSC_configureDataFlashNONMAINWriteProtect(
  * @param[in] sectors   Write protection mask for ENGR data flash sectors
  */
 __STATIC_INLINE void DL_GSC_configureDataFlashENGRWriteProtect(
-    GSC_Regs *gsc, uint32_t sectors)
+    GSC_Regs* gsc, uint32_t sectors)
 {
     gsc->FPC_WEPROT_ENGR_DFLASH = sectors;
 }
@@ -494,7 +494,7 @@ __STATIC_INLINE void DL_GSC_configureDataFlashENGRWriteProtect(
  * @param[in] gsc       Pointer to the GSC peripheral register block
  * @return uint32_t     Current write protection mask for data flash sectors
  */
-__STATIC_INLINE uint32_t DL_GSC_getDataFlashWriteProtectStatus(GSC_Regs *gsc)
+__STATIC_INLINE uint32_t DL_GSC_getDataFlashWriteProtectStatus(GSC_Regs* gsc)
 {
     return gsc->FPC_WEPROTA_DFLASH;
 }
@@ -506,7 +506,7 @@ __STATIC_INLINE uint32_t DL_GSC_getDataFlashWriteProtectStatus(GSC_Regs *gsc)
  * @return uint32_t     Current write protection mask for NONMAIN region
  */
 __STATIC_INLINE uint32_t DL_GSC_getDataFlashNONMAINWriteProtectStatus(
-    GSC_Regs *gsc)
+    GSC_Regs* gsc)
 {
     return gsc->FPC_WEPROT_NONMAIN_DFLASH;
 }
@@ -518,7 +518,7 @@ __STATIC_INLINE uint32_t DL_GSC_getDataFlashNONMAINWriteProtectStatus(
  * @return uint32_t     Current write protection mask for ENGR region
  */
 __STATIC_INLINE uint32_t DL_GSC_getDataFlashENGRWriteProtectStatus(
-    GSC_Regs *gsc)
+    GSC_Regs* gsc)
 {
     return gsc->FPC_WEPROT_ENGR_DFLASH;
 }
@@ -535,7 +535,7 @@ __STATIC_INLINE uint32_t DL_GSC_getDataFlashENGRWriteProtectStatus(
  * - 0: Non-secure access allowed
  * - 1: Secure access only
  */
-void DL_GSC_configureMainFlashSecurity(GSC_Regs *gsc,
+void DL_GSC_configureMainFlashSecurity(GSC_Regs* gsc,
     DL_GSC_MainFlashBank bank, uint32_t sector0, uint32_t sector1);
 
 /**
@@ -546,8 +546,8 @@ void DL_GSC_configureMainFlashSecurity(GSC_Regs *gsc,
  * @param[out] sector0  Pointer to store sectors 0-31 security status
  * @param[out] sector1  Pointer to store sectors 32-63 security status
  */
-void DL_GSC_getMainFlashSecurityStatus(GSC_Regs *gsc,
-    DL_GSC_MainFlashBank bank, uint32_t *sector0, uint32_t *sector1);
+void DL_GSC_getMainFlashSecurityStatus(GSC_Regs* gsc,
+    DL_GSC_MainFlashBank bank, uint32_t* sector0, uint32_t* sector1);
 
 /**
  * @brief Configure privilege attributes for main flash regions
@@ -561,7 +561,7 @@ void DL_GSC_getMainFlashSecurityStatus(GSC_Regs *gsc,
  * - 0: Unprivileged access allowed
  * - 1: Privileged access only
  */
-void DL_GSC_configureMainFlashPrivilege(GSC_Regs *gsc,
+void DL_GSC_configureMainFlashPrivilege(GSC_Regs* gsc,
     DL_GSC_MainFlashBank bank, uint32_t sector0, uint32_t sector1);
 
 /**
@@ -572,8 +572,8 @@ void DL_GSC_configureMainFlashPrivilege(GSC_Regs *gsc,
  * @param[out] sector0  Pointer to store sectors 0-31 privilege status
  * @param[out] sector1  Pointer to store sectors 32-63 privilege status
  */
-void DL_GSC_getMainFlashPrivilegeStatus(GSC_Regs *gsc,
-    DL_GSC_MainFlashBank bank, uint32_t *sector0, uint32_t *sector1);
+void DL_GSC_getMainFlashPrivilegeStatus(GSC_Regs* gsc,
+    DL_GSC_MainFlashBank bank, uint32_t* sector0, uint32_t* sector1);
 
 /**
  * @brief GSC Lock/Commit Configuration Structure
@@ -618,7 +618,7 @@ typedef struct {
  * @return bool Returns true if configuration is valid, false otherwise
  */
 bool DL_GSC_configureHDPRegion(
-    GSC_Regs *gsc, uint8_t startSec, uint8_t endSec, uint8_t bank);
+    GSC_Regs* gsc, uint8_t startSec, uint8_t endSec, uint8_t bank);
 
 /**
  * @brief Enable/Disable HDP access for flash
@@ -632,14 +632,14 @@ bool DL_GSC_configureHDPRegion(
  *
  * @note In single-bank mode, setting either bank's access control will affect both regions
  */
-void DL_GSC_setHDPAccess(GSC_Regs *gsc, bool enable, uint8_t bank);
+void DL_GSC_setHDPAccess(GSC_Regs* gsc, bool enable, uint8_t bank);
 
 /**
  * @brief Enable Flash Hide Protection (HDP) mode
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableHDPMode(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableHDPMode(GSC_Regs* gsc)
 {
     gsc->FPC_HDPEN_CONTROL |= GSC_FPC_HDPEN_CONTROL_HDPEN_MASK;
 }
@@ -649,7 +649,7 @@ __STATIC_INLINE void DL_GSC_enableHDPMode(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableHDPMode(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableHDPMode(GSC_Regs* gsc)
 {
     gsc->FPC_HDPEN_CONTROL &= ~GSC_FPC_HDPEN_CONTROL_HDPEN_MASK;
 }
@@ -659,7 +659,7 @@ __STATIC_INLINE void DL_GSC_disableHDPMode(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableNONMAINBank0HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableNONMAINBank0HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_NONMAIN0_HDPPROT_CONTROL &=
         ~GSC_FPC_NONMAIN0_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -670,7 +670,7 @@ __STATIC_INLINE void DL_GSC_enableNONMAINBank0HDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableNONMAINBank0HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableNONMAINBank0HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_NONMAIN0_HDPPROT_CONTROL |=
         GSC_FPC_NONMAIN0_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -681,7 +681,7 @@ __STATIC_INLINE void DL_GSC_disableNONMAINBank0HDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableNONMAINBank1HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableNONMAINBank1HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_NONMAIN1_HDPPROT_CONTROL &=
         ~GSC_FPC_NONMAIN1_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -692,7 +692,7 @@ __STATIC_INLINE void DL_GSC_enableNONMAINBank1HDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableNONMAINBank1HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableNONMAINBank1HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_NONMAIN1_HDPPROT_CONTROL |=
         GSC_FPC_NONMAIN1_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -703,7 +703,7 @@ __STATIC_INLINE void DL_GSC_disableNONMAINBank1HDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableTRIMBank0HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableTRIMBank0HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_TRIM0_HDPPROT_CONTROL &=
         ~GSC_FPC_TRIM0_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -714,7 +714,7 @@ __STATIC_INLINE void DL_GSC_enableTRIMBank0HDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableTRIMBank0HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableTRIMBank0HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_TRIM0_HDPPROT_CONTROL |=
         GSC_FPC_TRIM0_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -725,7 +725,7 @@ __STATIC_INLINE void DL_GSC_disableTRIMBank0HDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableTRIMBank1HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableTRIMBank1HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_TRIM1_HDPPROT_CONTROL &=
         ~GSC_FPC_TRIM1_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -736,7 +736,7 @@ __STATIC_INLINE void DL_GSC_enableTRIMBank1HDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableTRIMBank1HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableTRIMBank1HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_TRIM1_HDPPROT_CONTROL |=
         GSC_FPC_TRIM1_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -747,7 +747,7 @@ __STATIC_INLINE void DL_GSC_disableTRIMBank1HDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableENGRBank0HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableENGRBank0HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_ENGR0_HDPPROT_CONTROL &=
         ~GSC_FPC_ENGR0_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -758,7 +758,7 @@ __STATIC_INLINE void DL_GSC_enableENGRBank0HDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableENGRBank0HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableENGRBank0HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_ENGR0_HDPPROT_CONTROL |=
         GSC_FPC_ENGR0_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -769,7 +769,7 @@ __STATIC_INLINE void DL_GSC_disableENGRBank0HDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableENGRBank1HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableENGRBank1HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_ENGR1_HDPPROT_CONTROL &=
         ~GSC_FPC_ENGR1_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -780,7 +780,7 @@ __STATIC_INLINE void DL_GSC_enableENGRBank1HDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableENGRBank1HDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableENGRBank1HDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_ENGR1_HDPPROT_CONTROL |=
         GSC_FPC_ENGR1_HDPPROT_CONTROL_HDPROTACCDIS_MASK;
@@ -805,7 +805,7 @@ __STATIC_INLINE void DL_GSC_disableENGRBank1HDPAccess(GSC_Regs *gsc)
  * @return bool Returns true if configuration is valid, false otherwise
  */
 bool DL_GSC_configureDataBankHDPRegion(
-    GSC_Regs *gsc, uint8_t startSec, uint8_t endSec);
+    GSC_Regs* gsc, uint8_t startSec, uint8_t endSec);
 
 // Data Bank HDP Control
 /**
@@ -813,7 +813,7 @@ bool DL_GSC_configureDataBankHDPRegion(
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableDataBankHDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableDataBankHDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_HDPPROT_DBANK_CONTROL &=
         ~GSC_FPC_HDPPROT_DBANK_CONTROL_HDPPROTACCDIS_MASK;
@@ -824,7 +824,7 @@ __STATIC_INLINE void DL_GSC_enableDataBankHDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableDataBankHDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableDataBankHDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_HDPPROT_DBANK_CONTROL |=
         GSC_FPC_HDPPROT_DBANK_CONTROL_HDPPROTACCDIS_MASK;
@@ -836,7 +836,7 @@ __STATIC_INLINE void DL_GSC_disableDataBankHDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableDataBankHDPMode(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableDataBankHDPMode(GSC_Regs* gsc)
 {
     gsc->FPC_HDPEN_DBANK_CONTROL |= GSC_FPC_HDPEN_DBANK_CONTROL_HDPEN_MASK;
 }
@@ -846,7 +846,7 @@ __STATIC_INLINE void DL_GSC_enableDataBankHDPMode(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableDataBankHDPMode(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableDataBankHDPMode(GSC_Regs* gsc)
 {
     gsc->FPC_HDPEN_DBANK_CONTROL &= ~GSC_FPC_HDPEN_DBANK_CONTROL_HDPEN_MASK;
 }
@@ -857,7 +857,7 @@ __STATIC_INLINE void DL_GSC_disableDataBankHDPMode(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableDataBankNONMAINHDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableDataBankNONMAINHDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_NONMAIN_HDPPROT_DBANK_CONTROL &=
         ~GSC_FPC_NONMAIN_HDPPROT_DBANK_CONTROL_HDPROTACCDIS_MASK;
@@ -868,7 +868,7 @@ __STATIC_INLINE void DL_GSC_enableDataBankNONMAINHDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableDataBankNONMAINHDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableDataBankNONMAINHDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_NONMAIN_HDPPROT_DBANK_CONTROL |=
         GSC_FPC_NONMAIN_HDPPROT_DBANK_CONTROL_HDPROTACCDIS_MASK;
@@ -880,7 +880,7 @@ __STATIC_INLINE void DL_GSC_disableDataBankNONMAINHDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableDataBankTRIMHDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableDataBankTRIMHDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_TRIM_HDPPROT_DBANK_CONTROL &=
         ~GSC_FPC_TRIM_HDPPROT_DBANK_CONTROL_HDPROTACCDIS_MASK;
@@ -891,7 +891,7 @@ __STATIC_INLINE void DL_GSC_enableDataBankTRIMHDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableDataBankTRIMHDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableDataBankTRIMHDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_TRIM_HDPPROT_DBANK_CONTROL |=
         GSC_FPC_TRIM_HDPPROT_DBANK_CONTROL_HDPROTACCDIS_MASK;
@@ -903,7 +903,7 @@ __STATIC_INLINE void DL_GSC_disableDataBankTRIMHDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enableDataBankENGRHDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enableDataBankENGRHDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_ENGR_HDPPROT_DBANK_CONTROL &=
         ~GSC_FPC_ENGR_HDPPROT_DBANK_CONTROL_HDPROTACCDIS_MASK;
@@ -914,7 +914,7 @@ __STATIC_INLINE void DL_GSC_enableDataBankENGRHDPAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disableDataBankENGRHDPAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disableDataBankENGRHDPAccess(GSC_Regs* gsc)
 {
     gsc->FPC_ENGR_HDPPROT_DBANK_CONTROL |=
         GSC_FPC_ENGR_HDPPROT_DBANK_CONTROL_HDPROTACCDIS_MASK;
@@ -929,7 +929,7 @@ __STATIC_INLINE void DL_GSC_disableDataBankENGRHDPAccess(GSC_Regs *gsc)
  *
  *  @return    void
  */
-__STATIC_INLINE void DL_GSC_setVTOR_NS(GSC_Regs *gsc, uint32_t addr_ns)
+__STATIC_INLINE void DL_GSC_setVTOR_NS(GSC_Regs* gsc, uint32_t addr_ns)
 {
     (gsc->VTOR_NS = addr_ns);
 }
@@ -943,7 +943,7 @@ __STATIC_INLINE void DL_GSC_setVTOR_NS(GSC_Regs *gsc, uint32_t addr_ns)
  *
  *  @return    void
  */
-__STATIC_INLINE void DL_GSC_setVTOR_S(GSC_Regs *gsc, uint32_t addr_s)
+__STATIC_INLINE void DL_GSC_setVTOR_S(GSC_Regs* gsc, uint32_t addr_s)
 {
     (gsc->VTOR_S = addr_s);
 }
@@ -956,7 +956,7 @@ __STATIC_INLINE void DL_GSC_setVTOR_S(GSC_Regs *gsc, uint32_t addr_s)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowSPCSecureAccessToNSRAM(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowSPCSecureAccessToNSRAM(GSC_Regs* gsc)
 {
     gsc->SPC_ATTRIBVIOLS_CONFIG &= ~GSC_SPC_ATTRIBVIOLS_CONFIG_SECVIOL_MASK;
 }
@@ -969,7 +969,7 @@ __STATIC_INLINE void DL_GSC_allowSPCSecureAccessToNSRAM(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_blockSPCSecureAccessToNSRAM(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_blockSPCSecureAccessToNSRAM(GSC_Regs* gsc)
 {
     gsc->SPC_ATTRIBVIOLS_CONFIG |= GSC_SPC_ATTRIBVIOLS_CONFIG_SECVIOL_MASK;
 }
@@ -982,7 +982,7 @@ __STATIC_INLINE void DL_GSC_blockSPCSecureAccessToNSRAM(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowFPCSecureAccessToNSFlash(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowFPCSecureAccessToNSFlash(GSC_Regs* gsc)
 {
     gsc->FPC_ATTRIBVIOLS_CONFIG &= ~GSC_FPC_ATTRIBVIOLS_CONFIG_SECVIOL_MASK;
 }
@@ -995,7 +995,7 @@ __STATIC_INLINE void DL_GSC_allowFPCSecureAccessToNSFlash(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_blockFPCSecureAccessToNSFlash(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_blockFPCSecureAccessToNSFlash(GSC_Regs* gsc)
 {
     gsc->FPC_ATTRIBVIOLS_CONFIG |= GSC_FPC_ATTRIBVIOLS_CONFIG_SECVIOL_MASK;
 }
@@ -1008,7 +1008,7 @@ __STATIC_INLINE void DL_GSC_blockFPCSecureAccessToNSFlash(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowPPCSecureAccessToNSPeripheral(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowPPCSecureAccessToNSPeripheral(GSC_Regs* gsc)
 {
     gsc->PPC_ATTRIBVIOLS_CONFIG &= ~GSC_PPC_ATTRIBVIOLS_CONFIG_SECVIOL_MASK;
 }
@@ -1021,7 +1021,7 @@ __STATIC_INLINE void DL_GSC_allowPPCSecureAccessToNSPeripheral(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_blockPPCSecureAccessToNSPeripheral(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_blockPPCSecureAccessToNSPeripheral(GSC_Regs* gsc)
 {
     gsc->PPC_ATTRIBVIOLS_CONFIG |= GSC_PPC_ATTRIBVIOLS_CONFIG_SECVIOL_MASK;
 }
@@ -1034,7 +1034,7 @@ __STATIC_INLINE void DL_GSC_blockPPCSecureAccessToNSPeripheral(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowSPCPrivilegeAccessToNPSRAM(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowSPCPrivilegeAccessToNPSRAM(GSC_Regs* gsc)
 {
     gsc->SPC_ATTRIBVIOLP_CONFIG &= ~GSC_SPC_ATTRIBVIOLP_CONFIG_PRIVVIOL_MASK;
 }
@@ -1047,7 +1047,7 @@ __STATIC_INLINE void DL_GSC_allowSPCPrivilegeAccessToNPSRAM(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_blockSPCPrivilegeAccessToNPSRAM(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_blockSPCPrivilegeAccessToNPSRAM(GSC_Regs* gsc)
 {
     gsc->SPC_ATTRIBVIOLP_CONFIG |= GSC_SPC_ATTRIBVIOLP_CONFIG_PRIVVIOL_MASK;
 }
@@ -1060,7 +1060,7 @@ __STATIC_INLINE void DL_GSC_blockSPCPrivilegeAccessToNPSRAM(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowFPCPrivilegeAccessToNPFlash(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowFPCPrivilegeAccessToNPFlash(GSC_Regs* gsc)
 {
     gsc->FPC_ATTRIBVIOLP_CONFIG &= ~GSC_FPC_ATTRIBVIOLP_CONFIG_PRIVVIOL_MASK;
 }
@@ -1073,7 +1073,7 @@ __STATIC_INLINE void DL_GSC_allowFPCPrivilegeAccessToNPFlash(GSC_Regs *gsc)
  *
  * @param[in] gsc  Pointer to the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_blockFPCPrivilegeAccessToNPFlash(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_blockFPCPrivilegeAccessToNPFlash(GSC_Regs* gsc)
 {
     gsc->FPC_ATTRIBVIOLP_CONFIG |= GSC_FPC_ATTRIBVIOLP_CONFIG_PRIVVIOL_MASK;
 }
@@ -1087,7 +1087,7 @@ __STATIC_INLINE void DL_GSC_blockFPCPrivilegeAccessToNPFlash(GSC_Regs *gsc)
  * @param[in] gsc  Pointer to the GSC peripheral
  */
 __STATIC_INLINE void DL_GSC_allowPPCPrivilegeAccessToNPPeripheral(
-    GSC_Regs *gsc)
+    GSC_Regs* gsc)
 {
     gsc->PPC_ATTRIBVIOLP_CONFIG &= ~GSC_PPC_ATTRIBVIOLP_CONFIG_PRIVVIOL_MASK;
 }
@@ -1101,7 +1101,7 @@ __STATIC_INLINE void DL_GSC_allowPPCPrivilegeAccessToNPPeripheral(
  * @param[in] gsc  Pointer to the GSC peripheral
  */
 __STATIC_INLINE void DL_GSC_blockPPCPrivilegeAccessToNPPeripheral(
-    GSC_Regs *gsc)
+    GSC_Regs* gsc)
 {
     gsc->PPC_ATTRIBVIOLP_CONFIG |= GSC_PPC_ATTRIBVIOLP_CONFIG_PRIVVIOL_MASK;
 }
@@ -1117,28 +1117,28 @@ __STATIC_INLINE void DL_GSC_blockPPCPrivilegeAccessToNPPeripheral(
  * - GSC_PPC_SECATTRIB_UNICOMM register
  */
 typedef enum {
-    DL_GSC_SECURE_ACCESS_UNICOMM_S0U1 =
-        GSC_PPC_SECATTRIB_UNICOMM_SEC_S0U1_OFS, /*!< UniComm S0U1 secure access control */
-    DL_GSC_SECURE_ACCESS_UNICOMM_S0U2 =
-        GSC_PPC_SECATTRIB_UNICOMM_SEC_S0U2_OFS, /*!< UniComm S0U2 secure access control */
-    DL_GSC_SECURE_ACCESS_UNICOMM_S1U0 =
-        GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U0_OFS, /*!< UniComm S1U0 secure access control */
-    DL_GSC_SECURE_ACCESS_UNICOMM_S1U2 =
-        GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U2_OFS, /*!< UniComm S1U2 secure access control */
-    DL_GSC_SECURE_ACCESS_UNICOMM_S1U3 =
-        GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U3_OFS, /*!< UniComm S1U3 secure access control */
-    DL_GSC_SECURE_ACCESS_UNICOMM_S1U4 =
-        GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U4_OFS, /*!< UniComm S1U4 secure access control */
-    DL_GSC_SECURE_ACCESS_UNICOMM_S1U5 =
-        GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U5_OFS, /*!< UniComm S1U5 secure access control */
-    DL_GSC_SECURE_ACCESS_UNICOMM_S2U0 =
-        GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U0_OFS, /*!< UniComm S2U0 secure access control */
-    DL_GSC_SECURE_ACCESS_UNICOMM_S2U1 =
-        GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U1_OFS, /*!< UniComm S2U1 secure access control */
-    DL_GSC_SECURE_ACCESS_UNICOMM_S2U2 =
-        GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U2_OFS, /*!< UniComm S2U2 secure access control */
-    DL_GSC_SECURE_ACCESS_UNICOMM_S2U3 =
-        GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U3_OFS /*!< UniComm S2U3 secure access control */
+    DL_GSC_SECURE_ACCESS_UNICOMM_UC1_0 =
+        GSC_PPC_SECATTRIB_UNICOMM_SEC_UC1_0_OFS, /*!< UniComm UC1_0 secure access control */
+    DL_GSC_SECURE_ACCESS_UNICOMM_UC1_1 =
+        GSC_PPC_SECATTRIB_UNICOMM_SEC_UC1_1_OFS, /*!< UniComm UC1_1 secure access control */
+    DL_GSC_SECURE_ACCESS_UNICOMM_UC2 =
+        GSC_PPC_SECATTRIB_UNICOMM_SEC_UC2_OFS, /*!< UniComm UC2 secure access control */
+    DL_GSC_SECURE_ACCESS_UNICOMM_UC15_0 =
+        GSC_PPC_SECATTRIB_UNICOMM_SEC_UC15_0_OFS, /*!< UniComm UC15_0 secure access control */
+    DL_GSC_SECURE_ACCESS_UNICOMM_UC15_1 =
+        GSC_PPC_SECATTRIB_UNICOMM_SEC_UC15_1_OFS, /*!< UniComm UC15_1 secure access control */
+    DL_GSC_SECURE_ACCESS_UNICOMM_UC12 =
+        GSC_PPC_SECATTRIB_UNICOMM_SEC_UC12_OFS, /*!< UniComm UC12 secure access control */
+    DL_GSC_SECURE_ACCESS_UNICOMM_UC13_0 =
+        GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_0_OFS, /*!< UniComm UC13_0 secure access control */
+    DL_GSC_SECURE_ACCESS_UNICOMM_UC13_1 =
+        GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_1_OFS, /*!< UniComm UC13_1 secure access control */
+    DL_GSC_SECURE_ACCESS_UNICOMM_UC13_2 =
+        GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_2_OFS, /*!< UniComm UC13_2 secure access control */
+    DL_GSC_SECURE_ACCESS_UNICOMM_UC13_3 =
+        GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_3_OFS, /*!< UniComm UC13_3 secure access control */
+    DL_GSC_SECURE_ACCESS_UNICOMM_UC14 =
+        GSC_PPC_SECATTRIB_UNICOMM_SEC_UC14_OFS /*!< UniComm UC14 secure access control */
 } DL_GSC_SECURE_ACCESS_UNICOMM;
 
 /**
@@ -1153,42 +1153,42 @@ typedef enum {
  *  @return    void
  */
 __STATIC_INLINE void DL_GSC_allowUniCommSecureAccess(
-    GSC_Regs *gsc, DL_GSC_SECURE_ACCESS_UNICOMM instance)
+    GSC_Regs* gsc, DL_GSC_SECURE_ACCESS_UNICOMM instance)
 {
     uint32_t mask;
     switch (instance) {
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S0U1:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S0U1_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC1_0:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC1_0_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S0U2:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S0U2_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC1_1:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC1_1_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S1U0:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U0_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC2:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC2_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S1U2:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U2_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC15_0:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC15_0_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S1U3:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U3_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC15_1:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC15_1_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S1U4:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U4_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC12:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC12_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S1U5:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U5_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC13_0:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_0_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S2U0:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U0_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC13_1:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_1_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S2U1:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U1_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC13_2:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_2_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S2U2:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U2_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC13_3:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_3_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S2U3:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U3_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC14:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC14_MASK;
             break;
         default:
             return;  // Invalid instance
@@ -1201,7 +1201,7 @@ __STATIC_INLINE void DL_GSC_allowUniCommSecureAccess(
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowWDTSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowWDTSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_WDT |= GSC_PPC_SECATTRIB_WDT_SEC_WWDT_MASK;
 }
@@ -1211,7 +1211,7 @@ __STATIC_INLINE void DL_GSC_allowWDTSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowWDTNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowWDTNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_WDT &= ~GSC_PPC_SECATTRIB_WDT_SEC_WWDT_MASK;
 }
@@ -1222,7 +1222,7 @@ __STATIC_INLINE void DL_GSC_allowWDTNonSecureAccess(GSC_Regs *gsc)
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  * @return bool        Returns true if secure access is enabled, false for non-secure
  */
-__STATIC_INLINE bool DL_GSC_isWDTSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE bool DL_GSC_isWDTSecureAccess(GSC_Regs* gsc)
 {
     return (
         (gsc->PPC_SECATTRIB_WDT & GSC_PPC_SECATTRIB_WDT_SEC_WWDT_MASK) != 0);
@@ -1240,42 +1240,42 @@ __STATIC_INLINE bool DL_GSC_isWDTSecureAccess(GSC_Regs *gsc)
  *  @return    void
  */
 __STATIC_INLINE void DL_GSC_allowUniCommNonSecureAccess(
-    GSC_Regs *gsc, DL_GSC_SECURE_ACCESS_UNICOMM instance)
+    GSC_Regs* gsc, DL_GSC_SECURE_ACCESS_UNICOMM instance)
 {
     uint32_t mask;
     switch (instance) {
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S0U1:
-            mask = (GSC_PPC_SECATTRIB_UNICOMM_SEC_S0U1_MASK);
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC1_0:
+            mask = (GSC_PPC_SECATTRIB_UNICOMM_SEC_UC1_0_MASK);
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S0U2:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S0U2_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC1_1:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC1_1_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S1U0:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U0_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC2:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC2_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S1U2:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U2_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC15_0:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC15_0_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S1U3:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U3_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC15_1:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC15_1_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S1U4:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U4_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC12:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC12_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S1U5:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U5_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC13_0:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_0_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S2U0:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U0_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC13_1:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_1_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S2U1:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U1_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC13_2:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_2_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S2U2:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U2_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC13_3:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_3_MASK;
             break;
-        case DL_GSC_SECURE_ACCESS_UNICOMM_S2U3:
-            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U3_MASK;
+        case DL_GSC_SECURE_ACCESS_UNICOMM_UC14:
+            mask = GSC_PPC_SECATTRIB_UNICOMM_SEC_UC14_MASK;
             break;
         default:
             return;  // Invalid instance
@@ -1332,7 +1332,7 @@ typedef enum {
  * @param[in] instance ADC instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowADCSecureAccess(
-    GSC_Regs *gsc, DL_GSC_ADC_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_ADC_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1355,7 +1355,7 @@ __STATIC_INLINE void DL_GSC_allowADCSecureAccess(
  * @param[in] instance ADC instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowADCNonSecureAccess(
-    GSC_Regs *gsc, DL_GSC_ADC_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_ADC_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1378,7 +1378,7 @@ __STATIC_INLINE void DL_GSC_allowADCNonSecureAccess(
  * @param[in] instance Timer instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowTimerSecureAccess(
-    GSC_Regs *gsc, DL_GSC_TIMER_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_TIMER_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1422,7 +1422,7 @@ __STATIC_INLINE void DL_GSC_allowTimerSecureAccess(
  * @param[in] instance Timer instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowTimerNonSecureAccess(
-    GSC_Regs *gsc, DL_GSC_TIMER_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_TIMER_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1524,7 +1524,7 @@ typedef enum {
  * @param[in] instance GPIO instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowGPIOSecureAccess(
-    GSC_Regs *gsc, DL_GSC_GPIO_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_GPIO_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1550,7 +1550,7 @@ __STATIC_INLINE void DL_GSC_allowGPIOSecureAccess(
  * @param[in] instance GPIO instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowGPIONonSecureAccess(
-    GSC_Regs *gsc, DL_GSC_GPIO_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_GPIO_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1576,7 +1576,7 @@ __STATIC_INLINE void DL_GSC_allowGPIONonSecureAccess(
  * @param[in] instance MCAN instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowMCANSecureAccess(
-    GSC_Regs *gsc, DL_GSC_MCAN_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_MCAN_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1599,7 +1599,7 @@ __STATIC_INLINE void DL_GSC_allowMCANSecureAccess(
  * @param[in] instance MCAN instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowMCANNonSecureAccess(
-    GSC_Regs *gsc, DL_GSC_MCAN_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_MCAN_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1622,7 +1622,7 @@ __STATIC_INLINE void DL_GSC_allowMCANNonSecureAccess(
  * @param[in] instance I2S instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowI2SSecureAccess(
-    GSC_Regs *gsc, DL_GSC_I2S_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_I2S_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1645,7 +1645,7 @@ __STATIC_INLINE void DL_GSC_allowI2SSecureAccess(
  * @param[in] instance I2S instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowI2SNonSecureAccess(
-    GSC_Regs *gsc, DL_GSC_I2S_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_I2S_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1668,7 +1668,7 @@ __STATIC_INLINE void DL_GSC_allowI2SNonSecureAccess(
  * @param[in] instance ACOMP instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowACOMPSecureAccess(
-    GSC_Regs *gsc, DL_GSC_ACOMP_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_ACOMP_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1691,7 +1691,7 @@ __STATIC_INLINE void DL_GSC_allowACOMPSecureAccess(
  * @param[in] instance ACOMP instance to configure context access for
  */
 __STATIC_INLINE void DL_GSC_allowACOMPNonSecureAccess(
-    GSC_Regs *gsc, DL_GSC_ACOMP_SECURE_ACCESS instance)
+    GSC_Regs* gsc, DL_GSC_ACOMP_SECURE_ACCESS instance)
 {
     uint32_t mask;
     switch (instance) {
@@ -1712,7 +1712,7 @@ __STATIC_INLINE void DL_GSC_allowACOMPNonSecureAccess(
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowLFSSSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowLFSSSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_LFSS |= GSC_PPC_SECATTRIB_LFSS_SEC_LFSS_MASK;
 }
@@ -1722,7 +1722,7 @@ __STATIC_INLINE void DL_GSC_allowLFSSSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowLFSSNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowLFSSNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_LFSS &= ~GSC_PPC_SECATTRIB_LFSS_SEC_LFSS_MASK;
 }
@@ -1732,7 +1732,7 @@ __STATIC_INLINE void DL_GSC_allowLFSSNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowCRCSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowCRCSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_CRC |= GSC_PPC_SECATTRIB_CRC_SEC_CRC_MASK;
 }
@@ -1742,7 +1742,7 @@ __STATIC_INLINE void DL_GSC_allowCRCSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowCRCNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowCRCNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_CRC &= ~GSC_PPC_SECATTRIB_CRC_SEC_CRC_MASK;
 }
@@ -1752,7 +1752,7 @@ __STATIC_INLINE void DL_GSC_allowCRCNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowAESSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowAESSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_AES |= GSC_PPC_SECATTRIB_AES_SEC_AES_MASK;
 }
@@ -1762,7 +1762,7 @@ __STATIC_INLINE void DL_GSC_allowAESSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowAESNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowAESNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_AES &= ~GSC_PPC_SECATTRIB_AES_SEC_AES_MASK;
 }
@@ -1772,7 +1772,7 @@ __STATIC_INLINE void DL_GSC_allowAESNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowSHASecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowSHASecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_SHA |= GSC_PPC_SECATTRIB_SHA_SEC_SHA_MASK;
 }
@@ -1782,7 +1782,7 @@ __STATIC_INLINE void DL_GSC_allowSHASecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowSHANonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowSHANonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_SHA &= ~GSC_PPC_SECATTRIB_SHA_SEC_SHA_MASK;
 }
@@ -1792,7 +1792,7 @@ __STATIC_INLINE void DL_GSC_allowSHANonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowQSPISecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowQSPISecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_QSPI |= GSC_PPC_SECATTRIB_QSPI_SEC_QSPI_MASK;
 }
@@ -1802,7 +1802,7 @@ __STATIC_INLINE void DL_GSC_allowQSPISecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowQSPINonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowQSPINonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_QSPI &= ~GSC_PPC_SECATTRIB_QSPI_SEC_QSPI_MASK;
 }
@@ -1812,7 +1812,7 @@ __STATIC_INLINE void DL_GSC_allowQSPINonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowTRNGSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowTRNGSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_TRNG |= GSC_PPC_SECATTRIB_TRNG_SEC_TRNG_MASK;
 }
@@ -1822,7 +1822,7 @@ __STATIC_INLINE void DL_GSC_allowTRNGSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowTRNGNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowTRNGNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_TRNG &= ~GSC_PPC_SECATTRIB_TRNG_SEC_TRNG_MASK;
 }
@@ -1832,7 +1832,7 @@ __STATIC_INLINE void DL_GSC_allowTRNGNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowPKASecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowPKASecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_PKA |= GSC_PPC_SECATTRIB_PKA_SEC_PKA_MASK;
 }
@@ -1842,7 +1842,7 @@ __STATIC_INLINE void DL_GSC_allowPKASecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowPKANonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowPKANonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_PKA &= ~GSC_PPC_SECATTRIB_PKA_SEC_PKA_MASK;
 }
@@ -1852,7 +1852,7 @@ __STATIC_INLINE void DL_GSC_allowPKANonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowIOMUXSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowIOMUXSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_IOMUX |= GSC_PPC_SECATTRIB_IOMUX_SEC_IOMUX_MASK;
 }
@@ -1862,7 +1862,7 @@ __STATIC_INLINE void DL_GSC_allowIOMUXSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowIOMUXNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowIOMUXNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_IOMUX &= ~GSC_PPC_SECATTRIB_IOMUX_SEC_IOMUX_MASK;
 }
@@ -1872,7 +1872,7 @@ __STATIC_INLINE void DL_GSC_allowIOMUXNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowDEBUGSSSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowDEBUGSSSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_DEBUGSS |= GSC_PPC_SECATTRIB_DEBUGSS_SEC_DEBUGSS_MASK;
 }
@@ -1882,7 +1882,7 @@ __STATIC_INLINE void DL_GSC_allowDEBUGSSSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowDEBUGSSNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowDEBUGSSNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_DEBUGSS &= ~GSC_PPC_SECATTRIB_DEBUGSS_SEC_DEBUGSS_MASK;
 }
@@ -1892,7 +1892,7 @@ __STATIC_INLINE void DL_GSC_allowDEBUGSSNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowVREFSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowVREFSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_VREF |= GSC_PPC_SECATTRIB_VREF_SEC_VREF_MASK;
 }
@@ -1902,7 +1902,7 @@ __STATIC_INLINE void DL_GSC_allowVREFSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowVREFNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowVREFNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_VREF &= ~GSC_PPC_SECATTRIB_VREF_SEC_VREF_MASK;
 }
@@ -1912,7 +1912,7 @@ __STATIC_INLINE void DL_GSC_allowVREFNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowKEYSTORECTLSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowKEYSTORECTLSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_KEYSTORECTL |=
         GSC_PPC_SECATTRIB_KEYSTORECTL_SEC_KEYSTORECTL_MASK;
@@ -1923,7 +1923,7 @@ __STATIC_INLINE void DL_GSC_allowKEYSTORECTLSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowKEYSTORECTLNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowKEYSTORECTLNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_KEYSTORECTL &=
         ~GSC_PPC_SECATTRIB_KEYSTORECTL_SEC_KEYSTORECTL_MASK;
@@ -1934,7 +1934,7 @@ __STATIC_INLINE void DL_GSC_allowKEYSTORECTLNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowEAMSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowEAMSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_EAM |= GSC_PPC_SECATTRIB_EAM_SEC_EAM_MASK;
 }
@@ -1944,7 +1944,7 @@ __STATIC_INLINE void DL_GSC_allowEAMSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowEAMNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowEAMNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_EAM &= ~GSC_PPC_SECATTRIB_EAM_SEC_EAM_MASK;
 }
@@ -1954,7 +1954,7 @@ __STATIC_INLINE void DL_GSC_allowEAMNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowWUCSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowWUCSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_WUC |= GSC_PPC_SECATTRIB_WUC_SEC_WUC_MASK;
 }
@@ -1964,7 +1964,7 @@ __STATIC_INLINE void DL_GSC_allowWUCSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowWUCNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowWUCNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_WUC &= ~GSC_PPC_SECATTRIB_WUC_SEC_WUC_MASK;
 }
@@ -1974,7 +1974,7 @@ __STATIC_INLINE void DL_GSC_allowWUCNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowFRIREGSSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowFRIREGSSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_FRIREGS |= GSC_PPC_SECATTRIB_FRIREGS_SEC_FRIREGS_MASK;
 }
@@ -1984,7 +1984,7 @@ __STATIC_INLINE void DL_GSC_allowFRIREGSSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowFRIREGSNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowFRIREGSNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_FRIREGS &= ~GSC_PPC_SECATTRIB_FRIREGS_SEC_FRIREGS_MASK;
 }
@@ -1994,7 +1994,7 @@ __STATIC_INLINE void DL_GSC_allowFRIREGSNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowMEMCFGSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowMEMCFGSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_MEMCFG |= GSC_PPC_SECATTRIB_MEMCFG_SEC_MEMCFG_MASK;
 }
@@ -2004,7 +2004,7 @@ __STATIC_INLINE void DL_GSC_allowMEMCFGSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowMEMCFGNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowMEMCFGNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_MEMCFG &= ~GSC_PPC_SECATTRIB_MEMCFG_SEC_MEMCFG_MASK;
 }
@@ -2014,7 +2014,7 @@ __STATIC_INLINE void DL_GSC_allowMEMCFGNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowSYSCTLSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowSYSCTLSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_SYSCTL |= GSC_PPC_SECATTRIB_SYSCTL_SEC_SYSCTL_MASK;
 }
@@ -2024,7 +2024,7 @@ __STATIC_INLINE void DL_GSC_allowSYSCTLSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowSYSCTLNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowSYSCTLNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_SYSCTL &= ~GSC_PPC_SECATTRIB_SYSCTL_SEC_SYSCTL_MASK;
 }
@@ -2034,7 +2034,7 @@ __STATIC_INLINE void DL_GSC_allowSYSCTLNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowSYSCTLPrivilegeAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowSYSCTLPrivilegeAccess(GSC_Regs* gsc)
 {
     gsc->PPC_PRIVATTRIB_SYSCTL |= GSC_PPC_PRIVATTRIB_SYSCTL_PRIV_SYSCTL_MASK;
 }
@@ -2044,7 +2044,7 @@ __STATIC_INLINE void DL_GSC_allowSYSCTLPrivilegeAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowSYSCTLNonPrivilegeAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowSYSCTLNonPrivilegeAccess(GSC_Regs* gsc)
 {
     gsc->PPC_PRIVATTRIB_SYSCTL &= ~GSC_PPC_PRIVATTRIB_SYSCTL_PRIV_SYSCTL_MASK;
 }
@@ -2054,7 +2054,7 @@ __STATIC_INLINE void DL_GSC_allowSYSCTLNonPrivilegeAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowGSCSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowGSCSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_GSC |= GSC_PPC_SECATTRIB_GSC_SEC_GSC_MASK;
 }
@@ -2064,7 +2064,7 @@ __STATIC_INLINE void DL_GSC_allowGSCSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowGSCNonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowGSCNonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_GSC &= ~GSC_PPC_SECATTRIB_GSC_SEC_GSC_MASK;
 }
@@ -2074,7 +2074,7 @@ __STATIC_INLINE void DL_GSC_allowGSCNonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowGSCPrivilegeAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowGSCPrivilegeAccess(GSC_Regs* gsc)
 {
     gsc->PPC_PRIVATTRIB_GSC |= GSC_PPC_PRIVATTRIB_GSC_PRIV_GSC_MASK;
 }
@@ -2084,27 +2084,27 @@ __STATIC_INLINE void DL_GSC_allowGSCPrivilegeAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowGSCNonPrivilegeAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowGSCNonPrivilegeAccess(GSC_Regs* gsc)
 {
     gsc->PPC_PRIVATTRIB_GSC &= ~GSC_PPC_PRIVATTRIB_GSC_PRIV_GSC_MASK;
 }
 
-__STATIC_INLINE void DL_GSC_allowDMA0PrivilegeAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowDMA0PrivilegeAccess(GSC_Regs* gsc)
 {
     gsc->PPC_PRIVATTRIB_DMA |= GSC_PPC_PRIVATTRIB_DMA_PRIV_DMA0_MASK;
 }
 
-__STATIC_INLINE void DL_GSC_allowDMA0NonPrivilegeAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowDMA0NonPrivilegeAccess(GSC_Regs* gsc)
 {
     gsc->PPC_PRIVATTRIB_DMA &= ~GSC_PPC_PRIVATTRIB_DMA_PRIV_DMA0_MASK;
 }
 
-__STATIC_INLINE void DL_GSC_allowDMA1PrivilegeAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowDMA1PrivilegeAccess(GSC_Regs* gsc)
 {
     gsc->PPC_PRIVATTRIB_DMA |= GSC_PPC_PRIVATTRIB_DMA_PRIV_DMA1_MASK;
 }
 
-__STATIC_INLINE void DL_GSC_allowDMA1NonPrivilegeAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowDMA1NonPrivilegeAccess(GSC_Regs* gsc)
 {
     gsc->PPC_PRIVATTRIB_DMA &= ~GSC_PPC_PRIVATTRIB_DMA_PRIV_DMA1_MASK;
 }
@@ -2114,7 +2114,7 @@ __STATIC_INLINE void DL_GSC_allowDMA1NonPrivilegeAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowDMA0SecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowDMA0SecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_DMA |= GSC_PPC_SECATTRIB_DMA_SEC_DMA0_MASK;
 }
@@ -2124,7 +2124,7 @@ __STATIC_INLINE void DL_GSC_allowDMA0SecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowDMA0NonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowDMA0NonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_DMA &= ~GSC_PPC_SECATTRIB_DMA_SEC_DMA0_MASK;
 }
@@ -2134,7 +2134,7 @@ __STATIC_INLINE void DL_GSC_allowDMA0NonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowDMA1SecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowDMA1SecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_DMA |= GSC_PPC_SECATTRIB_DMA_SEC_DMA1_MASK;
 }
@@ -2144,7 +2144,7 @@ __STATIC_INLINE void DL_GSC_allowDMA1SecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_allowDMA1NonSecureAccess(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_allowDMA1NonSecureAccess(GSC_Regs* gsc)
 {
     gsc->PPC_SECATTRIB_DMA &= ~GSC_PPC_SECATTRIB_DMA_SEC_DMA1_MASK;
 }
@@ -2157,7 +2157,7 @@ __STATIC_INLINE void DL_GSC_allowDMA1NonSecureAccess(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_enablePKASRAMZeroization(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_enablePKASRAMZeroization(GSC_Regs* gsc)
 {
     // Bit is active low - clearing enables zeroization
     gsc->PPC_SPARERW_GSC &= ~GSC_PPC_SPARERW_GSC_ZERO_PKASRAM_MASK;
@@ -2171,7 +2171,7 @@ __STATIC_INLINE void DL_GSC_enablePKASRAMZeroization(GSC_Regs *gsc)
  *
  * @param[in] gsc      Pointer to the register overlay for the GSC peripheral
  */
-__STATIC_INLINE void DL_GSC_disablePKASRAMZeroization(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_disablePKASRAMZeroization(GSC_Regs* gsc)
 {
     // Bit is active low - setting disables zeroization
     gsc->PPC_SPARERW_GSC |= GSC_PPC_SPARERW_GSC_ZERO_PKASRAM_MASK;
@@ -2200,28 +2200,28 @@ typedef enum {
     DL_GSC_DMA_TRIG_I2S1_PUB2 = 3,  /*!< I2S1.PUBLISHER_2 */
     DL_GSC_DMA_TRIG_QSPI_PUB1 = 4,  /*!< QSPI.PUBLISHER_1 */
     DL_GSC_DMA_TRIG_QSPI_PUB2 = 5,  /*!< QSPI.PUBLISHER_2 */
-    DL_GSC_DMA_TRIG_S0U1_TX   = 6,  /*!< S0U1_TX (DMA0 only) */
-    DL_GSC_DMA_TRIG_S0U1_RX   = 7,  /*!< S0U1_RX (DMA0 only) */
-    DL_GSC_DMA_TRIG_S0U2_TX   = 8,  /*!< S0U2_TX (DMA0 only) */
-    DL_GSC_DMA_TRIG_S0U2_RX   = 9,  /*!< S0U2_RX (DMA0 only) */
-    DL_GSC_DMA_TRIG_S1U0_TX   = 10, /*!< S1U0_TX */
-    DL_GSC_DMA_TRIG_S1U0_RX   = 11, /*!< S1U0_RX */
-    DL_GSC_DMA_TRIG_S1U2_TX   = 12, /*!< S1U2_TX */
-    DL_GSC_DMA_TRIG_S1U2_RX   = 13, /*!< S1U2_RX */
-    DL_GSC_DMA_TRIG_S1U3_TX   = 14, /*!< S1U3_TX */
-    DL_GSC_DMA_TRIG_S1U3_RX   = 15, /*!< S1U3_RX */
-    DL_GSC_DMA_TRIG_S1U4_TX   = 16, /*!< S1U4_TX */
-    DL_GSC_DMA_TRIG_S1U4_RX   = 17, /*!< S1U4_RX */
-    DL_GSC_DMA_TRIG_S1U5_TX   = 18, /*!< S1U5_TX */
-    DL_GSC_DMA_TRIG_S1U5_RX   = 19, /*!< S1U5_RX */
-    DL_GSC_DMA_TRIG_S2U0_TX   = 20, /*!< S2U0_TX */
-    DL_GSC_DMA_TRIG_S2U0_RX   = 21, /*!< S2U0_RX */
-    DL_GSC_DMA_TRIG_S2U1_TX   = 22, /*!< S2U1_TX */
-    DL_GSC_DMA_TRIG_S2U1_RX   = 23, /*!< S2U1_RX */
-    DL_GSC_DMA_TRIG_S2U2_TX   = 24, /*!< S2U2_TX */
-    DL_GSC_DMA_TRIG_S2U2_RX   = 25, /*!< S2U2_RX */
-    DL_GSC_DMA_TRIG_S2U3_TX   = 26, /*!< S2U3_TX */
-    DL_GSC_DMA_TRIG_S2U3_RX   = 27, /*!< S2U3_RX */
+    DL_GSC_DMA_TRIG_UC1_0_TX  = 6,  /*!< UC1_0_TX (DMA0 only) */
+    DL_GSC_DMA_TRIG_UC1_0_RX  = 7,  /*!< UC1_0_RX (DMA0 only) */
+    DL_GSC_DMA_TRIG_UC1_1_TX  = 8,  /*!< UC1_1_TX (DMA0 only) */
+    DL_GSC_DMA_TRIG_UC1_1_RX  = 9,  /*!< UC1_1_RX (DMA0 only) */
+    DL_GSC_DMA_TRIG_UC2_TX    = 10, /*!< UC2_TX */
+    DL_GSC_DMA_TRIG_UC2_RX    = 11, /*!< UC2_RX */
+    DL_GSC_DMA_TRIG_UC15_0_TX = 12, /*!< UC15_0_TX */
+    DL_GSC_DMA_TRIG_UC15_0_RX = 13, /*!< UC15_0_RX */
+    DL_GSC_DMA_TRIG_UC15_1_TX = 14, /*!< UC15_1_TX */
+    DL_GSC_DMA_TRIG_UC15_1_RX = 15, /*!< UC15_1_RX */
+    DL_GSC_DMA_TRIG_UC12_TX   = 16, /*!< UC12_TX */
+    DL_GSC_DMA_TRIG_UC12_RX   = 17, /*!< UC12_RX */
+    DL_GSC_DMA_TRIG_UC13_0_TX = 18, /*!< UC13_0_TX */
+    DL_GSC_DMA_TRIG_UC13_0_RX = 19, /*!< UC13_0_RX */
+    DL_GSC_DMA_TRIG_UC13_1_TX = 20, /*!< UC13_1_TX */
+    DL_GSC_DMA_TRIG_UC13_1_RX = 21, /*!< UC13_1_RX */
+    DL_GSC_DMA_TRIG_UC13_2_TX = 22, /*!< UC13_2_TX */
+    DL_GSC_DMA_TRIG_UC13_2_RX = 23, /*!< UC13_2_RX */
+    DL_GSC_DMA_TRIG_UC13_3_TX = 24, /*!< UC13_3_TX */
+    DL_GSC_DMA_TRIG_UC13_3_RX = 25, /*!< UC13_3_RX */
+    DL_GSC_DMA_TRIG_UC14_TX   = 26, /*!< UC14_TX */
+    DL_GSC_DMA_TRIG_UC14_RX   = 27, /*!< UC14_RX */
 } DL_GSC_DMA_RegularTrigger;
 
 /** @brief DMA Instance selection */
@@ -2231,14 +2231,14 @@ typedef enum {
 } DL_GSC_DMA_Instance;
 
 /* Function prototypes */
-void DL_GSC_setFixedTriggerDMAInstance(GSC_Regs *gsc,
+void DL_GSC_setFixedTriggerDMAInstance(GSC_Regs* gsc,
     DL_GSC_DMA_FixedTrigger trigger, DL_GSC_DMA_Instance instance);
-void DL_GSC_setRegularTriggerDMAInstance(GSC_Regs *gsc,
+void DL_GSC_setRegularTriggerDMAInstance(GSC_Regs* gsc,
     DL_GSC_DMA_RegularTrigger trigger, DL_GSC_DMA_Instance instance);
 DL_GSC_DMA_Instance DL_GSC_getFixedTriggerDMAInstance(
-    GSC_Regs *gsc, DL_GSC_DMA_FixedTrigger trigger);
+    GSC_Regs* gsc, DL_GSC_DMA_FixedTrigger trigger);
 DL_GSC_DMA_Instance DL_GSC_getRegularTriggerDMAInstance(
-    GSC_Regs *gsc, DL_GSC_DMA_RegularTrigger trigger);
+    GSC_Regs* gsc, DL_GSC_DMA_RegularTrigger trigger);
 
 typedef enum {
     DL_GSC_SPC_BLOCK_C0B0_512B = GSC_SPC_SECATTRIB0_C0B0_512B_MASK,
@@ -2280,9 +2280,9 @@ typedef enum {
  *  @return    void
  */
 __STATIC_INLINE
-void DL_GSC_setDICECheckSum(GSC_Regs *gsc, const uint32_t *dice)
+void DL_GSC_setDICECheckSum(GSC_Regs* gsc, const uint32_t* dice)
 {
-    uint32_t volatile *diceBaseAddr = (&(gsc->DICE_CHECKSUM0));
+    uint32_t volatile* diceBaseAddr = (&(gsc->DICE_CHECKSUM0));
     const uint8_t diceLength        = 8U;
     for (uint8_t i = 0; i < diceLength; i++) {
         diceBaseAddr[i] = dice[i];
@@ -2295,7 +2295,7 @@ void DL_GSC_setDICECheckSum(GSC_Regs *gsc, const uint32_t *dice)
  * @param gsc Pointer to GSC registers
  * @return uint8_t Major revision number
  */
-static inline uint8_t DL_GSC_getMajorRevision(GSC_Regs *gsc)
+static inline uint8_t DL_GSC_getMajorRevision(GSC_Regs* gsc)
 {
     return ((gsc->GSC_REVISION & GSC_GSC_REVISION_MAJREV_MASK) >>
             GSC_GSC_REVISION_MAJREV_OFS);
@@ -2307,7 +2307,7 @@ static inline uint8_t DL_GSC_getMajorRevision(GSC_Regs *gsc)
  * @param gsc Pointer to GSC registers
  * @return uint8_t Minor revision number
  */
-static inline uint8_t DL_GSC_getMinorRevision(GSC_Regs *gsc)
+static inline uint8_t DL_GSC_getMinorRevision(GSC_Regs* gsc)
 {
     return ((gsc->GSC_REVISION & GSC_GSC_REVISION_MINREV_MASK) >>
             GSC_GSC_REVISION_MINREV_OFS);
@@ -2327,7 +2327,7 @@ static inline uint8_t DL_GSC_getMinorRevision(GSC_Regs *gsc)
  * @param  *gsc: GSC_Regs
  * @retval None
  */
-__STATIC_INLINE void DL_GSC_acquireFlashSemaphore(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_acquireFlashSemaphore(GSC_Regs* gsc)
 {
     while (!(((gsc->FPC_FLSEMSTAT & GSC_FPC_FLSEMSTAT_ASSIGNED_MASK) ==
                  GSC_FPC_FLSEMSTAT_ASSIGNED_MASK) &&
@@ -2339,7 +2339,7 @@ __STATIC_INLINE void DL_GSC_acquireFlashSemaphore(GSC_Regs *gsc)
 
 /**
  * @brief  Returns current Flash Semaphore Status
-
+ *
  * @note Bits	Field Name	Description
  * @note
  * @note   31:31	ASSIGNED	SEC and PRIV fields are valid when this bit is set.
@@ -2369,9 +2369,9 @@ __STATIC_INLINE void DL_GSC_acquireFlashSemaphore(GSC_Regs *gsc)
  * @note        0x0 : non-secure
  * @note        0x1 :secure
  * @param  *gsc: GSC_Regs
- * @retval
+ * @return uint32_t Current flash semaphore status register value
  */
-__STATIC_INLINE uint32_t DL_GSC_getFlashSemaphoreStatus(GSC_Regs *gsc)
+__STATIC_INLINE uint32_t DL_GSC_getFlashSemaphoreStatus(GSC_Regs* gsc)
 {
     return gsc->FPC_FLSEMSTAT;
 }
@@ -2381,7 +2381,7 @@ __STATIC_INLINE uint32_t DL_GSC_getFlashSemaphoreStatus(GSC_Regs *gsc)
  *
  * @param gsc         Pointer to the GSC register structure
  */
-__STATIC_INLINE void DL_GSC_requestFlashSemaphore(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_requestFlashSemaphore(GSC_Regs* gsc)
 {
     gsc->FPC_FLSEMREQ = GSC_FPC_FLSEMREQ_REQ_MASK;
 }
@@ -2391,7 +2391,7 @@ __STATIC_INLINE void DL_GSC_requestFlashSemaphore(GSC_Regs *gsc)
  *
  * @param gsc         Pointer to the GSC register structure
  */
-__STATIC_INLINE void DL_GSC_clearFlashSemaphore(GSC_Regs *gsc)
+__STATIC_INLINE void DL_GSC_clearFlashSemaphore(GSC_Regs* gsc)
 {
     gsc->FPC_FLSEMCLR = GSC_FPC_FLSEMCLR_CLR_MASK;
 }
@@ -2406,7 +2406,7 @@ __STATIC_INLINE void DL_GSC_clearFlashSemaphore(GSC_Regs *gsc)
  * @note The MATCH bit indicates whether the code reading the register owns
  *       the flash semaphore based on matching SEC and PRIV attributes
  */
-__STATIC_INLINE bool DL_GSC_hasFlashSemaphoreMatch(GSC_Regs *gsc)
+__STATIC_INLINE bool DL_GSC_hasFlashSemaphoreMatch(GSC_Regs* gsc)
 {
     return ((gsc->FPC_FLSEMSTAT & GSC_FPC_FLSEMSTAT_MATCH_MASK) != 0U);
 }
@@ -2417,7 +2417,7 @@ __STATIC_INLINE bool DL_GSC_hasFlashSemaphoreMatch(GSC_Regs *gsc)
  * @param gsc         Pointer to the GSC register structure
  * @return bool       True if semaphore is assigned, false otherwise
  */
-__STATIC_INLINE bool DL_GSC_isFlashSemaphoreAssigned(GSC_Regs *gsc)
+__STATIC_INLINE bool DL_GSC_isFlashSemaphoreAssigned(GSC_Regs* gsc)
 {
     return (gsc->FPC_FLSEMSTAT & GSC_FPC_FLSEMSTAT_ASSIGNED_MASK);
 }
@@ -2428,7 +2428,7 @@ __STATIC_INLINE bool DL_GSC_isFlashSemaphoreAssigned(GSC_Regs *gsc)
  * @param gsc         Pointer to the GSC register structure
  * @return bool       True if in secure state, false otherwise
  */
-__STATIC_INLINE bool DL_GSC_isFlashSemaphoreSecure(GSC_Regs *gsc)
+__STATIC_INLINE bool DL_GSC_isFlashSemaphoreSecure(GSC_Regs* gsc)
 {
     return (gsc->FPC_FLSEMSTAT & GSC_FPC_FLSEMSTAT_SEC_MASK);
 }
@@ -2439,7 +2439,7 @@ __STATIC_INLINE bool DL_GSC_isFlashSemaphoreSecure(GSC_Regs *gsc)
  * @param gsc         Pointer to the GSC register structure
  * @return bool       True if in privileged state, false otherwise
  */
-__STATIC_INLINE bool DL_GSC_isFlashSemaphorePrivileged(GSC_Regs *gsc)
+__STATIC_INLINE bool DL_GSC_isFlashSemaphorePrivileged(GSC_Regs* gsc)
 {
     return (gsc->FPC_FLSEMSTAT & GSC_FPC_FLSEMSTAT_PRIV_MASK);
 }
@@ -2453,7 +2453,7 @@ __STATIC_INLINE bool DL_GSC_isFlashSemaphorePrivileged(GSC_Regs *gsc)
  *   0 = Normal code execution access
  */
 
-__STATIC_INLINE bool DL_GSC_isFlashSemaphoreDebugAccess(GSC_Regs *gsc)
+__STATIC_INLINE bool DL_GSC_isFlashSemaphoreDebugAccess(GSC_Regs* gsc)
 {
     return (gsc->FPC_FLSEMSTAT & GSC_FPC_FLSEMSTAT_DBGACC_MASK);
 }
@@ -2476,7 +2476,7 @@ __STATIC_INLINE bool DL_GSC_isFlashSemaphoreDebugAccess(GSC_Regs *gsc)
  * @endcode
  */
 void DL_GSC_setLockConfiguration(
-    GSC_Regs *gsc, const DL_GSC_LockConfig *config);
+    GSC_Regs* gsc, const DL_GSC_LockConfig* config);
 
 /**
  * @brief Get current lock configuration
@@ -2493,7 +2493,7 @@ void DL_GSC_setLockConfiguration(
  * }
  * @endcode
  */
-void DL_GSC_getLockConfiguration(GSC_Regs *gsc, DL_GSC_LockConfig *config);
+void DL_GSC_getLockConfiguration(GSC_Regs* gsc, DL_GSC_LockConfig* config);
 
 /**
  * @brief Set commit configuration using configuration structure
@@ -2513,7 +2513,7 @@ void DL_GSC_getLockConfiguration(GSC_Regs *gsc, DL_GSC_LockConfig *config);
  * @endcode
  */
 void DL_GSC_setCommitConfiguration(
-    GSC_Regs *gsc, const DL_GSC_LockConfig *config);
+    GSC_Regs* gsc, const DL_GSC_LockConfig* config);
 
 /**
  * @brief Get current commit configuration
@@ -2530,7 +2530,7 @@ void DL_GSC_setCommitConfiguration(
  * }
  * @endcode
  */
-void DL_GSC_getCommitConfiguration(GSC_Regs *gsc, DL_GSC_LockConfig *config);
+void DL_GSC_getCommitConfiguration(GSC_Regs* gsc, DL_GSC_LockConfig* config);
 
 /**
  * @brief Configure SRAM security attributes for all memory regions
@@ -2552,7 +2552,7 @@ void DL_GSC_getCommitConfiguration(GSC_Regs *gsc, DL_GSC_LockConfig *config);
  * @endcode
  */
 void DL_GSC_configureSRAMSecurity(
-    GSC_Regs *gsc, const DL_GSC_SRAMSecurityConfig *config);
+    GSC_Regs* gsc, const DL_GSC_SRAMSecurityConfig* config);
 
 /**
  * @brief Configure SRAM privilege attributes for all memory regions
@@ -2574,7 +2574,7 @@ void DL_GSC_configureSRAMSecurity(
  * @endcode
  */
 void DL_GSC_configureSRAMPrivilege(
-    GSC_Regs *gsc, const DL_GSC_SRAMSecurityConfig *config);
+    GSC_Regs* gsc, const DL_GSC_SRAMSecurityConfig* config);
 
 /**
  * @brief Get current SRAM privilege configuration
@@ -2596,7 +2596,7 @@ void DL_GSC_configureSRAMPrivilege(
  * @endcode
  */
 void DL_GSC_getSRAMPrivilegeConfig(
-    GSC_Regs *gsc, DL_GSC_SRAMSecurityConfig *config);
+    GSC_Regs* gsc, DL_GSC_SRAMSecurityConfig* config);
 
 /**
  * @brief Get current SRAM security configuration
@@ -2618,7 +2618,7 @@ void DL_GSC_getSRAMPrivilegeConfig(
  * @endcode
  */
 void DL_GSC_getSRAMSecurityConfig(
-    GSC_Regs *gsc, DL_GSC_SRAMSecurityConfig *config);
+    GSC_Regs* gsc, DL_GSC_SRAMSecurityConfig* config);
 
 #ifdef __cplusplus
 }
@@ -2627,3 +2627,5 @@ void DL_GSC_getSRAMSecurityConfig(
 #endif /* __MSPM33_HAS_GSC__ */
 
 #endif  // ti_dl_dl_gsc__include
+
+/** @} */
