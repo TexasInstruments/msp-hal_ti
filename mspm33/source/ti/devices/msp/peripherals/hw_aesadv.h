@@ -1300,4 +1300,3 @@ typedef struct {
 #endif
 
 #endif /* ti_devices_msp_peripherals_hw_aesadv__include */
-

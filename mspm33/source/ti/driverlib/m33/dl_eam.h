@@ -166,101 +166,101 @@ typedef enum {
  *
  *  @return The cause of security error. One of @ref DL_EAM_SECURITY_ERROR_FLAG
  */
-__STATIC_INLINE DL_EAM_SECURITY_ERROR_FLAG DL_EAM_getSecurityErrorFlag(EAM_Regs *eamRegs)
+__STATIC_INLINE DL_EAM_SECURITY_ERROR_FLAG DL_EAM_getSecurityErrorFlag(EAM_Regs *eam)
 {
-    return (DL_EAM_SECURITY_ERROR_FLAG) (eamRegs->EAM_REGS.SECURITY_ERR_FLAG  & DL_EAM_SECURITY_ERR_MASK);
+    return (DL_EAM_SECURITY_ERROR_FLAG) (eam->EAM_REGS.SECURITY_ERR_FLAG  & DL_EAM_SECURITY_ERR_MASK);
 }
 
  /**
   *  @brief      Clear Security Error Flag
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   */
- __STATIC_INLINE void DL_EAM_clearSecurityErrorFlag(EAM_Regs *eamRegs)
+ __STATIC_INLINE void DL_EAM_clearSecurityErrorFlag(EAM_Regs *eam)
  {
-    eamRegs->EAM_REGS.SECURITY_ERR_CLR = (eamRegs->EAM_REGS.SECURITY_ERR_FLAG & DL_EAM_SECURITY_ERR_MASK);
+    eam->EAM_REGS.SECURITY_ERR_CLR = (eam->EAM_REGS.SECURITY_ERR_FLAG & DL_EAM_SECURITY_ERR_MASK);
  }
 
 
  /**
   *  @brief      Get Security Error Address
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   *
   *  @return     return Security Error Address Value
   *
   */
- __STATIC_INLINE uint32_t DL_EAM_getSecurityErrorAddress(EAM_Regs *eamRegs)
+ __STATIC_INLINE uint32_t DL_EAM_getSecurityErrorAddress(EAM_Regs *eam)
  {
-    return (eamRegs->EAM_REGS.SECURITY_ERR_ADDR);
+    return (eam->EAM_REGS.SECURITY_ERR_ADDR);
  }
 
  /**
   *  @brief      Get Security Error MSTID
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   *
   *  @return     return Security Error Master ID Value
     */
- __STATIC_INLINE uint8_t DL_EAM_getSecurityErrorMSTID(EAM_Regs *eamRegs)
+ __STATIC_INLINE uint8_t DL_EAM_getSecurityErrorMSTID(EAM_Regs *eam)
  {
-    return (eamRegs->EAM_REGS.SECURITY_ERR_MSTID);
+    return (eam->EAM_REGS.SECURITY_ERR_MSTID);
  }
 
 
  /**
   *  @brief      Clear FRI SEC Flag
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   */
-__STATIC_INLINE void DL_EAM_clearFRISECFlag(EAM_Regs *eamRegs)
-{
-   eamRegs->EAM_REGS.FRI_SEC_CLR = (eamRegs->EAM_REGS.FRI_SEC_FLAG & DL_EAM_FRI_SEC_MASK);
-}
+__STATIC_INLINE void DL_EAM_clearFRISECFlag(EAM_Regs *eam)
+ {
+    eam->EAM_REGS.FRI_SEC_CLR = (eam->EAM_REGS.FRI_SEC_FLAG & DL_EAM_FRI_SEC_MASK);
+ }
 
 /**
  *  @brief  Return value that is stored in FRI SEC FLAG.
  *
  *  @return The cause of FRI SEC . One of @ref DL_EAM_FRI_SEC_FLAG
  */
-__STATIC_INLINE DL_EAM_FRI_SEC_FLAG DL_EAM_getFRISECFlag(EAM_Regs *eamRegs)
+__STATIC_INLINE DL_EAM_FRI_SEC_FLAG DL_EAM_getFRISECFlag(EAM_Regs *eam)
 {
-    return (DL_EAM_FRI_SEC_FLAG) (eamRegs->EAM_REGS.FRI_SEC_FLAG & DL_EAM_FRI_SEC_MASK);
+    return (DL_EAM_FRI_SEC_FLAG) (eam->EAM_REGS.FRI_SEC_FLAG & DL_EAM_FRI_SEC_MASK);
 }
 
  /**
   *  @brief      Get FRI SEC Address
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   *
   *  @return     return FRI SEC Address Value
   *
   */
- __STATIC_INLINE uint32_t DL_EAM_getFRISECAddress(EAM_Regs *eamRegs)
+ __STATIC_INLINE uint32_t DL_EAM_getFRISECAddress(EAM_Regs *eam)
  {
-    return (eamRegs->EAM_REGS.FRI_SEC_ADDR);
+    return (eam->EAM_REGS.FRI_SEC_ADDR);
  }
 
  /**
   *  @brief      Get FRI SEC MSTID
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   *
   *  @return     return FRI SEC Master ID Value
     */
- __STATIC_INLINE uint8_t DL_EAM_getFriSECMSTID(EAM_Regs *eamRegs)
+ __STATIC_INLINE uint8_t DL_EAM_getFriSECMSTID(EAM_Regs *eam)
  {
-    return (eamRegs->EAM_REGS.FRI_SEC_MSTID);
+    return (eam->EAM_REGS.FRI_SEC_MSTID);
  }
 
   /**
   *  @brief      Clear FRI DED Flag
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   */
- __STATIC_INLINE void DL_EAM_clearFRIDEDFlag(EAM_Regs *eamRegs)
+ __STATIC_INLINE void DL_EAM_clearFRIDEDFlag(EAM_Regs *eam)
  {
-    eamRegs->EAM_REGS.FRI_DED_CLR = (eamRegs->EAM_REGS.FRI_DED_FLAG & DL_EAM_FRI_DED_MASK);
+    eam->EAM_REGS.FRI_DED_CLR = (eam->EAM_REGS.FRI_DED_FLAG & DL_EAM_FRI_DED_MASK);
  }
 
 /**
@@ -268,44 +268,44 @@ __STATIC_INLINE DL_EAM_FRI_SEC_FLAG DL_EAM_getFRISECFlag(EAM_Regs *eamRegs)
  *
  *  @return The cause of FRI DED . One of @ref DL_EAM_FRI_DED_FLAG
  */
-__STATIC_INLINE DL_EAM_FRI_DED_FLAG DL_EAM_getFRIDEDFlag(EAM_Regs *eamRegs)
+__STATIC_INLINE DL_EAM_FRI_DED_FLAG DL_EAM_getFRIDEDFlag(EAM_Regs *eam)
 {
-    return (DL_EAM_FRI_DED_FLAG) (eamRegs->EAM_REGS.FRI_DED_FLAG & DL_EAM_FRI_DED_MASK);
+    return (DL_EAM_FRI_DED_FLAG) (eam->EAM_REGS.FRI_DED_FLAG & DL_EAM_FRI_DED_MASK);
 }
 
  /**
   *  @brief      Get FRI DED Address
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   *
   *  @return     return FRI DED Address Value
   *
   */
- __STATIC_INLINE uint32_t DL_EAM_getFRIDEDAddress(EAM_Regs *eamRegs)
+ __STATIC_INLINE uint32_t DL_EAM_getFRIDEDAddress(EAM_Regs *eam)
  {
-    return (eamRegs->EAM_REGS.FRI_DED_ADDR);
+    return (eam->EAM_REGS.FRI_DED_ADDR);
  }
 
  /**
   *  @brief      Get FRI DED MSTID
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   *
   *  @return     return FRI DED Master ID Value
     */
- __STATIC_INLINE uint8_t DL_EAM_getFRIDEDMSTID(EAM_Regs *eamRegs)
+ __STATIC_INLINE uint8_t DL_EAM_getFRIDEDMSTID(EAM_Regs *eam)
  {
-    return (eamRegs->EAM_REGS.FRI_DED_MSTID);
+    return (eam->EAM_REGS.FRI_DED_MSTID);
  }
 
  /**
   *  @brief      Clear SYSMEM SEC Flag
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   */
- __STATIC_INLINE void DL_EAM_clearSYSMEMSECFlag(EAM_Regs *eamRegs)
+ __STATIC_INLINE void DL_EAM_clearSYSMEMSECFlag(EAM_Regs *eam)
  {
-    eamRegs->EAM_REGS.SYSMEM_SEC_CLR = (eamRegs->EAM_REGS.SYSMEM_SEC_FLAG & DL_EAM_SYSMEM_SEC_MASK);
+    eam->EAM_REGS.SYSMEM_SEC_CLR = (eam->EAM_REGS.SYSMEM_SEC_FLAG & DL_EAM_SYSMEM_SEC_MASK);
  }
 
 /**
@@ -313,44 +313,44 @@ __STATIC_INLINE DL_EAM_FRI_DED_FLAG DL_EAM_getFRIDEDFlag(EAM_Regs *eamRegs)
  *
  *  @return The cause of SYSMEM SEC . One of @ref DL_EAM_SYSMEM_SEC_FLAG
  */
-__STATIC_INLINE DL_EAM_SYSMEM_SEC_FLAG DL_EAM_getSYSMEMSECFlag(EAM_Regs *eamRegs)
+__STATIC_INLINE DL_EAM_SYSMEM_SEC_FLAG DL_EAM_getSYSMEMSECFlag(EAM_Regs *eam)
 {
-    return (DL_EAM_SYSMEM_SEC_FLAG) (eamRegs->EAM_REGS.SYSMEM_SEC_FLAG & DL_EAM_SYSMEM_SEC_MASK);
+    return (DL_EAM_SYSMEM_SEC_FLAG) (eam->EAM_REGS.SYSMEM_SEC_FLAG & DL_EAM_SYSMEM_SEC_MASK);
 }
 
  /**
   *  @brief      Get SYSMEM SEC Address
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   *
   *  @return     return SYSMEM SEC Address Value
   *
   */
- __STATIC_INLINE uint32_t DL_EAM_getSYSMEMSECAddress(EAM_Regs *eamRegs)
+ __STATIC_INLINE uint32_t DL_EAM_getSYSMEMSECAddress(EAM_Regs *eam)
  {
-    return (eamRegs->EAM_REGS.SYSMEM_SEC_ADDR);
+    return (eam->EAM_REGS.SYSMEM_SEC_ADDR);
  }
 
  /**
   *  @brief      Get SYSMEM SEC MSTID
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   *
   *  @return     return SYSMEM SEC Master ID Value
     */
- __STATIC_INLINE uint8_t DL_EAM_getSYSMEMSECMSTID(EAM_Regs *eamRegs)
+ __STATIC_INLINE uint8_t DL_EAM_getSYSMEMSECMSTID(EAM_Regs *eam)
  {
-    return (eamRegs->EAM_REGS.SYSMEM_SEC_MSTID);
+    return (eam->EAM_REGS.SYSMEM_SEC_MSTID);
  }
 
  /**
   *  @brief      Clear SYSMEM DED Flag
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   */
- __STATIC_INLINE void DL_EAM_clearSYSMEMDEDFlag(EAM_Regs *eamRegs)
+ __STATIC_INLINE void DL_EAM_clearSYSMEMDEDFlag(EAM_Regs *eam)
  {
-    eamRegs->EAM_REGS.SYSMEM_DED_CLR = (eamRegs->EAM_REGS.SYSMEM_DED_FLAG & DL_EAM_SYSMEM_DED_MASK);
+    eam->EAM_REGS.SYSMEM_DED_CLR = (eam->EAM_REGS.SYSMEM_DED_FLAG & DL_EAM_SYSMEM_DED_MASK);
  }
 
 /**
@@ -358,34 +358,34 @@ __STATIC_INLINE DL_EAM_SYSMEM_SEC_FLAG DL_EAM_getSYSMEMSECFlag(EAM_Regs *eamRegs
  *
  *  @return The cause of SYSMEM DED . One of @ref DL_EAM_SYSMEM_DED_FLAG
  */
-__STATIC_INLINE DL_EAM_SYSMEM_DED_FLAG DL_EAM_getSYSMEMDEDFlag(EAM_Regs *eamRegs)
+__STATIC_INLINE DL_EAM_SYSMEM_DED_FLAG DL_EAM_getSYSMEMDEDFlag(EAM_Regs *eam)
 {
-    return (DL_EAM_SYSMEM_DED_FLAG) (eamRegs->EAM_REGS.SYSMEM_DED_FLAG & DL_EAM_SYSMEM_DED_MASK);
+    return (DL_EAM_SYSMEM_DED_FLAG) (eam->EAM_REGS.SYSMEM_DED_FLAG & DL_EAM_SYSMEM_DED_MASK);
 }
 
  /**
   *  @brief      Get SYSMEM DED Address
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   *
   *  @return     return SYSMEM DED Address Value
   *
   */
- __STATIC_INLINE uint32_t DL_EAM_getSYSMEMDEDAddress(EAM_Regs *eamRegs)
+ __STATIC_INLINE uint32_t DL_EAM_getSYSMEMDEDAddress(EAM_Regs *eam)
  {
-    return (eamRegs->EAM_REGS.SYSMEM_DED_ADDR);
+    return (eam->EAM_REGS.SYSMEM_DED_ADDR);
  }
 
  /**
   *  @brief      Get SYSMEM DED MSTID
   *
-  *  @param[in]  EAM  Pointer to the register overlay for the peripheral
+  *  @param[in]  eam  Pointer to the register overlay for the peripheral
   *
   *  @return     return SYSMEM DED Master ID Value
     */
- __STATIC_INLINE uint8_t DL_EAM_getSYSMEMDEDMSTID(EAM_Regs *eamRegs)
+ __STATIC_INLINE uint8_t DL_EAM_getSYSMEMDEDMSTID(EAM_Regs *eam)
  {
-    return (eamRegs->EAM_REGS.SYSMEM_DED_MSTID);
+    return (eam->EAM_REGS.SYSMEM_DED_MSTID);
  }
 #ifdef __cplusplus
 

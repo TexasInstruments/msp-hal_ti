@@ -1469,7 +1469,7 @@ void DL_UART_init(UNICOMM_Inst_Regs *unicomm, DL_UART_Config *config);
 __STATIC_INLINE void DL_UART_enablePower(UNICOMM_Inst_Regs *unicomm)
 {
     DL_UNICOMM_enablePower(unicomm);
-    while(!DL_UNICOMM_isPowerEnabled(unicomm)){}
+    while (!DL_UNICOMM_isPowerEnabled(unicomm));
     if (unicomm->fixedMode == false) {
         DL_UNICOMM_setIPMode(unicomm, DL_UNICOMM_UART);
     }
@@ -2350,6 +2350,32 @@ __STATIC_INLINE void DL_UART_disableSendIdlePattern(UNICOMM_Inst_Regs *unicomm)
 }
 
 /**
+ *  @brief      Suspend external communication
+ *
+ *  When bit enabled, external communication is suspended.
+ *
+ *  @param[in]  unicomm   Pointer to the register overlay for the peripheral
+ */
+__STATIC_INLINE void DL_UART_suspendExternalCommunication(
+    UNICOMM_Inst_Regs *unicomm)
+{
+    unicomm->uart->LCRH |= UNICOMMUART_LCRH_SUSPEND_ENABLE;
+}
+
+/**
+ *  @brief      Resume external communication
+ *
+ *  When bit disabled, external communication is resumed.
+ *
+ *  @param[in]  unicomm   Pointer to the register overlay for the peripheral
+ */
+__STATIC_INLINE void DL_UART_resumeExternalCommunication(
+    UNICOMM_Inst_Regs *unicomm)
+{
+    unicomm->uart->LCRH &= ~(UNICOMMUART_LCRH_SUSPEND_MASK);
+}
+
+/**
  *  @brief      Check if send idle pattern is enabled
  *
  *  @param[in]  unicomm  Pointer to the register overlay for the peripheral
@@ -2397,8 +2423,8 @@ __STATIC_INLINE void DL_UART_setExternalDriverSetup(
 __STATIC_INLINE uint32_t DL_UART_getExternalDriverSetup(
     UNICOMM_Inst_Regs *unicomm)
 {
-    return ((unicomm->uart->LCRH & UNICOMMUART_LCRH_EXTDIR_SETUP_MASK >>
-                                       UNICOMMUART_LCRH_EXTDIR_SETUP_OFS));
+    return ((unicomm->uart->LCRH & UNICOMMUART_LCRH_EXTDIR_SETUP_MASK) >>
+            UNICOMMUART_LCRH_EXTDIR_SETUP_OFS);
 }
 
 /**
@@ -2435,8 +2461,8 @@ __STATIC_INLINE void DL_UART_setExternalDriverHold(
 __STATIC_INLINE uint32_t DL_UART_getExternalDriverHold(
     UNICOMM_Inst_Regs *unicomm)
 {
-    return ((unicomm->uart->LCRH & UNICOMMUART_LCRH_EXTDIR_HOLD_MASK >>
-                                       UNICOMMUART_LCRH_EXTDIR_HOLD_OFS));
+    return ((unicomm->uart->LCRH & UNICOMMUART_LCRH_EXTDIR_HOLD_MASK) >>
+            UNICOMMUART_LCRH_EXTDIR_HOLD_OFS);
 }
 
 /**

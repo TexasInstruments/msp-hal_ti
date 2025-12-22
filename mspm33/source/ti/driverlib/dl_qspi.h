@@ -2501,7 +2501,7 @@ __STATIC_INLINE void DL_QSPI_setAddressMode(QSPI_Regs *qspi, DL_QSPI_ADDRESS_MOD
  * This function sets the bus format used for QSPI communications.
  *
  * @param qspi    Pointer to the register overlay for the peripheral
- * @param format  Bus format. One of @ref DL_QSPI_BUS_FORMAT
+ * @param busFormat  Bus format. One of @ref DL_QSPI_BUS_FORMAT
  *
  */
 __STATIC_INLINE void DL_QSPI_setBusFormat(QSPI_Regs *qspi, DL_QSPI_BUS_FORMAT busFormat)

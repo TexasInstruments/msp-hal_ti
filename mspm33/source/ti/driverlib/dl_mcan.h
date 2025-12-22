@@ -1737,7 +1737,8 @@ bool DL_MCAN_isReady(DL_MCAN_INSTANCE instance);
  *  @param[in]  config         Pointer to the clock configuration struct
  *                             @ref DL_MCAN_ClockConfig.
  */
-void DL_MCAN_setClockConfig(MCAN_Regs *mcan, const DL_MCAN_ClockConfig *config);
+void DL_MCAN_setClockConfig(
+    MCAN_Regs *mcan, const DL_MCAN_ClockConfig *config);
 
 /**
  *  @brief     Get  CANCLK clock configuration
@@ -1935,8 +1936,8 @@ void DL_MCAN_clearNewDataStatus(
  *
  *  @return  None.
  */
-void DL_MCAN_readMsgRam(const MCAN_Regs *mcan, uint32_t memType, uint32_t bufNum,
-    uint32_t fifoNum, DL_MCAN_RxBufElement *elem);
+void DL_MCAN_readMsgRam(const MCAN_Regs *mcan, uint32_t memType,
+    uint32_t bufNum, uint32_t fifoNum, DL_MCAN_RxBufElement *elem);
 
 /**
  *  @brief   This API is used to read message form Tx Event FIFO.
@@ -2008,7 +2009,8 @@ void DL_MCAN_lpbkModeEnable(MCAN_Regs *mcan, uint32_t lpbkMode, bool enable);
  *
  *  @return  None.
  */
-void DL_MCAN_getErrCounters(const MCAN_Regs *mcan, DL_MCAN_ErrCntStatus *errCounter);
+void DL_MCAN_getErrCounters(
+    const MCAN_Regs *mcan, DL_MCAN_ErrCntStatus *errCounter);
 
 /**
  *  @brief   This API will return protocol status for MCAN module.
@@ -2875,7 +2877,8 @@ __STATIC_INLINE void DL_MCAN_disableClockStopGateRequest(MCAN_Regs *mcan)
  *              enabled/disabled
  *
  */
-__STATIC_INLINE bool DL_MCAN_isClockStopWakeupInterruptEnabled(const MCAN_Regs *mcan)
+__STATIC_INLINE bool DL_MCAN_isClockStopWakeupInterruptEnabled(
+    const MCAN_Regs *mcan)
 {
     return ((mcan->MCANSS.TI_WRAPPER.MSP.MCANSS_CLKCTL &
                 MCAN_CLKCTL_WAKEUP_INT_EN_MASK) ==
@@ -2962,7 +2965,8 @@ __STATIC_INLINE void DL_MCAN_disableGlitchFilterWakeup(MCAN_Regs *mcan)
  *  @return     The clock stop acknowledge status
  *
  */
-__STATIC_INLINE bool DL_MCAN_getClockStopAcknowledgeStatus(const MCAN_Regs *mcan)
+__STATIC_INLINE bool DL_MCAN_getClockStopAcknowledgeStatus(
+    const MCAN_Regs *mcan)
 {
     return ((mcan->MCANSS.TI_WRAPPER.MSP.MCANSS_CLKSTS &
                 MCAN_CLKSTS_CLKSTOP_ACKSTS_MASK) ==
@@ -2996,7 +3000,8 @@ __STATIC_INLINE bool DL_MCAN_getClockStopHardwareOverrideStatus(
  *  @return     The status of the MCAN controller clock request from GPRCM
  *
  */
-__STATIC_INLINE bool DL_MCAN_getControllerClockRequestStatus(const MCAN_Regs *mcan)
+__STATIC_INLINE bool DL_MCAN_getControllerClockRequestStatus(
+    const MCAN_Regs *mcan)
 {
     return ((mcan->MCANSS.TI_WRAPPER.MSP.MCANSS_CLKSTS &
                 MCAN_CLKSTS_CCLKDONE_MASK) == MCAN_CLKSTS_CCLKDONE_SET);
@@ -3004,7 +3009,6 @@ __STATIC_INLINE bool DL_MCAN_getControllerClockRequestStatus(const MCAN_Regs *mc
 
 /**
  *  @brief      Saves MCAN configuration before entering STOP or STANDBY mode.
- *              Only necessary for PG 1.0 silicon.
  *
  *  @param[in]  mcan  Pointer to the register overlay for the peripheral
  *
@@ -3015,7 +3019,8 @@ __STATIC_INLINE bool DL_MCAN_getControllerClockRequestStatus(const MCAN_Regs *mc
  *              overwritten). TRUE if a configuration was successfully saved
  *
  */
-bool DL_MCAN_saveConfiguration(const MCAN_Regs *mcan, DL_MCAN_backupConfig *ptr);
+bool DL_MCAN_saveConfiguration(
+    const MCAN_Regs *mcan, DL_MCAN_backupConfig *ptr);
 
 /**
  *  @brief      Restore MCAN configuration after leaving STOP or STANDBY mode.
