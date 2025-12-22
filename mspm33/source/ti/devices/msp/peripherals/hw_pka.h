@@ -94,7 +94,6 @@ typedef struct {
 */
 
 typedef struct {
-       uint32_t RESERVED0[20480];
   __IO uint32_t PKA_APTR;                          /* !< (@ 0x00014000) A operand address offset */
   __IO uint32_t PKA_BPTR;                          /* !< (@ 0x00014004) B operand address offset */
   __IO uint32_t PKA_CPTR;                          /* !< (@ 0x00014008) C operand address offset */
@@ -659,8 +658,10 @@ typedef struct {
 */
 
 typedef struct {
-  PKA_PKA_REGS_Regs  PKA_REGS;                          /* !< (@ 0x00000000) */
-  PKA_GPRCM_Regs  GPRCM;                             /* !< (@ 0x00000800) */
+    uint32_t RESERVED0[512];                     /* Reserved space to reach GPRCM at 0x800 */
+    PKA_GPRCM_Regs  GPRCM;                       /* !< (@ 0x00000800) */
+    uint32_t RESERVED1[19962];                   /* Reserved space to reach PKA_REGS at 0x14000 */
+    PKA_PKA_REGS_Regs  PKA_REGS;                /* !< (@ 0x00014000) */
 } PKA_Regs;
 
 /*@}*/ /* end of group PKA */

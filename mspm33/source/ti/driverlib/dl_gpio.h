@@ -2015,7 +2015,9 @@ __STATIC_INLINE void DL_GPIO_initDigitalInputFeatures(uint32_t pincmIndex,
         IOMUX_PINCM_INENA_ENABLE | IOMUX_PINCM_PC_CONNECTED |
         ((uint32_t) 0x00000001) | (uint32_t) inversion |
         (uint32_t) internalResistor | (uint32_t) hysteresis |
-        (uint32_t) wakeup;
+        ((uint32_t) wakeup & IOMUX_PINCM_WCOMP_MASK);
+    IOMUX->SECCFG.PINCM[pincmIndex] |=
+        ((uint32_t) wakeup & IOMUX_PINCM_WUEN_MASK);
 }
 
 /**
@@ -2113,7 +2115,9 @@ __STATIC_INLINE void DL_GPIO_initPeripheralInputFunctionFeatures(
     IOMUX->SECCFG.PINCM[pincmIndex] =
         function | IOMUX_PINCM_PC_CONNECTED | IOMUX_PINCM_INENA_ENABLE |
         (uint32_t) inversion | (uint32_t) internalResistor |
-        (uint32_t) hysteresis | (uint32_t) wakeup;
+        (uint32_t) hysteresis | ((uint32_t) wakeup & IOMUX_PINCM_WCOMP_MASK);
+    IOMUX->SECCFG.PINCM[pincmIndex] |=
+        ((uint32_t) wakeup & IOMUX_PINCM_WUEN_MASK);
 }
 
 /**
@@ -2134,6 +2138,8 @@ __STATIC_INLINE void DL_GPIO_initPeripheralAnalogFunction(uint32_t pincmIndex)
  *  @param[in]  pincmIndex  The PINCM register index that maps to the target
  *                          GPIO pin.
  *
+ *  @note Before enabling wakeup, the wakeup compare value should be configured first
+ *        in @ref DL_GPIO_setWakeupCompareValue.
  */
 __STATIC_INLINE void DL_GPIO_enableWakeUp(uint32_t pincmIndex)
 {

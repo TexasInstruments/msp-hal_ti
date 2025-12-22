@@ -31,7 +31,7 @@
  */
 
 /*!****************************************************************************
- *  @file       dl_shaw.h
+ *  @file       dl_shadrv.h
  *  @brief      SHA Hardware Accelerator (SHAW) Driver Library
  *  @defgroup   SHAW Secure Hash Algorithm Hardware Accelerator (SHAW)
  *
@@ -418,8 +418,7 @@ __STATIC_INLINE DL_SHAW_STATUS DL_SHAW_signalModeAvailable(SHAW_Regs *shaw) {
 /**
  * @brief Sets both mode and length available bits in SHA control register
  *
- * @param ptrSHAWregs      Pointer to the SHA module registers
- * @param ptrShaContextObj Pointer to the SHA context object [unused]
+ * @param shaw Pointer to the SHA module registers
  */
 __STATIC_INLINE void DL_SHAW_signalModeAndLengthAvailable(SHAW_Regs *shaw)
 {

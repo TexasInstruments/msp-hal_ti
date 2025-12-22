@@ -33,12 +33,11 @@
 #ifndef ti_dl_dl_driverlib__include
 #define ti_dl_dl_driverlib__include
 
-#include <ti/driverlib/dl_hsadc.h>
-#include <ti/driverlib/dl_aes.h>
+// #include <ti/driverlib/dl_aes.h>
 #include <ti/driverlib/dl_aesadv.h>
-#include <ti/driverlib/dl_aesadvhp.h>
 #include <ti/driverlib/dl_common.h>
 #include <ti/driverlib/dl_comp.h>
+#include <ti/driverlib/dl_hsadc.h>
 //#include <ti/driverlib/dl_crc.h>
 #include <ti/driverlib/dl_crcp.h>
 //#include <ti/driverlib/dl_dac12.h>
@@ -61,8 +60,8 @@
 #include <ti/driverlib/dl_rtc_common.h>
 #include <ti/driverlib/dl_scratchpad.h>
 //#include <ti/driverlib/dl_spi.h>
-#include <ti/driverlib/dl_tamperio.h>
 #include <ti/driverlib/dl_gsc.h>
+#include <ti/driverlib/dl_tamperio.h>
 #include <ti/driverlib/dl_timera.h>
 #include <ti/driverlib/dl_timerg.h>
 #include <ti/driverlib/dl_trng.h>
@@ -71,18 +70,19 @@
 #include <ti/driverlib/dl_vref.h>
 #include <ti/driverlib/dl_wwdt.h>
 //#include <ti/driverlib/m33/dl_factoryregion.h>
-#include <ti/driverlib/m33/dl_interrupt.h>
-#include <ti/driverlib/m33/dl_shadrv.h>
-#include <ti/driverlib/m33/dl_sysctl.h>
-#include <ti/driverlib/m33/dl_systick.h>
+#include <ti/driverlib/dl_qspi.h>
 #include <ti/driverlib/dl_spgss.h>
 #include <ti/driverlib/dl_unicomm.h>
 #include <ti/driverlib/dl_unicommi2cc.h>
 #include <ti/driverlib/dl_unicommi2ct.h>
-#include <ti/driverlib/dl_unicommuart.h>
 #include <ti/driverlib/dl_unicommspi.h>
-#include <ti/driverlib/dl_qspi.h>
+#include <ti/driverlib/dl_unicommuart.h>
 #include <ti/driverlib/m33/dl_eam.h>
+#include <ti/driverlib/m33/dl_interrupt.h>
+#include <ti/driverlib/m33/dl_pka.h>
+#include <ti/driverlib/m33/dl_shadrv.h>
+#include <ti/driverlib/m33/dl_sysctl.h>
+#include <ti/driverlib/m33/dl_systick.h>
 // __INTERNAL_ONLY_OPEN__
 // __INTERNAL_ONLY_CLOSE__
 
