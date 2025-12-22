@@ -529,70 +529,70 @@ typedef struct {
                                                                                     #br#1: Secure access is enabled */
 
 /* GSC_PPC_SECATTRIB_UNICOMM Bits */
-/* GSC_PPC_SECATTRIB_UNICOMM[SEC_S0U1] Bits */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S0U1_OFS   (0)                             /* !< SEC_S0U1 Offset */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S0U1_MASK  ((uint32_t)0x00000001U)         /* !< Secure access enabled to UniComm
-                                                                                    S0U1 #br#0: Non-secure access is
+/* GSC_PPC_SECATTRIB_UNICOMM[SEC_UC1_0] Bits */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC1_0_OFS   (0)                             /* !< SEC_UC1_0 Offset */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC1_0_MASK  ((uint32_t)0x00000001U)         /* !< Secure access enabled to UniComm
+                                                                                    UC1_0 #br#0: Non-secure access is
                                                                                     enabled #br#1: Secure access is
                                                                                     enabled */
-/* GSC_PPC_SECATTRIB_UNICOMM[SEC_S0U2] Bits */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S0U2_OFS   (1)                             /* !< SEC_S0U2 Offset */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S0U2_MASK  ((uint32_t)0x00000002U)         /* !< Secure access enabled to UniComm
-                                                                                    S0U2 #br#0: Non-secure access is
+/* GSC_PPC_SECATTRIB_UNICOMM[SEC_UC1_1] Bits */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC1_1_OFS   (1)                             /* !< SEC_UC1_1 Offset */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC1_1_MASK  ((uint32_t)0x00000002U)         /* !< Secure access enabled to UniComm
+                                                                                    UC1_1 #br#0: Non-secure access is
                                                                                     enabled #br#1: Secure access is
                                                                                     enabled */
-/* GSC_PPC_SECATTRIB_UNICOMM[SEC_S1U0] Bits */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U0_OFS   (2)                             /* !< SEC_S1U0 Offset */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U0_MASK  ((uint32_t)0x00000004U)         /* !< Secure access enabled to UniComm
-                                                                                    S1U0 #br#0: Non-secure access is
+/* GSC_PPC_SECATTRIB_UNICOMM[SEC_UC2] Bits */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC2_OFS   (2)                             /* !< SEC_UC2 Offset */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC2_MASK  ((uint32_t)0x00000004U)         /* !< Secure access enabled to UniComm
+                                                                                    UC2 #br#0: Non-secure access is
                                                                                     enabled #br#1: Secure access is
                                                                                     enabled */
-/* GSC_PPC_SECATTRIB_UNICOMM[SEC_S1U2] Bits */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U2_OFS   (3)                             /* !< SEC_S1U2 Offset */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U2_MASK  ((uint32_t)0x00000008U)         /* !< Secure access enabled to UniComm
-                                                                                    S1U2 #br#0: Non-secure access is
+/* GSC_PPC_SECATTRIB_UNICOMM[SEC_UC15_0] Bits */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC15_0_OFS   (3)                             /* !< SEC_UC15_0 Offset */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC15_0_MASK  ((uint32_t)0x00000008U)         /* !< Secure access enabled to UniComm
+                                                                                    UC15_0 #br#0: Non-secure access is
                                                                                     enabled #br#1: Secure access is
                                                                                     enabled */
-/* GSC_PPC_SECATTRIB_UNICOMM[SEC_S1U3] Bits */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U3_OFS   (4)                             /* !< SEC_S1U3 Offset */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U3_MASK  ((uint32_t)0x00000010U)         /* !< Secure access enabled to UniComm
-                                                                                    S1U3 #br#0: Non-secure access is
+/* GSC_PPC_SECATTRIB_UNICOMM[SEC_UC15_1] Bits */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC15_1_OFS   (4)                             /* !< SEC_UC15_1 Offset */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC15_1_MASK  ((uint32_t)0x00000010U)         /* !< Secure access enabled to UniComm
+                                                                                    UC15_1 #br#0: Non-secure access is
                                                                                     enabled #br#1: Secure access is
                                                                                     enabled */
-/* GSC_PPC_SECATTRIB_UNICOMM[SEC_S1U4] Bits */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U4_OFS   (5)                             /* !< SEC_S1U4 Offset */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U4_MASK  ((uint32_t)0x00000020U)         /* !< Secure access enabled to UniComm
-                                                                                    S1U4 #br#0: Non-secure access is
+/* GSC_PPC_SECATTRIB_UNICOMM[SEC_UC12] Bits */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC12_OFS   (5)                             /* !< SEC_UC12 Offset */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC12_MASK  ((uint32_t)0x00000020U)         /* !< Secure access enabled to UniComm
+                                                                                    UC12 #br#0: Non-secure access is
                                                                                     enabled #br#1: Secure access is
                                                                                     enabled */
-/* GSC_PPC_SECATTRIB_UNICOMM[SEC_S1U5] Bits */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U5_OFS   (6)                             /* !< SEC_S1U5 Offset */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S1U5_MASK  ((uint32_t)0x00000040U)         /* !< Secure access enabled to UniComm
-                                                                                    S1U5 #br#0: Non-secure access is
+/* GSC_PPC_SECATTRIB_UNICOMM[SEC_UC13_0] Bits */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_0_OFS   (6)                             /* !< SEC_UC13_0 Offset */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_0_MASK  ((uint32_t)0x00000040U)         /* !< Secure access enabled to UniComm
+                                                                                    UC13_0 #br#0: Non-secure access is
                                                                                     enabled #br#1: Secure access is
                                                                                     enabled */
-/* GSC_PPC_SECATTRIB_UNICOMM[SEC_S2U0] Bits */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U0_OFS   (7)                             /* !< SEC_S2U0 Offset */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U0_MASK  ((uint32_t)0x00000080U)         /* !< Secure access enabled to UniComm
-                                                                                    S2U0 #br#0: Non-secure access is
+/* GSC_PPC_SECATTRIB_UNICOMM[SEC_UC13_1] Bits */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_1_OFS   (7)                             /* !< SEC_UC13_1 Offset */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_1_MASK  ((uint32_t)0x00000080U)         /* !< Secure access enabled to UniComm
+                                                                                    UC13_1 #br#0: Non-secure access is
                                                                                     enabled #br#1: Secure access is
                                                                                     enabled */
-/* GSC_PPC_SECATTRIB_UNICOMM[SEC_S2U1] Bits */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U1_OFS   (8)                             /* !< SEC_S2U1 Offset */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U1_MASK  ((uint32_t)0x00000100U)         /* !< Secure access enabled to UniComm
-                                                                                    S2U1 #br#0: Non-secure access is
+/* GSC_PPC_SECATTRIB_UNICOMM[SEC_UC13_2] Bits */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_2_OFS   (8)                             /* !< SEC_UC13_2 Offset */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_2_MASK  ((uint32_t)0x00000100U)         /* !< Secure access enabled to UniComm
+                                                                                    UC13_2 #br#0: Non-secure access is
                                                                                     enabled #br#1: Secure access is
                                                                                     enabled */
-/* GSC_PPC_SECATTRIB_UNICOMM[SEC_S2U2] Bits */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U2_OFS   (9)                             /* !< SEC_S2U2 Offset */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U2_MASK  ((uint32_t)0x00000200U)         /* !< Secure access enabled to UniComm
-                                                                                    S2U2 #br#0: Non-secure access is
+/* GSC_PPC_SECATTRIB_UNICOMM[SEC_UC13_3] Bits */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_3_OFS   (9)                             /* !< SEC_UC13_3 Offset */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC13_3_MASK  ((uint32_t)0x00000200U)         /* !< Secure access enabled to UniComm
+                                                                                    UC13_3 #br#0: Non-secure access is
                                                                                     enabled #br#1: Secure access is
                                                                                     enabled */
-/* GSC_PPC_SECATTRIB_UNICOMM[SEC_S2U3] Bits */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U3_OFS   (10)                            /* !< SEC_S2U3 Offset */
-#define GSC_PPC_SECATTRIB_UNICOMM_SEC_S2U3_MASK  ((uint32_t)0x00000400U)         /* !< Secure access enabled to UniComm
-                                                                                    S2U3 #br#0: Non-secure access is
+/* GSC_PPC_SECATTRIB_UNICOMM[SEC_UC14] Bits */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC14_OFS   (10)                            /* !< SEC_UC14 Offset */
+#define GSC_PPC_SECATTRIB_UNICOMM_SEC_UC14_MASK  ((uint32_t)0x00000400U)         /* !< Secure access enabled to UniComm
+                                                                                    UC14 #br#0: Non-secure access is
                                                                                     enabled #br#1: Secure access is
                                                                                     enabled */
 

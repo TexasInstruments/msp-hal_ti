@@ -59,15 +59,11 @@ extern "C" {
  * Interrupt Definitions                                                       *
  ******************************************************************************/
 typedef enum IRQn {
-    // defined by me for temporary use
-    MemoryManagement_IRQn     = -12,    /*!< -12 Memory Management, MPU mismatch, including Access Violation
-                                               and No Match                                                  */
-    BusFault_IRQn             = -11,    /*!< -11 Bus Fault, Pre-Fetch-, Memory Access Fault, other address/memory
-                                                related Fault                                                 */
-    UsageFault_IRQn           = -10,    /*!< -10 Usage Fault, i.e. Undef Instruction, Illegal State Transition */
-    
     NonMaskableInt_IRQn        = -14, /* 2  Non Maskable Interrupt */
     HardFault_IRQn             = -13, /* 3  Hard Fault Interrupt */
+    MemoryManagement_IRQn      = -12, /* 4  Memory Management Interrupt */
+    BusFault_IRQn              = -11, /* 5  Bus Fault Intertupt */
+    UsageFault_IRQn            = -10, /* 6  Usage Fault Interrupt */
     SVCall_IRQn                = -5,  /* 11 SV Call Interrupt */
     PendSV_IRQn                = -2,  /* 14 Pend SV Interrupt */
     SysTick_IRQn               = -1,  /* 15 System Tick Interrupt */
@@ -94,14 +90,14 @@ typedef enum IRQn {
     TIMG4_1_INT_IRQn           = 22,  /* 38 TIMG4_1_INT Interrupt */
     TIMG8_0_INT_IRQn           = 23,  /* 39 TIMG8_0_INT Interrupt */
     TIMG12_0_INT_IRQn          = 24,  /* 40 TIMG12_0_INT Interrupt */
-    UC0_INT_IRQn               = 25,  /* 41 UC0_INT Interrupt */
-    UC1_INT_IRQn               = 26,  /* 42 UC1_INT Interrupt */
+    UC1_0_INT_IRQn             = 25,  /* 41 UC1_0_INT Interrupt */
+    UC1_1_INT_IRQn             = 26,  /* 42 UC1_1_INT Interrupt */
     UC2_INT_IRQn               = 27,  /* 43 UC2_INT Interrupt */
-    UC3_INT_IRQn               = 28,  /* 44 UC3_INT Interrupt */
-    UC4_INT_IRQn               = 29,  /* 45 UC4_INT Interrupt */
-    UC5_INT_IRQn               = 30,  /* 46 UC5_INT Interrupt */
-    UC6_INT_IRQn               = 31,  /* 47 UC6_INT Interrupt */
-    UC10_INT_IRQn              = 32,  /* 48 UC10_INT Interrupt */
+    UC15_0_INT_IRQn            = 28,  /* 44 UC15_0_INT Interrupt */
+    UC15_1_INT_IRQn            = 29,  /* 45 UC15_1_INT Interrupt */
+    UC12_INT_IRQn              = 30,  /* 46 UC12_INT Interrupt */
+    UC13_0_INT_IRQn            = 31,  /* 47 UC13_0_INT Interrupt */
+    UC14_INT_IRQn              = 32,  /* 48 UC14_INT Interrupt */
     CANFD1_INT_IRQn            = 33,  /* 49 CANFD1_INT Interrupt */
     TIMA0_1_INT_IRQn           = 34,  /* 50 TIMA0_1_INT Interrupt */
     TIMG4_2_INT_IRQn           = 35,  /* 51 TIMG4_2_INT Interrupt */
@@ -119,9 +115,9 @@ typedef enum IRQn {
     QSPI_INT_IRQn              = 47,  /* 63 QSPI_INT Interrupt */
     SHAW_INT_IRQn              = 48,  /* 64 SHAW_INT Interrupt */
     PKA_INT_IRQn               = 49,  /* 65 PKA_INT Interrupt */
-    UC7_INT_IRQn               = 50,  /* 66 UC7_INT Interrupt */
-    UC8_INT_IRQn               = 51,  /* 67 UC8_INT Interrupt */
-    UC9_INT_IRQn               = 52,  /* 68 UC9_INT Interrupt */
+  UC13_1_INT_IRQn              = 50,     /* 66 UC13_1_INT Interrupt */
+  UC13_2_INT_IRQn              = 51,     /* 67 UC13_2_INT Interrupt */
+  UC13_3_INT_IRQn              = 52,     /* 68 UC13_3_INT Interrupt */
 } IRQn_Type;
 
 #define NonMaskableInt_VECn        2  /* Non Maskable Interrupt */
@@ -152,14 +148,14 @@ typedef enum IRQn {
 #define TIMG4_1_INT_VECn           38 /* TIMG4_1_INT Interrupt */
 #define TIMG8_0_INT_VECn           39 /* TIMG8_0_INT Interrupt */
 #define TIMG12_0_INT_VECn          40 /* TIMG12_0_INT Interrupt */
-#define UC0_INT_VECn               41 /* UC0_INT Interrupt */
-#define UC1_INT_VECn               42 /* UC1_INT Interrupt */
+#define UC1_0_INT_VECn             41 /* UC1_0_INT Interrupt */
+#define UC1_1_INT_VECn             42 /* UC1_1_INT Interrupt */
 #define UC2_INT_VECn               43 /* UC2_INT Interrupt */
-#define UC3_INT_VECn               44 /* UC3_INT Interrupt */
-#define UC4_INT_VECn               45 /* UC4_INT Interrupt */
-#define UC5_INT_VECn               46 /* UC5_INT Interrupt */
-#define UC6_INT_VECn               47 /* UC6_INT Interrupt */
-#define UC10_INT_VECn              48 /* UC10_INT Interrupt */
+#define UC15_0_INT_VECn            44 /* UC15_0_INT Interrupt */
+#define UC15_1_INT_VECn            45 /* UC15_1_INT Interrupt */
+#define UC12_INT_VECn              46 /* UC12_INT Interrupt */
+#define UC13_0_INT_VECn            47 /* UC13_0_INT Interrupt */
+#define UC14_INT_VECn              48 /* UC14_INT Interrupt */
 #define CANFD1_INT_VECn            49 /* CANFD1_INT Interrupt */
 #define TIMA0_1_INT_VECn           50 /* TIMA0_1_INT Interrupt */
 #define TIMG4_2_INT_VECn           51 /* TIMG4_2_INT Interrupt */
@@ -177,9 +173,9 @@ typedef enum IRQn {
 #define QSPI_INT_VECn              63 /* QSPI_INT Interrupt */
 #define SHAW_INT_VECn              64 /* SHAW_INT Interrupt */
 #define PKA_INT_VECn               65 /* PKA_INT Interrupt */
-#define UC7_INT_VECn               66 /* UC7_INT Interrupt */
-#define UC8_INT_VECn               67 /* UC8_INT Interrupt */
-#define UC9_INT_VECn               68 /* UC9_INT Interrupt */
+#define UC13_1_INT_VECn            66 /* UC13_1_INT Interrupt */
+#define UC13_2_INT_VECn            67 /* UC13_2_INT Interrupt */
+#define UC13_3_INT_VECn            68 /* UC13_3_INT Interrupt */
 
 /******************************************************************************
  * Ignore unused variables                                                     *
@@ -228,7 +224,7 @@ typedef enum IRQn {
   @{
 */
 
-#include <ti/devices/msp/peripherals/hw_aesadvhp.h>
+#include <ti/devices/msp/peripherals/hw_aesadv.h>
 #include <ti/devices/msp/peripherals/hw_comp.h>
 #include <ti/devices/msp/peripherals/hw_crcp.h>
 #include <ti/devices/msp/peripherals/hw_dma.h>
@@ -303,50 +299,50 @@ typedef enum IRQn {
 #define QSPI_BASE                      (0x40032000U) /*!< Base address of module QSPI */
 #define SYSCTL_BASE                    (0x400AF000U) /*!< Base address of module SYSCTL */
 #define COMP0_BASE                     (0x400E0000U) /*!< Base address of module COMP0 */
-#define UC0_UART_BASE                  (0x40502000U) /*!< Base address of module UC0_UART */
-#define UC1_UART_BASE                  (0x40504000U) /*!< Base address of module UC1_UART */
-#define UC0_I2CC_BASE                  (0x40522000U) /*!< Base address of module UC0_I2CC */
-#define UC1_I2CC_BASE                  (0x40524000U) /*!< Base address of module UC1_I2CC */
-#define UC0_I2CT_BASE                  (0x40542000U) /*!< Base address of module UC0_I2CT */
-#define UC1_I2CT_BASE                  (0x40544000U) /*!< Base address of module UC1_I2CT */
-#define UC0_BASE                       (0x40582000U) /*!< Base address of module UC0 */
-#define UC1_BASE                       (0x40584000U) /*!< Base address of module UC1 */
+#define UC1_0_UART_BASE                (0x40502000U) /*!< Base address of module UC1_0_UART */
+#define UC1_1_UART_BASE                (0x40504000U) /*!< Base address of module UC1_1_UART */
+#define UC1_0_I2CC_BASE                (0x40522000U) /*!< Base address of module UC1_0_I2CC */
+#define UC1_1_I2CC_BASE                (0x40524000U) /*!< Base address of module UC1_1_I2CC */
+#define UC1_0_I2CT_BASE                (0x40542000U) /*!< Base address of module UC1_0_I2CT */
+#define UC1_1_I2CT_BASE                (0x40544000U) /*!< Base address of module UC1_1_I2CT */
+#define UC1_0_BASE                     (0x40582000U) /*!< Base address of module UC1_0 */
+#define UC1_1_BASE                     (0x40584000U) /*!< Base address of module UC1_1 */
 #define SPG0_BASE                      (0x4059F000U) /*!< Base address of module SPG0 */
-#define UC5_UART_BASE                  (0x40608000U) /*!< Base address of module UC5_UART */
-#define UC6_UART_BASE                  (0x4060A000U) /*!< Base address of module UC6_UART */
-#define UC3_I2CC_BASE                  (0x40624000U) /*!< Base address of module UC3_I2CC */
-#define UC4_I2CC_BASE                  (0x40626000U) /*!< Base address of module UC4_I2CC */
-#define UC6_I2CC_BASE                  (0x4062A000U) /*!< Base address of module UC6_I2CC */
-#define UC3_I2CT_BASE                  (0x40644000U) /*!< Base address of module UC3_I2CT */
-#define UC4_I2CT_BASE                  (0x40646000U) /*!< Base address of module UC4_I2CT */
-#define UC6_I2CT_BASE                  (0x4064A000U) /*!< Base address of module UC6_I2CT */
+#define UC12_UART_BASE                 (0x40608000U) /*!< Base address of module UC12_UART */
+#define UC13_0_UART_BASE               (0x4060A000U) /*!< Base address of module UC13_0_UART */
+#define UC15_0_I2CC_BASE               (0x40624000U) /*!< Base address of module UC15_0_I2CC */
+#define UC15_1_I2CC_BASE               (0x40626000U) /*!< Base address of module UC15_1_I2CC */
+#define UC13_0_I2CC_BASE               (0x4062A000U) /*!< Base address of module UC13_0_I2CC */
+#define UC15_0_I2CT_BASE               (0x40644000U) /*!< Base address of module UC15_0_I2CT */
+#define UC15_1_I2CT_BASE               (0x40646000U) /*!< Base address of module UC15_1_I2CT */
+#define UC13_0_I2CT_BASE               (0x4064A000U) /*!< Base address of module UC13_0_I2CT */
 #define UC2_SPI_BASE                   (0x40660000U) /*!< Base address of module UC2_SPI */
-#define UC6_SPI_BASE                   (0x4066A000U) /*!< Base address of module UC6_SPI */
+#define UC13_0_SPI_BASE                (0x4066A000U) /*!< Base address of module UC13_0_SPI */
 #define UC2_BASE                       (0x40680000U) /*!< Base address of module UC2 */
-#define UC3_BASE                       (0x40684000U) /*!< Base address of module UC3 */
-#define UC4_BASE                       (0x40686000U) /*!< Base address of module UC4 */
-#define UC5_BASE                       (0x40688000U) /*!< Base address of module UC5 */
-#define UC6_BASE                       (0x4068A000U) /*!< Base address of module UC6 */
+#define UC15_0_BASE                    (0x40684000U) /*!< Base address of module UC15_0 */
+#define UC15_1_BASE                    (0x40686000U) /*!< Base address of module UC15_1 */
+#define UC12_BASE                      (0x40688000U) /*!< Base address of module UC12 */
+#define UC13_0_BASE                    (0x4068A000U) /*!< Base address of module UC13_0 */
 #define SPG1_BASE                      (0x4069F000U) /*!< Base address of module SPG1 */
-#define UC7_UART_BASE                  (0x40700000U) /*!< Base address of module UC7_UART */
-#define UC8_UART_BASE                  (0x40702000U) /*!< Base address of module UC8_UART */
-#define UC9_UART_BASE                  (0x40704000U) /*!< Base address of module UC9_UART */
-#define UC10_UART_BASE                 (0x40706000U) /*!< Base address of module UC10_UART */
-#define UC7_I2CC_BASE                  (0x40720000U) /*!< Base address of module UC7_I2CC */
-#define UC8_I2CC_BASE                  (0x40722000U) /*!< Base address of module UC8_I2CC */
-#define UC9_I2CC_BASE                  (0x40724000U) /*!< Base address of module UC9_I2CC */
-#define UC10_I2CC_BASE                 (0x40726000U) /*!< Base address of module UC10_I2CC */
-#define UC7_I2CT_BASE                  (0x40740000U) /*!< Base address of module UC7_I2CT */
-#define UC8_I2CT_BASE                  (0x40742000U) /*!< Base address of module UC8_I2CT */
-#define UC9_I2CT_BASE                  (0x40744000U) /*!< Base address of module UC9_I2CT */
-#define UC10_I2CT_BASE                 (0x40746000U) /*!< Base address of module UC10_I2CT */
-#define UC7_SPI_BASE                   (0x40760000U) /*!< Base address of module UC7_SPI */
-#define UC8_SPI_BASE                   (0x40762000U) /*!< Base address of module UC8_SPI */
-#define UC9_SPI_BASE                   (0x40764000U) /*!< Base address of module UC9_SPI */
-#define UC7_BASE                       (0x40780000U) /*!< Base address of module UC7 */
-#define UC8_BASE                       (0x40782000U) /*!< Base address of module UC8 */
-#define UC9_BASE                       (0x40784000U) /*!< Base address of module UC9 */
-#define UC10_BASE                      (0x40786000U) /*!< Base address of module UC10 */
+#define UC13_1_UART_BASE               (0x40700000U) /*!< Base address of module UC13_1_UART */
+#define UC13_2_UART_BASE               (0x40702000U) /*!< Base address of module UC13_2_UART */
+#define UC13_3_UART_BASE               (0x40704000U) /*!< Base address of module UC13_3_UART */
+#define UC14_UART_BASE                 (0x40706000U) /*!< Base address of module UC14_UART */
+#define UC13_1_I2CC_BASE               (0x40720000U) /*!< Base address of module UC13_1_I2CC */
+#define UC13_2_I2CC_BASE               (0x40722000U) /*!< Base address of module UC13_2_I2CC */
+#define UC13_3_I2CC_BASE               (0x40724000U) /*!< Base address of module UC13_3_I2CC */
+#define UC14_I2CC_BASE                 (0x40726000U) /*!< Base address of module UC14_I2CC */
+#define UC13_1_I2CT_BASE               (0x40740000U) /*!< Base address of module UC13_1_I2CT */
+#define UC13_2_I2CT_BASE               (0x40742000U) /*!< Base address of module UC13_2_I2CT */
+#define UC13_3_I2CT_BASE               (0x40744000U) /*!< Base address of module UC13_3_I2CT */
+#define UC14_I2CT_BASE                 (0x40746000U) /*!< Base address of module UC14_I2CT */
+#define UC13_1_SPI_BASE                (0x40760000U) /*!< Base address of module UC13_1_SPI */
+#define UC13_2_SPI_BASE                (0x40762000U) /*!< Base address of module UC13_2_SPI */
+#define UC13_3_SPI_BASE                (0x40764000U) /*!< Base address of module UC13_3_SPI */
+#define UC13_1_BASE                    (0x40780000U) /*!< Base address of module UC13_1 */
+#define UC13_2_BASE                    (0x40782000U) /*!< Base address of module UC13_2 */
+#define UC13_3_BASE                    (0x40784000U) /*!< Base address of module UC13_3 */
+#define UC14_BASE                      (0x40786000U) /*!< Base address of module UC14 */
 #define SPG2_BASE                      (0x4079F000U) /*!< Base address of module SPG2 */
 #define GSC_BASE                       (0x50046000U) /*!< Base address of module GSC */
 #define FACTORYREGION_BASE             (0x80111000U) /*!< Base address of module FACTORYREGION */
@@ -382,18 +378,18 @@ typedef struct {
     bool                   const fixedMode;
 } UNICOMM_Inst_Regs;
 
-static const UNICOMM_Inst_Regs UC0_Inst = {
-    .inst      = (UNICOMM_Regs *) UC0_BASE,
-    .uart      = (UNICOMMUART_Regs *) UC0_UART_BASE,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC0_I2CC_BASE,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC0_I2CT_BASE,
+static const UNICOMM_Inst_Regs UC1_0_Inst = {
+    .inst      = (UNICOMM_Regs *) UC1_0_BASE,
+    .uart      = (UNICOMMUART_Regs *) UC1_0_UART_BASE,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC1_0_I2CC_BASE,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC1_0_I2CT_BASE,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC1_Inst = {
-    .inst      = (UNICOMM_Regs *) UC1_BASE,
-    .uart      = (UNICOMMUART_Regs *) UC1_UART_BASE,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC1_I2CC_BASE,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC1_I2CT_BASE,
+static const UNICOMM_Inst_Regs UC1_1_Inst = {
+    .inst      = (UNICOMM_Regs *) UC1_1_BASE,
+    .uart      = (UNICOMMUART_Regs *) UC1_1_UART_BASE,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC1_1_I2CC_BASE,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC1_1_I2CT_BASE,
     .fixedMode = false
 };
 static const UNICOMM_Inst_Regs UC2_Inst = {
@@ -401,60 +397,60 @@ static const UNICOMM_Inst_Regs UC2_Inst = {
     .spi       = (UNICOMMSPI_Regs *) UC2_SPI_BASE,
     .fixedMode = true
 };
-static const UNICOMM_Inst_Regs UC3_Inst = {
-    .inst      = (UNICOMM_Regs *) UC3_BASE,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC3_I2CC_BASE,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC3_I2CT_BASE,
+static const UNICOMM_Inst_Regs UC15_0_Inst = {
+    .inst      = (UNICOMM_Regs *) UC15_0_BASE,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC15_0_I2CC_BASE,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC15_0_I2CT_BASE,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC4_Inst = {
-    .inst      = (UNICOMM_Regs *) UC4_BASE,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC4_I2CC_BASE,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC4_I2CT_BASE,
+static const UNICOMM_Inst_Regs UC15_1_Inst = {
+    .inst      = (UNICOMM_Regs *) UC15_1_BASE,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC15_1_I2CC_BASE,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC15_1_I2CT_BASE,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC5_Inst = {
-    .inst      = (UNICOMM_Regs *) UC5_BASE,
-    .uart      = (UNICOMMUART_Regs *) UC5_UART_BASE,
+static const UNICOMM_Inst_Regs UC12_Inst = {
+    .inst      = (UNICOMM_Regs *) UC12_BASE,
+    .uart      = (UNICOMMUART_Regs *) UC12_UART_BASE,
     .fixedMode = true
 };
-static const UNICOMM_Inst_Regs UC6_Inst = {
-    .inst      = (UNICOMM_Regs *) UC6_BASE,
-    .uart      = (UNICOMMUART_Regs *) UC6_UART_BASE,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC6_I2CC_BASE,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC6_I2CT_BASE,
-    .spi       = (UNICOMMSPI_Regs *) UC6_SPI_BASE,
+static const UNICOMM_Inst_Regs UC13_0_Inst = {
+    .inst      = (UNICOMM_Regs *) UC13_0_BASE,
+    .uart      = (UNICOMMUART_Regs *) UC13_0_UART_BASE,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC13_0_I2CC_BASE,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC13_0_I2CT_BASE,
+    .spi       = (UNICOMMSPI_Regs *) UC13_0_SPI_BASE,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC7_Inst = {
-    .inst      = (UNICOMM_Regs *) UC7_BASE,
-    .uart      = (UNICOMMUART_Regs *) UC7_UART_BASE,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC7_I2CC_BASE,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC7_I2CT_BASE,
-    .spi       = (UNICOMMSPI_Regs *) UC7_SPI_BASE,
+static const UNICOMM_Inst_Regs UC13_1_Inst = {
+    .inst      = (UNICOMM_Regs *) UC13_1_BASE,
+    .uart      = (UNICOMMUART_Regs *) UC13_1_UART_BASE,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC13_1_I2CC_BASE,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC13_1_I2CT_BASE,
+    .spi       = (UNICOMMSPI_Regs *) UC13_1_SPI_BASE,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC8_Inst = {
-    .inst      = (UNICOMM_Regs *) UC8_BASE,
-    .uart      = (UNICOMMUART_Regs *) UC8_UART_BASE,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC8_I2CC_BASE,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC8_I2CT_BASE,
-    .spi       = (UNICOMMSPI_Regs *) UC8_SPI_BASE,
+static const UNICOMM_Inst_Regs UC13_2_Inst = {
+    .inst      = (UNICOMM_Regs *) UC13_2_BASE,
+    .uart      = (UNICOMMUART_Regs *) UC13_2_UART_BASE,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC13_2_I2CC_BASE,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC13_2_I2CT_BASE,
+    .spi       = (UNICOMMSPI_Regs *) UC13_2_SPI_BASE,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC9_Inst = {
-    .inst      = (UNICOMM_Regs *) UC9_BASE,
-    .uart      = (UNICOMMUART_Regs *) UC9_UART_BASE,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC9_I2CC_BASE,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC9_I2CT_BASE,
-    .spi       = (UNICOMMSPI_Regs *) UC9_SPI_BASE,
+static const UNICOMM_Inst_Regs UC13_3_Inst = {
+    .inst      = (UNICOMM_Regs *) UC13_3_BASE,
+    .uart      = (UNICOMMUART_Regs *) UC13_3_UART_BASE,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC13_3_I2CC_BASE,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC13_3_I2CT_BASE,
+    .spi       = (UNICOMMSPI_Regs *) UC13_3_SPI_BASE,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC10_Inst = {
-    .inst      = (UNICOMM_Regs *) UC10_BASE,
-    .uart      = (UNICOMMUART_Regs *) UC10_UART_BASE,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC10_I2CC_BASE,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC10_I2CT_BASE,
+static const UNICOMM_Inst_Regs UC14_Inst = {
+    .inst      = (UNICOMM_Regs *) UC14_BASE,
+    .uart      = (UNICOMMUART_Regs *) UC14_UART_BASE,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC14_I2CC_BASE,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC14_I2CT_BASE,
     .fixedMode = false
 };
 /******************************************************************************
@@ -494,50 +490,50 @@ static const UNICOMM_Inst_Regs UC10_Inst = {
 #define QSPI_BASE_S                      (0x50032000U) /*!< Base address of module QSPI */
 #define SYSCTL_BASE_S                    (0x500AF000U) /*!< Base address of module SYSCTL */
 #define COMP0_BASE_S                     (0x500E0000U) /*!< Base address of module COMP0 */
-#define UC0_UART_BASE_S                  (0x50502000U) /*!< Base address of module UC0_UART */
-#define UC1_UART_BASE_S                  (0x50504000U) /*!< Base address of module UC1_UART */
-#define UC0_I2CC_BASE_S                  (0x50522000U) /*!< Base address of module UC0_I2CC */
-#define UC1_I2CC_BASE_S                  (0x50524000U) /*!< Base address of module UC1_I2CC */
-#define UC0_I2CT_BASE_S                  (0x50542000U) /*!< Base address of module UC0_I2CT */
-#define UC1_I2CT_BASE_S                  (0x50544000U) /*!< Base address of module UC1_I2CT */
-#define UC0_BASE_S                       (0x50582000U) /*!< Base address of module UC0 */
-#define UC1_BASE_S                       (0x50584000U) /*!< Base address of module UC1 */
+#define UC1_0_UART_BASE_S                (0x50502000U) /*!< Base address of module UC1_0_UART */
+#define UC1_1_UART_BASE_S                (0x50504000U) /*!< Base address of module UC1_1_UART */
+#define UC1_0_I2CC_BASE_S                (0x50522000U) /*!< Base address of module UC1_0_I2CC */
+#define UC1_1_I2CC_BASE_S                (0x50524000U) /*!< Base address of module UC1_1_I2CC */
+#define UC1_0_I2CT_BASE_S                (0x50542000U) /*!< Base address of module UC1_0_I2CT */
+#define UC1_1_I2CT_BASE_S                (0x50544000U) /*!< Base address of module UC1_1_I2CT */
+#define UC1_0_BASE_S                     (0x50582000U) /*!< Base address of module UC1_0 */
+#define UC1_1_BASE_S                     (0x50584000U) /*!< Base address of module UC1_1 */
 #define SPG0_BASE_S                      (0x5059F000U) /*!< Base address of module SPG0 */
-#define UC5_UART_BASE_S                  (0x50608000U) /*!< Base address of module UC5_UART */
-#define UC6_UART_BASE_S                  (0x5060A000U) /*!< Base address of module UC6_UART */
-#define UC3_I2CC_BASE_S                  (0x50624000U) /*!< Base address of module UC3_I2CC */
-#define UC4_I2CC_BASE_S                  (0x50626000U) /*!< Base address of module UC4_I2CC */
-#define UC6_I2CC_BASE_S                  (0x5062A000U) /*!< Base address of module UC6_I2CC */
-#define UC3_I2CT_BASE_S                  (0x50644000U) /*!< Base address of module UC3_I2CT */
-#define UC4_I2CT_BASE_S                  (0x50646000U) /*!< Base address of module UC4_I2CT */
-#define UC6_I2CT_BASE_S                  (0x5064A000U) /*!< Base address of module UC6_I2CT */
+#define UC12_UART_BASE_S                 (0x50608000U) /*!< Base address of module UC12_UART */
+#define UC13_0_UART_BASE_S               (0x5060A000U) /*!< Base address of module UC13_0_UART */
+#define UC15_0_I2CC_BASE_S               (0x50624000U) /*!< Base address of module UC15_0_I2CC */
+#define UC15_1_I2CC_BASE_S               (0x50626000U) /*!< Base address of module UC15_1_I2CC */
+#define UC13_0_I2CC_BASE_S               (0x5062A000U) /*!< Base address of module UC13_0_I2CC */
+#define UC15_0_I2CT_BASE_S               (0x50644000U) /*!< Base address of module UC15_0_I2CT */
+#define UC15_1_I2CT_BASE_S               (0x50646000U) /*!< Base address of module UC15_1_I2CT */
+#define UC13_0_I2CT_BASE_S               (0x5064A000U) /*!< Base address of module UC13_0_I2CT */
 #define UC2_SPI_BASE_S                   (0x50660000U) /*!< Base address of module UC2_SPI */
-#define UC6_SPI_BASE_S                   (0x5066A000U) /*!< Base address of module UC6_SPI */
+#define UC13_0_SPI_BASE_S                (0x5066A000U) /*!< Base address of module UC13_0_SPI */
 #define UC2_BASE_S                       (0x50680000U) /*!< Base address of module UC2 */
-#define UC3_BASE_S                       (0x50684000U) /*!< Base address of module UC3 */
-#define UC4_BASE_S                       (0x50686000U) /*!< Base address of module UC4 */
-#define UC5_BASE_S                       (0x50688000U) /*!< Base address of module UC5 */
-#define UC6_BASE_S                       (0x5068A000U) /*!< Base address of module UC6 */
+#define UC15_0_BASE_S                    (0x50684000U) /*!< Base address of module UC15_0 */
+#define UC15_1_BASE_S                    (0x50686000U) /*!< Base address of module UC15_1 */
+#define UC12_BASE_S                      (0x50688000U) /*!< Base address of module UC12 */
+#define UC13_0_BASE_S                    (0x5068A000U) /*!< Base address of module UC13_0 */
 #define SPG1_BASE_S                      (0x5069F000U) /*!< Base address of module SPG1 */
-#define UC7_UART_BASE_S                  (0x50700000U) /*!< Base address of module UC7_UART */
-#define UC8_UART_BASE_S                  (0x50702000U) /*!< Base address of module UC8_UART */
-#define UC9_UART_BASE_S                  (0x50704000U) /*!< Base address of module UC9_UART */
-#define UC10_UART_BASE_S                 (0x50706000U) /*!< Base address of module UC10_UART */
-#define UC7_I2CC_BASE_S                  (0x50720000U) /*!< Base address of module UC7_I2CC */
-#define UC8_I2CC_BASE_S                  (0x50722000U) /*!< Base address of module UC8_I2CC */
-#define UC9_I2CC_BASE_S                  (0x50724000U) /*!< Base address of module UC9_I2CC */
-#define UC10_I2CC_BASE_S                 (0x50726000U) /*!< Base address of module UC10_I2CC */
-#define UC7_I2CT_BASE_S                  (0x50740000U) /*!< Base address of module UC7_I2CT */
-#define UC8_I2CT_BASE_S                  (0x50742000U) /*!< Base address of module UC8_I2CT */
-#define UC9_I2CT_BASE_S                  (0x50744000U) /*!< Base address of module UC9_I2CT */
-#define UC10_I2CT_BASE_S                 (0x50746000U) /*!< Base address of module UC10_I2CT */
-#define UC7_SPI_BASE_S                   (0x50760000U) /*!< Base address of module UC7_SPI */
-#define UC8_SPI_BASE_S                   (0x50762000U) /*!< Base address of module UC8_SPI */
-#define UC9_SPI_BASE_S                   (0x50764000U) /*!< Base address of module UC9_SPI */
-#define UC7_BASE_S                       (0x50780000U) /*!< Base address of module UC7 */
-#define UC8_BASE_S                       (0x50782000U) /*!< Base address of module UC8 */
-#define UC9_BASE_S                       (0x50784000U) /*!< Base address of module UC9 */
-#define UC10_BASE_S                      (0x50786000U) /*!< Base address of module UC10 */
+#define UC13_1_UART_BASE_S               (0x50700000U) /*!< Base address of module UC13_1_UART */
+#define UC13_2_UART_BASE_S               (0x50702000U) /*!< Base address of module UC13_2_UART */
+#define UC13_3_UART_BASE_S               (0x50704000U) /*!< Base address of module UC13_3_UART */
+#define UC14_UART_BASE_S                 (0x50706000U) /*!< Base address of module UC14_UART */
+#define UC13_1_I2CC_BASE_S               (0x50720000U) /*!< Base address of module UC13_1_I2CC */
+#define UC13_2_I2CC_BASE_S               (0x50722000U) /*!< Base address of module UC13_2_I2CC */
+#define UC13_3_I2CC_BASE_S               (0x50724000U) /*!< Base address of module UC13_3_I2CC */
+#define UC14_I2CC_BASE_S                 (0x50726000U) /*!< Base address of module UC14_I2CC */
+#define UC13_1_I2CT_BASE_S               (0x50740000U) /*!< Base address of module UC13_1_I2CT */
+#define UC13_2_I2CT_BASE_S               (0x50742000U) /*!< Base address of module UC13_2_I2CT */
+#define UC13_3_I2CT_BASE_S               (0x50744000U) /*!< Base address of module UC13_3_I2CT */
+#define UC14_I2CT_BASE_S                 (0x50746000U) /*!< Base address of module UC14_I2CT */
+#define UC13_1_SPI_BASE_S                (0x50760000U) /*!< Base address of module UC13_1_SPI */
+#define UC13_2_SPI_BASE_S                (0x50762000U) /*!< Base address of module UC13_2_SPI */
+#define UC13_3_SPI_BASE_S                (0x50764000U) /*!< Base address of module UC13_3_SPI */
+#define UC13_1_BASE_S                    (0x50780000U) /*!< Base address of module UC13_1 */
+#define UC13_2_BASE_S                    (0x50782000U) /*!< Base address of module UC13_2 */
+#define UC13_3_BASE_S                    (0x50784000U) /*!< Base address of module UC13_3 */
+#define UC14_BASE_S                      (0x50786000U) /*!< Base address of module UC14 */
 #define SPG2_BASE_S                      (0x5079F000U) /*!< Base address of module SPG2 */
 #define GSC_BASE_S                       (0x50046000U) /*!< Base address of module GSC */
 #define FACTORYREGION_BASE_S             (0x90111000U) /*!< Base address of module FACTORYREGION */
@@ -558,18 +554,18 @@ static const UNICOMM_Inst_Regs UC10_Inst = {
 #define SHAW_BASE_S                      (0x501B4000U) /*!< Base address of module SHAW */
 #define DFTSS_BASE_S                     (0x50034000U) /*!< Base address of module DFTSS */
 
-static const UNICOMM_Inst_Regs UC0_Inst_S = {
-    .inst      = (UNICOMM_Regs *) UC0_BASE_S,
-    .uart      = (UNICOMMUART_Regs *) UC0_UART_BASE_S,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC0_I2CC_BASE_S,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC0_I2CT_BASE_S,
+static const UNICOMM_Inst_Regs UC1_0_Inst_S = {
+    .inst      = (UNICOMM_Regs *) UC1_0_BASE_S,
+    .uart      = (UNICOMMUART_Regs *) UC1_0_UART_BASE_S,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC1_0_I2CC_BASE_S,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC1_0_I2CT_BASE_S,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC1_Inst_S = {
-    .inst      = (UNICOMM_Regs *) UC1_BASE_S,
-    .uart      = (UNICOMMUART_Regs *) UC1_UART_BASE_S,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC1_I2CC_BASE_S,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC1_I2CT_BASE_S,
+static const UNICOMM_Inst_Regs UC1_1_Inst_S = {
+    .inst      = (UNICOMM_Regs *) UC1_1_BASE_S,
+    .uart      = (UNICOMMUART_Regs *) UC1_1_UART_BASE_S,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC1_1_I2CC_BASE_S,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC1_1_I2CT_BASE_S,
     .fixedMode = false
 };
 static const UNICOMM_Inst_Regs UC2_Inst_S = {
@@ -577,64 +573,64 @@ static const UNICOMM_Inst_Regs UC2_Inst_S = {
     .spi       = (UNICOMMSPI_Regs *) UC2_SPI_BASE_S,
     .fixedMode = true
 };
-static const UNICOMM_Inst_Regs UC3_Inst_S = {
-    .inst      = (UNICOMM_Regs *) UC3_BASE_S,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC3_I2CC_BASE_S,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC3_I2CT_BASE_S,
+static const UNICOMM_Inst_Regs UC15_0_Inst_S = {
+    .inst      = (UNICOMM_Regs *) UC15_0_BASE_S,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC15_0_I2CC_BASE_S,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC15_0_I2CT_BASE_S,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC4_Inst_S = {
-    .inst      = (UNICOMM_Regs *) UC4_BASE_S,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC4_I2CC_BASE_S,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC4_I2CT_BASE_S,
+static const UNICOMM_Inst_Regs UC15_1_Inst_S = {
+    .inst      = (UNICOMM_Regs *) UC15_1_BASE_S,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC15_1_I2CC_BASE_S,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC15_1_I2CT_BASE_S,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC5_Inst_S = {
-    .inst      = (UNICOMM_Regs *) UC5_BASE_S,
-    .uart      = (UNICOMMUART_Regs *) UC5_UART_BASE_S,
+static const UNICOMM_Inst_Regs UC12_Inst_S = {
+    .inst      = (UNICOMM_Regs *) UC12_BASE_S,
+    .uart      = (UNICOMMUART_Regs *) UC12_UART_BASE_S,
     .fixedMode = true
 };
-static const UNICOMM_Inst_Regs UC6_Inst_S = {
-    .inst      = (UNICOMM_Regs *) UC6_BASE_S,
-    .uart      = (UNICOMMUART_Regs *) UC6_UART_BASE_S,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC6_I2CC_BASE_S,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC6_I2CT_BASE_S,
-    .spi       = (UNICOMMSPI_Regs *) UC6_SPI_BASE_S,
+static const UNICOMM_Inst_Regs UC13_0_Inst_S = {
+    .inst      = (UNICOMM_Regs *) UC13_0_BASE_S,
+    .uart      = (UNICOMMUART_Regs *) UC13_0_UART_BASE_S,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC13_0_I2CC_BASE_S,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC13_0_I2CT_BASE_S,
+    .spi       = (UNICOMMSPI_Regs *) UC13_0_SPI_BASE_S,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC7_Inst_S = {
-    .inst      = (UNICOMM_Regs *) UC7_BASE_S,
-    .uart      = (UNICOMMUART_Regs *) UC7_UART_BASE_S,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC7_I2CC_BASE_S,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC7_I2CT_BASE_S,
-    .spi       = (UNICOMMSPI_Regs *) UC7_SPI_BASE_S,
+static const UNICOMM_Inst_Regs UC13_1_Inst_S = {
+    .inst      = (UNICOMM_Regs *) UC13_1_BASE_S,
+    .uart      = (UNICOMMUART_Regs *) UC13_1_UART_BASE_S,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC13_1_I2CC_BASE_S,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC13_1_I2CT_BASE_S,
+    .spi       = (UNICOMMSPI_Regs *) UC13_1_SPI_BASE_S,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC8_Inst_S = {
-    .inst      = (UNICOMM_Regs *) UC8_BASE_S,
-    .uart      = (UNICOMMUART_Regs *) UC8_UART_BASE_S,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC8_I2CC_BASE_S,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC8_I2CT_BASE_S,
-    .spi       = (UNICOMMSPI_Regs *) UC8_SPI_BASE_S,
+static const UNICOMM_Inst_Regs UC13_2_Inst_S = {
+    .inst      = (UNICOMM_Regs *) UC13_2_BASE_S,
+    .uart      = (UNICOMMUART_Regs *) UC13_2_UART_BASE_S,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC13_2_I2CC_BASE_S,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC13_2_I2CT_BASE_S,
+    .spi       = (UNICOMMSPI_Regs *) UC13_2_SPI_BASE_S,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC9_Inst_S = {
-    .inst      = (UNICOMM_Regs *) UC9_BASE_S,
-    .uart      = (UNICOMMUART_Regs *) UC9_UART_BASE_S,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC9_I2CC_BASE_S,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC9_I2CT_BASE_S,
-    .spi       = (UNICOMMSPI_Regs *) UC9_SPI_BASE_S,
+static const UNICOMM_Inst_Regs UC13_3_Inst_S = {
+    .inst      = (UNICOMM_Regs *) UC13_3_BASE_S,
+    .uart      = (UNICOMMUART_Regs *) UC13_3_UART_BASE_S,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC13_3_I2CC_BASE_S,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC13_3_I2CT_BASE_S,
+    .spi       = (UNICOMMSPI_Regs *) UC13_3_SPI_BASE_S,
     .fixedMode = false
 };
-static const UNICOMM_Inst_Regs UC10_Inst_S = {
-    .inst      = (UNICOMM_Regs *) UC10_BASE_S,
-    .uart      = (UNICOMMUART_Regs *) UC10_UART_BASE_S,
-    .i2cc      = (UNICOMMI2CC_Regs *) UC10_I2CC_BASE_S,
-    .i2ct      = (UNICOMMI2CT_Regs *) UC10_I2CT_BASE_S,
+static const UNICOMM_Inst_Regs UC14_Inst_S = {
+    .inst      = (UNICOMM_Regs *) UC14_BASE_S,
+    .uart      = (UNICOMMUART_Regs *) UC14_UART_BASE_S,
+    .i2cc      = (UNICOMMI2CC_Regs *) UC14_I2CC_BASE_S,
+    .i2ct      = (UNICOMMI2CT_Regs *) UC14_I2CT_BASE_S,
     .fixedMode = false
 };
-#define __MSP_HAS_ADC12__
-#define __MSP_HAS_AESADVHP__
+// #define __MSP_HAS_AESADVHP__
+#define __MSP_HAS_AESADV__
 #define __MSP_HAS_COMP__
 #define __MSP_HAS_CRCP__
 #define __MSP_HAS_GPIO__
@@ -655,7 +651,7 @@ static const UNICOMM_Inst_Regs UC10_Inst_S = {
 #define __MSP_HAS_RTC_B__
 #define __MSP_HAS_SCRATCHPAD__
 #define __MSP_HAS_QSPI__
-#define __MSP_HAS_I2S
+#define __MSP_HAS_I2S__
 #define __MSP_HAS_HSADC__
 
 #define __MCU_HAS_SPGSS__
@@ -682,7 +678,7 @@ static GPIO_Regs                                      *const GPIOA              
 static GPIO_Regs                                      *const GPIOB                                       = ((GPIO_Regs *)GPIOB_BASE); 
 static GPIO_Regs                                      *const GPIOC                                       = ((GPIO_Regs *)GPIOC_BASE); 
 static DEBUGSS_Regs                                   *const DEBUGSS                                     = ((DEBUGSS_Regs *)DEBUGSS_BASE); 
-static AESADVHP_Regs                                  *const AESADV                                      = ((AESADVHP_Regs *)AESADV_BASE); 
+static AESADV_Regs                                  *const AESADV                                      = ((AESADV_Regs *)AESADV_BASE); 
 static WUC_Regs                                       *const WUC                                         = ((WUC_Regs *)WUC_BASE); 
 static KEYSTORECTL_Regs                               *const KEYSTORECTL                                 = ((KEYSTORECTL_Regs *)KEYSTORECTL_BASE); 
 static I2S_Regs                                       *const I2S0                                        = ((I2S_Regs *)I2S0_BASE); 
@@ -721,51 +717,51 @@ static COMP_Regs                                      *const COMP1              
 static RTC_Regs                                       *const RTC                                         = ((RTC_Regs *)RTC_BASE); 
 static RTC_Regs                                       *const RTC_A                                       = ((RTC_Regs *)RTC_A_BASE); 
 static RTC_Regs                                       *const RTC_B                                       = ((RTC_Regs *)RTC_B_BASE); 
-static UNICOMMUART_Regs                               * const UC0_UART                                   = ((UNICOMMUART_Regs *) UC0_UART_BASE);
-static UNICOMMUART_Regs                               * const UC1_UART                                   = ((UNICOMMUART_Regs *) UC1_UART_BASE);
-static UNICOMMI2CC_Regs                               * const UC0_I2CC                                   = ((UNICOMMI2CC_Regs *) UC0_I2CC_BASE);
-static UNICOMMI2CC_Regs                               * const UC1_I2CC                                   = ((UNICOMMI2CC_Regs *) UC1_I2CC_BASE);
-static UNICOMMI2CT_Regs                               * const UC0_I2CT                                   = ((UNICOMMI2CT_Regs *) UC0_I2CT_BASE);
-static UNICOMMI2CT_Regs                               * const UC1_I2CT                                   = ((UNICOMMI2CT_Regs *) UC1_I2CT_BASE);
-static UNICOMM_Inst_Regs                              * const UC0                                        = ((UNICOMM_Inst_Regs *) &UC0_Inst);
-static UNICOMM_Inst_Regs                              * const UC1                                        = ((UNICOMM_Inst_Regs *) &UC1_Inst);
-static SPGSS_Regs                                     * const SPG0                                       = ((SPGSS_Regs *) SPG0_BASE);
-static UNICOMMUART_Regs                               * const UC5_UART                                   = ((UNICOMMUART_Regs *) UC5_UART_BASE);
-static UNICOMMUART_Regs                               * const UC6_UART                                   = ((UNICOMMUART_Regs *) UC6_UART_BASE);
-static UNICOMMI2CC_Regs                               * const UC3_I2CC                                   = ((UNICOMMI2CC_Regs *) UC3_I2CC_BASE);
-static UNICOMMI2CC_Regs                               * const UC4_I2CC                                   = ((UNICOMMI2CC_Regs *) UC4_I2CC_BASE);
-static UNICOMMI2CC_Regs                               * const UC6_I2CC                                   = ((UNICOMMI2CC_Regs *) UC6_I2CC_BASE);
-static UNICOMMI2CT_Regs                               * const UC3_I2CT                                   = ((UNICOMMI2CT_Regs *) UC3_I2CT_BASE);
-static UNICOMMI2CT_Regs                               * const UC4_I2CT                                   = ((UNICOMMI2CT_Regs *) UC4_I2CT_BASE);
-static UNICOMMI2CT_Regs                               * const UC6_I2CT                                   = ((UNICOMMI2CT_Regs *) UC6_I2CT_BASE);
-static UNICOMMSPI_Regs                                * const UC2_SPI                                    = ((UNICOMMSPI_Regs *) UC2_SPI_BASE);
-static UNICOMMSPI_Regs                                * const UC6_SPI                                    = ((UNICOMMSPI_Regs *) UC6_SPI_BASE);
-static UNICOMM_Inst_Regs                              * const UC2                                        = ((UNICOMM_Inst_Regs *) &UC2_Inst);
-static UNICOMM_Inst_Regs                              * const UC3                                        = ((UNICOMM_Inst_Regs *) &UC3_Inst);
-static UNICOMM_Inst_Regs                              * const UC4                                        = ((UNICOMM_Inst_Regs *) &UC4_Inst);
-static UNICOMM_Inst_Regs                              * const UC5                                        = ((UNICOMM_Inst_Regs *) &UC5_Inst);
-static UNICOMM_Inst_Regs                              * const UC6                                        = ((UNICOMM_Inst_Regs *) &UC6_Inst);
-static SPGSS_Regs                                     * const SPG1                                       = ((SPGSS_Regs *) SPG1_BASE);
-static UNICOMMUART_Regs                               * const UC7_UART                                   = ((UNICOMMUART_Regs *) UC7_UART_BASE);
-static UNICOMMUART_Regs                               * const UC8_UART                                   = ((UNICOMMUART_Regs *) UC8_UART_BASE);
-static UNICOMMUART_Regs                               * const UC9_UART                                   = ((UNICOMMUART_Regs *) UC9_UART_BASE);
-static UNICOMMUART_Regs                               * const UC10_UART                                  = ((UNICOMMUART_Regs *) UC10_UART_BASE);
-static UNICOMMI2CC_Regs                               * const UC7_I2CC                                   = ((UNICOMMI2CC_Regs *) UC7_I2CC_BASE);
-static UNICOMMI2CC_Regs                               * const UC8_I2CC                                   = ((UNICOMMI2CC_Regs *) UC8_I2CC_BASE);
-static UNICOMMI2CC_Regs                               * const UC9_I2CC                                   = ((UNICOMMI2CC_Regs *) UC9_I2CC_BASE);
-static UNICOMMI2CC_Regs                               * const UC10_I2CC                                  = ((UNICOMMI2CC_Regs *) UC10_I2CC_BASE);
-static UNICOMMI2CT_Regs                               * const UC7_I2CT                                   = ((UNICOMMI2CT_Regs *) UC7_I2CT_BASE);
-static UNICOMMI2CT_Regs                               * const UC8_I2CT                                   = ((UNICOMMI2CT_Regs *) UC8_I2CT_BASE);
-static UNICOMMI2CT_Regs                               * const UC9_I2CT                                   = ((UNICOMMI2CT_Regs *) UC9_I2CT_BASE);
-static UNICOMMI2CT_Regs                               * const UC10_I2CT                                  = ((UNICOMMI2CT_Regs *) UC10_I2CT_BASE);
-static UNICOMMSPI_Regs                                * const UC7_SPI                                    = ((UNICOMMSPI_Regs *) UC7_SPI_BASE);
-static UNICOMMSPI_Regs                                * const UC8_SPI                                    = ((UNICOMMSPI_Regs *) UC8_SPI_BASE);
-static UNICOMMSPI_Regs                                * const UC9_SPI                                    = ((UNICOMMSPI_Regs *) UC9_SPI_BASE);
-static UNICOMM_Inst_Regs                              * const UC7                                        = ((UNICOMM_Inst_Regs *) &UC7_Inst);
-static UNICOMM_Inst_Regs                              * const UC8                                        = ((UNICOMM_Inst_Regs *) &UC8_Inst);
-static UNICOMM_Inst_Regs                              * const UC9                                        = ((UNICOMM_Inst_Regs *) &UC9_Inst);
-static UNICOMM_Inst_Regs                              * const UC10                                       = ((UNICOMM_Inst_Regs *) &UC10_Inst);
-static SPGSS_Regs                                     * const SPG2                                       = ((SPGSS_Regs *) SPG2_BASE);
+static UNICOMMUART_Regs                               *const UC1_0_UART                                  = ((UNICOMMUART_Regs *) UC1_0_UART_BASE);
+static UNICOMMUART_Regs                               *const UC1_1_UART                                  = ((UNICOMMUART_Regs *) UC1_1_UART_BASE);
+static UNICOMMI2CC_Regs                               *const UC1_0_I2CC                                  = ((UNICOMMI2CC_Regs *) UC1_0_I2CC_BASE);
+static UNICOMMI2CC_Regs                               *const UC1_1_I2CC                                  = ((UNICOMMI2CC_Regs *) UC1_1_I2CC_BASE);
+static UNICOMMI2CT_Regs                               *const UC1_0_I2CT                                  = ((UNICOMMI2CT_Regs *) UC1_0_I2CT_BASE);
+static UNICOMMI2CT_Regs                               *const UC1_1_I2CT                                  = ((UNICOMMI2CT_Regs *) UC1_1_I2CT_BASE);
+static UNICOMM_Inst_Regs                              *const UC1_0                                       = ((UNICOMM_Inst_Regs *) &UC1_0_Inst);
+static UNICOMM_Inst_Regs                              *const UC1_1                                       = ((UNICOMM_Inst_Regs *) &UC1_1_Inst);
+static SPGSS_Regs                                     *const SPG0                                        = ((SPGSS_Regs *) SPG0_BASE);
+static UNICOMMUART_Regs                               *const UC12_UART                                   = ((UNICOMMUART_Regs *) UC12_UART_BASE);
+static UNICOMMUART_Regs                               *const UC13_0_UART                                 = ((UNICOMMUART_Regs *) UC13_0_UART_BASE);
+static UNICOMMI2CC_Regs                               *const UC15_0_I2CC                                 = ((UNICOMMI2CC_Regs *) UC15_0_I2CC_BASE);
+static UNICOMMI2CC_Regs                               *const UC15_1_I2CC                                 = ((UNICOMMI2CC_Regs *) UC15_1_I2CC_BASE);
+static UNICOMMI2CC_Regs                               *const UC13_0_I2CC                                 = ((UNICOMMI2CC_Regs *) UC13_0_I2CC_BASE);
+static UNICOMMI2CT_Regs                               *const UC15_0_I2CT                                 = ((UNICOMMI2CT_Regs *) UC15_0_I2CT_BASE);
+static UNICOMMI2CT_Regs                               *const UC15_1_I2CT                                 = ((UNICOMMI2CT_Regs *) UC15_1_I2CT_BASE);
+static UNICOMMI2CT_Regs                               *const UC13_0_I2CT                                 = ((UNICOMMI2CT_Regs *) UC13_0_I2CT_BASE);
+static UNICOMMSPI_Regs                                *const UC2_SPI                                     = ((UNICOMMSPI_Regs *) UC2_SPI_BASE);
+static UNICOMMSPI_Regs                                *const UC13_0_SPI                                  = ((UNICOMMSPI_Regs *) UC13_0_SPI_BASE);
+static UNICOMM_Inst_Regs                              *const UC2                                         = ((UNICOMM_Inst_Regs *) &UC2_Inst);
+static UNICOMM_Inst_Regs                              *const UC15_0                                      = ((UNICOMM_Inst_Regs *) &UC15_0_Inst);
+static UNICOMM_Inst_Regs                              *const UC15_1                                      = ((UNICOMM_Inst_Regs *) &UC15_1_Inst);
+static UNICOMM_Inst_Regs                              *const UC12                                        = ((UNICOMM_Inst_Regs *) &UC12_Inst);
+static UNICOMM_Inst_Regs                              *const UC13_0                                      = ((UNICOMM_Inst_Regs *) &UC13_0_Inst);
+static SPGSS_Regs                                     *const SPG1                                        = ((SPGSS_Regs *) SPG1_BASE);
+static UNICOMMUART_Regs                               *const UC13_1_UART                                 = ((UNICOMMUART_Regs *) UC13_1_UART_BASE);
+static UNICOMMUART_Regs                               *const UC13_2_UART                                 = ((UNICOMMUART_Regs *) UC13_2_UART_BASE);
+static UNICOMMUART_Regs                               *const UC13_3_UART                                 = ((UNICOMMUART_Regs *) UC13_3_UART_BASE);
+static UNICOMMUART_Regs                               *const UC14_UART                                   = ((UNICOMMUART_Regs *) UC14_UART_BASE);
+static UNICOMMI2CC_Regs                               *const UC13_1_I2CC                                 = ((UNICOMMI2CC_Regs *) UC13_1_I2CC_BASE);
+static UNICOMMI2CC_Regs                               *const UC13_2_I2CC                                 = ((UNICOMMI2CC_Regs *) UC13_2_I2CC_BASE);
+static UNICOMMI2CC_Regs                               *const UC13_3_I2CC                                 = ((UNICOMMI2CC_Regs *) UC13_3_I2CC_BASE);
+static UNICOMMI2CC_Regs                               *const UC14_I2CC                                   = ((UNICOMMI2CC_Regs *) UC14_I2CC_BASE);
+static UNICOMMI2CT_Regs                               *const UC13_1_I2CT                                 = ((UNICOMMI2CT_Regs *) UC13_1_I2CT_BASE);
+static UNICOMMI2CT_Regs                               *const UC13_2_I2CT                                 = ((UNICOMMI2CT_Regs *) UC13_2_I2CT_BASE);
+static UNICOMMI2CT_Regs                               *const UC13_3_I2CT                                 = ((UNICOMMI2CT_Regs *) UC13_3_I2CT_BASE);
+static UNICOMMI2CT_Regs                               *const UC14_I2CT                                   = ((UNICOMMI2CT_Regs *) UC14_I2CT_BASE);
+static UNICOMMSPI_Regs                                *const UC13_1_SPI                                  = ((UNICOMMSPI_Regs *) UC13_1_SPI_BASE);
+static UNICOMMSPI_Regs                                *const UC13_2_SPI                                  = ((UNICOMMSPI_Regs *) UC13_2_SPI_BASE);
+static UNICOMMSPI_Regs                                *const UC13_3_SPI                                  = ((UNICOMMSPI_Regs *) UC13_3_SPI_BASE);
+static UNICOMM_Inst_Regs                              *const UC13_1                                      = ((UNICOMM_Inst_Regs *) &UC13_1_Inst);
+static UNICOMM_Inst_Regs                              *const UC13_2                                      = ((UNICOMM_Inst_Regs *) &UC13_2_Inst);
+static UNICOMM_Inst_Regs                              *const UC13_3                                      = ((UNICOMM_Inst_Regs *) &UC13_3_Inst);
+static UNICOMM_Inst_Regs                              *const UC14                                        = ((UNICOMM_Inst_Regs *) &UC14_Inst);
+static SPGSS_Regs                                     *const SPG2                                        = ((SPGSS_Regs *) SPG2_BASE);
 static TRNG_Regs                                      *const TRNG_S                                      = ((TRNG_Regs *)TRNG_BASE_S); 
 static WWDT_Regs                                      *const WWDT0_S                                     = ((WWDT_Regs *)WWDT0_BASE_S); 
 static CRCP_Regs                                      *const CRCP0_S                                     = ((CRCP_Regs *)CRCP0_BASE_S); 
@@ -774,11 +770,11 @@ static GPIO_Regs                                      *const GPIOA_S            
 static GPIO_Regs                                      *const GPIOB_S                                     = ((GPIO_Regs *)GPIOB_BASE_S); 
 static GPIO_Regs                                      *const GPIOC_S                                     = ((GPIO_Regs *)GPIOC_BASE_S); 
 static DEBUGSS_Regs                                   *const DEBUGSS_S                                   = ((DEBUGSS_Regs *)DEBUGSS_BASE_S); 
-static AESADVHP_Regs                                  *const AESADV_S                                    = ((AESADVHP_Regs *)AESADV_BASE_S); 
+static AESADV_Regs                                  *const AESADV_S                                    = ((AESADV_Regs *)AESADV_BASE_S); 
 static WUC_Regs                                       *const WUC_S                                       = ((WUC_Regs *)WUC_BASE_S); 
 static KEYSTORECTL_Regs                               *const KEYSTORECTL_S                               = ((KEYSTORECTL_Regs *)KEYSTORECTL_BASE_S); 
-//static I2S_Regs                                     *const I2S0_S                                      = ((I2S_Regs *) I2S0_BASE_S);
-//static I2S_Regs                                     *const I2S1_S                                      = ((I2S_Regs *) I2S1_BASE_S);
+static I2S_Regs                                       *const I2S0_S                                      = ((I2S_Regs *) I2S0_BASE_S);
+static I2S_Regs                                       *const I2S1_S                                      = ((I2S_Regs *) I2S1_BASE_S);
 static GPTIMER_Regs                                   *const TIMA0_1_S                                   = ((GPTIMER_Regs *)TIMA0_1_BASE_S); 
 static GPTIMER_Regs                                   *const TIMA0_0_S                                   = ((GPTIMER_Regs *)TIMA0_0_BASE_S); 
 static GPTIMER_Regs                                   *const TIMG4_0_S                                   = ((GPTIMER_Regs *)TIMG4_0_BASE_S); 
@@ -813,51 +809,51 @@ static COMP_Regs                                      *const COMP1_S            
 static RTC_Regs                                       *const RTC_S                                       = ((RTC_Regs *)RTC_BASE_S); 
 static RTC_Regs                                       *const RTC_A_S                                     = ((RTC_Regs *)RTC_A_BASE_S); 
 static RTC_Regs                                       *const RTC_B_S                                     = ((RTC_Regs *)RTC_B_BASE_S); 
-static UNICOMMUART_Regs                               * const UC0_UART_S                                   = ((UNICOMMUART_Regs *) UC0_UART_BASE_S);
-static UNICOMMUART_Regs                               * const UC1_UART_S                                   = ((UNICOMMUART_Regs *) UC1_UART_BASE_S);
-static UNICOMMI2CC_Regs                               * const UC0_I2CC_S                                   = ((UNICOMMI2CC_Regs *) UC0_I2CC_BASE_S);
-static UNICOMMI2CC_Regs                               * const UC1_I2CC_S                                   = ((UNICOMMI2CC_Regs *) UC1_I2CC_BASE_S);
-static UNICOMMI2CT_Regs                               * const UC0_I2CT_S                                   = ((UNICOMMI2CT_Regs *) UC0_I2CT_BASE_S);
-static UNICOMMI2CT_Regs                               * const UC1_I2CT_S                                   = ((UNICOMMI2CT_Regs *) UC1_I2CT_BASE_S);
-static UNICOMM_Inst_Regs                              * const UC0_S                                        = ((UNICOMM_Inst_Regs *) &UC0_Inst_S);
-static UNICOMM_Inst_Regs                              * const UC1_S                                        = ((UNICOMM_Inst_Regs *) &UC1_Inst_S);
-static SPGSS_Regs                                     * const SPG0_S                                       = ((SPGSS_Regs *) SPG0_BASE_S);
-static UNICOMMUART_Regs                               * const UC5_UART_S                                   = ((UNICOMMUART_Regs *) UC5_UART_BASE_S);
-static UNICOMMUART_Regs                               * const UC6_UART_S                                   = ((UNICOMMUART_Regs *) UC6_UART_BASE_S);
-static UNICOMMI2CC_Regs                               * const UC3_I2CC_S                                   = ((UNICOMMI2CC_Regs *) UC3_I2CC_BASE_S);
-static UNICOMMI2CC_Regs                               * const UC4_I2CC_S                                   = ((UNICOMMI2CC_Regs *) UC4_I2CC_BASE_S);
-static UNICOMMI2CC_Regs                               * const UC6_I2CC_S                                   = ((UNICOMMI2CC_Regs *) UC6_I2CC_BASE_S);
-static UNICOMMI2CT_Regs                               * const UC3_I2CT_S                                   = ((UNICOMMI2CT_Regs *) UC3_I2CT_BASE_S);
-static UNICOMMI2CT_Regs                               * const UC4_I2CT_S                                   = ((UNICOMMI2CT_Regs *) UC4_I2CT_BASE_S);
-static UNICOMMI2CT_Regs                               * const UC6_I2CT_S                                   = ((UNICOMMI2CT_Regs *) UC6_I2CT_BASE_S);
-static UNICOMMSPI_Regs                                * const UC2_SPI_S                                    = ((UNICOMMSPI_Regs *) UC2_SPI_BASE_S);
-static UNICOMMSPI_Regs                                * const UC6_SPI_S                                    = ((UNICOMMSPI_Regs *) UC6_SPI_BASE_S);
-static UNICOMM_Inst_Regs                              * const UC2_S                                        = ((UNICOMM_Inst_Regs *) &UC2_Inst_S);
-static UNICOMM_Inst_Regs                              * const UC3_S                                        = ((UNICOMM_Inst_Regs *) &UC3_Inst_S);
-static UNICOMM_Inst_Regs                              * const UC4_S                                        = ((UNICOMM_Inst_Regs *) &UC4_Inst_S);
-static UNICOMM_Inst_Regs                              * const UC5_S                                        = ((UNICOMM_Inst_Regs *) &UC5_Inst_S);
-static UNICOMM_Inst_Regs                              * const UC6_S                                        = ((UNICOMM_Inst_Regs *) &UC6_Inst_S);
-static SPGSS_Regs                                     * const SPG1_S                                       = ((SPGSS_Regs *) SPG1_BASE_S);
-static UNICOMMUART_Regs                               * const UC7_UART_S                                   = ((UNICOMMUART_Regs *) UC7_UART_BASE_S);
-static UNICOMMUART_Regs                               * const UC8_UART_S                                   = ((UNICOMMUART_Regs *) UC8_UART_BASE_S);
-static UNICOMMUART_Regs                               * const UC9_UART_S                                   = ((UNICOMMUART_Regs *) UC9_UART_BASE_S);
-static UNICOMMUART_Regs                               * const UC10_UART_S                                  = ((UNICOMMUART_Regs *) UC10_UART_BASE_S);
-static UNICOMMI2CC_Regs                               * const UC7_I2CC_S                                   = ((UNICOMMI2CC_Regs *) UC7_I2CC_BASE_S);
-static UNICOMMI2CC_Regs                               * const UC8_I2CC_S                                   = ((UNICOMMI2CC_Regs *) UC8_I2CC_BASE_S);
-static UNICOMMI2CC_Regs                               * const UC9_I2CC_S                                   = ((UNICOMMI2CC_Regs *) UC9_I2CC_BASE_S);
-static UNICOMMI2CC_Regs                               * const UC10_I2CC_S                                  = ((UNICOMMI2CC_Regs *) UC10_I2CC_BASE_S);
-static UNICOMMI2CT_Regs                               * const UC7_I2CT_S                                   = ((UNICOMMI2CT_Regs *) UC7_I2CT_BASE_S);
-static UNICOMMI2CT_Regs                               * const UC8_I2CT_S                                   = ((UNICOMMI2CT_Regs *) UC8_I2CT_BASE_S);
-static UNICOMMI2CT_Regs                               * const UC9_I2CT_S                                   = ((UNICOMMI2CT_Regs *) UC9_I2CT_BASE_S);
-static UNICOMMI2CT_Regs                               * const UC10_I2CT_S                                  = ((UNICOMMI2CT_Regs *) UC10_I2CT_BASE_S);
-static UNICOMMSPI_Regs                                * const UC7_SPI_S                                    = ((UNICOMMSPI_Regs *) UC7_SPI_BASE_S);
-static UNICOMMSPI_Regs                                * const UC8_SPI_S                                    = ((UNICOMMSPI_Regs *) UC8_SPI_BASE_S);
-static UNICOMMSPI_Regs                                * const UC9_SPI_S                                    = ((UNICOMMSPI_Regs *) UC9_SPI_BASE_S);
-static UNICOMM_Inst_Regs                              * const UC7_S                                        = ((UNICOMM_Inst_Regs *) &UC7_Inst_S);
-static UNICOMM_Inst_Regs                              * const UC8_S                                        = ((UNICOMM_Inst_Regs *) &UC8_Inst_S);
-static UNICOMM_Inst_Regs                              * const UC9_S                                        = ((UNICOMM_Inst_Regs *) &UC9_Inst_S);
-static UNICOMM_Inst_Regs                              * const UC10_S                                       = ((UNICOMM_Inst_Regs *) &UC10_Inst_S);
-static SPGSS_Regs                                     * const SPG2_S                                       = ((SPGSS_Regs *) SPG2_BASE_S);
+static UNICOMMUART_Regs                               *const UC1_0_UART_S                                = ((UNICOMMUART_Regs *) UC1_0_UART_BASE_S);
+static UNICOMMUART_Regs                               *const UC1_1_UART_S                                = ((UNICOMMUART_Regs *) UC1_1_UART_BASE_S);
+static UNICOMMI2CC_Regs                               *const UC1_0_I2CC_S                                = ((UNICOMMI2CC_Regs *) UC1_0_I2CC_BASE_S);
+static UNICOMMI2CC_Regs                               *const UC1_1_I2CC_S                                = ((UNICOMMI2CC_Regs *) UC1_1_I2CC_BASE_S);
+static UNICOMMI2CT_Regs                               *const UC1_0_I2CT_S                                = ((UNICOMMI2CT_Regs *) UC1_0_I2CT_BASE_S);
+static UNICOMMI2CT_Regs                               *const UC1_1_I2CT_S                                = ((UNICOMMI2CT_Regs *) UC1_1_I2CT_BASE_S);
+static UNICOMM_Inst_Regs                              *const UC1_0_S                                     = ((UNICOMM_Inst_Regs *) &UC1_0_Inst_S);
+static UNICOMM_Inst_Regs                              *const UC1_1_S                                     = ((UNICOMM_Inst_Regs *) &UC1_1_Inst_S);
+static SPGSS_Regs                                     *const SPG0_S                                      = ((SPGSS_Regs *) SPG0_BASE_S);
+static UNICOMMUART_Regs                               *const UC12_UART_S                                 = ((UNICOMMUART_Regs *) UC12_UART_BASE_S);
+static UNICOMMUART_Regs                               *const UC13_0_UART_S                               = ((UNICOMMUART_Regs *) UC13_0_UART_BASE_S);
+static UNICOMMI2CC_Regs                               *const UC15_0_I2CC_S                               = ((UNICOMMI2CC_Regs *) UC15_0_I2CC_BASE_S);
+static UNICOMMI2CC_Regs                               *const UC15_1_I2CC_S                               = ((UNICOMMI2CC_Regs *) UC15_1_I2CC_BASE_S);
+static UNICOMMI2CC_Regs                               *const UC13_0_I2CC_S                               = ((UNICOMMI2CC_Regs *) UC13_0_I2CC_BASE_S);
+static UNICOMMI2CT_Regs                               *const UC15_0_I2CT_S                               = ((UNICOMMI2CT_Regs *) UC15_0_I2CT_BASE_S);
+static UNICOMMI2CT_Regs                               *const UC15_1_I2CT_S                               = ((UNICOMMI2CT_Regs *) UC15_1_I2CT_BASE_S);
+static UNICOMMI2CT_Regs                               *const UC13_0_I2CT_S                               = ((UNICOMMI2CT_Regs *) UC13_0_I2CT_BASE_S);
+static UNICOMMSPI_Regs                                *const UC2_SPI_S                                   = ((UNICOMMSPI_Regs *) UC2_SPI_BASE_S);
+static UNICOMMSPI_Regs                                *const UC13_0_SPI_S                                = ((UNICOMMSPI_Regs *) UC13_0_SPI_BASE_S);
+static UNICOMM_Inst_Regs                              *const UC2_S                                       = ((UNICOMM_Inst_Regs *) &UC2_Inst_S);
+static UNICOMM_Inst_Regs                              *const UC15_0_S                                    = ((UNICOMM_Inst_Regs *) &UC15_0_Inst_S);
+static UNICOMM_Inst_Regs                              *const UC15_1_S                                    = ((UNICOMM_Inst_Regs *) &UC15_1_Inst_S);
+static UNICOMM_Inst_Regs                              *const UC12_S                                      = ((UNICOMM_Inst_Regs *) &UC12_Inst_S);
+static UNICOMM_Inst_Regs                              *const UC13_0_S                                    = ((UNICOMM_Inst_Regs *) &UC13_0_Inst_S);
+static SPGSS_Regs                                     *const SPG1_S                                      = ((SPGSS_Regs *) SPG1_BASE_S);
+static UNICOMMUART_Regs                               *const UC13_1_UART_S                               = ((UNICOMMUART_Regs *) UC13_1_UART_BASE_S);
+static UNICOMMUART_Regs                               *const UC13_2_UART_S                               = ((UNICOMMUART_Regs *) UC13_2_UART_BASE_S);
+static UNICOMMUART_Regs                               *const UC13_3_UART_S                               = ((UNICOMMUART_Regs *) UC13_3_UART_BASE_S);
+static UNICOMMUART_Regs                               *const UC14_UART_S                                 = ((UNICOMMUART_Regs *) UC14_UART_BASE_S);
+static UNICOMMI2CC_Regs                               *const UC13_1_I2CC_S                               = ((UNICOMMI2CC_Regs *) UC13_1_I2CC_BASE_S);
+static UNICOMMI2CC_Regs                               *const UC13_2_I2CC_S                               = ((UNICOMMI2CC_Regs *) UC13_2_I2CC_BASE_S);
+static UNICOMMI2CC_Regs                               *const UC13_3_I2CC_S                               = ((UNICOMMI2CC_Regs *) UC13_3_I2CC_BASE_S);
+static UNICOMMI2CC_Regs                               *const UC14_I2CC_S                                 = ((UNICOMMI2CC_Regs *) UC14_I2CC_BASE_S);
+static UNICOMMI2CT_Regs                               *const UC13_1_I2CT_S                               = ((UNICOMMI2CT_Regs *) UC13_1_I2CT_BASE_S);
+static UNICOMMI2CT_Regs                               *const UC13_2_I2CT_S                               = ((UNICOMMI2CT_Regs *) UC13_2_I2CT_BASE_S);
+static UNICOMMI2CT_Regs                               *const UC13_3_I2CT_S                               = ((UNICOMMI2CT_Regs *) UC13_3_I2CT_BASE_S);
+static UNICOMMI2CT_Regs                               *const UC14_I2CT_S                                 = ((UNICOMMI2CT_Regs *) UC14_I2CT_BASE_S);
+static UNICOMMSPI_Regs                                *const UC13_1_SPI_S                                = ((UNICOMMSPI_Regs *) UC13_1_SPI_BASE_S);
+static UNICOMMSPI_Regs                                *const UC13_2_SPI_S                                = ((UNICOMMSPI_Regs *) UC13_2_SPI_BASE_S);
+static UNICOMMSPI_Regs                                *const UC13_3_SPI_S                                = ((UNICOMMSPI_Regs *) UC13_3_SPI_BASE_S);
+static UNICOMM_Inst_Regs                              *const UC13_1_S                                    = ((UNICOMM_Inst_Regs *) &UC13_1_Inst_S);
+static UNICOMM_Inst_Regs                              *const UC13_2_S                                    = ((UNICOMM_Inst_Regs *) &UC13_2_Inst_S);
+static UNICOMM_Inst_Regs                              *const UC13_3_S                                    = ((UNICOMM_Inst_Regs *) &UC13_3_Inst_S);
+static UNICOMM_Inst_Regs                              *const UC14_S                                      = ((UNICOMM_Inst_Regs *) &UC14_Inst_S);
+static SPGSS_Regs                                     *const SPG2_S                                      = ((SPGSS_Regs *) SPG2_BASE_S);
 
 /******************************************************************************
  * SYS parameters                                                              *
@@ -891,8 +887,8 @@ static SPGSS_Regs                                     * const SPG2_S            
 #define DMA0_SOFTWARE_TRIG       (0)
 #define DMA0_GENERIC_SUB0_TRIG   (1)
 #define DMA0_GENERIC_SUB1_TRIG   (2)
-#define DMA0_AESADVHP_AES_0_TRIG (3)
-#define DMA0_AESADVHP_AES_1_TRIG (4)
+#define DMA0_AESADV_AES_0_TRIG (3)
+#define DMA0_AESADV_AES_1_TRIG (4)
 #define DMA0_ADC0_TRIG1          (5)
 #define DMA0_ADC0_TRIG2          (6)
 #define DMA0_ADC0_TRIG3          (7)
@@ -908,35 +904,35 @@ static SPGSS_Regs                                     * const SPG2_S            
 #define DMA0_I2S1_TX_TRIG        (17)
 #define DMA0_QSPI_RX_TRIG        (18)
 #define DMA0_QSPI_TX_TRIG        (19)
-#define DMA0_UC0_TX_TRIG         (20)
-#define DMA0_UC0_RX_TRIG         (21)
-#define DMA0_UC1_TX_TRIG         (22)
-#define DMA0_UC1_RX_TRIG         (23)
+#define DMA0_UC1_0_TX_TRIG         (20)
+#define DMA0_UC1_0_RX_TRIG         (21)
+#define DMA0_UC1_1_TX_TRIG         (22)
+#define DMA0_UC1_1_RX_TRIG         (23)
 #define DMA0_UC2_TX_TRIG         (24)
 #define DMA0_UC2_RX_TRIG         (25)
-#define DMA0_UC3_TX_TRIG         (26)
-#define DMA0_UC3_RX_TRIG         (27)
-#define DMA0_UC4_TX_TRIG         (28)
-#define DMA0_UC4_RX_TRIG         (29)
-#define DMA0_UC5_TX_TRIG         (30)
-#define DMA0_UC5_RX_TRIG         (31)
-#define DMA0_UC6_TX_TRIG         (32)
-#define DMA0_UC6_RX_TRIG         (33)
-#define DMA0_UC7_TX_TRIG         (34)
-#define DMA0_UC7_RX_TRIG         (35)
-#define DMA0_UC8_TX_TRIG         (36)
-#define DMA0_UC8_RX_TRIG         (37)
-#define DMA0_UC9_TX_TRIG         (38)
-#define DMA0_UC9_RX_TRIG         (39)
-#define DMA0_UC10_TX_TRIG        (40)
-#define DMA0_UC10_RX_TRIG        (41)
+#define DMA0_UC15_0_TX_TRIG         (26)
+#define DMA0_UC15_0_RX_TRIG         (27)
+#define DMA0_UC15_1_TX_TRIG         (28)
+#define DMA0_UC15_1_RX_TRIG         (29)
+#define DMA0_UC12_TX_TRIG         (30)
+#define DMA0_UC12_RX_TRIG         (31)
+#define DMA0_UC13_0_TX_TRIG         (32)
+#define DMA0_UC13_0_RX_TRIG         (33)
+#define DMA0_UC13_1_TX_TRIG         (34)
+#define DMA0_UC13_1_RX_TRIG         (35)
+#define DMA0_UC13_2_TX_TRIG         (36)
+#define DMA0_UC13_2_RX_TRIG         (37)
+#define DMA0_UC13_3_TX_TRIG         (38)
+#define DMA0_UC13_3_RX_TRIG         (39)
+#define DMA0_UC14_TX_TRIG        (40)
+#define DMA0_UC14_RX_TRIG        (41)
 
 /* External DMA1 Triggers */
 #define DMA1_SOFTWARE_TRIG       (0)
 #define DMA1_GENERIC_SUB0_TRIG   (1)
 #define DMA1_GENERIC_SUB1_TRIG   (2)
-#define DMA1_AESADVHP_AES_0_TRIG (3)
-#define DMA1_AESADVHP_AES_1_TRIG (4)
+#define DMA1_AESADV_AES_0_TRIG (3)
+#define DMA1_AESADV_AES_1_TRIG (4)
 #define DMA1_ADC0_TRIG1          (5)
 #define DMA1_ADC0_TRIG2          (6)
 #define DMA1_ADC0_TRIG3          (7)
@@ -952,28 +948,28 @@ static SPGSS_Regs                                     * const SPG2_S            
 #define DMA1_I2S1_TX_TRIG        (17)
 #define DMA1_QSPI_RX_TRIG        (18)
 #define DMA1_QSPI_TX_TRIG        (19)
-#define DMA1_UC0_TX_TRIG         (20)
-#define DMA1_UC0_RX_TRIG         (21)
-#define DMA1_UC1_TX_TRIG         (22)
-#define DMA1_UC1_RX_TRIG         (23)
+#define DMA1_UC1_0_TX_TRIG         (20)
+#define DMA1_UC1_0_RX_TRIG         (21)
+#define DMA1_UC1_1_TX_TRIG         (22)
+#define DMA1_UC1_1_RX_TRIG         (23)
 #define DMA1_UC2_TX_TRIG         (24)
 #define DMA1_UC2_RX_TRIG         (25)
-#define DMA1_UC3_TX_TRIG         (26)
-#define DMA1_UC3_RX_TRIG         (27)
-#define DMA1_UC4_TX_TRIG         (28)
-#define DMA1_UC4_RX_TRIG         (29)
-#define DMA1_UC5_TX_TRIG         (30)
-#define DMA1_UC5_RX_TRIG         (31)
-#define DMA1_UC6_TX_TRIG         (32)
-#define DMA1_UC6_RX_TRIG         (33)
-#define DMA1_UC7_TX_TRIG         (34)
-#define DMA1_UC7_RX_TRIG         (35)
-#define DMA1_UC8_TX_TRIG         (36)
-#define DMA1_UC8_RX_TRIG         (37)
-#define DMA1_UC9_TX_TRIG         (38)
-#define DMA1_UC9_RX_TRIG         (39)
-#define DMA1_UC10_TX_TRIG        (40)
-#define DMA1_UC10_RX_TRIG        (41)
+#define DMA1_UC15_0_TX_TRIG         (26)
+#define DMA1_UC15_0_RX_TRIG         (27)
+#define DMA1_UC15_1_TX_TRIG         (28)
+#define DMA1_UC15_1_RX_TRIG         (29)
+#define DMA1_UC12_TX_TRIG         (30)
+#define DMA1_UC12_RX_TRIG         (31)
+#define DMA1_UC13_0_TX_TRIG         (32)
+#define DMA1_UC13_0_RX_TRIG         (33)
+#define DMA1_UC13_1_TX_TRIG         (34)
+#define DMA1_UC13_1_RX_TRIG         (35)
+#define DMA1_UC13_2_TX_TRIG         (36)
+#define DMA1_UC13_2_RX_TRIG         (37)
+#define DMA1_UC13_3_TX_TRIG         (38)
+#define DMA1_UC13_3_RX_TRIG         (39)
+#define DMA1_UC14_TX_TRIG        (40)
+#define DMA1_UC14_RX_TRIG        (41)
 /* Internal DMA0 Triggers */
 #define DMA0_CH_0_TRIG (0)
 #define DMA0_CH_1_TRIG (1)
@@ -1098,25 +1094,25 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM1_PF_UNCONNECTED                   ((uint32_t)0X00000000)
 #define IOMUX_PINCM1_PF_GPIOA_DIO00                   ((uint32_t)0X00000001)
 #define IOMUX_PINCM1_PF_TIMA_0_FAULT1                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM1_PF_UC0_SDA                       ((uint32_t)0X00000003)
-#define IOMUX_PINCM1_PF_UC0_TX                        ((uint32_t)0X00000003)
-#define IOMUX_PINCM1_PF_UC9_SCLK                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM1_PF_UC9_SCL                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM1_PF_UC9_RX                        ((uint32_t)0X00000004)
-#define IOMUX_PINCM1_PF_UC5_TX                        ((uint32_t)0X00000005)
-#define IOMUX_PINCM1_PF_UC3_SDA                       ((uint32_t)0X00000006)
+#define IOMUX_PINCM1_PF_UC1_0_SDA                     ((uint32_t)0X00000003)
+#define IOMUX_PINCM1_PF_UC1_0_TX                      ((uint32_t)0X00000003)
+#define IOMUX_PINCM1_PF_UC13_3_SCLK                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM1_PF_UC13_3_SCL                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM1_PF_UC13_3_RX                     ((uint32_t)0X00000004)
+#define IOMUX_PINCM1_PF_UC12_TX                       ((uint32_t)0X00000005)
+#define IOMUX_PINCM1_PF_UC15_0_SDA                    ((uint32_t)0X00000006)
 
 /* IOMUX_PINCM2[PF] Bits */
 #define IOMUX_PINCM2_PF_UNCONNECTED                   ((uint32_t)0X00000000)
 #define IOMUX_PINCM2_PF_GPIOA_DIO01                   ((uint32_t)0X00000001)
 #define IOMUX_PINCM2_PF_TIMA_1_FAULT0                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM2_PF_UC0_SCL                       ((uint32_t)0X00000003)
-#define IOMUX_PINCM2_PF_UC0_RX                        ((uint32_t)0X00000003)
-#define IOMUX_PINCM2_PF_UC9_PICO                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM2_PF_UC9_SDA                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM2_PF_UC9_TX                        ((uint32_t)0X00000004)
-#define IOMUX_PINCM2_PF_UC5_RX                        ((uint32_t)0X00000005)
-#define IOMUX_PINCM2_PF_UC3_SCL                       ((uint32_t)0X00000006)
+#define IOMUX_PINCM2_PF_UC1_0_SCL                     ((uint32_t)0X00000003)
+#define IOMUX_PINCM2_PF_UC1_0_RX                      ((uint32_t)0X00000003)
+#define IOMUX_PINCM2_PF_UC13_3_PICO                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM2_PF_UC13_3_SDA                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM2_PF_UC13_3_TX                     ((uint32_t)0X00000004)
+#define IOMUX_PINCM2_PF_UC12_RX                       ((uint32_t)0X00000005)
+#define IOMUX_PINCM2_PF_UC15_0_SCL                    ((uint32_t)0X00000006)
 #define IOMUX_PINCM2_PF_TIMG8_0_IDX                   ((uint32_t)0X00000007)
 #define IOMUX_PINCM2_PF_TIMA0_0_CCP1                  ((uint32_t)0X00000008)
 
@@ -1124,69 +1120,69 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM3_PF_UNCONNECTED                   ((uint32_t)0X00000000)
 #define IOMUX_PINCM3_PF_GPIOA_DIO28                   ((uint32_t)0X00000001)
 #define IOMUX_PINCM3_PF_TIMA_0_FAULT0                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM3_PF_UC0_SDA                       ((uint32_t)0X00000003)
-#define IOMUX_PINCM3_PF_UC0_TX                        ((uint32_t)0X00000003)
-#define IOMUX_PINCM3_PF_UC9_CS0                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM3_PF_UC9_CTS                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM3_PF_UC5_TX                        ((uint32_t)0X00000005)
-#define IOMUX_PINCM3_PF_UC3_SDA                       ((uint32_t)0X00000006)
+#define IOMUX_PINCM3_PF_UC1_0_SDA                     ((uint32_t)0X00000003)
+#define IOMUX_PINCM3_PF_UC1_0_TX                      ((uint32_t)0X00000003)
+#define IOMUX_PINCM3_PF_UC13_3_CS0                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM3_PF_UC13_3_CTS                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM3_PF_UC12_TX                       ((uint32_t)0X00000005)
+#define IOMUX_PINCM3_PF_UC15_0_SDA                    ((uint32_t)0X00000006)
 
 /* IOMUX_PINCM4[PF] Bits */
 #define IOMUX_PINCM4_PF_UNCONNECTED                   ((uint32_t)0X00000000)
 #define IOMUX_PINCM4_PF_GPIOA_DIO29                   ((uint32_t)0X00000001)
 #define IOMUX_PINCM4_PF_TIMG4_2_CCP0                  ((uint32_t)0X00000002)
 #define IOMUX_PINCM4_PF_TIMA_1_FAULT1                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM4_PF_UC9_POCI                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM4_PF_UC9_RTS                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM4_PF_UC5_RTS                       ((uint32_t)0X00000005)
-#define IOMUX_PINCM4_PF_UC1_SCL                       ((uint32_t)0X00000006)
-#define IOMUX_PINCM4_PF_UC1_RX                        ((uint32_t)0X00000006)
-#define IOMUX_PINCM4_PF_UC4_SCL                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM4_PF_UC13_3_POCI                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM4_PF_UC13_3_RTS                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM4_PF_UC12_RTS                      ((uint32_t)0X00000005)
+#define IOMUX_PINCM4_PF_UC1_1_SCL                     ((uint32_t)0X00000006)
+#define IOMUX_PINCM4_PF_UC1_1_RX                      ((uint32_t)0X00000006)
+#define IOMUX_PINCM4_PF_UC15_1_SCL                    ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM5[PF] Bits */
 #define IOMUX_PINCM5_PF_UNCONNECTED                   ((uint32_t)0X00000000)
 #define IOMUX_PINCM5_PF_GPIOA_DIO30                   ((uint32_t)0X00000001)
 #define IOMUX_PINCM5_PF_TIMG4_2_CCP1                  ((uint32_t)0X00000002)
 #define IOMUX_PINCM5_PF_TIMA_0_FAULT2                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM5_PF_UC5_CTS                       ((uint32_t)0X00000005)
-#define IOMUX_PINCM5_PF_UC1_SDA                       ((uint32_t)0X00000006)
-#define IOMUX_PINCM5_PF_UC1_TX                        ((uint32_t)0X00000006)
-#define IOMUX_PINCM5_PF_UC4_SDA                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM5_PF_UC12_CTS                      ((uint32_t)0X00000005)
+#define IOMUX_PINCM5_PF_UC1_1_SDA                     ((uint32_t)0X00000006)
+#define IOMUX_PINCM5_PF_UC1_1_TX                      ((uint32_t)0X00000006)
+#define IOMUX_PINCM5_PF_UC15_1_SDA                    ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM7[PF] Bits */
 #define IOMUX_PINCM7_PF_UNCONNECTED                   ((uint32_t)0X00000000)
 #define IOMUX_PINCM7_PF_GPIOA_DIO02                   ((uint32_t)0X00000001)
 #define IOMUX_PINCM7_PF_TIMG8_0_CCP1                  ((uint32_t)0X00000002)
 #define IOMUX_PINCM7_PF_TIMA0_0_CCP1                  ((uint32_t)0X00000003)
-#define IOMUX_PINCM7_PF_UC5_RX                        ((uint32_t)0X00000004)
+#define IOMUX_PINCM7_PF_UC12_RX                       ((uint32_t)0X00000004)
 #define IOMUX_PINCM7_PF_UC2_CS0                       ((uint32_t)0X00000005)
-#define IOMUX_PINCM7_PF_UC7_POCI                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM7_PF_UC7_RTS                       ((uint32_t)0X00000006)
-#define IOMUX_PINCM7_PF_UC9_POCI                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM7_PF_UC9_RTS                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM7_PF_UC13_1_POCI                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM7_PF_UC13_1_RTS                    ((uint32_t)0X00000006)
+#define IOMUX_PINCM7_PF_UC13_3_POCI                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM7_PF_UC13_3_RTS                    ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM8[PF] Bits */
 #define IOMUX_PINCM8_PF_UNCONNECTED                   ((uint32_t)0X00000000)
 #define IOMUX_PINCM8_PF_GPIOA_DIO03                   ((uint32_t)0X00000001)
 #define IOMUX_PINCM8_PF_TIMG8_0_CCP0                  ((uint32_t)0X00000002)
 #define IOMUX_PINCM8_PF_TIMA0_0_CCP1                  ((uint32_t)0X00000003)
-#define IOMUX_PINCM8_PF_UC1_SDA                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM8_PF_UC1_TX                        ((uint32_t)0X00000004)
+#define IOMUX_PINCM8_PF_UC1_1_SDA                     ((uint32_t)0X00000004)
+#define IOMUX_PINCM8_PF_UC1_1_TX                      ((uint32_t)0X00000004)
 #define IOMUX_PINCM8_PF_UC2_CS1                       ((uint32_t)0X00000005)
 #define IOMUX_PINCM8_PF_COMP1_OUT                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM8_PF_UC4_SDA                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM8_PF_UC15_1_SDA                    ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM9[PF] Bits */
 #define IOMUX_PINCM9_PF_UNCONNECTED                   ((uint32_t)0X00000000)
 #define IOMUX_PINCM9_PF_GPIOA_DIO04                   ((uint32_t)0X00000001)
 #define IOMUX_PINCM9_PF_SYSCTL_LFCLKIN                ((uint32_t)0X00000002)
 #define IOMUX_PINCM9_PF_TIMA0_0_CCP1_CMPL             ((uint32_t)0X00000003)
-#define IOMUX_PINCM9_PF_UC1_SCL                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM9_PF_UC1_RX                        ((uint32_t)0X00000004)
+#define IOMUX_PINCM9_PF_UC1_1_SCL                     ((uint32_t)0X00000004)
+#define IOMUX_PINCM9_PF_UC1_1_RX                      ((uint32_t)0X00000004)
 #define IOMUX_PINCM9_PF_UC2_POCI                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM9_PF_UC7_CS0                       ((uint32_t)0X00000006)
-#define IOMUX_PINCM9_PF_UC7_CTS                       ((uint32_t)0X00000006)
-#define IOMUX_PINCM9_PF_UC4_SCL                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM9_PF_UC13_1_CS0                    ((uint32_t)0X00000006)
+#define IOMUX_PINCM9_PF_UC13_1_CTS                    ((uint32_t)0X00000006)
+#define IOMUX_PINCM9_PF_UC15_1_SCL                    ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM10[PF] Bits */
 #define IOMUX_PINCM10_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1207,19 +1203,19 @@ typedef enum IOMUX_PINCM {
 /* IOMUX_PINCM12[PF] Bits */
 #define IOMUX_PINCM12_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM12_PF_GPIOB_DIO00                  ((uint32_t)0X00000001)
-#define IOMUX_PINCM12_PF_UC0_SDA                      ((uint32_t)0X00000002)
-#define IOMUX_PINCM12_PF_UC0_TX                       ((uint32_t)0X00000002)
+#define IOMUX_PINCM12_PF_UC1_0_SDA                    ((uint32_t)0X00000002)
+#define IOMUX_PINCM12_PF_UC1_0_TX                     ((uint32_t)0X00000002)
 #define IOMUX_PINCM12_PF_TIMG4_1_CCP0                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM12_PF_UC5_TX                       ((uint32_t)0X00000004)
+#define IOMUX_PINCM12_PF_UC12_TX                      ((uint32_t)0X00000004)
 #define IOMUX_PINCM12_PF_TIMA0_1_CCP2                 ((uint32_t)0X00000005)
 
 /* IOMUX_PINCM13[PF] Bits */
 #define IOMUX_PINCM13_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM13_PF_GPIOB_DIO01                  ((uint32_t)0X00000001)
-#define IOMUX_PINCM13_PF_UC0_SCL                      ((uint32_t)0X00000002)
-#define IOMUX_PINCM13_PF_UC0_RX                       ((uint32_t)0X00000002)
+#define IOMUX_PINCM13_PF_UC1_0_SCL                    ((uint32_t)0X00000002)
+#define IOMUX_PINCM13_PF_UC1_0_RX                     ((uint32_t)0X00000002)
 #define IOMUX_PINCM13_PF_TIMG4_1_CCP1                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM13_PF_UC5_RX                       ((uint32_t)0X00000004)
+#define IOMUX_PINCM13_PF_UC12_RX                      ((uint32_t)0X00000004)
 #define IOMUX_PINCM13_PF_TIMA0_1_CCP2_CMPL            ((uint32_t)0X00000005)
 
 /* IOMUX_PINCM14[PF] Bits */
@@ -1236,45 +1232,45 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM15_PF_GPIOB_DIO02                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM15_PF_TIMG4_2_CCP0                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM15_PF_TIMA0_0_CCP3                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM15_PF_UC7_CS0                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM15_PF_UC7_CTS                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM15_PF_UC1_SCL                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM15_PF_UC1_RX                       ((uint32_t)0X00000005)
-#define IOMUX_PINCM15_PF_UC4_SCL                      ((uint32_t)0X00000006)
+#define IOMUX_PINCM15_PF_UC13_1_CS0                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM15_PF_UC13_1_CTS                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM15_PF_UC1_1_SCL                    ((uint32_t)0X00000005)
+#define IOMUX_PINCM15_PF_UC1_1_RX                     ((uint32_t)0X00000005)
+#define IOMUX_PINCM15_PF_UC15_1_SCL                   ((uint32_t)0X00000006)
 
 /* IOMUX_PINCM16[PF] Bits */
 #define IOMUX_PINCM16_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM16_PF_GPIOB_DIO03                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM16_PF_TIMG4_2_CCP1                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM16_PF_TIMA0_0_CCP3_CMPL            ((uint32_t)0X00000003)
-#define IOMUX_PINCM16_PF_UC7_POCI                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM16_PF_UC7_RTS                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM16_PF_UC1_SDA                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM16_PF_UC1_TX                       ((uint32_t)0X00000005)
-#define IOMUX_PINCM16_PF_UC4_SDA                      ((uint32_t)0X00000006)
+#define IOMUX_PINCM16_PF_UC13_1_POCI                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM16_PF_UC13_1_RTS                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM16_PF_UC1_1_SDA                    ((uint32_t)0X00000005)
+#define IOMUX_PINCM16_PF_UC1_1_TX                     ((uint32_t)0X00000005)
+#define IOMUX_PINCM16_PF_UC15_1_SDA                   ((uint32_t)0X00000006)
 
 /* IOMUX_PINCM17[PF] Bits */
 #define IOMUX_PINCM17_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM17_PF_GPIOB_DIO04                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM17_PF_TIMA0_0_CCP2                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM17_PF_UC1_SDA                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM17_PF_UC1_TX                       ((uint32_t)0X00000003)
-#define IOMUX_PINCM17_PF_UC6_CS0                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM17_PF_UC6_CTS                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM17_PF_UC7_PICO                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM17_PF_UC7_SDA                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM17_PF_UC7_TX                       ((uint32_t)0X00000005)
+#define IOMUX_PINCM17_PF_UC1_1_SDA                    ((uint32_t)0X00000003)
+#define IOMUX_PINCM17_PF_UC1_1_TX                     ((uint32_t)0X00000003)
+#define IOMUX_PINCM17_PF_UC13_0_CS0                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM17_PF_UC13_0_CTS                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM17_PF_UC13_1_PICO                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM17_PF_UC13_1_SDA                   ((uint32_t)0X00000005)
+#define IOMUX_PINCM17_PF_UC13_1_TX                    ((uint32_t)0X00000005)
 
 /* IOMUX_PINCM18[PF] Bits */
 #define IOMUX_PINCM18_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM18_PF_GPIOB_DIO05                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM18_PF_TIMA0_0_CCP2_CMPL            ((uint32_t)0X00000002)
-#define IOMUX_PINCM18_PF_UC1_SCL                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM18_PF_UC1_RX                       ((uint32_t)0X00000003)
-#define IOMUX_PINCM18_PF_UC6_POCI                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM18_PF_UC6_RTS                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM18_PF_UC7_POCI                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM18_PF_UC7_RTS                      ((uint32_t)0X00000005)
+#define IOMUX_PINCM18_PF_UC1_1_SCL                    ((uint32_t)0X00000003)
+#define IOMUX_PINCM18_PF_UC1_1_RX                     ((uint32_t)0X00000003)
+#define IOMUX_PINCM18_PF_UC13_0_POCI                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM18_PF_UC13_0_RTS                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM18_PF_UC13_1_POCI                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM18_PF_UC13_1_RTS                   ((uint32_t)0X00000005)
 #define IOMUX_PINCM18_PF_UC2_POCI                     ((uint32_t)0X00000006)
 
 /* IOMUX_PINCM19[PF] Bits */
@@ -1282,11 +1278,11 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM19_PF_GPIOA_DIO08                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM19_PF_TIMA0_0_CCP0                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM19_PF_TIMA0_1_CCP0                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM19_PF_UC0_RTS                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM19_PF_UC1_SDA                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM19_PF_UC1_TX                       ((uint32_t)0X00000005)
+#define IOMUX_PINCM19_PF_UC1_0_RTS                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM19_PF_UC1_1_SDA                    ((uint32_t)0X00000005)
+#define IOMUX_PINCM19_PF_UC1_1_TX                     ((uint32_t)0X00000005)
 #define IOMUX_PINCM19_PF_UC2_SCLK                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM19_PF_UC5_RTS                      ((uint32_t)0X00000007)
+#define IOMUX_PINCM19_PF_UC12_RTS                     ((uint32_t)0X00000007)
 #define IOMUX_PINCM19_PF_I2S0_WCLK                    ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM20[PF] Bits */
@@ -1294,11 +1290,11 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM20_PF_GPIOA_DIO09                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM20_PF_TIMA0_0_CCP0_CMPL            ((uint32_t)0X00000002)
 #define IOMUX_PINCM20_PF_LFSS_RTC_OUT                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM20_PF_UC0_CTS                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM20_PF_UC1_SCL                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM20_PF_UC1_RX                       ((uint32_t)0X00000005)
+#define IOMUX_PINCM20_PF_UC1_0_CTS                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM20_PF_UC1_1_SCL                    ((uint32_t)0X00000005)
+#define IOMUX_PINCM20_PF_UC1_1_RX                     ((uint32_t)0X00000005)
 #define IOMUX_PINCM20_PF_UC2_PICO                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM20_PF_UC5_CTS                      ((uint32_t)0X00000007)
+#define IOMUX_PINCM20_PF_UC12_CTS                     ((uint32_t)0X00000007)
 #define IOMUX_PINCM20_PF_SYSCTL_CLK_OUT               ((uint32_t)0X00000008)
 #define IOMUX_PINCM20_PF_I2S0_MCLK                    ((uint32_t)0X00000009)
 #define IOMUX_PINCM20_PF_DFTSS_TDO                    ((uint32_t)0X0000000A)
@@ -1308,25 +1304,25 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM21_PF_GPIOA_DIO10                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM21_PF_TIMG12_0_CCP0                ((uint32_t)0X00000002)
 #define IOMUX_PINCM21_PF_TIMA0_0_CCP2                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM21_PF_UC0_SDA                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM21_PF_UC0_TX                       ((uint32_t)0X00000004)
+#define IOMUX_PINCM21_PF_UC1_0_SDA                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM21_PF_UC1_0_TX                     ((uint32_t)0X00000004)
 #define IOMUX_PINCM21_PF_UC2_POCI                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM21_PF_UC3_SDA                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM21_PF_UC5_TX                       ((uint32_t)0X00000007)
-#define IOMUX_PINCM21_PF_UC7_SCLK                     ((uint32_t)0X00000008)
-#define IOMUX_PINCM21_PF_UC7_SCL                      ((uint32_t)0X00000008)
-#define IOMUX_PINCM21_PF_UC7_RX                       ((uint32_t)0X00000008)
+#define IOMUX_PINCM21_PF_UC15_0_SDA                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM21_PF_UC12_TX                      ((uint32_t)0X00000007)
+#define IOMUX_PINCM21_PF_UC13_1_SCLK                  ((uint32_t)0X00000008)
+#define IOMUX_PINCM21_PF_UC13_1_SCL                   ((uint32_t)0X00000008)
+#define IOMUX_PINCM21_PF_UC13_1_RX                    ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM22[PF] Bits */
 #define IOMUX_PINCM22_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM22_PF_GPIOA_DIO11                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM22_PF_TIMA0_1_CCP0_CMPL            ((uint32_t)0X00000002)
 #define IOMUX_PINCM22_PF_TIMA0_0_CCP2_CMPL            ((uint32_t)0X00000003)
-#define IOMUX_PINCM22_PF_UC0_SCL                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM22_PF_UC0_RX                       ((uint32_t)0X00000004)
+#define IOMUX_PINCM22_PF_UC1_0_SCL                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM22_PF_UC1_0_RX                     ((uint32_t)0X00000004)
 #define IOMUX_PINCM22_PF_UC2_SCLK                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM22_PF_UC3_SCL                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM22_PF_UC5_RX                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM22_PF_UC15_0_SCL                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM22_PF_UC12_RX                      ((uint32_t)0X00000007)
 #define IOMUX_PINCM22_PF_COMP0_OUT                    ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM23[PF] Bits */
@@ -1335,9 +1331,9 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM23_PF_TIMG4_2_CCP0                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM23_PF_TIMA0_1_CCP0                 ((uint32_t)0X00000003)
 #define IOMUX_PINCM23_PF_I2S1_AD0                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM23_PF_UC1_SDA                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM23_PF_UC1_TX                       ((uint32_t)0X00000005)
-#define IOMUX_PINCM23_PF_UC5_CTS                      ((uint32_t)0X00000006)
+#define IOMUX_PINCM23_PF_UC1_1_SDA                    ((uint32_t)0X00000005)
+#define IOMUX_PINCM23_PF_UC1_1_TX                     ((uint32_t)0X00000005)
+#define IOMUX_PINCM23_PF_UC12_CTS                     ((uint32_t)0X00000006)
 #define IOMUX_PINCM23_PF_UC2_CS1                      ((uint32_t)0X00000007)
 #define IOMUX_PINCM23_PF_CANFD1_CANRX                 ((uint32_t)0X00000009)
 
@@ -1348,11 +1344,11 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM24_PF_TIMG8_1_CCP0                 ((uint32_t)0X00000003)
 #define IOMUX_PINCM24_PF_TIMA0_1_CCP0_CMPL            ((uint32_t)0X00000004)
 #define IOMUX_PINCM24_PF_I2S1_AD1                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM24_PF_UC1_SCL                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM24_PF_UC1_RX                       ((uint32_t)0X00000006)
-#define IOMUX_PINCM24_PF_UC5_RTS                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM24_PF_UC6_POCI                     ((uint32_t)0X00000008)
-#define IOMUX_PINCM24_PF_UC6_RTS                      ((uint32_t)0X00000008)
+#define IOMUX_PINCM24_PF_UC1_1_SCL                    ((uint32_t)0X00000006)
+#define IOMUX_PINCM24_PF_UC1_1_RX                     ((uint32_t)0X00000006)
+#define IOMUX_PINCM24_PF_UC12_RTS                     ((uint32_t)0X00000007)
+#define IOMUX_PINCM24_PF_UC13_0_POCI                  ((uint32_t)0X00000008)
+#define IOMUX_PINCM24_PF_UC13_0_RTS                   ((uint32_t)0X00000008)
 #define IOMUX_PINCM24_PF_CANFD1_CANTX                 ((uint32_t)0X00000009)
 
 /* IOMUX_PINCM25[PF] Bits */
@@ -1362,13 +1358,13 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM25_PF_COMP1_OUT                    ((uint32_t)0X00000003)
 #define IOMUX_PINCM25_PF_TIMA_1_FAULT1                ((uint32_t)0X00000004)
 #define IOMUX_PINCM25_PF_I2S1_WCLK                    ((uint32_t)0X00000005)
-#define IOMUX_PINCM25_PF_UC1_CTS                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM25_PF_UC6_SCLK                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM25_PF_UC6_SCL                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM25_PF_UC6_RX                       ((uint32_t)0X00000007)
-#define IOMUX_PINCM25_PF_UC6_PICO                     ((uint32_t)0X00000008)
-#define IOMUX_PINCM25_PF_UC6_SDA                      ((uint32_t)0X00000008)
-#define IOMUX_PINCM25_PF_UC6_TX                       ((uint32_t)0X00000008)
+#define IOMUX_PINCM25_PF_UC1_1_CTS                    ((uint32_t)0X00000006)
+#define IOMUX_PINCM25_PF_UC13_0_SCLK                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM25_PF_UC13_0_SCL                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM25_PF_UC13_0_RX                    ((uint32_t)0X00000007)
+#define IOMUX_PINCM25_PF_UC13_0_PICO                  ((uint32_t)0X00000008)
+#define IOMUX_PINCM25_PF_UC13_0_SDA                   ((uint32_t)0X00000008)
+#define IOMUX_PINCM25_PF_UC13_0_TX                    ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM26[PF] Bits */
 #define IOMUX_PINCM26_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1376,13 +1372,13 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM26_PF_TIMG8_1_CCP1                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM26_PF_TIMA0_0_CCP0_CMPL            ((uint32_t)0X00000003)
 #define IOMUX_PINCM26_PF_I2S1_BCLK                    ((uint32_t)0X00000004)
-#define IOMUX_PINCM26_PF_UC1_RTS                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM26_PF_UC6_PICO                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM26_PF_UC6_SDA                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM26_PF_UC6_TX                       ((uint32_t)0X00000006)
-#define IOMUX_PINCM26_PF_UC6_SCLK                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM26_PF_UC6_SCL                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM26_PF_UC6_RX                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM26_PF_UC1_1_RTS                    ((uint32_t)0X00000005)
+#define IOMUX_PINCM26_PF_UC13_0_PICO                  ((uint32_t)0X00000006)
+#define IOMUX_PINCM26_PF_UC13_0_SDA                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM26_PF_UC13_0_TX                    ((uint32_t)0X00000006)
+#define IOMUX_PINCM26_PF_UC13_0_SCLK                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM26_PF_UC13_0_SCL                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM26_PF_UC13_0_RX                    ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM27[PF] Bits */
 #define IOMUX_PINCM27_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1390,9 +1386,9 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM27_PF_TIMG4_2_CCP0                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM27_PF_TIMG4_0_CCP0                 ((uint32_t)0X00000003)
 #define IOMUX_PINCM27_PF_I2S1_MCLK                    ((uint32_t)0X00000004)
-#define IOMUX_PINCM27_PF_UC8_PICO                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM27_PF_UC8_SDA                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM27_PF_UC8_TX                       ((uint32_t)0X00000005)
+#define IOMUX_PINCM27_PF_UC13_2_PICO                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM27_PF_UC13_2_SDA                   ((uint32_t)0X00000005)
+#define IOMUX_PINCM27_PF_UC13_2_TX                    ((uint32_t)0X00000005)
 #define IOMUX_PINCM27_PF_TIMA0_1_CCP1                 ((uint32_t)0X00000006)
 #define IOMUX_PINCM27_PF_I2S0_WCLK                    ((uint32_t)0X00000008)
 
@@ -1402,9 +1398,9 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM28_PF_TIMG4_2_CCP1                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM28_PF_SYSCTL_CLK_OUT               ((uint32_t)0X00000003)
 #define IOMUX_PINCM28_PF_TIMG4_0_CCP1                 ((uint32_t)0X00000004)
-#define IOMUX_PINCM28_PF_UC8_SCLK                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM28_PF_UC8_SCL                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM28_PF_UC8_RX                       ((uint32_t)0X00000005)
+#define IOMUX_PINCM28_PF_UC13_2_SCLK                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM28_PF_UC13_2_SCL                   ((uint32_t)0X00000005)
+#define IOMUX_PINCM28_PF_UC13_2_RX                    ((uint32_t)0X00000005)
 #define IOMUX_PINCM28_PF_TIMA0_1_CCP1_CMPL            ((uint32_t)0X00000006)
 #define IOMUX_PINCM28_PF_I2S0_BCLK                    ((uint32_t)0X00000008)
 
@@ -1412,11 +1408,11 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM29_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM29_PF_GPIOB_DIO12                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM29_PF_TIMA_0_FAULT1                ((uint32_t)0X00000002)
-#define IOMUX_PINCM29_PF_UC6_PICO                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM29_PF_UC6_SDA                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM29_PF_UC6_TX                       ((uint32_t)0X00000003)
-#define IOMUX_PINCM29_PF_UC8_CS0                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM29_PF_UC8_CTS                      ((uint32_t)0X00000004)
+#define IOMUX_PINCM29_PF_UC13_0_PICO                  ((uint32_t)0X00000003)
+#define IOMUX_PINCM29_PF_UC13_0_SDA                   ((uint32_t)0X00000003)
+#define IOMUX_PINCM29_PF_UC13_0_TX                    ((uint32_t)0X00000003)
+#define IOMUX_PINCM29_PF_UC13_2_CS0                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM29_PF_UC13_2_CTS                   ((uint32_t)0X00000004)
 #define IOMUX_PINCM29_PF_I2S0_AD0                     ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM30[PF] Bits */
@@ -1424,11 +1420,11 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM30_PF_GPIOB_DIO13                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM30_PF_TIMG12_0_CCP0                ((uint32_t)0X00000002)
 #define IOMUX_PINCM30_PF_TIMA0_0_CCP1_CMPL            ((uint32_t)0X00000003)
-#define IOMUX_PINCM30_PF_UC6_SCLK                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM30_PF_UC6_SCL                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM30_PF_UC6_RX                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM30_PF_UC8_POCI                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM30_PF_UC8_RTS                      ((uint32_t)0X00000005)
+#define IOMUX_PINCM30_PF_UC13_0_SCLK                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM30_PF_UC13_0_SCL                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM30_PF_UC13_0_RX                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM30_PF_UC13_2_POCI                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM30_PF_UC13_2_RTS                   ((uint32_t)0X00000005)
 #define IOMUX_PINCM30_PF_QSPI_CS2_POCI2               ((uint32_t)0X00000006)
 #define IOMUX_PINCM30_PF_I2S0_AD1                     ((uint32_t)0X00000008)
 
@@ -1439,8 +1435,8 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM31_PF_TIMG12_0_CCP1                ((uint32_t)0X00000003)
 #define IOMUX_PINCM31_PF_TIMA0_0_CCP0                 ((uint32_t)0X00000004)
 #define IOMUX_PINCM31_PF_QSPI_CS0                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM31_PF_UC6_POCI                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM31_PF_UC6_RTS                      ((uint32_t)0X00000007)
+#define IOMUX_PINCM31_PF_UC13_0_POCI                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM31_PF_UC13_0_RTS                   ((uint32_t)0X00000007)
 #define IOMUX_PINCM31_PF_I2S0_MCLK                    ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM32[PF] Bits */
@@ -1451,10 +1447,10 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM32_PF_TIMA0_1_CCP3                 ((uint32_t)0X00000004)
 #define IOMUX_PINCM32_PF_I2S0_MCLK                    ((uint32_t)0X00000005)
 #define IOMUX_PINCM32_PF_QSPI_IO3                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM32_PF_UC7_PICO                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM32_PF_UC7_SDA                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM32_PF_UC7_TX                       ((uint32_t)0X00000007)
-#define IOMUX_PINCM32_PF_UC5_TX                       ((uint32_t)0X00000008)
+#define IOMUX_PINCM32_PF_UC13_1_PICO                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM32_PF_UC13_1_SDA                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM32_PF_UC13_1_TX                    ((uint32_t)0X00000007)
+#define IOMUX_PINCM32_PF_UC12_TX                      ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM33[PF] Bits */
 #define IOMUX_PINCM33_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1464,10 +1460,10 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM33_PF_TIMA0_1_CCP3_CMPL            ((uint32_t)0X00000004)
 #define IOMUX_PINCM33_PF_I2S0_WCLK                    ((uint32_t)0X00000005)
 #define IOMUX_PINCM33_PF_QSPI_SCLK                    ((uint32_t)0X00000006)
-#define IOMUX_PINCM33_PF_UC7_SCLK                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM33_PF_UC7_SCL                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM33_PF_UC7_RX                       ((uint32_t)0X00000007)
-#define IOMUX_PINCM33_PF_UC5_RX                       ((uint32_t)0X00000008)
+#define IOMUX_PINCM33_PF_UC13_1_SCLK                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM33_PF_UC13_1_SCL                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM33_PF_UC13_1_RX                    ((uint32_t)0X00000007)
+#define IOMUX_PINCM33_PF_UC12_RX                      ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM34[PF] Bits */
 #define IOMUX_PINCM34_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1477,8 +1473,8 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM34_PF_SYSCTL_FCC_IN                ((uint32_t)0X00000004)
 #define IOMUX_PINCM34_PF_I2S0_BCLK                    ((uint32_t)0X00000005)
 #define IOMUX_PINCM34_PF_QSPI_PICO                    ((uint32_t)0X00000006)
-#define IOMUX_PINCM34_PF_UC6_CS0                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM34_PF_UC6_CTS                      ((uint32_t)0X00000007)
+#define IOMUX_PINCM34_PF_UC13_0_CS0                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM34_PF_UC13_0_CTS                   ((uint32_t)0X00000007)
 #define IOMUX_PINCM34_PF_TIMA0_1_CCP1                 ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM35[PF] Bits */
@@ -1489,12 +1485,12 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM35_PF_TIMA_1_FAULT1                ((uint32_t)0X00000004)
 #define IOMUX_PINCM35_PF_I2S0_AD0                     ((uint32_t)0X00000005)
 #define IOMUX_PINCM35_PF_QSPI_IO2                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM35_PF_UC6_SCLK                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM35_PF_UC6_SCL                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM35_PF_UC6_RX                       ((uint32_t)0X00000007)
-#define IOMUX_PINCM35_PF_UC6_POCI                     ((uint32_t)0X00000008)
-#define IOMUX_PINCM35_PF_UC6_RTS                      ((uint32_t)0X00000008)
-#define IOMUX_PINCM35_PF_UC5_TX                       ((uint32_t)0X00000009)
+#define IOMUX_PINCM35_PF_UC13_0_SCLK                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM35_PF_UC13_0_SCL                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM35_PF_UC13_0_RX                    ((uint32_t)0X00000007)
+#define IOMUX_PINCM35_PF_UC13_0_POCI                  ((uint32_t)0X00000008)
+#define IOMUX_PINCM35_PF_UC13_0_RTS                   ((uint32_t)0X00000008)
+#define IOMUX_PINCM35_PF_UC12_TX                      ((uint32_t)0X00000009)
 
 /* IOMUX_PINCM36[PF] Bits */
 #define IOMUX_PINCM36_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1504,21 +1500,21 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM36_PF_TIMA0_0_CCP3                 ((uint32_t)0X00000004)
 #define IOMUX_PINCM36_PF_I2S0_AD1                     ((uint32_t)0X00000005)
 #define IOMUX_PINCM36_PF_QSPI_POCI                    ((uint32_t)0X00000006)
-#define IOMUX_PINCM36_PF_UC0_CTS                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM36_PF_UC6_PICO                     ((uint32_t)0X00000008)
-#define IOMUX_PINCM36_PF_UC6_SDA                      ((uint32_t)0X00000008)
-#define IOMUX_PINCM36_PF_UC6_TX                       ((uint32_t)0X00000008)
-#define IOMUX_PINCM36_PF_UC5_RX                       ((uint32_t)0X00000009)
+#define IOMUX_PINCM36_PF_UC1_0_CTS                    ((uint32_t)0X00000007)
+#define IOMUX_PINCM36_PF_UC13_0_PICO                  ((uint32_t)0X00000008)
+#define IOMUX_PINCM36_PF_UC13_0_SDA                   ((uint32_t)0X00000008)
+#define IOMUX_PINCM36_PF_UC13_0_TX                    ((uint32_t)0X00000008)
+#define IOMUX_PINCM36_PF_UC12_RX                      ((uint32_t)0X00000009)
 
 /* IOMUX_PINCM37[PF] Bits */
 #define IOMUX_PINCM37_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM37_PF_GPIOA_DIO15                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM37_PF_TIMG8_0_IDX                  ((uint32_t)0X00000002)
 #define IOMUX_PINCM37_PF_TIMA0_0_CCP2                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM37_PF_UC1_SCL                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM37_PF_UC1_RX                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM37_PF_UC4_SCL                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM37_PF_UC0_RTS                      ((uint32_t)0X00000007)
+#define IOMUX_PINCM37_PF_UC1_1_SCL                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM37_PF_UC1_1_RX                     ((uint32_t)0X00000004)
+#define IOMUX_PINCM37_PF_UC15_1_SCL                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM37_PF_UC1_0_RTS                    ((uint32_t)0X00000007)
 #define IOMUX_PINCM37_PF_I2S0_WCLK                    ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM38[PF] Bits */
@@ -1526,11 +1522,11 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM38_PF_GPIOA_DIO16                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM38_PF_TIMA0_0_CCP2_CMPL            ((uint32_t)0X00000002)
 #define IOMUX_PINCM38_PF_SYSCTL_FCC_IN                ((uint32_t)0X00000003)
-#define IOMUX_PINCM38_PF_UC1_SDA                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM38_PF_UC1_TX                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM38_PF_UC6_POCI                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM38_PF_UC6_RTS                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM38_PF_UC4_SDA                      ((uint32_t)0X00000006)
+#define IOMUX_PINCM38_PF_UC1_1_SDA                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM38_PF_UC1_1_TX                     ((uint32_t)0X00000004)
+#define IOMUX_PINCM38_PF_UC13_0_POCI                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM38_PF_UC13_0_RTS                   ((uint32_t)0X00000005)
+#define IOMUX_PINCM38_PF_UC15_1_SDA                   ((uint32_t)0X00000006)
 #define IOMUX_PINCM38_PF_QSPI_CS3_CD_POCI3            ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM39[PF] Bits */
@@ -1538,56 +1534,56 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM39_PF_GPIOA_DIO17                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM39_PF_TIMG4_3_CCP0                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM39_PF_TIMA0_0_CCP3                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM39_PF_UC1_SDA                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM39_PF_UC1_TX                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM39_PF_UC6_SCLK                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM39_PF_UC6_SCL                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM39_PF_UC6_RX                       ((uint32_t)0X00000005)
+#define IOMUX_PINCM39_PF_UC1_1_SDA                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM39_PF_UC1_1_TX                     ((uint32_t)0X00000004)
+#define IOMUX_PINCM39_PF_UC13_0_SCLK                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM39_PF_UC13_0_SCL                   ((uint32_t)0X00000005)
+#define IOMUX_PINCM39_PF_UC13_0_RX                    ((uint32_t)0X00000005)
 
 /* IOMUX_PINCM40[PF] Bits */
 #define IOMUX_PINCM40_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM40_PF_GPIOA_DIO18                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM40_PF_TIMA0_0_CCP3_CMPL            ((uint32_t)0X00000002)
 #define IOMUX_PINCM40_PF_I2S0_WCLK                    ((uint32_t)0X00000003)
-#define IOMUX_PINCM40_PF_UC1_SCL                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM40_PF_UC1_RX                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM40_PF_UC6_PICO                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM40_PF_UC6_SDA                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM40_PF_UC6_TX                       ((uint32_t)0X00000005)
-#define IOMUX_PINCM40_PF_UC7_CS0                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM40_PF_UC7_CTS                      ((uint32_t)0X00000006)
+#define IOMUX_PINCM40_PF_UC1_1_SCL                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM40_PF_UC1_1_RX                     ((uint32_t)0X00000004)
+#define IOMUX_PINCM40_PF_UC13_0_PICO                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM40_PF_UC13_0_SDA                   ((uint32_t)0X00000005)
+#define IOMUX_PINCM40_PF_UC13_0_TX                    ((uint32_t)0X00000005)
+#define IOMUX_PINCM40_PF_UC13_1_CS0                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM40_PF_UC13_1_CTS                   ((uint32_t)0X00000006)
 #define IOMUX_PINCM40_PF_QSPI_CS1_POCI1               ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM41[PF] Bits */
 #define IOMUX_PINCM41_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM41_PF_GPIOA_DIO19                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM41_PF_DEBUGSS_SWDIO                ((uint32_t)0X00000002)
-#define IOMUX_PINCM41_PF_UC3_SDA                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM41_PF_UC5_TX                       ((uint32_t)0X00000004)
+#define IOMUX_PINCM41_PF_UC15_0_SDA                   ((uint32_t)0X00000003)
+#define IOMUX_PINCM41_PF_UC12_TX                      ((uint32_t)0X00000004)
 
 /* IOMUX_PINCM42[PF] Bits */
 #define IOMUX_PINCM42_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM42_PF_GPIOA_DIO20                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM42_PF_DEBUGSS_SWCLK                ((uint32_t)0X00000002)
-#define IOMUX_PINCM42_PF_UC3_SCL                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM42_PF_UC5_RX                       ((uint32_t)0X00000004)
+#define IOMUX_PINCM42_PF_UC15_0_SCL                   ((uint32_t)0X00000003)
+#define IOMUX_PINCM42_PF_UC12_RX                      ((uint32_t)0X00000004)
 
 /* IOMUX_PINCM43[PF] Bits */
 #define IOMUX_PINCM43_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM43_PF_GPIOB_DIO17                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM43_PF_TIMA0_0_CCP2                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM43_PF_UC7_PICO                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM43_PF_UC7_SDA                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM43_PF_UC7_TX                       ((uint32_t)0X00000003)
+#define IOMUX_PINCM43_PF_UC13_1_PICO                  ((uint32_t)0X00000003)
+#define IOMUX_PINCM43_PF_UC13_1_SDA                   ((uint32_t)0X00000003)
+#define IOMUX_PINCM43_PF_UC13_1_TX                    ((uint32_t)0X00000003)
 #define IOMUX_PINCM43_PF_UC2_PICO                     ((uint32_t)0X00000004)
 
 /* IOMUX_PINCM44[PF] Bits */
 #define IOMUX_PINCM44_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM44_PF_GPIOB_DIO18                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM44_PF_TIMA0_0_CCP2_CMPL            ((uint32_t)0X00000002)
-#define IOMUX_PINCM44_PF_UC7_SCLK                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM44_PF_UC7_SCL                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM44_PF_UC7_RX                       ((uint32_t)0X00000003)
+#define IOMUX_PINCM44_PF_UC13_1_SCLK                  ((uint32_t)0X00000003)
+#define IOMUX_PINCM44_PF_UC13_1_SCL                   ((uint32_t)0X00000003)
+#define IOMUX_PINCM44_PF_UC13_1_RX                    ((uint32_t)0X00000003)
 #define IOMUX_PINCM44_PF_UC2_SCLK                     ((uint32_t)0X00000004)
 
 /* IOMUX_PINCM45[PF] Bits */
@@ -1596,7 +1592,7 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM45_PF_TIMG4_3_CCP1                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM45_PF_TIMA0_1_CCP2                 ((uint32_t)0X00000003)
 #define IOMUX_PINCM45_PF_UC2_POCI                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM45_PF_UC0_CTS                      ((uint32_t)0X00000005)
+#define IOMUX_PINCM45_PF_UC1_0_CTS                    ((uint32_t)0X00000005)
 
 /* IOMUX_PINCM46[PF] Bits */
 #define IOMUX_PINCM46_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1604,12 +1600,12 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM46_PF_TIMG4_2_CCP0                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM46_PF_TIMA0_0_CCP0                 ((uint32_t)0X00000003)
 #define IOMUX_PINCM46_PF_I2S0_AD0                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM46_PF_UC1_CTS                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM46_PF_UC7_PICO                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM46_PF_UC7_SDA                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM46_PF_UC7_TX                       ((uint32_t)0X00000006)
-#define IOMUX_PINCM46_PF_UC8_CS0                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM46_PF_UC8_CTS                      ((uint32_t)0X00000007)
+#define IOMUX_PINCM46_PF_UC1_1_CTS                    ((uint32_t)0X00000005)
+#define IOMUX_PINCM46_PF_UC13_1_PICO                  ((uint32_t)0X00000006)
+#define IOMUX_PINCM46_PF_UC13_1_SDA                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM46_PF_UC13_1_TX                    ((uint32_t)0X00000006)
+#define IOMUX_PINCM46_PF_UC13_2_CS0                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM46_PF_UC13_2_CTS                   ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM47[PF] Bits */
 #define IOMUX_PINCM47_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1618,12 +1614,12 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM47_PF_TIMA0_0_CCP0_CMPL            ((uint32_t)0X00000003)
 #define IOMUX_PINCM47_PF_I2S0_BCLK                    ((uint32_t)0X00000004)
 #define IOMUX_PINCM47_PF_SYSCTL_CLK_OUT               ((uint32_t)0X00000005)
-#define IOMUX_PINCM47_PF_UC7_SCLK                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM47_PF_UC7_SCL                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM47_PF_UC7_RX                       ((uint32_t)0X00000006)
-#define IOMUX_PINCM47_PF_UC8_POCI                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM47_PF_UC8_RTS                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM47_PF_UC1_RTS                      ((uint32_t)0X00000008)
+#define IOMUX_PINCM47_PF_UC13_1_SCLK                  ((uint32_t)0X00000006)
+#define IOMUX_PINCM47_PF_UC13_1_SCL                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM47_PF_UC13_1_RX                    ((uint32_t)0X00000006)
+#define IOMUX_PINCM47_PF_UC13_2_POCI                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM47_PF_UC13_2_RTS                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM47_PF_UC1_1_RTS                    ((uint32_t)0X00000008)
 #define IOMUX_PINCM47_PF_DFTSS_TDI                    ((uint32_t)0X00000009)
 
 /* IOMUX_PINCM48[PF] Bits */
@@ -1642,8 +1638,8 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM49_PF_CANFD1_CANTX                 ((uint32_t)0X00000003)
 #define IOMUX_PINCM49_PF_TIMA0_1_CCP3                 ((uint32_t)0X00000004)
 #define IOMUX_PINCM49_PF_I2S1_AD1                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM49_PF_UC10_SCL                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM49_PF_UC10_RX                      ((uint32_t)0X00000006)
+#define IOMUX_PINCM49_PF_UC14_SCL                     ((uint32_t)0X00000006)
+#define IOMUX_PINCM49_PF_UC14_RX                      ((uint32_t)0X00000006)
 
 /* IOMUX_PINCM50[PF] Bits */
 #define IOMUX_PINCM50_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1652,21 +1648,21 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM50_PF_CANFD1_CANRX                 ((uint32_t)0X00000003)
 #define IOMUX_PINCM50_PF_TIMA0_1_CCP3_CMPL            ((uint32_t)0X00000004)
 #define IOMUX_PINCM50_PF_I2S1_WCLK                    ((uint32_t)0X00000005)
-#define IOMUX_PINCM50_PF_UC10_SDA                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM50_PF_UC10_TX                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM50_PF_UC6_PICO                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM50_PF_UC6_SDA                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM50_PF_UC6_TX                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM50_PF_UC14_SDA                     ((uint32_t)0X00000006)
+#define IOMUX_PINCM50_PF_UC14_TX                      ((uint32_t)0X00000006)
+#define IOMUX_PINCM50_PF_UC13_0_PICO                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM50_PF_UC13_0_SDA                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM50_PF_UC13_0_TX                    ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM51[PF] Bits */
 #define IOMUX_PINCM51_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM51_PF_GPIOB_DIO23                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM51_PF_TIMG4_1_CCP0                 ((uint32_t)0X00000004)
 #define IOMUX_PINCM51_PF_I2S1_BCLK                    ((uint32_t)0X00000005)
-#define IOMUX_PINCM51_PF_UC10_CTS                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM51_PF_UC6_SCLK                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM51_PF_UC6_SCL                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM51_PF_UC6_RX                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM51_PF_UC14_CTS                     ((uint32_t)0X00000006)
+#define IOMUX_PINCM51_PF_UC13_0_SCLK                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM51_PF_UC13_0_SCL                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM51_PF_UC13_0_RX                    ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM52[PF] Bits */
 #define IOMUX_PINCM52_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1675,7 +1671,7 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM52_PF_TIMA_1_FAULT2                ((uint32_t)0X00000003)
 #define IOMUX_PINCM52_PF_TIMG4_1_CCP1                 ((uint32_t)0X00000004)
 #define IOMUX_PINCM52_PF_I2S1_MCLK                    ((uint32_t)0X00000005)
-#define IOMUX_PINCM52_PF_UC10_RTS                     ((uint32_t)0X00000006)
+#define IOMUX_PINCM52_PF_UC14_RTS                     ((uint32_t)0X00000006)
 #define IOMUX_PINCM52_PF_UC2_CS3                      ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM53[PF] Bits */
@@ -1683,15 +1679,15 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM53_PF_GPIOA_DIO23                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM53_PF_TIMA0_0_CCP3                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM53_PF_I2S0_WCLK                    ((uint32_t)0X00000003)
-#define IOMUX_PINCM53_PF_UC7_PICO                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM53_PF_UC7_SDA                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM53_PF_UC7_TX                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM53_PF_UC6_CS0                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM53_PF_UC6_CTS                      ((uint32_t)0X00000005)
+#define IOMUX_PINCM53_PF_UC13_1_PICO                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM53_PF_UC13_1_SDA                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM53_PF_UC13_1_TX                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM53_PF_UC13_0_CS0                   ((uint32_t)0X00000005)
+#define IOMUX_PINCM53_PF_UC13_0_CTS                   ((uint32_t)0X00000005)
 #define IOMUX_PINCM53_PF_UC2_CS3                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM53_PF_UC8_SCLK                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM53_PF_UC8_SCL                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM53_PF_UC8_RX                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM53_PF_UC13_2_SCLK                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM53_PF_UC13_2_SCL                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM53_PF_UC13_2_RX                    ((uint32_t)0X00000007)
 #define IOMUX_PINCM53_PF_TIMG4_0_CCP0                 ((uint32_t)0X00000009)
 
 /* IOMUX_PINCM54[PF] Bits */
@@ -1699,15 +1695,15 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM54_PF_GPIOA_DIO24                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM54_PF_TIMA0_0_CCP3_CMPL            ((uint32_t)0X00000002)
 #define IOMUX_PINCM54_PF_I2S0_AD1                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM54_PF_UC7_SCLK                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM54_PF_UC7_SCL                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM54_PF_UC7_RX                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM54_PF_UC6_POCI                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM54_PF_UC6_RTS                      ((uint32_t)0X00000005)
+#define IOMUX_PINCM54_PF_UC13_1_SCLK                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM54_PF_UC13_1_SCL                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM54_PF_UC13_1_RX                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM54_PF_UC13_0_POCI                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM54_PF_UC13_0_RTS                   ((uint32_t)0X00000005)
 #define IOMUX_PINCM54_PF_UC2_CS2                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM54_PF_UC8_PICO                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM54_PF_UC8_SDA                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM54_PF_UC8_TX                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM54_PF_UC13_2_PICO                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM54_PF_UC13_2_SDA                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM54_PF_UC13_2_TX                    ((uint32_t)0X00000007)
 #define IOMUX_PINCM54_PF_TIMG12_0_CCP1                ((uint32_t)0X00000008)
 #define IOMUX_PINCM54_PF_TIMG4_0_CCP1                 ((uint32_t)0X00000009)
 
@@ -1716,28 +1712,28 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM55_PF_GPIOA_DIO25                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM55_PF_TIMA0_0_CCP1_CMPL            ((uint32_t)0X00000002)
 #define IOMUX_PINCM55_PF_I2S0_AD0                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM55_PF_UC6_SCLK                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM55_PF_UC6_SCL                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM55_PF_UC6_RX                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM55_PF_UC9_SCLK                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM55_PF_UC9_SCL                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM55_PF_UC9_RX                       ((uint32_t)0X00000005)
-#define IOMUX_PINCM55_PF_UC7_POCI                     ((uint32_t)0X00000006)
-#define IOMUX_PINCM55_PF_UC7_RTS                      ((uint32_t)0X00000006)
+#define IOMUX_PINCM55_PF_UC13_0_SCLK                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM55_PF_UC13_0_SCL                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM55_PF_UC13_0_RX                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM55_PF_UC13_3_SCLK                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM55_PF_UC13_3_SCL                   ((uint32_t)0X00000005)
+#define IOMUX_PINCM55_PF_UC13_3_RX                    ((uint32_t)0X00000005)
+#define IOMUX_PINCM55_PF_UC13_1_POCI                  ((uint32_t)0X00000006)
+#define IOMUX_PINCM55_PF_UC13_1_RTS                   ((uint32_t)0X00000006)
 
 /* IOMUX_PINCM56[PF] Bits */
 #define IOMUX_PINCM56_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM56_PF_GPIOB_DIO25                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM56_PF_TIMA_0_FAULT2                ((uint32_t)0X00000002)
 #define IOMUX_PINCM56_PF_I2S0_BCLK                    ((uint32_t)0X00000003)
-#define IOMUX_PINCM56_PF_UC0_CTS                      ((uint32_t)0X00000004)
+#define IOMUX_PINCM56_PF_UC1_0_CTS                    ((uint32_t)0X00000004)
 
 /* IOMUX_PINCM57[PF] Bits */
 #define IOMUX_PINCM57_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM57_PF_GPIOB_DIO26                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM57_PF_TIMG4_2_CCP0                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM57_PF_I2S0_MCLK                    ((uint32_t)0X00000003)
-#define IOMUX_PINCM57_PF_UC0_RTS                      ((uint32_t)0X00000004)
+#define IOMUX_PINCM57_PF_UC1_0_RTS                    ((uint32_t)0X00000004)
 
 /* IOMUX_PINCM58[PF] Bits */
 #define IOMUX_PINCM58_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1750,14 +1746,14 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM59_PF_TIMG4_3_CCP0                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM59_PF_TIMA_0_FAULT0                ((uint32_t)0X00000003)
 #define IOMUX_PINCM59_PF_CANFD0_CANTX                 ((uint32_t)0X00000004)
-#define IOMUX_PINCM59_PF_UC6_PICO                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM59_PF_UC6_SDA                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM59_PF_UC6_TX                       ((uint32_t)0X00000005)
-#define IOMUX_PINCM59_PF_UC6_CS0                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM59_PF_UC6_CTS                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM59_PF_UC9_PICO                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM59_PF_UC9_SDA                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM59_PF_UC9_TX                       ((uint32_t)0X00000007)
+#define IOMUX_PINCM59_PF_UC13_0_PICO                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM59_PF_UC13_0_SDA                   ((uint32_t)0X00000005)
+#define IOMUX_PINCM59_PF_UC13_0_TX                    ((uint32_t)0X00000005)
+#define IOMUX_PINCM59_PF_UC13_0_CS0                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM59_PF_UC13_0_CTS                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM59_PF_UC13_3_PICO                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM59_PF_UC13_3_SDA                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM59_PF_UC13_3_TX                    ((uint32_t)0X00000007)
 
 /* IOMUX_PINCM60[PF] Bits */
 #define IOMUX_PINCM60_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1767,8 +1763,8 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM60_PF_CANFD0_CANRX                 ((uint32_t)0X00000004)
 #define IOMUX_PINCM60_PF_TIMG4_1_CCP0                 ((uint32_t)0X00000005)
 #define IOMUX_PINCM60_PF_TIMA_0_FAULT2                ((uint32_t)0X00000006)
-#define IOMUX_PINCM60_PF_UC9_POCI                     ((uint32_t)0X00000007)
-#define IOMUX_PINCM60_PF_UC9_RTS                      ((uint32_t)0X00000007)
+#define IOMUX_PINCM60_PF_UC13_3_POCI                  ((uint32_t)0X00000007)
+#define IOMUX_PINCM60_PF_UC13_3_RTS                   ((uint32_t)0X00000007)
 #define IOMUX_PINCM60_PF_UC2_CS1                      ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM61[PF] Bits */
@@ -1780,19 +1776,19 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM62_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM62_PF_GPIOC_DIO13                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM62_PF_TIMG4_1_CCP0                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM62_PF_UC7_PICO                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM62_PF_UC7_SDA                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM62_PF_UC7_TX                       ((uint32_t)0X00000003)
-#define IOMUX_PINCM62_PF_UC5_RTS                      ((uint32_t)0X00000004)
+#define IOMUX_PINCM62_PF_UC13_1_PICO                  ((uint32_t)0X00000003)
+#define IOMUX_PINCM62_PF_UC13_1_SDA                   ((uint32_t)0X00000003)
+#define IOMUX_PINCM62_PF_UC13_1_TX                    ((uint32_t)0X00000003)
+#define IOMUX_PINCM62_PF_UC12_RTS                     ((uint32_t)0X00000004)
 
 /* IOMUX_PINCM63[PF] Bits */
 #define IOMUX_PINCM63_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM63_PF_GPIOC_DIO14                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM63_PF_TIMG4_1_CCP1                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM63_PF_UC7_SCLK                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM63_PF_UC7_SCL                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM63_PF_UC7_RX                       ((uint32_t)0X00000003)
-#define IOMUX_PINCM63_PF_UC5_CTS                      ((uint32_t)0X00000004)
+#define IOMUX_PINCM63_PF_UC13_1_SCLK                  ((uint32_t)0X00000003)
+#define IOMUX_PINCM63_PF_UC13_1_SCL                   ((uint32_t)0X00000003)
+#define IOMUX_PINCM63_PF_UC13_1_RX                    ((uint32_t)0X00000003)
+#define IOMUX_PINCM63_PF_UC12_CTS                     ((uint32_t)0X00000004)
 
 /* IOMUX_PINCM64[PF] Bits */
 #define IOMUX_PINCM64_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1803,44 +1799,44 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM65_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM65_PF_GPIOB_DIO28                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM65_PF_TIMA0_0_CCP0                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM65_PF_UC9_SCLK                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM65_PF_UC9_SCL                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM65_PF_UC9_RX                       ((uint32_t)0X00000003)
-#define IOMUX_PINCM65_PF_UC6_CS0                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM65_PF_UC6_CTS                      ((uint32_t)0X00000004)
+#define IOMUX_PINCM65_PF_UC13_3_SCLK                  ((uint32_t)0X00000003)
+#define IOMUX_PINCM65_PF_UC13_3_SCL                   ((uint32_t)0X00000003)
+#define IOMUX_PINCM65_PF_UC13_3_RX                    ((uint32_t)0X00000003)
+#define IOMUX_PINCM65_PF_UC13_0_CS0                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM65_PF_UC13_0_CTS                   ((uint32_t)0X00000004)
 
 /* IOMUX_PINCM66[PF] Bits */
 #define IOMUX_PINCM66_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM66_PF_GPIOB_DIO29                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM66_PF_TIMA0_0_CCP0_CMPL            ((uint32_t)0X00000002)
 #define IOMUX_PINCM66_PF_TIMG8_1_CCP0                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM66_PF_UC9_PICO                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM66_PF_UC9_SDA                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM66_PF_UC9_TX                       ((uint32_t)0X00000004)
-#define IOMUX_PINCM66_PF_UC6_POCI                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM66_PF_UC6_RTS                      ((uint32_t)0X00000005)
+#define IOMUX_PINCM66_PF_UC13_3_PICO                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM66_PF_UC13_3_SDA                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM66_PF_UC13_3_TX                    ((uint32_t)0X00000004)
+#define IOMUX_PINCM66_PF_UC13_0_POCI                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM66_PF_UC13_0_RTS                   ((uint32_t)0X00000005)
 
 /* IOMUX_PINCM67[PF] Bits */
 #define IOMUX_PINCM67_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM67_PF_GPIOB_DIO30                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM67_PF_TIMA0_0_CCP1                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM67_PF_TIMG8_1_CCP1                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM67_PF_UC9_CS0                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM67_PF_UC9_CTS                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM67_PF_UC6_PICO                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM67_PF_UC6_SDA                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM67_PF_UC6_TX                       ((uint32_t)0X00000005)
+#define IOMUX_PINCM67_PF_UC13_3_CS0                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM67_PF_UC13_3_CTS                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM67_PF_UC13_0_PICO                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM67_PF_UC13_0_SDA                   ((uint32_t)0X00000005)
+#define IOMUX_PINCM67_PF_UC13_0_TX                    ((uint32_t)0X00000005)
 
 /* IOMUX_PINCM68[PF] Bits */
 #define IOMUX_PINCM68_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM68_PF_GPIOB_DIO31                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM68_PF_TIMG8_0_IDX                  ((uint32_t)0X00000002)
 #define IOMUX_PINCM68_PF_TIMA0_0_CCP1_CMPL            ((uint32_t)0X00000003)
-#define IOMUX_PINCM68_PF_UC9_POCI                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM68_PF_UC9_RTS                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM68_PF_UC6_SCLK                     ((uint32_t)0X00000005)
-#define IOMUX_PINCM68_PF_UC6_SCL                      ((uint32_t)0X00000005)
-#define IOMUX_PINCM68_PF_UC6_RX                       ((uint32_t)0X00000005)
+#define IOMUX_PINCM68_PF_UC13_3_POCI                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM68_PF_UC13_3_RTS                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM68_PF_UC13_0_SCLK                  ((uint32_t)0X00000005)
+#define IOMUX_PINCM68_PF_UC13_0_SCL                   ((uint32_t)0X00000005)
+#define IOMUX_PINCM68_PF_UC13_0_RX                    ((uint32_t)0X00000005)
 #define IOMUX_PINCM68_PF_TIMG8_1_IDX                  ((uint32_t)0X00000006)
 
 /* IOMUX_PINCM69[PF] Bits */
@@ -1885,14 +1881,14 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM76_PF_GPIOC_DIO02                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM76_PF_TIMA0_0_CCP0                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM76_PF_TIMA_1_FAULT0                ((uint32_t)0X00000003)
-#define IOMUX_PINCM76_PF_UC6_SCLK                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM76_PF_UC6_SCL                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM76_PF_UC6_RX                       ((uint32_t)0X00000004)
+#define IOMUX_PINCM76_PF_UC13_0_SCLK                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM76_PF_UC13_0_SCL                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM76_PF_UC13_0_RX                    ((uint32_t)0X00000004)
 #define IOMUX_PINCM76_PF_TIMG4_1_CCP1                 ((uint32_t)0X00000005)
-#define IOMUX_PINCM76_PF_UC6_CS0                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM76_PF_UC6_CTS                      ((uint32_t)0X00000006)
-#define IOMUX_PINCM76_PF_UC9_CS0                      ((uint32_t)0X00000007)
-#define IOMUX_PINCM76_PF_UC9_CTS                      ((uint32_t)0X00000007)
+#define IOMUX_PINCM76_PF_UC13_0_CS0                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM76_PF_UC13_0_CTS                   ((uint32_t)0X00000006)
+#define IOMUX_PINCM76_PF_UC13_3_CS0                   ((uint32_t)0X00000007)
+#define IOMUX_PINCM76_PF_UC13_3_CTS                   ((uint32_t)0X00000007)
 #define IOMUX_PINCM76_PF_UC2_CS0                      ((uint32_t)0X00000008)
 
 /* IOMUX_PINCM77[PF] Bits */
@@ -1900,9 +1896,9 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM77_PF_GPIOC_DIO03                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM77_PF_TIMG4_3_CCP1                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM77_PF_TIMA0_0_CCP0_CMPL            ((uint32_t)0X00000003)
-#define IOMUX_PINCM77_PF_UC6_PICO                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM77_PF_UC6_SDA                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM77_PF_UC6_TX                       ((uint32_t)0X00000004)
+#define IOMUX_PINCM77_PF_UC13_0_PICO                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM77_PF_UC13_0_SDA                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM77_PF_UC13_0_TX                    ((uint32_t)0X00000004)
 
 /* IOMUX_PINCM78[PF] Bits */
 #define IOMUX_PINCM78_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -1939,9 +1935,9 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM84_PF_GPIOC_DIO06                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM84_PF_TIMG4_2_CCP0                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM84_PF_TIMA0_0_CCP0                 ((uint32_t)0X00000003)
-#define IOMUX_PINCM84_PF_UC6_PICO                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM84_PF_UC6_SDA                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM84_PF_UC6_TX                       ((uint32_t)0X00000004)
+#define IOMUX_PINCM84_PF_UC13_0_PICO                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM84_PF_UC13_0_SDA                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM84_PF_UC13_0_TX                    ((uint32_t)0X00000004)
 #define IOMUX_PINCM84_PF_UC2_CS1                      ((uint32_t)0X00000005)
 
 /* IOMUX_PINCM85[PF] Bits */
@@ -1949,50 +1945,50 @@ typedef enum IOMUX_PINCM {
 #define IOMUX_PINCM85_PF_GPIOC_DIO07                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM85_PF_TIMG4_2_CCP1                 ((uint32_t)0X00000002)
 #define IOMUX_PINCM85_PF_TIMA0_0_CCP0_CMPL            ((uint32_t)0X00000003)
-#define IOMUX_PINCM85_PF_UC6_SCLK                     ((uint32_t)0X00000004)
-#define IOMUX_PINCM85_PF_UC6_SCL                      ((uint32_t)0X00000004)
-#define IOMUX_PINCM85_PF_UC6_RX                       ((uint32_t)0X00000004)
+#define IOMUX_PINCM85_PF_UC13_0_SCLK                  ((uint32_t)0X00000004)
+#define IOMUX_PINCM85_PF_UC13_0_SCL                   ((uint32_t)0X00000004)
+#define IOMUX_PINCM85_PF_UC13_0_RX                    ((uint32_t)0X00000004)
 #define IOMUX_PINCM85_PF_UC2_CS0                      ((uint32_t)0X00000005)
 
 /* IOMUX_PINCM86[PF] Bits */
 #define IOMUX_PINCM86_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM86_PF_GPIOC_DIO08                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM86_PF_TIMA0_0_CCP1                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM86_PF_UC6_CS0                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM86_PF_UC6_CTS                      ((uint32_t)0X00000003)
+#define IOMUX_PINCM86_PF_UC13_0_CS0                   ((uint32_t)0X00000003)
+#define IOMUX_PINCM86_PF_UC13_0_CTS                   ((uint32_t)0X00000003)
 
 /* IOMUX_PINCM87[PF] Bits */
 #define IOMUX_PINCM87_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM87_PF_GPIOC_DIO09                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM87_PF_TIMA0_0_CCP1_CMPL            ((uint32_t)0X00000002)
-#define IOMUX_PINCM87_PF_UC6_POCI                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM87_PF_UC6_RTS                      ((uint32_t)0X00000003)
+#define IOMUX_PINCM87_PF_UC13_0_POCI                  ((uint32_t)0X00000003)
+#define IOMUX_PINCM87_PF_UC13_0_RTS                   ((uint32_t)0X00000003)
 
 /* IOMUX_PINCM88[PF] Bits */
 #define IOMUX_PINCM88_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM88_PF_GPIOC_DIO10                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM88_PF_TIMG8_1_CCP0                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM88_PF_UC10_SCL                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM88_PF_UC10_RX                      ((uint32_t)0X00000003)
+#define IOMUX_PINCM88_PF_UC14_SCL                     ((uint32_t)0X00000003)
+#define IOMUX_PINCM88_PF_UC14_RX                      ((uint32_t)0X00000003)
 
 /* IOMUX_PINCM89[PF] Bits */
 #define IOMUX_PINCM89_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM89_PF_GPIOC_DIO11                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM89_PF_TIMG8_1_CCP1                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM89_PF_UC10_SDA                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM89_PF_UC10_TX                      ((uint32_t)0X00000003)
+#define IOMUX_PINCM89_PF_UC14_SDA                     ((uint32_t)0X00000003)
+#define IOMUX_PINCM89_PF_UC14_TX                      ((uint32_t)0X00000003)
 
 /* IOMUX_PINCM90[PF] Bits */
 #define IOMUX_PINCM90_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM90_PF_GPIOC_DIO25                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM90_PF_TIMG8_1_IDX                  ((uint32_t)0X00000002)
-#define IOMUX_PINCM90_PF_UC10_CTS                     ((uint32_t)0X00000003)
+#define IOMUX_PINCM90_PF_UC14_CTS                     ((uint32_t)0X00000003)
 
 /* IOMUX_PINCM91[PF] Bits */
 #define IOMUX_PINCM91_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM91_PF_GPIOC_DIO26                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM91_PF_CANFD1_CANTX                 ((uint32_t)0X00000002)
-#define IOMUX_PINCM91_PF_UC10_RTS                     ((uint32_t)0X00000003)
+#define IOMUX_PINCM91_PF_UC14_RTS                     ((uint32_t)0X00000003)
 
 /* IOMUX_PINCM92[PF] Bits */
 #define IOMUX_PINCM92_PF_UNCONNECTED                  ((uint32_t)0X00000000)
@@ -2002,18 +1998,19 @@ typedef enum IOMUX_PINCM {
 /* IOMUX_PINCM93[PF] Bits */
 #define IOMUX_PINCM93_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM93_PF_GPIOC_DIO28                  ((uint32_t)0X00000001)
-#define IOMUX_PINCM93_PF_UC9_SCLK                     ((uint32_t)0X00000002)
-#define IOMUX_PINCM93_PF_UC9_SCL                      ((uint32_t)0X00000002)
-#define IOMUX_PINCM93_PF_UC9_RX                       ((uint32_t)0X00000002)
-#define IOMUX_PINCM93_PF_UC5_TX                       ((uint32_t)0X00000004)
+#define IOMUX_PINCM93_PF_UC13_3_SCLK                  ((uint32_t)0X00000002)
+#define IOMUX_PINCM93_PF_UC13_3_SCL                   ((uint32_t)0X00000002)
+#define IOMUX_PINCM93_PF_UC13_3_RX                    ((uint32_t)0X00000002)
+#define IOMUX_PINCM93_PF_UC12_TX                      ((uint32_t)0X00000004)
 
 /* IOMUX_PINCM94[PF] Bits */
 #define IOMUX_PINCM94_PF_UNCONNECTED                  ((uint32_t)0X00000000)
 #define IOMUX_PINCM94_PF_GPIOC_DIO29                  ((uint32_t)0X00000001)
 #define IOMUX_PINCM94_PF_TIMA0_1_CCP1_CMPL            ((uint32_t)0X00000002)
-#define IOMUX_PINCM94_PF_UC9_PICO                     ((uint32_t)0X00000003)
-#define IOMUX_PINCM94_PF_UC9_SDA                      ((uint32_t)0X00000003)
-#define IOMUX_PINCM94_PF_UC9_TX                       ((uint32_t)0X00000003)
+#define IOMUX_PINCM94_PF_UC13_3_PICO                  ((uint32_t)0X00000003)
+#define IOMUX_PINCM94_PF_UC13_3_SDA                   ((uint32_t)0X00000003)
+#define IOMUX_PINCM94_PF_UC13_3_TX                    ((uint32_t)0X00000003)
+
 
 #if defined(__CC_ARM)
 #pragma pop

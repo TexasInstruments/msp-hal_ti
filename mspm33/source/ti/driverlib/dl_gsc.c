@@ -33,7 +33,7 @@
 #include <ti/driverlib/dl_gsc.h>
 
 bool DL_GSC_configureHDPRegion(
-    GSC_Regs *gsc, uint8_t startSec, uint8_t endSec, uint8_t bank)
+    GSC_Regs* gsc, uint8_t startSec, uint8_t endSec, uint8_t bank)
 {
     // Validate sector range
     if (endSec < startSec) {
@@ -58,7 +58,7 @@ bool DL_GSC_configureHDPRegion(
     return true;
 }
 
-void DL_GSC_setHDPAccess(GSC_Regs *gsc, bool enable, uint8_t bank)
+void DL_GSC_setHDPAccess(GSC_Regs* gsc, bool enable, uint8_t bank)
 {
     // Read current control register value
     uint32_t val = gsc->FPC_HDPPROT_CONTROL;
@@ -90,7 +90,7 @@ void DL_GSC_setHDPAccess(GSC_Regs *gsc, bool enable, uint8_t bank)
 }
 
 bool DL_GSC_configureDataBankHDPRegion(
-    GSC_Regs *gsc, uint8_t startSec, uint8_t endSec)
+    GSC_Regs* gsc, uint8_t startSec, uint8_t endSec)
 {
     // Validate sector range
     if (endSec < startSec) {
@@ -105,7 +105,7 @@ bool DL_GSC_configureDataBankHDPRegion(
     return true;
 }
 
-void DL_GSC_setFixedTriggerDMAInstance(GSC_Regs *gsc,
+void DL_GSC_setFixedTriggerDMAInstance(GSC_Regs* gsc,
     DL_GSC_DMA_FixedTrigger trigger, DL_GSC_DMA_Instance instance)
 {
     uint32_t mask  = ~(1U << trigger);
@@ -114,13 +114,13 @@ void DL_GSC_setFixedTriggerDMAInstance(GSC_Regs *gsc,
     gsc->DMA_FIX_TRIG_SEL = value;
 }
 
-void DL_GSC_setRegularTriggerDMAInstance(GSC_Regs *gsc,
+void DL_GSC_setRegularTriggerDMAInstance(GSC_Regs* gsc,
     DL_GSC_DMA_RegularTrigger trigger, DL_GSC_DMA_Instance instance)
 {
     // Check for triggers that can only go to DMA0
     if (instance == DL_GSC_DMA_INSTANCE_1 &&
-        (trigger >= DL_GSC_DMA_TRIG_S0U1_TX &&
-            trigger <= DL_GSC_DMA_TRIG_S0U2_RX)) {
+        (trigger >= DL_GSC_DMA_TRIG_UC1_0_TX &&
+            trigger <= DL_GSC_DMA_TRIG_UC1_1_RX)) {
         return;
     }
 
@@ -131,13 +131,13 @@ void DL_GSC_setRegularTriggerDMAInstance(GSC_Regs *gsc,
 }
 
 DL_GSC_DMA_Instance DL_GSC_getFixedTriggerDMAInstance(
-    GSC_Regs *gsc, DL_GSC_DMA_FixedTrigger trigger)
+    GSC_Regs* gsc, DL_GSC_DMA_FixedTrigger trigger)
 {
     return (DL_GSC_DMA_Instance)((gsc->DMA_FIX_TRIG_SEL >> trigger) & 0x1);
 }
 
 DL_GSC_DMA_Instance DL_GSC_getRegularTriggerDMAInstance(
-    GSC_Regs *gsc, DL_GSC_DMA_RegularTrigger trigger)
+    GSC_Regs* gsc, DL_GSC_DMA_RegularTrigger trigger)
 {
     return (DL_GSC_DMA_Instance)((gsc->DMA_TRIG_SEL >> trigger) & 0x1);
 }
@@ -160,7 +160,7 @@ DL_GSC_DMA_Instance DL_GSC_getRegularTriggerDMAInstance(
  * @endcode
  */
 void DL_GSC_setLockConfiguration(
-    GSC_Regs *gsc, const DL_GSC_LockConfig *config)
+    GSC_Regs* gsc, const DL_GSC_LockConfig* config)
 {
     uint32_t lockValue = 0;
 
@@ -210,7 +210,7 @@ void DL_GSC_setLockConfiguration(
  * }
  * @endcode
  */
-void DL_GSC_getLockConfiguration(GSC_Regs *gsc, DL_GSC_LockConfig *config)
+void DL_GSC_getLockConfiguration(GSC_Regs* gsc, DL_GSC_LockConfig* config)
 {
     uint32_t currentValue = gsc->GSC_LOCK & ~GSC_GSC_LOCK_KEY_MASK;
 
@@ -242,7 +242,7 @@ void DL_GSC_getLockConfiguration(GSC_Regs *gsc, DL_GSC_LockConfig *config)
  * @endcode
  */
 void DL_GSC_setCommitConfiguration(
-    GSC_Regs *gsc, const DL_GSC_LockConfig *config)
+    GSC_Regs* gsc, const DL_GSC_LockConfig* config)
 {
     uint32_t commitValue = 0;
 
@@ -292,7 +292,7 @@ void DL_GSC_setCommitConfiguration(
  * }
  * @endcode
  */
-void DL_GSC_getCommitConfiguration(GSC_Regs *gsc, DL_GSC_LockConfig *config)
+void DL_GSC_getCommitConfiguration(GSC_Regs* gsc, DL_GSC_LockConfig* config)
 {
     uint32_t currentValue = gsc->GSC_COMMIT & ~GSC_GSC_COMMIT_KEY_MASK;
 
@@ -308,7 +308,7 @@ void DL_GSC_getCommitConfiguration(GSC_Regs *gsc, DL_GSC_LockConfig *config)
 }
 
 void DL_GSC_configureSRAMSecurity(
-    GSC_Regs *gsc, const DL_GSC_SRAMSecurityConfig *config)
+    GSC_Regs* gsc, const DL_GSC_SRAMSecurityConfig* config)
 {
     uint32_t secAttrib0 = 0;
     uint32_t secAttrib1 = 0;
@@ -379,7 +379,7 @@ void DL_GSC_configureSRAMSecurity(
 }
 
 void DL_GSC_getSRAMSecurityConfig(
-    GSC_Regs *gsc, DL_GSC_SRAMSecurityConfig *config)
+    GSC_Regs* gsc, DL_GSC_SRAMSecurityConfig* config)
 {
     uint32_t secAttrib0 = gsc->SPC_SECATTRIB0;
     uint32_t secAttrib1 = gsc->SPC_SECATTRIB1;
@@ -464,7 +464,7 @@ void DL_GSC_getSRAMSecurityConfig(
 }
 
 void DL_GSC_configureSRAMPrivilege(
-    GSC_Regs *gsc, const DL_GSC_SRAMSecurityConfig *config)
+    GSC_Regs* gsc, const DL_GSC_SRAMSecurityConfig* config)
 {
     uint32_t privAttrib0 = 0;
     uint32_t privAttrib1 = 0;
@@ -547,7 +547,7 @@ void DL_GSC_configureSRAMPrivilege(
 }
 
 void DL_GSC_getSRAMPrivilegeConfig(
-    GSC_Regs *gsc, DL_GSC_SRAMSecurityConfig *config)
+    GSC_Regs* gsc, DL_GSC_SRAMSecurityConfig* config)
 {
     uint32_t privAttrib0 = gsc->SPC_PRIVATTRIB0;
     uint32_t privAttrib1 = gsc->SPC_PRIVATTRIB1;
@@ -631,7 +631,7 @@ void DL_GSC_getSRAMPrivilegeConfig(
     }
 }
 
-void DL_GSC_configureMainFlashWriteProtect(GSC_Regs *gsc,
+void DL_GSC_configureMainFlashWriteProtect(GSC_Regs* gsc,
     DL_GSC_MainFlashBank bank, uint32_t sector0, uint32_t sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
@@ -643,8 +643,8 @@ void DL_GSC_configureMainFlashWriteProtect(GSC_Regs *gsc,
     }
 }
 
-void DL_GSC_getMainFlashWriteProtectStatus(GSC_Regs *gsc,
-    DL_GSC_MainFlashBank bank, uint32_t *sector0, uint32_t *sector1)
+void DL_GSC_getMainFlashWriteProtectStatus(GSC_Regs* gsc,
+    DL_GSC_MainFlashBank bank, uint32_t* sector0, uint32_t* sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
         *sector0 = gsc->FPC_WEPROTA0;
@@ -655,7 +655,7 @@ void DL_GSC_getMainFlashWriteProtectStatus(GSC_Regs *gsc,
     }
 }
 
-void DL_GSC_configureNONMAINWriteProtect(GSC_Regs *gsc,
+void DL_GSC_configureNONMAINWriteProtect(GSC_Regs* gsc,
     DL_GSC_MainFlashBank bank, uint32_t sector0, uint32_t sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
@@ -667,8 +667,8 @@ void DL_GSC_configureNONMAINWriteProtect(GSC_Regs *gsc,
     }
 }
 
-void DL_GSC_getNONMAINWriteProtectStatus(GSC_Regs *gsc,
-    DL_GSC_MainFlashBank bank, uint32_t *sector0, uint32_t *sector1)
+void DL_GSC_getNONMAINWriteProtectStatus(GSC_Regs* gsc,
+    DL_GSC_MainFlashBank bank, uint32_t* sector0, uint32_t* sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
         *sector0 = gsc->FPC_WEPROTNONMAIN0;
@@ -679,7 +679,7 @@ void DL_GSC_getNONMAINWriteProtectStatus(GSC_Regs *gsc,
     }
 }
 
-void DL_GSC_configureTRIMWriteProtect(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
+void DL_GSC_configureTRIMWriteProtect(GSC_Regs* gsc, DL_GSC_MainFlashBank bank,
     uint32_t sector0, uint32_t sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
@@ -691,8 +691,8 @@ void DL_GSC_configureTRIMWriteProtect(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
     }
 }
 
-void DL_GSC_getTRIMWriteProtectStatus(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
-    uint32_t *sector0, uint32_t *sector1)
+void DL_GSC_getTRIMWriteProtectStatus(GSC_Regs* gsc, DL_GSC_MainFlashBank bank,
+    uint32_t* sector0, uint32_t* sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
         *sector0 = gsc->FPC_WEPROTTRIM0;
@@ -703,7 +703,7 @@ void DL_GSC_getTRIMWriteProtectStatus(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
     }
 }
 
-void DL_GSC_configureENGRWriteProtect(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
+void DL_GSC_configureENGRWriteProtect(GSC_Regs* gsc, DL_GSC_MainFlashBank bank,
     uint32_t sector0, uint32_t sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
@@ -715,8 +715,8 @@ void DL_GSC_configureENGRWriteProtect(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
     }
 }
 
-void DL_GSC_getENGRWriteProtectStatus(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
-    uint32_t *sector0, uint32_t *sector1)
+void DL_GSC_getENGRWriteProtectStatus(GSC_Regs* gsc, DL_GSC_MainFlashBank bank,
+    uint32_t* sector0, uint32_t* sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
         *sector0 = gsc->FPC_WEPROTENGR0;
@@ -727,20 +727,20 @@ void DL_GSC_getENGRWriteProtectStatus(GSC_Regs *gsc, DL_GSC_MainFlashBank bank,
     }
 }
 
-void DL_GSC_configureMainFlashSecurity(GSC_Regs *gsc,
+void DL_GSC_configureMainFlashSecurity(GSC_Regs* gsc,
     DL_GSC_MainFlashBank bank, uint32_t sector0, uint32_t sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
         gsc->FPC_SECATTRIBA0 = sector0;
-        gsc->FPC_SECATTRIBA1 = sector1;
+        gsc->FPC_SECATTRIBB0 = sector1;
     } else {
-        gsc->FPC_SECATTRIBB0 = sector0;
+        gsc->FPC_SECATTRIBA1 = sector0;
         gsc->FPC_SECATTRIBB1 = sector1;
     }
 }
 
-void DL_GSC_getMainFlashSecurityStatus(GSC_Regs *gsc,
-    DL_GSC_MainFlashBank bank, uint32_t *sector0, uint32_t *sector1)
+void DL_GSC_getMainFlashSecurityStatus(GSC_Regs* gsc,
+    DL_GSC_MainFlashBank bank, uint32_t* sector0, uint32_t* sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
         *sector0 = gsc->FPC_SECATTRIBA0;
@@ -751,7 +751,7 @@ void DL_GSC_getMainFlashSecurityStatus(GSC_Regs *gsc,
     }
 }
 
-void DL_GSC_configureMainFlashPrivilege(GSC_Regs *gsc,
+void DL_GSC_configureMainFlashPrivilege(GSC_Regs* gsc,
     DL_GSC_MainFlashBank bank, uint32_t sector0, uint32_t sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
@@ -763,8 +763,8 @@ void DL_GSC_configureMainFlashPrivilege(GSC_Regs *gsc,
     }
 }
 
-void DL_GSC_getMainFlashPrivilegeStatus(GSC_Regs *gsc,
-    DL_GSC_MainFlashBank bank, uint32_t *sector0, uint32_t *sector1)
+void DL_GSC_getMainFlashPrivilegeStatus(GSC_Regs* gsc,
+    DL_GSC_MainFlashBank bank, uint32_t* sector0, uint32_t* sector1)
 {
     if (bank == DL_GSC_MAIN_FLASH_BANK_A) {
         *sector0 = gsc->FPC_PRIVATTRIBA0;
