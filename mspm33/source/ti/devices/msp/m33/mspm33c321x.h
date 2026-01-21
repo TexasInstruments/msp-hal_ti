@@ -365,9 +365,13 @@ typedef enum IRQn {
 
 #define UC_UART_OFFSET                 (0x00080000U)    /*!< UART address offset relative to UCx base address */
 #define UC_SPI_OFFSET                  (0x00020000U)    /*!< SPI address offset relative to UCx base address */
+#define UC_I2CC_OFFSET                 (0x00060000U)    /*!< I2CC address offset relative to UCx base address */
+#define UC_I2CT_OFFSET                 (0x00040000U)    /*!< I2CT address offset relative to UCx base address */
 
 #define UC_UART_BASE(UC_BASE)         (UC_BASE - UC_UART_OFFSET) /*!< Macro to calculate base address of UNICOMMUART Regs */
 #define UC_SPI_BASE(UC_BASE)          (UC_BASE - UC_SPI_OFFSET)  /*!< Macro to calculate base address of UNICOMMSPI Regs */
+#define UC_I2CC_BASE(UC_BASE)         (UC_BASE - UC_I2CC_OFFSET) /*!< Macro to calculate base address of UNICOMMI2CC Regs */
+#define UC_I2CT_BASE(UC_BASE)         (UC_BASE - UC_I2CT_OFFSET) /*!< Macro to calculate base address of UNICOMMI2CT Regs */
 
 typedef struct {
     UNICOMM_Regs         * const inst;
