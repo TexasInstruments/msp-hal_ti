@@ -18,6 +18,7 @@ if(CONFIG_HAS_MSPM33_SDK)
 
   #drivers common for m0 and m33
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_GPIO source/ti/driverlib/dl_gpio.c)
+  zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_MCAN source/ti/driverlib/dl_mcan.c)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_TIMER source/ti/driverlib/dl_timer.c)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_TIMER source/ti/driverlib/dl_timera.c)
   zephyr_library_sources_ifdef(CONFIG_USE_MSP_DL_TIMER source/ti/driverlib/dl_timerg.c)
