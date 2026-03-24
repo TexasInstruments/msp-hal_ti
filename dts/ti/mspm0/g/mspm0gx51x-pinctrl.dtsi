@@ -1,4 +1,4 @@
-#include<dt-bindings/pinctrl/mspm0-pinctrl.h>
+#include <dt-bindings/pinctrl/msp-pinctrl.h>
 
 /{
 	soc {
