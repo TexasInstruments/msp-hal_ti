@@ -35,7 +35,7 @@
 #ifdef __MCU_HAS_UNICOMMI2CT__
 
 void DL_I2CT_setClockConfig(
-    UNICOMM_Inst_Regs *unicomm, DL_I2CT_ClockConfig *config)
+    UNICOMM_Inst_Regs *unicomm, const DL_I2CT_ClockConfig *config)
 {
     DL_Common_updateReg(&unicomm->i2ct->CLKSEL, (uint32_t) config->clockSel,
         UNICOMMI2CT_CLKSEL_BUSCLK_SEL_MASK |

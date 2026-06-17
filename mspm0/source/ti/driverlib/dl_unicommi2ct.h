@@ -507,7 +507,7 @@ typedef struct {
  *                       @ref DL_I2CT_ClockConfig.
  */
 void DL_I2CT_setClockConfig(
-    UNICOMM_Inst_Regs *unicomm, DL_I2CT_ClockConfig *config);
+    UNICOMM_Inst_Regs *unicomm, const DL_I2CT_ClockConfig *config);
 
 /**
  *  @brief      Get I2CT source clock configuration
